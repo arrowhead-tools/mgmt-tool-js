@@ -10,7 +10,7 @@ export default class NotFound extends Component {
             <div>
               <div className='bigtext'>404</div>
               <div className='sub-text-row a'>
-                <span>Page Not Found</span>
+                <span>Page not Found</span>
               </div>
             </div>
           </div>

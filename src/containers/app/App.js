@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 //  import PageHeader from '../../containers/header/Header'
 //  import LoadingLayer from '../../components/LoadingLayer'
 import classNames from 'classnames'
+import PrivateRoute from '../misc/PrivateRoute'
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +24,15 @@ class App extends Component {
 
     return (
       <div className='app'>
-        React Starter
+        <Switch>
+          <Redirect from='/' to='/home' exact />
+          {clientPublicRoutes.map((route, i) => (
+            <Route key={i} {...route} />
+          ))}
+          {clientPrivateRoutes.map((route, i) => (
+            <PrivateRoute key={i} {...route} />
+          ))}
+        </Switch>
       </div>
     )
   }
