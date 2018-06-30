@@ -19,13 +19,3 @@ export function loginSuccess(userData) {
 export function loginFailure(error) {
   return { type: LOGIN_FAILURE, error }
 }
-
-export function startLogin(email, password) {
-  return function (dispatch) {
-    const mockUserData = {
-      name: 'Test User',
-      email: 'test_user@email.com'
-    }
-    dispatch(loginSuccess(mockUserData))
-  }
-}

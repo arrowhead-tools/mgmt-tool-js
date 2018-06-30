@@ -4,8 +4,6 @@ import { withRouter } from 'react-router'
 import { Route, Switch, Redirect, Link } from 'react-router-dom'
 import { clientPublicRoutes, clientPrivateRoutes } from '../../routes/routes'
 import { connect } from 'react-redux'
-//  import PageHeader from '../../containers/header/Header'
-//  import LoadingLayer from '../../components/LoadingLayer'
 import classNames from 'classnames'
 import PrivateRoute from '../misc/PrivateRoute'
 
@@ -23,7 +21,7 @@ class App extends Component {
     const isLoggedIn = !!this.props.user
 
     return (
-      <div className='app'>
+      <div className='app full-height'>
         <Switch>
           <Redirect from='/' to='/home' exact />
           {clientPublicRoutes.map((route, i) => (

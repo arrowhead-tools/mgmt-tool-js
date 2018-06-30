@@ -1,0 +1,17 @@
+.full-height {
+  min-height: 100vh !important;
+}
+
+.login {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  #img {
+    height: 150px;
+    width: 150px;
+  }
+}
