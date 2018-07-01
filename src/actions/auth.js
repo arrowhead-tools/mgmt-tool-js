@@ -14,6 +14,7 @@ export function startLogin(email, password) {
       name: 'Test User',
       email: 'test_user@email.com'
     }
+    window.localStorage.setItem('user', JSON.stringify(mockUserData))
     dispatch(loginSuccess(mockUserData))
   }
 }

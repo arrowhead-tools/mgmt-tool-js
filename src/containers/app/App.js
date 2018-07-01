@@ -4,8 +4,8 @@ import { withRouter } from 'react-router'
 import { Route, Switch, Redirect, Link } from 'react-router-dom'
 import { clientPublicRoutes, clientPrivateRoutes } from '../../routes/routes'
 import { connect } from 'react-redux'
-import classNames from 'classnames'
 import PrivateRoute from '../misc/PrivateRoute'
+import { loginSuccess } from '../../actions/actionCreators'
 
 class App extends Component {
   constructor(props) {
@@ -17,9 +17,14 @@ class App extends Component {
     this.unlistenHistoryChange = null
   }
 
-  render() {
-    const isLoggedIn = !!this.props.user
+  componentWillMount = () => {
+    const userData = JSON.parse(window.localStorage.getItem('user'))
+    if (userData) {
+      this.props.dispatch(loginSuccess(userData))
+    }
+  }
 
+  render() {
     return (
       <div className='app full-height'>
         <Switch>
