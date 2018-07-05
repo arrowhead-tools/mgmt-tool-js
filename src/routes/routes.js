@@ -1,5 +1,5 @@
 import Login from '../containers/login/Login'
-import Home from '../containers/home/Home'
+import Dashboard from '../layouts/Dashboard/Dashboard'
 import NotFound from '../containers/misc/NotFound'
 
 export const clientPublicRoutes = [
@@ -11,8 +11,8 @@ export const clientPublicRoutes = [
 
 export const clientPrivateRoutes = [
   {
-    path: '/home',
-    component: Home
+    path: '/',
+    component: Dashboard
   },
   {
     component: NotFound

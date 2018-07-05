@@ -17,7 +17,7 @@ class Login extends Component {
 
   render() {
     const { user } = this.props
-    const { from } = this.props.location.state || { from: { pathname: '/home' } }
+    const { from } = this.props.location.state || { from: { pathname: '/dashboard' } }
     if (user) {
       return (
         <Redirect to={from} push />
@@ -26,7 +26,7 @@ class Login extends Component {
 
     return (
       <form className='login full-height' onSubmit={this.handleSubmit}>
-        <img src={require('../../res/arrowhead_logo.png')} />
+        <img src={require('../../assets/img/arrowhead_logo.png')} />
         <Grid container direction='column' spacing={16}>
           <Grid item>
             <TextField name='email' type='string' floatingLabelText='Email' secondary='true' required />

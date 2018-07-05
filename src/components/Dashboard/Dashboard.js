@@ -1,18 +1,19 @@
+
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-class Home extends Component {
+class Dashboard extends Component {
   render() {
     return (
-      <div className='home-page page dynamic'>
+      <div>
         <h1>Home component</h1>
       </div>
     )
   }
 }
 
-Home.propTypes = {
+Dashboard.propTypes = {
   user: PropTypes.object,
   dispatch: PropTypes.func
 }
@@ -22,4 +23,4 @@ function mapStateToProps(state) {
   return { user: auth.user }
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(Dashboard)
