@@ -8,7 +8,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import Header from '../../components/Header/Header'
 import Sidebar from '../../components/Sidebar/Sidebar'
 
-import dashboardRoutes from '../../routes/dashboard'
+import dashboardRoutes from '../../routes/dashboardRoutes'
 
 import dashboardStyle from '../../assets/jss/material-dashboard-react/layouts/dashboardStyle'
 
@@ -18,8 +18,9 @@ import logo from '../../assets/img/arrowhead_logo.png'
 const switchRoutes = (
   <Switch>
     {dashboardRoutes.map((prop, key) => {
-      if (prop.redirect)
+      if (prop.redirect) {
         return <Redirect from={prop.path} to={prop.to} key={key} />
+      }
       return <Route path={prop.path} component={prop.component} key={key} />
     })}
   </Switch>

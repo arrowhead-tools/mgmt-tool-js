@@ -1,12 +1,6 @@
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
-import { reducer as formReducer } from 'redux-form'
-import global from '../reducers/global'
-
-export const rootReducer = combineReducers({
-  form: formReducer,
-  global
-})
+import rootReducer from '../reducers'
 
 export let store
 

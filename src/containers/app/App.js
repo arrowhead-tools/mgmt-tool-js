@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { Route, Switch, Redirect, Link } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { clientPublicRoutes, clientPrivateRoutes } from '../../routes/routes'
 import { connect } from 'react-redux'
 import PrivateRoute from '../misc/PrivateRoute'
-import { loginSuccess } from '../../actions/actionCreators'
+import { loginSuccess } from '../../actions/auth'
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class App extends Component {
     this.unlistenHistoryChange = null
   }
 
-  componentWillMount = () => {
+  componentDidMount() {
     const userData = JSON.parse(window.localStorage.getItem('user'))
     if (userData) {
       this.props.dispatch(loginSuccess(userData))

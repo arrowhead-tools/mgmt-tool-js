@@ -8,6 +8,7 @@ import LocationOn from '@material-ui/icons/LocationOn'
 import Notifications from '@material-ui/icons/Notifications'
 // core components/views
 import DashboardPage from '../components/Dashboard/Dashboard'
+import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
 
 const dashboardRoutes = [
   {
@@ -22,7 +23,7 @@ const dashboardRoutes = [
     sidebarName: 'Service Registry',
     navbarName: 'Service Registry',
     icon: Person,
-    component: DashboardPage
+    component: ServiceRegistryPage
   },
   {
     path: '/item2',
