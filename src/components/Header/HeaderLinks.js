@@ -1,19 +1,30 @@
 import React from 'react'
-import { Manager, Popper, Target } from 'react-popper'
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles'
 import Hidden from '@material-ui/core/Hidden'
+import MenuItem from "@material-ui/core/MenuItem"
+import MenuList from "@material-ui/core/MenuList"
+import Grow from "@material-ui/core/Grow"
+import Paper from "@material-ui/core/Paper"
+import ClickAwayListener from "@material-ui/core/ClickAwayListener"
+
 // @material-ui/icons
 import Person from '@material-ui/icons/Person'
 // core components
 import Button from '../CustomButtons/Button'
 
+import { startLogout } from '../../actions/auth'
 import headerLinksStyle from '../../assets/jss/material-dashboard-react/components/headerLinksStyle'
 
 class HeaderLinks extends React.Component {
-  state = {
-    open: false
+  constructor(props) {
+    super(props)
+    this.state = {value: props.value }
   }
+  state = {
+    open: false,
+  }
+  
   handleClick = () => {
     this.setState({ open: !this.state.open })
   }
@@ -22,23 +33,61 @@ class HeaderLinks extends React.Component {
     this.setState({ open: false })
   }
 
+  handleLogout = () => {
+    window.localStorage.removeItem('user')
+  }
+
+
   render() {
     const { classes } = this.props
     const { open } = this.state
     return (
+      <div>
       <Button
         color={window.innerWidth > 959 ? 'transparent' : 'white'}
         justIcon={window.innerWidth > 959}
         simple={!(window.innerWidth > 959)}
         aria-label='Person'
+        aria-owns={open ? "menu-list" : null}
+        aria-haspopup="true"
+        onClick={this.handleClick}
         className={classes.buttonLink}
       >
         <Person className={classes.icons} />
         <Hidden mdUp>
-          <p className={classes.linkText}>Profile</p>
+          <p onClick={this.handleClick} className={classes.linkText}>Profile</p>
         </Hidden>
       </Button>
-    )
+
+     <ClickAwayListener onClickAway={this.handleClose}>
+        <Grow
+          in={open}
+          id="menu-list"
+          style={{ transformOrigin: "0 0 0" }}
+        >
+          <Paper className={classes.dropdown}>
+            <MenuList role="menu">
+              <MenuItem
+                onClick={this.handleLogout}
+                className={classes.dropdownItem}
+              >
+                Logout
+              </MenuItem>
+            </MenuList>
+          </Paper>
+        </Grow>
+    </ClickAwayListener>
+</div>
+)
+
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    startLogout: () => {
+      dispatch(startLogout())
+    }
   }
 }
 

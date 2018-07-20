@@ -14,6 +14,10 @@ export function loginFailure(error) {
   return { type: LOGIN_FAILURE, error }
 }
 
+export function logoutSuccess() {
+  return { type: LOGOUT_SUCCESS }
+}
+
 export function startLogin(email, password) {
   return function (dispatch) {
     const mockUserData = {
@@ -22,5 +26,12 @@ export function startLogin(email, password) {
     }
     window.localStorage.setItem('user', JSON.stringify(mockUserData))
     dispatch(loginSuccess(mockUserData))
+  }
+}
+
+export function startLogout() {
+  return function (dispatch) {
+    window.localStorage.setItem('user')
+    dispatch(logoutSuccess())
   }
 }

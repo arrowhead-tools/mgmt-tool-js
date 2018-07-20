@@ -7,14 +7,28 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import Typography from '@material-ui/core/Typography'
 import { startLogin } from '../../actions/auth'
+import { withStyles } from '@material-ui/core';
 
 class Login extends Component {
-  handleSubmit = (event) => {
-    this.props.startLogin(event.target.email.value, event.target.password.value)
+  constructor(props) {
+    super(props)
+    this.state = { errorText: '', valid: false, value: props.value }
   }
 
+  handleSubmit = (event) => {
+    if(this.state.valid) {this.props.startLogin(event.target.email.value, event.target.password.value)}
+  }
   adminEmail = 'testadmin@aitia.ai'
+  emailRegex = "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
 
+ 
+  onChange(event) {
+    if (event.target.value.match(this.emailRegex)) {
+      this.setState({ errorText: '', valid: true })
+    } else {
+      this.setState({ errorText: 'Not a valid email address', valid: false })
+    }
+  }
   render() {
     const { user } = this.props
     const { from } = this.props.location.state || { from: { pathname: '/dashboard' } }
@@ -29,9 +43,9 @@ class Login extends Component {
         <img src={require('../../assets/img/arrowhead_logo.png')} />
         <Grid container direction='column' spacing={16}>
           <Grid item>
-            <TextField name='email' type='string' floatingLabelText='Email' secondary='true' required />
+            <TextField name='email' type='string' floatingLabelText='Email' secondary='true' required errorText= {this.state.errorText} onChange={this.onChange.bind(this)} />
             <br />
-            <TextField name='password' type='password' floatingLabelText='Password' required />
+            <TextField name='password' type='password' floatingLabelText='Password'  required />
           </Grid>
           <Grid item>
             <RaisedButton type='submit' label='Login' primary />
