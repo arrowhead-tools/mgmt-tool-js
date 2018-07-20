@@ -16,7 +16,7 @@ const dropdownStyle = theme => ({
       display: 'block',
       width: '30px',
       height: '30px',
-      color: '#a9afbb',
+      color: '#004676',
       marginRight: '15px'
     }
   },
@@ -48,9 +48,9 @@ const dropdownStyle = theme => ({
     boxShadow: '0 2px 5px 0 rgba(0, 0, 0, 0.26)',
     top: '100%',
     zIndex: '1000',
-    minWidth: '160px',
-    padding: '5px 0',
-    margin: '2px 0 0',
+    minWidth: '40px',
+    padding: '3px 0',
+    margin: '1px 0 0',
     fontSize: '14px',
     textAlign: 'left',
     listStyle: 'none',
