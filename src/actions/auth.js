@@ -31,7 +31,7 @@ export function startLogin(email, password) {
 
 export function startLogout() {
   return function (dispatch) {
-    window.localStorage.setItem('user')
+    window.localStorage.removeItem('user')
     dispatch(logoutSuccess())
   }
 }

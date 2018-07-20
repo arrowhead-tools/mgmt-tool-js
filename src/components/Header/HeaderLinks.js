@@ -13,8 +13,11 @@ import Person from '@material-ui/icons/Person'
 // core components
 import Button from '../CustomButtons/Button'
 
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
 import { startLogout } from '../../actions/auth'
 import headerLinksStyle from '../../assets/jss/material-dashboard-react/components/headerLinksStyle'
+import Header from './Header';
 
 class HeaderLinks extends React.Component {
   constructor(props) {
@@ -34,7 +37,7 @@ class HeaderLinks extends React.Component {
   }
 
   handleLogout = () => {
-    window.localStorage.removeItem('user')
+    this.props.startLogout()
   }
 
 
@@ -83,6 +86,13 @@ class HeaderLinks extends React.Component {
   }
 }
 
+HeaderLinks.propTypes = {
+  startLogout: PropTypes.func
+}
+
+function mapStateToProps(state) {
+  return {}
+}
 function mapDispatchToProps(dispatch) {
   return {
     startLogout: () => {
@@ -91,4 +101,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default withStyles(headerLinksStyle)(HeaderLinks)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(headerLinksStyle)(HeaderLinks))
