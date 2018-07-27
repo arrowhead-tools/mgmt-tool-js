@@ -41,6 +41,7 @@ class ServiceRegistry extends Component {
     ]
     return (
       <div className={classes.root}>
+      <br/><br/>
         {services && services.data && services.data.items && services.data.items.map(serviceData => (
           <ExpansionPanel key={serviceData.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>

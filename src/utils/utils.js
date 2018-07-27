@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-export function digestServices(serviceData) {
+function digestServices(serviceData) {
   const helperObject = {}
   for (const data of serviceData.serviceQueryData) {
     if (!helperObject[data.provider.id]) {
@@ -25,6 +25,31 @@ export function digestServices(serviceData) {
   _.forEach(helperObject, (v, k) => {
     digested.push(v)
   })
-
   return digested
+}
+
+function digestClouds(serviceData) {
+  const helperObject = {}
+  for (const data of serviceData) {
+    helperObject[data.cloud.id] = data.cloud
+    helperObject[data.cloud.id].clouds = [data.cloud]
+  }
+  console.log(Object.values(helperObject))
+
+  return Object.values(helperObject)
+}
+
+function digestBrokers(serviceData) {
+  const helperObject = {}
+  for (const data of serviceData) {
+    helperObject[data.id] = data
+    helperObject[data.id].brokers = [data]
+  }
+  console.log(Object.values(helperObject))
+  return Object.values(helperObject)
+}
+export const services= {
+  digestService: digestServices,
+  digestCloud: digestClouds,
+  digestBroker:digestBrokers
 }
