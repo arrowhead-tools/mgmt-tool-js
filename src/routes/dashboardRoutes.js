@@ -4,10 +4,10 @@ import CloudQueue from '@material-ui/icons/CloudQueue'
 import DeviceHub from '@material-ui/icons/DeviceHub'
 import Backup from '@material-ui/icons/Backup'
 // core components/views
-import DashboardPage from '../components/Dashboard/Dashboard'
-import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
-import GatekeeperPage from '../containers/gatekeeper/Gatekeeper'
 import BrokerPage from '../containers/broker/Broker'
+import GatekeeperPage from '../containers/gatekeeper/Gatekeeper'
+import OrchestratorPage from '../containers/orchestrator/Orchestrator'
+import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
 
 
 const dashboardRoutes = [
@@ -23,7 +23,7 @@ const dashboardRoutes = [
     sidebarName: 'Orchestrator',
     navbarName: 'Orchestrator',
     icon: DeviceHub,
-    component: DashboardPage
+    component: OrchestratorPage
   },
   {
     path: '/gatekeeper',

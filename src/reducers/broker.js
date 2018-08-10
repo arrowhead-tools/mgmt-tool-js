@@ -1,5 +1,5 @@
 import {
-    RECEIVE_SERVICES_BROKER
+    RECEIVE_BROKERS
   } from '../actions/broker'
   
   export const initialState = {
@@ -8,7 +8,7 @@ import {
   
   export default function services(state = initialState, action = {}) {
     switch (action.type) {
-      case RECEIVE_SERVICES_BROKER:
+      case RECEIVE_BROKERS:
         return {
           ...state,
           data: action.data

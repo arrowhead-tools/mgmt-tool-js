@@ -4,6 +4,8 @@ import global from './global'
 import services from './services'
 import gatekeeper from './gatekeeper'
 import broker from './broker'
+import tableData from './orch'
+
 import { reducer as formReducer } from 'redux-form'
 
 const rootReducer = combineReducers({
@@ -12,7 +14,8 @@ const rootReducer = combineReducers({
   auth,
   services,
   gatekeeper,
-  broker
+  broker,
+  tableData
 })
 
 export default rootReducer

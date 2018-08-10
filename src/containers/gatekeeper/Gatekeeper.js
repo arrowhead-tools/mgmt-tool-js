@@ -8,7 +8,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import TableGK from '../../components/Table/TableGK'
-import { getServices } from '../../actions/gatekeeper'
+import { getClouds } from '../../actions/gatekeeper'
 
 const styles = theme => ({
   root: {
@@ -26,7 +26,7 @@ const styles = theme => ({
 
 class Gatekeeper extends Component {
   componentDidMount() {
-    this.props.getServices()
+    this.props.getClouds()
   }
 
   render() {
@@ -61,7 +61,7 @@ class Gatekeeper extends Component {
 
 Gatekeeper.propTypes = {
   classes: PropTypes.object.isRequired,
-  getServices: PropTypes.func.isRequired,
+  getClouds: PropTypes.func.isRequired,
   gatekeeper: PropTypes.object.isRequired
 }
 
@@ -72,8 +72,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getServices: () => {
-      dispatch(getServices())
+    getClouds: () => {
+      dispatch(getClouds())
     }
   }
 }

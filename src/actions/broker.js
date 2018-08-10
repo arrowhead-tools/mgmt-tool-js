@@ -1,20 +1,20 @@
 import networkService from '../services/networkServiceGK'
 import { services } from '../utils/utils'
 
-export const RECEIVE_SERVICES_BROKER = 'RECEIVE_SERVICES_BROKER'
+export const RECEIVE_BROKERS = 'RECEIVE_BROKERS'
 
-function receiveServices(items, page) {
+function receiveBrokers(items, page) {
   return {
-    type: RECEIVE_SERVICES_BROKER,
+    type: RECEIVE_BROKERS,
     data: { items, page }
   }
 }
 
-export function getServices() {
+export function getBrokers() {
   return (dispatch, getState) => {
     networkService.get('/gatekeeper/mgmt/brokers')
       .then(response => {
-        dispatch(receiveServices(services.digestBroker(response.data)))
+        dispatch(receiveBrokers(services.digestBroker(response.data)))
       })
       .catch(error => {
         console.log(error)

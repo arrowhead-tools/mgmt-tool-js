@@ -35,6 +35,7 @@ class EnhancedTableHead extends React.Component {
                 numeric={column.numeric}
                 padding={column.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === column.id ? order : false}
+                style={{padding: "5px 5px 5px 5px", textAlign: "center"}}
               >
                 <Tooltip
                   title='Sort'
@@ -70,12 +71,25 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3
   },
-  table: {
-    minWidth: 1020
-  },
   tableWrapper: {
     overflowX: 'auto'
-  }
+  },
+  tableCell: {
+    lineHeight: "1.42857143",
+    padding: "5px 5px 5px 5px" ,
+    verticalAlign: "middle",
+    textAlign: "center",
+    maxWidth: "0px"  
+  },
+  tableCellAuthInfo: {
+    lineHeight: "1.42857143",
+    padding: "5px 5px 5px 5px" ,
+    verticalAlign: "middle",
+    textAlign: "center",
+    maxWidth: "0px",
+    overflow: "scroll",
+  },
+
 })
 
 class EnhancedTable extends React.Component {
@@ -86,7 +100,7 @@ class EnhancedTable extends React.Component {
 
     this.state = {
       order: 'asc',
-      orderBy: 'calories',
+      orderBy: 'id',
       data,
       page: 0,
       rowsPerPage: 5
@@ -115,12 +129,11 @@ class EnhancedTable extends React.Component {
   render() {
     const { classes, columnData } = this.props
     const { data, order, orderBy, rowsPerPage, page } = this.state
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage)
 
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby='tableTitle'>
+          <Table aria-labelledby='tableTitle'>
             <EnhancedTableHead
               order={order}
               orderBy={orderBy}
@@ -138,20 +151,15 @@ class EnhancedTable extends React.Component {
                       hover
                       key={n.address}
                     >
-                      <TableCell>{n.id}</TableCell>
-                      <TableCell>{n.brokerName}</TableCell>
-                      <TableCell>{n.address}</TableCell>
-                      <TableCell numeric>{n.port}</TableCell>
-                      <TableCell>{n.secure.toString()}</TableCell>
-                      <TableCell>{n.authenticationInfo}</TableCell>
+                      <TableCell className={classes.tableCell}>{n.id}</TableCell>
+                      <TableCell className={classes.tableCell}>{n.brokerName}</TableCell>
+                      <TableCell className={classes.tableCell}>{n.address}</TableCell>
+                      <TableCell numeric className={classes.tableCell}>{n.port}</TableCell>
+                      <TableCell className={classes.tableCell}>{n.secure.toString()}</TableCell>
+                      <TableCell className={classes.tableCellAuthInfo}>{n.authenticationInfo}</TableCell>
                     </TableRow>
                   )
                 })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </div>

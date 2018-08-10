@@ -1,5 +1,5 @@
 import {
-  RECEIVE_SERVICES_GK
+  RECEIVE_CLOUDS
   } from '../actions/gatekeeper'
   
   export const initialState = {
@@ -8,7 +8,7 @@ import {
   
   export default function services(state = initialState, action = {}) {
     switch (action.type) {
-      case RECEIVE_SERVICES_GK:
+      case RECEIVE_CLOUDS:
         return {
           ...state,
           data: action.data
