@@ -25,7 +25,6 @@ function digestServices(serviceData) {
   _.forEach(helperObject, (v, k) => {
     digested.push(v)
   })
-  console.log(digested)
   return digested
 }
 
@@ -35,18 +34,15 @@ function digestClouds(serviceData) {
     helperObject[data.cloud.id] = data.cloud
     helperObject[data.cloud.id].clouds = [data.cloud]
   }
-  console.log(Object.values(helperObject))
-
   return Object.values(helperObject)
 }
 
-function digestBrokers(serviceData) {
+function digestRelays(serviceData) {
   const helperObject = {}
   for (const data of serviceData) {
     helperObject[data.id] = data
-    helperObject[data.id].brokers = [data]
+    helperObject[data.id].relays = [data]
   }
-  console.log(Object.values(helperObject))
   return Object.values(helperObject)
 }
 
@@ -92,13 +88,12 @@ function digestOrchStatuses() {
         {serviceId: "12", serviceDef: "Billing2", systemId:"20", systemName:"SmartGridSystem2", localCloud:"Dummy7"},
 ]}
 ] 
-console.log(tableData)
 return tableData
 
 }
 export const services= {
   digestService: digestServices,
   digestCloud: digestClouds,
-  digestBroker:digestBrokers,
+  digestRelay:digestRelays,
   digestOrchStatus: digestOrchStatuses
 }

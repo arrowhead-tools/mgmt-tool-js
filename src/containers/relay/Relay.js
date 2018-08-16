@@ -2,24 +2,30 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
-import AddIcon from "@material-ui/icons/Add";
-import TextField from '@material-ui/core/TextField';
+//icons
+import AddIcon from "@material-ui/icons/Add"
+import DeleteIcon from "@material-ui/icons/Delete"
+import EditIcon from "@material-ui/icons/Edit"
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+//core
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Grid from "@material-ui/core/Grid"
+import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import TableBroker from '../../components/Table/TableBroker'
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import Switch from '@material-ui/core/Switch';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { getBrokers } from '../../actions/broker'
-
-
-import Button from "../../components/CustomButtons/Button.js";
+import Switch from '@material-ui/core/Switch'
+//actions
+import { getRelays } from '../../actions/relay'
+import { addRelay } from '../../actions/relay'
+//components
+import Button from "../../components/CustomButtons/Button.js"
+import TableRelay from '../../components/Table/TableRelay'
 
 const styles = theme => ({
   root: {
@@ -41,14 +47,18 @@ const styles = theme => ({
   }
 })
 
-class Broker extends Component {
+class Relay extends Component {
   state = {
     open: false,
     checkedIsSecure: false,
   }
   
   componentDidMount() {
-    this.props.getBrokers()
+    this.props.getRelays()
+  }
+
+  componentDidUpdate() {
+    this.props.getRelays()
   }
 
   handleClickOpen = () => {
@@ -64,15 +74,30 @@ class Broker extends Component {
   }
 
   handleSubmit = (event) => {
-    console.log('Submitted!');
- 
+    event.preventDefault();
+    var newRelay = [{
+      brokerName: event.target.elements.name.value,
+      address: event.target.elements.address.value,
+      port: event.target.elements.port.value,
+      secure: this.state.checkedIsSecure,
+      authenticationInfo: null
+    }]
+    if (this.state.checkedIsSecure == true) {
+      newRelay.authenticationInfo = event.target.elements.auth_info.value
+    }
+    this.props.addRelay(newRelay)
+    this.handleClose()
   }
 
+  handleDelete = () => {
+    this.props.deleteRelay()
+  }
+  
   render() {
-    const { classes, broker } = this.props
+    const { classes, relay } = this.props
     const columnData = [
       { id: 'id', numeric: false, disablePadding: false, label: 'ID' },
-      { id: 'broker_name', numeric: false, disablePadding: false, label: 'Broker Name' },
+      { id: 'broker_name', numeric: false, disablePadding: false, label: 'Relay Name' },
       { id: 'address', numeric: false, disablePadding: false, label: 'Address' },
       { id: 'port', numeric: true, disablePadding: false, label: 'Port' },
       { id: 'secure', numeric: false, disablePadding: false, label: 'Secure' },
@@ -82,13 +107,25 @@ class Broker extends Component {
     return (
       <div className={classes.root}>
       <br/><br/>
-        {broker && broker.data && broker.data.items && broker.data.items.map(serviceData => (
+        {relay && relay.data && relay.data.items && relay.data.items.map(serviceData => (
           <ExpansionPanel key={serviceData.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{serviceData.brokerName}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.child}>
-              <TableBroker data={serviceData.brokers} columnData={columnData} />
+            <Grid container direction='row' spacing={8} justify='flex-end' alignItems='center'>
+            <Grid item>
+            <Button onClick={this.handleClickOpen} color="primary" aria-label="edit" justIcon round>
+              <EditIcon/>
+            </Button>
+            </Grid>
+            <Grid item>
+            <Button onClick={this.handleDelete} color="primary" aria-label="edit" justIcon round>
+              <DeleteIcon />
+            </Button>
+            </Grid>
+            </Grid>
+              <TableRelay data={serviceData.relays} columnData={columnData} />
             </ExpansionPanelDetails>
           </ExpansionPanel>
           
@@ -104,12 +141,12 @@ class Broker extends Component {
       >
         <form onSubmit={this.handleSubmit}>
 
-        <DialogTitle id="form-dialog-title">Add new Broker to Service Registry</DialogTitle>
+        <DialogTitle id="form-dialog-title">Add new relay to Relay Table</DialogTitle>
         <DialogContent>
         <TextField
             autoFocus
             id="name"
-            label="Broker Name"
+            label="Relay Name"
             type="text"
             margin="dense"
             required
@@ -127,7 +164,7 @@ class Broker extends Component {
           <TextField
             id="port"
             label="Port"
-            type="text"
+            type="number"
             margin="dense"
             className={classes.textFieldPort}
             required
@@ -170,23 +207,31 @@ class Broker extends Component {
   }
 }
 
-Broker.propTypes = {
+Relay.propTypes = {
   classes: PropTypes.object.isRequired,
-  getBrokers: PropTypes.func.isRequired,
-  broker: PropTypes.object.isRequired
+  getRelays: PropTypes.func.isRequired,
+  addRelay: PropTypes.func.isRequired,
+  deleteRelay: PropTypes.func.isRequired,
+  relay: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
-  const { broker } = state
-  return { broker }
+  const { relay } = state
+  return { relay }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getBrokers: () => {
-      dispatch(getBrokers())
+    getRelays: () => {
+      dispatch(getRelays())
+    },
+    addRelay: (newRelay) => {
+      dispatch(addRelay(newRelay))
+    },
+    deleteRelay: () => {
+      dispatch(addRelay())
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Broker))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Relay))

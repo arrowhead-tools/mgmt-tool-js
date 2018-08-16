@@ -1,6 +1,6 @@
 import {
-    RECEIVE_BROKERS
-  } from '../actions/broker'
+  RECEIVE_ORCH_STATUS
+  } from '../actions/orch'
   
   export const initialState = {
     data: []
@@ -8,7 +8,7 @@ import {
   
   export default function services(state = initialState, action = {}) {
     switch (action.type) {
-      case RECEIVE_BROKERS:
+      case RECEIVE_ORCH_STATUS:
         return {
           ...state,
           data: action.data
