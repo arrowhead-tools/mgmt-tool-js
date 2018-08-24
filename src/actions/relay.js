@@ -4,6 +4,7 @@ import { services } from '../utils/utils'
 export const RECEIVE_RELAYS = 'RECEIVE_RELAYS'
 export const ADD_RELAY = 'ADD_RELAY'
 export const DELETE_RELAY = 'DELETE_RELAY'
+export const UPDATE_RELAY = 'UPDATE_RELAY'
 
 function receiveRelays(items, page) {
   return {
@@ -26,6 +27,13 @@ function relayDeleted(items, page) {
   }
 }
 
+function relayUpdated(items, page) {
+  return {
+    type: UPDATE_RELAY,
+    data: { items, page }
+  }
+}
+
 export function getRelays() {
   return (dispatch, getState) => {
     networkService.get('/gatekeeper/mgmt/brokers')
@@ -39,11 +47,11 @@ export function getRelays() {
   }
   
   export function addRelay(newRelay) {
-    console.log(newRelay)
     return (dispatch, getState) => {
       networkService.post('/gatekeeper/mgmt/brokers', newRelay)
       .then(response => {
         dispatch(newRelayAdded())
+        window.location.reload()
         })
         .catch(error => {
           console.log(error)
@@ -56,6 +64,20 @@ export function getRelays() {
       networkService.delete('/gatekeeper/mgmt/brokers/brokername/' + name)
       .then(response => {
         dispatch(relayDeleted())
+        window.location.reload()
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  }
+
+  export function updateRelay(updatedRelay) {
+    return (dispatch, getState) => {
+      networkService.put('/gatekeeper/mgmt/brokers', updatedRelay)
+      .then(response => {
+        dispatch(relayUpdated())
+        window.location.reload()
         })
         .catch(error => {
           console.log(error)

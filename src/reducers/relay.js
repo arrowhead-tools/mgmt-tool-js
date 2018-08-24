@@ -1,7 +1,8 @@
 import {
     RECEIVE_RELAYS,
     ADD_RELAY,
-    DELETE_RELAY
+    DELETE_RELAY,
+    UPDATE_RELAY
   } from '../actions/relay'
   
   export const initialState = {
@@ -21,6 +22,11 @@ import {
           data: action.data
         }
         case DELETE_RELAY:
+        return {
+          ...state,
+          data: action.data
+        }
+        case UPDATE_RELAY:
         return {
           ...state,
           data: action.data

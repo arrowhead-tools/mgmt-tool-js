@@ -14,6 +14,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Grid from "@material-ui/core/Grid"
@@ -23,6 +24,8 @@ import Switch from '@material-ui/core/Switch'
 //actions
 import { getRelays } from '../../actions/relay'
 import { addRelay } from '../../actions/relay'
+import { deleteRelay } from '../../actions/relay'
+import { updateRelay } from '../../actions/relay'
 //components
 import Button from "../../components/CustomButtons/Button.js"
 import TableRelay from '../../components/Table/TableRelay'
@@ -49,24 +52,31 @@ const styles = theme => ({
 
 class Relay extends Component {
   state = {
-    open: false,
-    checkedIsSecure: false,
+    openAdd: false,
+    openUpdate: false,
+    openDelete: false,
+    checkedIsSecure: false
   }
   
+  brokerName = null
+  actualRelayData = ""
+
   componentDidMount() {
     this.props.getRelays()
   }
 
-  componentDidUpdate() {
-    this.props.getRelays()
+  handleAddOpen = () => {
+    this.setState({ openAdd: true })
   }
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  handleUpdateOpen = (relayData) => {
+    this.setState({ openUpdate: true })
+    this.actualRelayData = relayData
   }
 
-  handleClose = () => {
-    this.setState({ open: false });
+  handleDeleteOpen = (brokerName) => {
+    this.setState({ openDelete: true })
+    this.brokerName = brokerName
   }
 
   handleChange = name => event => {
@@ -83,16 +93,45 @@ class Relay extends Component {
       authenticationInfo: null
     }]
     if (this.state.checkedIsSecure == true) {
-      newRelay.authenticationInfo = event.target.elements.auth_info.value
+      newRelay[0].authenticationInfo = event.target.elements.auth_info.value
     }
+
     this.props.addRelay(newRelay)
-    this.handleClose()
+    this.handleAddClose()
   }
 
+  handleDeleteClose = () => {
+    this.setState({ openDelete: false});
+  }
+
+  handleAddClose = () => {
+    this.setState({ openAdd: false });
+  }
+
+  handleUpdateClose = () => {
+    this.setState({ openUpdate: false });
+  }
   handleDelete = () => {
-    this.props.deleteRelay()
+    this.props.deleteRelay(this.brokerName)
+    this.handleDeleteClose()
   }
   
+  handleUpdate = (event) => {
+    event.preventDefault();
+    this.updatedRelay = {
+      brokerName: event.target.elements.name.value,
+      address: event.target.elements.address.value,
+      port: event.target.elements.port.value,
+      secure: this.state.checkedIsSecure,
+      authenticationInfo: ""
+    }
+    if (this.state.checkedIsSecure == true) {
+      this.updatedRelay[0].authenticationInfo = event.target.elements.auth_info.value
+    }
+    this.props.updateRelay(this.updatedRelay)
+    this.handleAddClose()
+  }
+
   render() {
     const { classes, relay } = this.props
     const columnData = [
@@ -107,98 +146,179 @@ class Relay extends Component {
     return (
       <div className={classes.root}>
       <br/><br/>
-        {relay && relay.data && relay.data.items && relay.data.items.map(serviceData => (
-          <ExpansionPanel key={serviceData.id}>
+        {relay && relay.data && relay.data.items && relay.data.items.map(relayData => (
+          <ExpansionPanel key={relayData.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>{serviceData.brokerName}</Typography>
+              <Typography className={classes.heading}>{relayData.brokerName}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.child}>
             <Grid container direction='row' spacing={8} justify='flex-end' alignItems='center'>
             <Grid item>
-            <Button onClick={this.handleClickOpen} color="primary" aria-label="edit" justIcon round>
+            <Button onClick={() => {this.handleUpdateOpen(relayData)}} color="primary" aria-label="edit" justIcon round>
               <EditIcon/>
             </Button>
             </Grid>
             <Grid item>
-            <Button onClick={this.handleDelete} color="primary" aria-label="edit" justIcon round>
+            <Button onClick={() => {this.handleDeleteOpen(relayData.brokerName)}} color="primary" aria-label="edit" justIcon round>
               <DeleteIcon />
             </Button>
             </Grid>
             </Grid>
-              <TableRelay data={serviceData.relays} columnData={columnData} />
+              <TableRelay data={relayData.relays} columnData={columnData} />
             </ExpansionPanelDetails>
           </ExpansionPanel>
           
         ))}
       <br/><br/>
-      <Button onClick={this.handleClickOpen} color="primary" aria-label="edit" justIcon round>
+      <Button onClick={this.handleAddOpen} color="primary" aria-label="edit" justIcon round>
          <AddIcon />
       </Button>
       <Dialog
-        open={this.state.open}
-        onClose={this.handleClose}
+        open={this.state.openAdd}
+        onClose={this.handleAddClose}
         aria-labelledby="form-dialog-title"
       >
         <form onSubmit={this.handleSubmit}>
 
-        <DialogTitle id="form-dialog-title">Add new relay to Relay Table</DialogTitle>
-        <DialogContent>
-        <TextField
-            autoFocus
-            id="name"
-            label="Relay Name"
-            type="text"
-            margin="dense"
-            required
-            className={classes.textField}
-          />
+          <DialogTitle id="form-dialog-title">Add new relay</DialogTitle>
+          <DialogContent>
           <TextField
-            id="address"
-            label="Address"
-            type="text"
-            margin="dense"
-            required
-            className={classes.textField}
+              autoFocus
+              id="name"
+              label="Relay Name"
+              type="text"
+              margin="dense"
+              required
+              className={classes.textField}
+            />
+            <TextField
+              id="address"
+              label="Address"
+              type="text"
+              margin="dense"
+              required
+              className={classes.textField}
 
-          />
-          <TextField
-            id="port"
-            label="Port"
-            type="number"
-            margin="dense"
-            className={classes.textFieldPort}
-            required
-          />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={this.state.checkedIsSecure}
-                onChange={this.handleChange('checkedIsSecure')}
-                value="checkedIsSecure"
-                color="primary"
-        />
-      }
-      label="Secure"
-      />
-      { this.state.checkedIsSecure ? 
-           <TextField
-            id="auth_info"
-            label="Authentication Info"
-            type="string"
-            margin="dense"
-            className={classes.textField}
-      /> : null 
-    }
+            />
+            <TextField
+              id="port"
+              label="Port"
+              type="number"
+              margin="dense"
+              className={classes.textFieldPort}
+              required
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={this.state.checkedIsSecure}
+                  onChange={this.handleChange('checkedIsSecure')}
+                  value="checkedIsSecure"
+                  color="primary"
+                />
+            }
+            label="Secure"
+            />
+          { 
+            this.state.checkedIsSecure ? 
+              <TextField
+                  id="auth_info"
+                  label="Authentication Info"
+                  type="string"
+                  margin="dense"
+                  className={classes.textField}
+              /> : null 
+            }
     
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color="primary" block>
-            Cancel
-          </Button>
-          <Button color="primary" type='submit' block>
-            Save
-          </Button>
+          <Button onClick={this.handleAddClose} color="primary" block>Cancel</Button>
+          <Button color="primary" type='submit' block>Save</Button>
         </DialogActions>
+      </form>
+      </Dialog>
+      <Dialog
+          open={this.state.openDelete}
+          onClose={this.handleDeleteClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to delete this item?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleDeleteClose} color="primary">No</Button>
+            <Button onClick={this.handleDelete} color="primary" autoFocus>Yes</Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+        open={this.state.openUpdate}
+        onClose={this.handleUpdateClose}
+        aria-labelledby="form-dialog-title"
+        >
+          <form onSubmit={this.handleUpdate}>
+
+            <DialogTitle id="form-dialog-title">Update relay</DialogTitle>
+            <DialogContent>
+            <TextField
+                id="name"
+                label="Relay Name"
+                type="text"
+                margin="dense"
+                defaultValue = {this.actualRelayData.brokerName}
+                required
+                disabled
+                className={classes.textField}
+              />
+              <TextField
+                autoFocus
+                id="address"
+                label="Address"
+                type="text"
+                margin="dense"
+                defaultValue = {this.actualRelayData.address}
+                required
+                className={classes.textField}
+
+              />
+              <TextField
+                id="port"
+                label="Port"
+                type="number"
+                margin="dense"
+                defaultValue = {this.actualRelayData.port}
+                className={classes.textFieldPort}
+                required
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.checkedIsSecure}
+                    onChange={this.handleChange('checkedIsSecure')}
+                    value="checkedIsSecure"
+                    color="primary"
+                  />
+                }
+                    label="Secure"
+                />
+          { 
+            this.state.checkedIsSecure ? 
+              <TextField
+                id="auth_info"
+                label="Authentication Info"
+                type="string"
+                margin="dense"
+                defaultValue = {this.actualRelayData.auth_info}
+                className={classes.textField}
+              /> : null 
+          }
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleUpdateClose} color="primary" block>Cancel</Button>
+            <Button color="primary" type='submit' block>Save</Button>
+          </DialogActions>
         </form>
       </Dialog>
     </div>
@@ -212,6 +332,7 @@ Relay.propTypes = {
   getRelays: PropTypes.func.isRequired,
   addRelay: PropTypes.func.isRequired,
   deleteRelay: PropTypes.func.isRequired,
+  updateRelay: PropTypes.func.isRequired,
   relay: PropTypes.object.isRequired
 }
 
@@ -228,8 +349,14 @@ function mapDispatchToProps(dispatch) {
     addRelay: (newRelay) => {
       dispatch(addRelay(newRelay))
     },
-    deleteRelay: () => {
-      dispatch(addRelay())
+    deleteRelay: (name) => {
+      dispatch(deleteRelay(name))
+    },
+    deleteRelay: (brokerName) => {
+      dispatch(deleteRelay(brokerName))
+    },
+    updateRelay: (updatedRelay) => {
+      dispatch(updateRelay(updatedRelay))
     }
   }
 }
