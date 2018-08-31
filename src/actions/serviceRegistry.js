@@ -1,5 +1,5 @@
-import networkService from '../services/networkService'
-import { digestServices } from '../utils/utils'
+import networkService from '../services/networkServiceSR'
+import { services } from '../utils/utils'
 
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
 
@@ -14,7 +14,7 @@ export function getServices() {
   return (dispatch, getState) => {
     networkService.get('/serviceregistry/mgmt/all')
       .then(response => {
-        dispatch(receiveServices(digestServices(response.data)))
+        dispatch(receiveServices(services.digestService(response.data)))
       })
       .catch(error => {
         console.log(error)

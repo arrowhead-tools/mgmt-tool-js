@@ -43,7 +43,7 @@ class Login extends Component {
         <img src={require('../../assets/img/arrowhead_logo.png')} />
         <Grid container direction='column' spacing={16}>
           <Grid item>
-            <TextField name='email' type='string' floatingLabelText='Email' secondary='true' required errorText= {this.state.errorText} onChange={this.onChange.bind(this)} />
+            <TextField name='email' type='text' floatingLabelText='Email' secondary='true' required errorText= {this.state.errorText} onChange={this.onChange.bind(this)} />
             <br />
             <TextField name='password' type='password' floatingLabelText='Password'  required />
           </Grid>

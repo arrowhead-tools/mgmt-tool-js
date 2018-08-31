@@ -41,6 +41,7 @@ class ServiceRegistry extends Component {
     ]
     return (
       <div className={classes.root}>
+      <br/><br/>
         {services && services.data && services.data.items && services.data.items.map(serviceData => (
           <ExpansionPanel key={serviceData.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -50,7 +51,7 @@ class ServiceRegistry extends Component {
               <Typography><b>ID:</b> {serviceData.id}</Typography>
               <Typography><b>Address:</b> {serviceData.address}</Typography>
               <Typography><b>Port:</b> {serviceData.port}</Typography>
-              <Typography><b>Authentication Info:</b> {serviceData.authenticationInfo}</Typography>
+              <Typography style = {{overflow:'hidden', textOverflow:'ellipsis'}}><b>Authentication Info:</b> {serviceData.authenticationInfo}</Typography>
               <Table data={serviceData.services} columnData={columnData} />
             </ExpansionPanelDetails>
           </ExpansionPanel>

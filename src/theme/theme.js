@@ -22,6 +22,9 @@ const muiTheme = getMuiTheme({
   },
   button: {
     primaryColor
+  },
+  card:{
+    primaryColor
   }
 
 })

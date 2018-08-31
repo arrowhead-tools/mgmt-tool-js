@@ -40,10 +40,10 @@ const card = {
   display: 'inline-block',
   position: 'relative',
   width: '100%',
-  margin: '25px 0',
+  margin: '10px 0',
   boxShadow: '0 1px 4px 0 rgba(0, 0, 0, 0.14)',
   borderRadius: '3px',
-  color: 'rgba(0, 0, 0, 0.87)',
+  color: 'rgba(0, 70, 118, 0.87)',
   background: '#fff'
 }
 
@@ -57,7 +57,7 @@ const primaryColor = '#004676'
 const warningColor = '#ff9800'
 const dangerColor = '#f44336'
 const successColor = '#4caf50'
-const infoColor = '#00acc1'
+const infoColor = '#0173C3'
 const roseColor = '#e91e63'
 const grayColor = '#999999'
 
@@ -103,7 +103,7 @@ const infoCardHeader = {
   ...infoBoxShadow
 }
 const primaryCardHeader = {
-  background: 'linear-gradient(60deg, #ab47bc, #8e24aa)',
+  background: 'linear-gradient(60deg, #003559, #003559)',
   ...primaryBoxShadow
 }
 const roseCardHeader = {
@@ -112,7 +112,7 @@ const roseCardHeader = {
 }
 
 const cardActions = {
-  margin: '0 20px 10px',
+  margin: '0 10px 10px',
   paddingTop: '10px',
   borderTop: '1px solid #eeeeee',
   height: 'auto',
@@ -127,7 +127,7 @@ const cardHeader = {
 
 const defaultBoxShadow = {
   border: '0',
-  borderRadius: '3px',
+  borderRadius: '1px',
   boxShadow:
     '0 10px 20px -12px rgba(0, 0, 0, 0.42), 0 3px 20px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
   padding: '10px 0',
@@ -155,6 +155,7 @@ const cardTitle = {
   marginTop: '0',
   marginBottom: '3px',
   minHeight: 'auto',
+  fontFamily: '\'Roboto\', \'Helvetica\', \'Arial\', sans-serif',
   '& a': {
     ...title,
     marginTop: '.625rem',

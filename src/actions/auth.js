@@ -20,12 +20,16 @@ export function logoutSuccess() {
 
 export function startLogin(email, password) {
   return function (dispatch) {
-    const mockUserData = {
-      name: 'Test User',
-      email: 'test_user@email.com'
+    const testUser = {
+      email: email,
+      pwd: password
     }
-    window.localStorage.setItem('user', JSON.stringify(mockUserData))
-    dispatch(loginSuccess(mockUserData))
+    window.localStorage.setItem('user', JSON.stringify(testUser))
+
+    if ((testUser.email == process.env.REACT_APP_USERNAME) == 0 &&
+     (testUser.password == process.env.REACT_APP_PWD == 0)) {
+    dispatch(loginSuccess(testUser))
+     } else dispatch(loginFailure(testUser))
   }
 }
 

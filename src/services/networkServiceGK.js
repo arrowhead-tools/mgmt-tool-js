@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: `${process.env.REACT_APP_ARROWHEAD_URL}`,
+  baseURL: `${process.env.REACT_APP_ARROWHEAD_GK_URL}`,
   timeout: 10000
 })
 

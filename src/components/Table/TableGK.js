@@ -35,6 +35,7 @@ class EnhancedTableHead extends React.Component {
                 numeric={column.numeric}
                 padding={column.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === column.id ? order : false}
+                style={{padding: "5px 5px 5px 5px", textAlign: "center"}}
               >
                 <Tooltip
                   title='Sort'
@@ -70,12 +71,23 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3
   },
-  table: {
-    minWidth: 1020
-  },
   tableWrapper: {
     overflowX: 'auto'
-  }
+  },
+  tableCell: {
+    lineHeight: "1.42857143",
+    padding: "5px 5px 5px 5px" ,
+    verticalAlign: "middle",
+    textAlign: "center"
+  },
+  tableCellAuthInfo: {
+    lineHeight: "1.42857143",
+    padding: "5px 5px 5px 5px" ,
+    verticalAlign: "middle",
+    textAlign: "center",
+    maxWidth: "0px",
+    overflow: "scroll"
+  },
 })
 
 class EnhancedTable extends React.Component {
@@ -119,7 +131,7 @@ class EnhancedTable extends React.Component {
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby='tableTitle'>
+          <Table aria-labelledby='tableTitle'>
             <EnhancedTableHead
               order={order}
               orderBy={orderBy}
@@ -135,14 +147,15 @@ class EnhancedTable extends React.Component {
                   return (
                     <TableRow
                       hover
-                      key={n.serviceDefinition}
+                      key={n.gatekeeperServiceURI}
                     >
-                      <TableCell>{n.id}</TableCell>
-                      <TableCell>{n.serviceDefinition}</TableCell>
-                      <TableCell>{n.interfaces.join(',')}</TableCell>
-                      <TableCell numeric>{n.port}</TableCell>
-                      <TableCell>{n.serviceURI}</TableCell>
-                      <TableCell>{n.udp}</TableCell>
+                      <TableCell className={classes.tableCell}>{n.id}</TableCell>
+                      <TableCell className={classes.tableCell}>{n.address}</TableCell>
+                      <TableCell className={classes.tableCell}>{n.port}</TableCell>
+                      <TableCell className={classes.tableCell}>{n.operator}</TableCell>
+                      <TableCell className={classes.tableCell}>{n.gatekeeperServiceURI}</TableCell>
+                      <TableCell className={classes.tableCell}>{n.secure.toString()}</TableCell>
+                      <TableCell className={classes.tableCellAuthInfo}>{n.authenticationInfo}</TableCell>
                     </TableRow>
                   )
                 })}

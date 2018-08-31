@@ -1,66 +1,89 @@
 // @material-ui/icons
-import Dashboard from '@material-ui/icons/Dashboard'
-import Person from '@material-ui/icons/Person'
-import ContentPaste from '@material-ui/icons/ContentPaste'
-import LibraryBooks from '@material-ui/icons/LibraryBooks'
-import BubbleChart from '@material-ui/icons/BubbleChart'
-import LocationOn from '@material-ui/icons/LocationOn'
-import Notifications from '@material-ui/icons/Notifications'
+import Description from '@material-ui/icons/Description'
+import CloudQueue from '@material-ui/icons/CloudQueue'
+import DeviceHub from '@material-ui/icons/DeviceHub'
+import Backup from '@material-ui/icons/Backup'
+import List from '@material-ui/icons/List'
+import Fingerprint from '@material-ui/icons/Fingerprint'
+import SdCard from '@material-ui/icons/SdCard'
+import EventNote from '@material-ui/icons/EventNote'
+import StorageIcon from '@material-ui/icons/Storage'
+
 // core components/views
-import DashboardPage from '../components/Dashboard/Dashboard'
+import RelayPage from '../containers/relay/Relay'
+import GatekeeperPage from '../containers/gatekeeper/Gatekeeper'
+import OrchestratorPage from '../containers/orchestrator/Orchestrator'
+import OechestrationStorePage from '../containers/orch_store/OrchStore'
 import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
+import DashboardPage from '../components/Dashboard/Dashboard'
+
 
 const dashboardRoutes = [
-  {
-    path: '/dashboard',
-    sidebarName: 'Dashboard',
-    navbarName: 'Dashboard',
-    icon: Dashboard,
-    component: DashboardPage
-  },
   {
     path: '/registry',
     sidebarName: 'Service Registry',
     navbarName: 'Service Registry',
-    icon: Person,
+    icon: Description,
     component: ServiceRegistryPage
   },
   {
-    path: '/item2',
-    sidebarName: 'Item2',
-    navbarName: 'Item2',
-    icon: ContentPaste,
+    path: '/orch',
+    sidebarName: 'Orchestration Status',
+    navbarName: 'Orchestration Status',
+    icon: DeviceHub,
+    component: OrchestratorPage
+  },
+  {
+    path: '/store',
+    sidebarName: 'Orchestration Store',
+    navbarName: 'Orchestration Store',
+    icon: StorageIcon,
+    component: OechestrationStorePage
+  },
+  {
+    path: '/gatekeeper',
+    sidebarName: 'Gatekeeper',
+    navbarName: 'Gatekeeper',
+    icon: CloudQueue,
+    component: GatekeeperPage
+  },
+  {
+    path: '/relay',
+    sidebarName: 'Relay',
+    navbarName: 'Relay',
+    icon: Backup,
+    component: RelayPage
+  },
+  {
+    path: '/authorization',
+    sidebarName: 'Authorization',
+    navbarName: 'Authorization',
+    icon: Fingerprint,
     component: DashboardPage
   },
   {
-    path: '/item3',
-    sidebarName: 'Item3',
-    navbarName: 'Item3',
-    icon: LibraryBooks,
+    path: '/eventhandler',
+    sidebarName: 'Event Handler',
+    navbarName: 'Event Handler',
+    icon: EventNote,
     component: DashboardPage
   },
   {
-    path: '/item4',
-    sidebarName: 'Item4',
-    navbarName: 'Item4',
-    icon: BubbleChart,
+    path: '/sysregistry',
+    sidebarName: 'System Registry',
+    navbarName: 'System Registry',
+    icon: List,
     component: DashboardPage
   },
   {
-    path: '/item5',
-    sidebarName: 'Item5',
-    navbarName: 'Item5',
-    icon: LocationOn,
+  path: '/devregistry',
+    sidebarName: 'Device Registry',
+    navbarName: 'Device Registry',
+    icon: SdCard,
     component: DashboardPage
   },
-  {
-    path: '/item6',
-    sidebarName: 'Item6',
-    navbarName: 'Item6',
-    icon: Notifications,
-    component: DashboardPage
-  },
-  { redirect: true, path: '/', to: '/dashboard', navbarName: 'Redirect' }
+  
+  { redirect: true, path: '/', to: '/registry', navbarName: 'Redirect' }
 ]
 
 export default dashboardRoutes

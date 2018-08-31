@@ -6,6 +6,7 @@ import { clientPublicRoutes, clientPrivateRoutes } from '../../routes/routes'
 import { connect } from 'react-redux'
 import PrivateRoute from '../misc/PrivateRoute'
 import { loginSuccess } from '../../actions/auth'
+import { loginFailure } from '../../actions/auth'
 
 class App extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class App extends Component {
       this.props.dispatch(loginSuccess(userData))
     }
   }
+
 
   render() {
     return (

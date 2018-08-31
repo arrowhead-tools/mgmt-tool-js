@@ -13,7 +13,7 @@ import dashboardRoutes from '../../routes/dashboardRoutes'
 import dashboardStyle from '../../assets/jss/material-dashboard-react/layouts/dashboardStyle'
 
 import image from '../../assets/img/sidebar-ah-2.png'
-import logo from '../../assets/img/arrowhead_logo.png'
+import logo from '../../assets/img/arrowhead_logo_white.png'
 
 const switchRoutes = (
   <Switch>
