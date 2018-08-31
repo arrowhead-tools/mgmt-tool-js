@@ -109,10 +109,10 @@ class Gatekeeper extends Component {
       port: event.target.elements.port.value,
       gatekeeperServiceURI: event.target.elements.gkServiceURI.value,
       secure: this.state.checkedIsSecure,
-      authenticationInfo: null
+      authenticationInfo: ""
     }}]
-    if (this.state.checkedIsSecure == true) {
-      newCloud[0].authenticationInfo = event.target.elements.auth_info.value
+    if (this.state.checkedIsSecure === true) {
+      newCloud[0].cloud.authenticationInfo = event.target.elements.auth_info.value
     }
     this.props.addCloud(newCloud)
     this.handleAddClose()
