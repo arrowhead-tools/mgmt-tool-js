@@ -5,6 +5,7 @@ import services from './services'
 import gatekeeper from './gatekeeper'
 import relay from './relay'
 import tableData from './orch'
+import orchStoreData from './orchStore' 
 
 import { reducer as formReducer } from 'redux-form'
 
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   services,
   gatekeeper,
   relay,
-  tableData
+  tableData,
+  orchStoreData
 })
 
 export default rootReducer

@@ -28,6 +28,38 @@ function digestServices(serviceData) {
   return digested
 }
 
+
+function digestOschStoreData(orchStoreData) {
+  const helperObject = {}
+  for (const data of orchStoreData) {
+    if (!helperObject[data.consumer.id]) {
+      helperObject[data.consumer.id] = data.consumer
+      data.consumer.lastUpdated = data.lastUpdated     
+      data.consumer.instruction = data.instruction
+      data.consumer.name = data.name
+      data.providerSystem.priority = data.priority
+      data.providerSystem.service = data.service
+      data.providerSystem.cloud = data.providerCloud
+      helperObject[data.consumer.id].providers = [data.providerSystem]
+    } else {
+      data.providerSystem.priority = data.priority
+      data.consumer.lastUpdated = data.lastUpdated     
+      data.consumer.instruction = data.instruction
+      data.consumer.name = data.name
+      data.providerSystem.priority = data.priority
+      data.providerSystem.service = data.service
+      data.providerSystem.cloud = data.providerCloud
+      helperObject[data.consumer.id].providers.push(data.providerSystem)
+    }
+  }
+
+  const digested = []
+  _.forEach(helperObject, (v, k) => {
+    digested.push(v)
+  })
+  console.log(digested)
+  return digested
+}
 function digestClouds(serviceData) {
   const helperObject = {}
   for (const data of serviceData) {
@@ -95,5 +127,6 @@ export const services= {
   digestService: digestServices,
   digestCloud: digestClouds,
   digestRelay:digestRelays,
-  digestOrchStatus: digestOrchStatuses
+  digestOrchStatus: digestOrchStatuses,
+  digestOrchStoreData: digestOschStoreData
 }

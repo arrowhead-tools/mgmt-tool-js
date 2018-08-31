@@ -13,6 +13,7 @@ import StorageIcon from '@material-ui/icons/Storage'
 import RelayPage from '../containers/relay/Relay'
 import GatekeeperPage from '../containers/gatekeeper/Gatekeeper'
 import OrchestratorPage from '../containers/orchestrator/Orchestrator'
+import OechestrationStorePage from '../containers/orch_store/OrchStore'
 import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
 import DashboardPage from '../components/Dashboard/Dashboard'
 
@@ -37,7 +38,7 @@ const dashboardRoutes = [
     sidebarName: 'Orchestration Store',
     navbarName: 'Orchestration Store',
     icon: StorageIcon,
-    component: DashboardPage
+    component: OechestrationStorePage
   },
   {
     path: '/gatekeeper',
