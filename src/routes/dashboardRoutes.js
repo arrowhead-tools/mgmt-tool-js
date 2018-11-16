@@ -17,7 +17,6 @@ import OechestrationStorePage from '../containers/orch_store/OrchStore'
 import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
 import DashboardPage from '../components/Dashboard/Dashboard'
 
-
 const dashboardRoutes = [
   {
     path: '/registry',
@@ -31,7 +30,7 @@ const dashboardRoutes = [
     sidebarName: 'Orchestration Status',
     navbarName: 'Orchestration Status',
     icon: DeviceHub,
-    component: OrchestratorPage
+    component: DashboardPage
   },
   {
     path: '/store',

@@ -6,9 +6,7 @@ import PropTypes from 'prop-types'
 class Dashboard extends Component {
   render() {
     return (
-      <div>
-        <h1>Home component</h1>
-      </div>
+      <div style={{padding: '20px'}}/>
     )
   }
 }
