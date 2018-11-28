@@ -24,7 +24,7 @@ class OrchTableHead extends React.Component {
 
   render() {
     const { order, orderBy, columnData} = this.props
-
+   
     return (
       <TableHead>
         <TableRow>
@@ -85,7 +85,7 @@ class OrchTable extends React.Component {
   constructor(props) {
     super(props)
 
-    const { data } = this.props
+    let { data } = this.props
 
     this.state = {
       order: 'asc',
@@ -115,11 +115,36 @@ class OrchTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value })
   }
 
-  render() {
-    const { classes, columnData } = this.props
-    const { data, order, orderBy, rowsPerPage, page } = this.state
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
+  render() {
+    const { classes, columnData, data, checkedSystemName, checkedServiceDef, filterService, checkedFiltered} = this.props
+    const { order, orderBy, rowsPerPage, page} = this.state
+
+    
+    let filteredTableData = this.props.data
+      if (checkedSystemName && filterService.length > 0) {
+        filteredTableData = data.filter(s  => (s.systemName.toUpperCase()).startsWith(filterService.toUpperCase()));
+      }
+  
+      if (checkedServiceDef && filterService.length > 0) {
+        filteredTableData = data.filter(s  => (s.serviceDef.toUpperCase()).startsWith(filterService.toUpperCase()));
+      }    
+     
+    
+    if (checkedFiltered) {
+      let toRemove = []
+      filteredTableData.forEach(function(element) {
+        if (element.systemName.toUpperCase() === `Orchestrator`.toUpperCase() ||
+        element.systemName.toUpperCase() === `Authorizator`.toUpperCase() ||
+        element.systemName.toUpperCase() === `Gatekeeper`.toUpperCase()
+        ) {
+          toRemove.push(element)
+        }
+      })
+      filteredTableData = filteredTableData.filter( ( el ) => !toRemove.includes( el ) );
+
+    }
+   const emptyRows = rowsPerPage - Math.min(rowsPerPage, filteredTableData.length - page * rowsPerPage);
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
@@ -132,7 +157,7 @@ class OrchTable extends React.Component {
               rowCount={data.length}
             />
             <TableBody>
-              {data
+              {filteredTableData
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
