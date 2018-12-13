@@ -137,7 +137,6 @@ class EnhancedTable extends React.Component {
                       hover
                       key={n.serviceDefinition}
                     >
-                      <TableCell>{n.id}</TableCell>
                       <TableCell>{n.serviceDefinition}</TableCell>
                       <TableCell>{n.interfaces.join(',')}</TableCell>
                       <TableCell numeric>{n.port}</TableCell>

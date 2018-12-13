@@ -32,7 +32,6 @@ class ServiceRegistry extends Component {
   render() {
     const { classes, services } = this.props
     const columnData = [
-      { id: 'id', numeric: false, disablePadding: false, label: 'ID' },
       { id: 'service_definition', numeric: false, disablePadding: false, label: 'Service Definition' },
       { id: 'interfaces', numeric: false, disablePadding: false, label: 'Interfaces' },
       { id: 'port', numeric: true, disablePadding: false, label: 'PORT' },
@@ -48,7 +47,6 @@ class ServiceRegistry extends Component {
               <Typography className={classes.heading}>{serviceData.systemName}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.child}>
-              <Typography><b>ID:</b> {serviceData.id}</Typography>
               <Typography><b>Address:</b> {serviceData.address}</Typography>
               <Typography><b>Port:</b> {serviceData.port}</Typography>
               <Typography style = {{overflow:'hidden', textOverflow:'ellipsis'}}><b>Authentication Info:</b> {serviceData.authenticationInfo}</Typography>
