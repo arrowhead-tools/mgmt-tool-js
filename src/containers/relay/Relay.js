@@ -58,7 +58,7 @@ class Relay extends Component {
     checkedIsSecure: false
   }
   
-  brokerName = null
+  id = null
   actualRelayData = ""
 
   componentDidMount() {
@@ -74,9 +74,9 @@ class Relay extends Component {
     this.actualRelayData = relayData
   }
 
-  handleDeleteOpen = (brokerName) => {
+  handleDeleteOpen = (id) => {
     this.setState({ openDelete: true })
-    this.brokerName = brokerName
+    this.id= id
   }
 
   handleChange = name => event => {
@@ -86,16 +86,10 @@ class Relay extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     var newRelay = [{
-      brokerName: event.target.elements.name.value,
       address: event.target.elements.address.value,
       port: event.target.elements.port.value,
       secure: this.state.checkedIsSecure,
-      authenticationInfo: null
     }]
-    if (this.state.checkedIsSecure == true) {
-      newRelay[0].authenticationInfo = event.target.elements.auth_info.value
-    }
-
     this.props.addRelay(newRelay)
     this.handleAddClose()
   }
@@ -112,21 +106,16 @@ class Relay extends Component {
     this.setState({ openUpdate: false });
   }
   handleDelete = () => {
-    this.props.deleteRelay(this.brokerName)
+    this.props.deleteRelay(this.id)
     this.handleDeleteClose()
   }
   
   handleUpdate = (event) => {
     event.preventDefault();
     this.updatedRelay = {
-      brokerName: event.target.elements.name.value,
       address: event.target.elements.address.value,
       port: event.target.elements.port.value,
       secure: this.state.checkedIsSecure,
-      authenticationInfo: ""
-    }
-    if (this.state.checkedIsSecure == true) {
-      this.updatedRelay[0].authenticationInfo = event.target.elements.auth_info.value
     }
     this.props.updateRelay(this.updatedRelay)
     this.handleAddClose()
@@ -134,13 +123,12 @@ class Relay extends Component {
 
   render() {
     const { classes, relay } = this.props
+    console.log(relay)
     const columnData = [
       { id: 'id', numeric: false, disablePadding: false, label: 'ID' },
-      { id: 'broker_name', numeric: false, disablePadding: false, label: 'Relay Name' },
       { id: 'address', numeric: false, disablePadding: false, label: 'Address' },
       { id: 'port', numeric: true, disablePadding: false, label: 'Port' },
       { id: 'secure', numeric: false, disablePadding: false, label: 'Secure' },
-      { id: 'auth_info', numeric: false, disablePadding: false, label: 'Authentication Info' }
       
     ]
     return (
@@ -149,7 +137,7 @@ class Relay extends Component {
         {relay && relay.data && relay.data.items && relay.data.items.map(relayData => (
           <ExpansionPanel key={relayData.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>{relayData.brokerName}</Typography>
+              <Typography className={classes.heading}>{relayData.address +":"+relayData.port}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.child}>
             <Grid container direction='row' spacing={8} justify='flex-end' alignItems='center'>
@@ -159,7 +147,7 @@ class Relay extends Component {
             </Button>
             </Grid>
             <Grid item>
-            <Button onClick={() => {this.handleDeleteOpen(relayData.brokerName)}} color="primary" aria-label="edit" justIcon round>
+            <Button onClick={() => {this.handleDeleteOpen(relayData.id)}} color="primary" aria-label="edit" justIcon round>
               <DeleteIcon />
             </Button>
             </Grid>
@@ -182,16 +170,8 @@ class Relay extends Component {
 
           <DialogTitle id="form-dialog-title">Add new relay</DialogTitle>
           <DialogContent>
-          <TextField
-              autoFocus
-              id="name"
-              label="Relay Name"
-              type="text"
-              margin="dense"
-              required
-              className={classes.textField}
-            />
             <TextField
+              autoFocus
               id="address"
               label="Address"
               type="text"
@@ -219,16 +199,6 @@ class Relay extends Component {
             }
             label="Secure"
             />
-          { 
-            this.state.checkedIsSecure ? 
-              <TextField
-                  id="auth_info"
-                  label="Authentication Info"
-                  type="string"
-                  margin="dense"
-                  className={classes.textField}
-              /> : null 
-            }
     
         </DialogContent>
         <DialogActions>
@@ -262,16 +232,6 @@ class Relay extends Component {
 
             <DialogTitle id="form-dialog-title">Update relay</DialogTitle>
             <DialogContent>
-            <TextField
-                id="name"
-                label="Relay Name"
-                type="text"
-                margin="dense"
-                defaultValue = {this.actualRelayData.brokerName}
-                required
-                disabled
-                className={classes.textField}
-              />
               <TextField
                 autoFocus
                 id="address"
@@ -303,17 +263,6 @@ class Relay extends Component {
                 }
                     label="Secure"
                 />
-          { 
-            this.state.checkedIsSecure ? 
-              <TextField
-                id="auth_info"
-                label="Authentication Info"
-                type="string"
-                margin="dense"
-                defaultValue = {this.actualRelayData.auth_info}
-                className={classes.textField}
-              /> : null 
-          }
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleUpdateClose} color="primary" block>Cancel</Button>
@@ -349,11 +298,8 @@ function mapDispatchToProps(dispatch) {
     addRelay: (newRelay) => {
       dispatch(addRelay(newRelay))
     },
-    deleteRelay: (name) => {
-      dispatch(deleteRelay(name))
-    },
-    deleteRelay: (brokerName) => {
-      dispatch(deleteRelay(brokerName))
+    deleteRelay: (id) => {
+      dispatch(deleteRelay(id))
     },
     updateRelay: (updatedRelay) => {
       dispatch(updateRelay(updatedRelay))

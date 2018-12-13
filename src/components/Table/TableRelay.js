@@ -80,15 +80,7 @@ const styles = theme => ({
     verticalAlign: "middle",
     textAlign: "center",
     maxWidth: "0px"  
-  },
-  tableCellAuthInfo: {
-    lineHeight: "1.42857143",
-    padding: "5px 5px 5px 5px" ,
-    verticalAlign: "middle",
-    textAlign: "center",
-    maxWidth: "0px",
-    overflow: "scroll",
-  },
+  }
 
 })
 
@@ -152,11 +144,9 @@ class EnhancedTable extends React.Component {
                       key={n.address}
                     >
                       <TableCell className={classes.tableCell}>{n.id}</TableCell>
-                      <TableCell className={classes.tableCell}>{n.brokerName}</TableCell>
                       <TableCell className={classes.tableCell}>{n.address}</TableCell>
                       <TableCell numeric className={classes.tableCell}>{n.port}</TableCell>
                       <TableCell className={classes.tableCell}>{n.secure.toString()}</TableCell>
-                      <TableCell className={classes.tableCellAuthInfo}>{n.authenticationInfo}</TableCell>
                     </TableRow>
                   )
                 })}

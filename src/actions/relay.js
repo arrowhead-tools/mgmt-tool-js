@@ -59,9 +59,9 @@ export function getRelays() {
     }
   }
 
-  export function deleteRelay(name) {
+  export function deleteRelay(id) {
     return (dispatch, getState) => {
-      networkService.delete('/gatekeeper/mgmt/brokers/brokername/' + name)
+      networkService.delete('/gatekeeper/mgmt/brokers/' + id)
       .then(response => {
         dispatch(relayDeleted())
         window.location.reload()

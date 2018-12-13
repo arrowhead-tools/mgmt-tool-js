@@ -5,7 +5,8 @@ import services from './services'
 import gatekeeper from './gatekeeper'
 import relay from './relay'
 import tableData from './orch'
-import orchStoreData from './orchStore' 
+import orchStoreData from './orchStore'
+
 
 import { reducer as formReducer } from 'redux-form'
 

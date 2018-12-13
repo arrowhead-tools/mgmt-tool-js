@@ -7,15 +7,14 @@ import { connect } from 'react-redux'
 import Grid from "@material-ui/core/Grid";
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Typography from '@material-ui/core/Typography'
 import RefreshIcon from "@material-ui/icons/Refresh";
 import SearchIcon from "@material-ui/icons/Search";
 import Checkbox from "@material-ui/core/Checkbox"
-import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
-
-import InputLabel from '@material-ui/core/InputLabel';
+import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
@@ -23,8 +22,8 @@ import Table from "../../components/Table/TableOrch.js";
 import Card from "../../components/Card/Card.jsx";
 import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
-import CustomInput from "../../components/CustomInput/CustomInput.js";
 import Button from "../../components/CustomButtons/Button.js";
+
 import { getOrchStatus } from '../../actions/orch'
 
 
@@ -68,12 +67,20 @@ const styles = theme => ({
       fontWeight: "400",
       lineHeight: "1"
     }
+  },
+  textFieldWidth: {
+    width: 280
   }
 })
 
 class Orchestrator extends Component {
-  state = {now: new Date(), checkedProvider: false, checkedConsumer: false,
-           checkedFiltered: false, orderSystem: ''}
+  state = {now: new Date(), checkedSystemName: false, checkedServiceDef: false,
+           checkedFiltered: false, orderSystem: '', anchorEl: null, filterService: ''}
+ 
+  constructor(props) {
+  super(props);
+} 
+ 
 
   componentDidMount() {
     this.props.getOrchStatus()
@@ -88,8 +95,13 @@ class Orchestrator extends Component {
     clearInterval(this.interval)
   }
 
+  
   handleChange = name => event => {
-    this.setState({ [name]: event.target.checked })
+    if (name === "checkedServiceDef") {
+      this.setState({[name]: event.target.checked, checkedSystemName: false})
+    } else {
+      this.setState({[name]: event.target.checked, checkedServiceDef: false})
+    }
   }
 
   handleSelectChange = event => {
@@ -100,8 +112,39 @@ class Orchestrator extends Component {
     window.location.reload()
   }
 
+  handleClickMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleCloseMenu = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  
+  handleAlphabeticalOrder  = () => {
+    const { tableData} = this.props 
+    tableData.data.items.sort((a, b) => a.providerId- b.providerId) 
+    this.setState({ anchorEl: null });
+  }
+
+  handleNumberOfProvidedServicesOrder = () => {
+    const { tableData} = this.props
+   tableData.data.items.sort((a, b) => b.services.length- a.services.length) 
+   console.log(tableData.data.items)
+   this.setState({ anchorEl: null });
+  }
+
+  handleFilterOnChange = event => {
+    this.setState({
+      filterService: event.target.value,
+    })
+  }  
+
   render() {
+ 
     const { classes, tableData} = this.props
+    let { anchorEl} = this.state
+
     const columnData = [
       { id: 'service_id', numeric: false, disablePadding: false, label: 'ServiceId' },
       { id: 'service_definition', numeric: false, disablePadding: false, label: 'ServiceDef' },
@@ -109,48 +152,70 @@ class Orchestrator extends Component {
       { id: 'system_name', numeric: false, disablePadding: false, label: 'SysName' },
       { id: 'local_cloud', numeric: false, disablePadding: false, label: 'Local Cloud' },
     ]
-    return (
+    return ( 
       
 <div className={classes.root}>
-<br/><br/>
-   <Grid container direction='row' spacing={16} justify='space-between' alignItems='center'>
+<br/><br/><br/>
+   <Grid container direction='row' spacing={16} justify='space-between' alignItems='baseline'>
    <GridItem>
-      <CustomInput
-      formControlProps={{
-        className: classes.margin + " " + classes.search 
-      }}
+
+      <TextField
+      className={classes.textFieldWidth}
       inputProps={{
-        placeholder: "service definition",
+        placeholder: "system name or service definition",
       }} 
-      labelText="Filter by service"
+      onChange={this.handleFilterOnChange}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end" variant="filled" color="primary">
+            <SearchIcon />
+          </InputAdornment>
+        ),
+      }}
       />
-      <Button color="primary" aria-label="edit" justIcon round>
-         <SearchIcon />
-      </Button>
       <FormGroup row>
          <FormControlLabel
          control={
          <Checkbox
-            checked={this.state.checkedProvider}
-            onChange={this.handleChange('checkedProvider')}
-            value="checkedProvider"
+            checked={this.state.checkedSystemName}
+            onChange={this.handleChange('checkedSystemName')}
+            value="checkedSystemName"
             color="primary"
             />
          }
-         label="Provider"
+         label="System name"
          />
          <FormControlLabel
          control={
          <Checkbox
-            checked={this.state.checkedConsumer}
-            onChange={this.handleChange('checkedConsumer')}
-            value="checkedConsumer"
+            checked={this.state.checkedServiceDef}
+            onChange={this.handleChange('checkedServiceDef')}
+            value="checkedServiceDef"
             color="primary"
             />
-         }
-         label="Consumer"
+         } 
+         label="Service Definition"
          />
       </FormGroup>
+    </GridItem>
+    <GridItem>
+        <Button 
+          color="primary" aria-label="edit"  round
+          aria-owns={anchorEl ? 'order-menu' : undefined}
+          aria-haspopup="true"
+          onClick={this.handleClickMenu}
+        >
+          Order by
+        </Button>
+        <Menu
+          id="order-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.handleCloseMenu}
+        >
+          <MenuItem onClick={this.handleAlphabeticalOrder}>Alphabetical Order</MenuItem>
+          <MenuItem onClick={this.handleNumberOfProvidedServicesOrder}>Number of provided services</MenuItem>
+        </Menu>
     </GridItem>
     <GridItem>
       <FormControlLabel
@@ -162,28 +227,10 @@ class Orchestrator extends Component {
           color="primary"
         />
       }
-      label="List without Core Systems"
+      label="List without Core Services"
       />
     </GridItem>
-    <GridItem>
-    <InputLabel htmlFor="order-system-id">Order type </InputLabel>
-          <Select
-            value={this.state.orderSystem}
-            onChange={this.handleSelectChange}
-            inputProps={{
-              name: 'orderSystem',
-              id: 'order-system-id',
-            }}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Alphabetical order</MenuItem>
-            <MenuItem value={20}>Most provided services</MenuItem>
-          </Select>
-          
-
-    </GridItem>
+    
     <GridItem>
       <Button color="primary" aria-label="edit"  round onClick = {this.handleClick} >
          <RefreshIcon />
@@ -203,7 +250,9 @@ class Orchestrator extends Component {
                </p>
             </CardHeader>
             <CardBody>
-               <Table data={systemData.services} columnData={columnData} />
+               <Table data={systemData.services} filterService={this.state.filterService} 
+                checkedServiceDef={this.state.checkedServiceDef} checkedSystemName={this.state.checkedSystemName}
+                 checkedFiltered={this.state.checkedFiltered} columnData={columnData}/>
             </CardBody>
          </Card>
       </GridItem>
