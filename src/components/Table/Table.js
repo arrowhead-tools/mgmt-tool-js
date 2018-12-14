@@ -71,7 +71,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3
   },
   table: {
-    minWidth: 1020
+    minWidth: 600
   },
   tableWrapper: {
     overflowX: 'auto'
@@ -82,11 +82,11 @@ class EnhancedTable extends React.Component {
   constructor(props) {
     super(props)
 
-    const { data } = this.props
+    const { data, system } = this.props
 
     this.state = {
       order: 'asc',
-      orderBy: 'calories',
+      orderBy: system ? 'service_definition' : 'system_name',
       data,
       page: 0,
       rowsPerPage: 5
@@ -113,7 +113,7 @@ class EnhancedTable extends React.Component {
   }
 
   render() {
-    const { classes, columnData } = this.props
+    const { classes, columnData, system } = this.props
     const { data, order, orderBy, rowsPerPage, page } = this.state
 
     return (
@@ -133,16 +133,22 @@ class EnhancedTable extends React.Component {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
                   return (
-                    <TableRow
+                    system ? (<TableRow
                       hover
                       key={n.serviceDefinition}
                     >
                       <TableCell>{n.serviceDefinition}</TableCell>
                       <TableCell>{n.interfaces.join(',')}</TableCell>
-                      <TableCell numeric>{n.port}</TableCell>
                       <TableCell>{n.serviceURI}</TableCell>
                       <TableCell>{n.udp}</TableCell>
-                    </TableRow>
+                    </TableRow>) : (<TableRow
+                      hover
+                      key={n.systemName}
+                    >
+                      <TableCell>{n.systemName}</TableCell>
+                      <TableCell>{n.address}</TableCell>
+                      <TableCell>{n.port}</TableCell>
+                    </TableRow>)
                   )
                 })}
             </TableBody>
@@ -170,7 +176,8 @@ class EnhancedTable extends React.Component {
 EnhancedTable.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
-  columnData: PropTypes.array.isRequired
+  columnData: PropTypes.array.isRequired,
+  system: PropTypes.bool
 }
 
 export default withStyles(styles)(EnhancedTable)

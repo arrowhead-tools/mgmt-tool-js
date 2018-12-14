@@ -3,7 +3,8 @@ import {
 } from '../actions/serviceRegistry'
 
 export const initialState = {
-  data: []
+  groupBySystems: [],
+  groupByServices: []
 }
 
 export default function services(state = initialState, action = {}) {
@@ -11,7 +12,10 @@ export default function services(state = initialState, action = {}) {
     case RECEIVE_SERVICES:
       return {
         ...state,
-        data: action.data
+        data: {
+          groupBySystems: action.groupBySystems,
+          groupByServices: action.groupByServices
+        }
       }
     default:
       return state
