@@ -10,14 +10,16 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Grid from '@material-ui/core/Grid'
 import Switch from '@material-ui/core/Switch'
+import SearchIcon from '@material-ui/icons/Search'
+import TextField from '@material-ui/core/TextField'
 import GridItem from '../../components/Grid/GridItem'
 import Table from '../../components/Table/Table'
-import { getServices } from '../../actions/serviceRegistry'
+import { getFilteredServices, getServices } from '../../actions/serviceRegistry'
 import Button from '../../components/CustomButtons/Button'
 
 const styles = theme => ({
   root: {
-    width: '100%'
+    width: '97%'
   },
   heading: {
     fontSize: theme.typography.pxToRem(18),
@@ -35,11 +37,56 @@ class ServiceRegistry extends Component {
   }
 
   state = {
-    switchState: false
+    switchState: false,
+    systemSearch: '',
+    serviceSearch: '',
+    interfaceSearch: ''
   }
 
   handleSwitchChange = () => event => {
     this.setState({ switchState: event.target.checked })
+  }
+
+  handleSearchClick = () => {
+    console.log(this.state.systemSearch, this.state.serviceSearch, this.state.interfaceSearch)
+    let queryData = []
+    if (this.state.systemSearch) {
+      queryData.push({
+        regularExpression: this.state.systemSearch,
+        fieldName: 'systemName',
+        partialMath: true
+      })
+    }
+    if (this.state.serviceSearch) {
+      queryData.push({
+        regularExpression: this.state.serviceSearch,
+        fieldName: 'serviceDefinition',
+        partialMath: true
+      })
+    }
+    if (this.state.interfaceSearch) {
+      queryData.push({ regularExpression: this.state.interfaceSearch, fieldName: 'interface', partialMath: true })
+    }
+
+    this.props.getFilteredServices(queryData)
+  }
+
+  handleSystemSearchOnChange = event => {
+    this.setState({
+      systemSearch: event.target.value
+    })
+  }
+
+  handleServiceSearchOnChange = event => {
+    this.setState({
+      serviceSearch: event.target.value
+    })
+  }
+
+  handleInterfaceSearchOnChange = event => {
+    this.setState({
+      interfaceSearch: event.target.value
+    })
   }
 
   render() {
@@ -58,8 +105,10 @@ class ServiceRegistry extends Component {
     ]
     return (
       <div className={classes.root}>
-        <br /><br />
-        <Grid container direction='row' spacing={16} justify='space-between' alignItems='baseline'>
+        <br /><br /><br />
+        <Grid
+          container direction='row' spacing={16} justify='space-between' alignItems='baseline'
+          style={{ margin: '16px', maxWidth: '95%' }}>
           <GridItem>
             <span className='MuiTypography-body1-305' style={{ paddingRight: '14px' }}>Group by: Service</span>
             <FormControlLabel
@@ -77,6 +126,39 @@ class ServiceRegistry extends Component {
             <Button color='primary'>
               Add
             </Button>
+          </GridItem>
+        </Grid>
+        <Grid
+          container direction='column'
+          justify='center' alignItems='center'
+          style={{ paddingBottom: '10px', marginBottom: '20px' }}>
+          <GridItem style={{ margin: '10px', marginTop: '20px' }}>
+            <TextField
+              style={{ width: '400px' }}
+              inputProps={{ placeholder: 'System Name' }}
+              onChange={this.handleSystemSearchOnChange}
+            />
+          </GridItem>
+          <GridItem style={{ margin: '10px' }}>
+            <TextField
+              style={{ width: '400px' }}
+              inputProps={{ placeholder: 'Service Definition' }}
+              onChange={this.handleServiceSearchOnChange}
+
+            />
+          </GridItem>
+          <GridItem style={{ margin: '10px' }}>
+            <TextField
+              style={{ width: '400px' }}
+              inputProps={{ placeholder: 'Interface' }}
+              onChange={this.handleInterfaceSearchOnChange}
+            />
+          </GridItem>
+          <GridItem>
+            <Button
+              color='primary'
+              onClick={this.handleSearchClick}
+              style={{ width: '400px' }}><SearchIcon /> Search</Button>
           </GridItem>
         </Grid>
         {this.state.switchState && services && services.data && services.data.groupBySystems && services.data.groupBySystems.map(serviceData => (
@@ -115,6 +197,7 @@ class ServiceRegistry extends Component {
 ServiceRegistry.propTypes = {
   classes: PropTypes.object.isRequired,
   getServices: PropTypes.func.isRequired,
+  getFilteredServices: PropTypes.func.isRequired,
   services: PropTypes.object.isRequired
 }
 
@@ -127,6 +210,9 @@ function mapDispatchToProps(dispatch) {
   return {
     getServices: () => {
       dispatch(getServices())
+    },
+    getFilteredServices: (queryData) => {
+      dispatch(getFilteredServices(queryData))
     }
   }
 }

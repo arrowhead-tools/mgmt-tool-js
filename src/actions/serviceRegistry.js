@@ -23,11 +23,11 @@ export function getServices() {
   }
 }
 
-export function getFilteredServices(queryDatas) {
+export function getFilteredServices(queryData) {
   return (dispatch, getState) => {
-    networkService.get('/serviceregistry/mgmt/query', queryDatas)
+    networkService.put('/serviceregistry/mgmt/query', queryData)
       .then(response => {
-        dispatch(receiveServices(groupServicesBySystems(response.data), groupServicesByServices(response.data)))
+        dispatch(receiveServices(groupServicesBySystems({serviceQueryData: response.data}), groupServicesByServices({serviceQueryData: response.data})))
       })
       .catch(error => {
         console.log(error)
