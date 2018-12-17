@@ -1,13 +1,15 @@
 import networkService from '../services/networkServiceSR'
-import { groupServicesBySystems, groupServicesByServices } from '../utils/utils'
+import { groupServicesBySystems, groupServicesByServices, getAutoCompleteData } from '../utils/utils'
 
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
 
-function receiveServices(groupBySystems, groupByServices) {
+function receiveServices(groupBySystems, groupByServices, autoCompleteData) {
   return {
     type: RECEIVE_SERVICES,
     groupByServices,
-    groupBySystems
+    groupBySystems,
+    systemList: autoCompleteData.systemList,
+    serviceList: autoCompleteData.serviceList
   }
 }
 
@@ -15,7 +17,7 @@ export function getServices() {
   return (dispatch, getState) => {
     networkService.get('/serviceregistry/mgmt/all')
       .then(response => {
-        dispatch(receiveServices(groupServicesBySystems(response.data), groupServicesByServices(response.data)))
+        dispatch(receiveServices(groupServicesBySystems(response.data), groupServicesByServices(response.data), getAutoCompleteData(response.data)))
       })
       .catch(error => {
         console.log(error)

@@ -1,10 +1,10 @@
-import {
-  RECEIVE_SERVICES
-} from '../actions/serviceRegistry'
+import { RECEIVE_SERVICES } from '../actions/serviceRegistry'
 
 export const initialState = {
   groupBySystems: [],
-  groupByServices: []
+  groupByServices: [],
+  systemList: [],
+  serviceList: []
 }
 
 export default function services(state = initialState, action = {}) {
@@ -12,10 +12,10 @@ export default function services(state = initialState, action = {}) {
     case RECEIVE_SERVICES:
       return {
         ...state,
-        data: {
-          groupBySystems: action.groupBySystems,
-          groupByServices: action.groupByServices
-        }
+        groupBySystems: action.groupBySystems,
+        groupByServices: action.groupByServices,
+        systemList: action.systemList,
+        serviceList: action.serviceList
       }
     default:
       return state

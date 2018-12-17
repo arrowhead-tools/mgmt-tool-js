@@ -54,6 +54,16 @@ export function groupServicesByServices(serviceData) {
   return digested
 }
 
+export function getAutoCompleteData(serviceData) {
+  const serviceList = []
+  const systemList = []
+  for (const data of serviceData.serviceQueryData) {
+    serviceList.push(data.providedService.serviceDefinition)
+    systemList.push(data.provider.systemName)
+  }
+  return { serviceList, systemList }
+}
+
 function digestOrchStoreData(orchStoreData) {
   const helperObject = {}
   for (const data of orchStoreData) {

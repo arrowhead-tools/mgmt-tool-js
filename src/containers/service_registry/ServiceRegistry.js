@@ -120,7 +120,7 @@ class ServiceRegistry extends Component {
               handleSearchClick={this.handleSearchClick} />
           </GridItem>
         </Grid>
-        {this.state.switchState && services && services.data && services.data.groupBySystems && services.data.groupBySystems.map(serviceData => (
+        {this.state.switchState && services && services.groupBySystems && services.groupBySystems.map(serviceData => (
           <ExpansionPanel key={serviceData.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{serviceData.systemName}</Typography>
@@ -133,7 +133,7 @@ class ServiceRegistry extends Component {
             </ExpansionPanelDetails>
           </ExpansionPanel>
         ))}
-        {!this.state.switchState && services && services.data && services.data.groupByServices && services.data.groupByServices.map(serviceData => (
+        {!this.state.switchState && services && services.groupByServices && services.groupByServices.map(serviceData => (
           <ExpansionPanel key={serviceData.serviceDefinition}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{serviceData.serviceDefinition}</Typography>
