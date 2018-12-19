@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import TextField from '@material-ui/core/TextField'
 import Card from '@material-ui/core/Card'
 import Button from '../../components/CustomButtons/Button'
 import SearchIcon from '@material-ui/icons/Search'
+import AutoComplete from '../../components/AutoComplete/AutoComplete'
 
 class ServiceSearch extends Component {
   constructor(props) {
@@ -16,43 +16,52 @@ class ServiceSearch extends Component {
     }
   }
 
-  handleSystemSearchOnChange = event => {
+  handleSystemSearchOnChange = value => {
+    if (value !== undefined) {
+      this.setState({
+        systemSearch: value
+      })
+    }
+  }
+
+  handleServiceSearchOnChange = value => {
     this.setState({
-      systemSearch: event.target.value
+      serviceSearch: value
     })
   }
 
-  handleServiceSearchOnChange = event => {
+  handleInterfaceSearchOnChange = value => {
     this.setState({
-      serviceSearch: event.target.value
-    })
-  }
-
-  handleInterfaceSearchOnChange = event => {
-    this.setState({
-      interfaceSearch: event.target.value
+      interfaceSearch: value
     })
   }
 
   render() {
-    const { handleSearchClick } = this.props
+    const { handleSearchClick, systemSuggestions, serviceSuggestions, interfaceSuggestions } = this.props
     return (
       <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', marginTop: '20px' }}>
-        <TextField
-          id='system_search'
-          onChange={this.handleSystemSearchOnChange}
-          style={{ width: '400px', marginTop: '20px', marginLeft: '20px', marginRight: '20px' }}
-          inputProps={{ placeholder: 'System Name' }} />
-        <TextField
-          id='system_search'
-          style={{ width: '400px', margin: '20px' }}
-          inputProps={{ placeholder: 'Service Definition' }}
-          onChange={this.handleServiceSearchOnChange} />
-        <TextField
-          id='system_search'
-          onChange={this.handleInterfaceSearchOnChange}
-          style={{ width: '400px', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }}
-          inputProps={{ placeholder: 'Interface' }} />
+        <AutoComplete
+          handleOnChange={this.handleSystemSearchOnChange}
+          suggestions={systemSuggestions}
+          placeholder='System Name' id='system_search'
+          classes={{
+            inputRoot: { flexWrap: 'wrap' },
+            textField: { width: '400px', marginTop: '20px', marginLeft: '20px', marginRight: '20px' }
+          }} />
+        <AutoComplete
+          handleOnChange={this.handleServiceSearchOnChange}
+          suggestions={serviceSuggestions}
+          placeholder='Service Definition' id='service_definition_search'
+          classes={{ inputRoot: { flexWrap: 'wrap' }, textField: { width: '400px', margin: '20px' } }} />
+        <AutoComplete
+          handleOnChange={this.handleInterfaceSearchOnChange}
+          suggestions={interfaceSuggestions}
+          placeholder='Interface' id='interface_search'
+          classes={{
+            inputRoot: { flexWrap: 'wrap' },
+            textField: { width: '400px', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }
+          }} />
+
         <Button
           color='primary'
           onClick={() => handleSearchClick(this.state.systemSearch, this.state.serviceSearch, this.state.interfaceSearch)}
@@ -62,13 +71,17 @@ class ServiceSearch extends Component {
             marginRight: '20px',
             marginBottom: '20px'
           }}><SearchIcon /> Search</Button>
+
       </Card>
     )
   }
 }
 
 ServiceSearch.propTypes = {
-  handleSearchClick: PropTypes.func.isRequired
+  handleSearchClick: PropTypes.func.isRequired,
+  systemSuggestions: PropTypes.array.isRequired,
+  serviceSuggestions: PropTypes.array.isRequired,
+  interfaceSuggestions: PropTypes.array.isRequired
 }
 
 export default ServiceSearch

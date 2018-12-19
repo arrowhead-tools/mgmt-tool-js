@@ -4,19 +4,28 @@ export const initialState = {
   groupBySystems: [],
   groupByServices: [],
   systemList: [],
-  serviceList: []
+  serviceList: [],
+  interfaceList: []
 }
 
 export default function services(state = initialState, action = {}) {
   switch (action.type) {
     case RECEIVE_SERVICES:
-      return {
+      const servicesObject = {
         ...state,
         groupBySystems: action.groupBySystems,
-        groupByServices: action.groupByServices,
-        systemList: action.systemList,
-        serviceList: action.serviceList
+        groupByServices: action.groupByServices
       }
+      if (action.systemList) {
+        servicesObject.systemList = action.systemList
+      }
+      if (action.serviceList) {
+        servicesObject.serviceList = action.serviceList
+      }
+      if (action.interfaceList) {
+        servicesObject.interfaceList = action.interfaceList
+      }
+      return servicesObject
     default:
       return state
   }

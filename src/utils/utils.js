@@ -55,13 +55,41 @@ export function groupServicesByServices(serviceData) {
 }
 
 export function getAutoCompleteData(serviceData) {
+  const serviceListHelper = {}
   const serviceList = []
+  const systemListHelper = {}
   const systemList = []
+  const interfaceListHelper = {}
+  const interfaceList = []
+
   for (const data of serviceData.serviceQueryData) {
-    serviceList.push(data.providedService.serviceDefinition)
-    systemList.push(data.provider.systemName)
+    if (!serviceListHelper[data.providedService.serviceDefinition]) {
+      serviceListHelper[data.providedService.serviceDefinition] = data.providedService.serviceDefinition
+    }
+
+    for (const iface of data.providedService.interfaces) {
+      if (!interfaceListHelper[iface]) {
+        interfaceListHelper[iface] = iface
+      }
+    }
+
+    if (!systemListHelper[data.provider.systemName]) {
+      systemListHelper[data.provider.systemName] = data.provider.systemName
+    }
   }
-  return { serviceList, systemList }
+  _.forEach(interfaceListHelper, (v) => {
+    interfaceList.push(v)
+  })
+
+  _.forEach(systemListHelper, (v) => {
+    systemList.push(v)
+  })
+
+  _.forEach(serviceListHelper, (v) => {
+    serviceList.push(v)
+  })
+  console.log(systemList)
+  return { serviceList, systemList, interfaceList }
 }
 
 function digestOrchStoreData(orchStoreData) {

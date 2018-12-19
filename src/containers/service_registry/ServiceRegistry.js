@@ -67,7 +67,6 @@ class ServiceRegistry extends Component {
     this.props.getFilteredServices(queryData)
   }
 
-
   render() {
     const { classes, services } = this.props
     const serviceColumnData = [
@@ -114,9 +113,9 @@ class ServiceRegistry extends Component {
           style={{ paddingBottom: '10px', marginBottom: '20px' }}>
           <GridItem style={{ margin: '10px', marginTop: '20px' }}>
             <ServiceSearch
-              handleSystemSearchOnChange={this.handleSystemSearchOnChange}
-              handleServiceSearchOnChange={this.handleServiceSearchOnChange}
-              handleInterfaceSearchOnChange={this.handleInterfaceSearchOnChange}
+              systemSuggestions={services.systemList}
+              serviceSuggestions={services.serviceList}
+              interfaceSuggestions={services.interfaceList}
               handleSearchClick={this.handleSearchClick} />
           </GridItem>
         </Grid>

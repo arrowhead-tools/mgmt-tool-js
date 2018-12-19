@@ -1,16 +1,22 @@
 import networkService from '../services/networkServiceSR'
-import { groupServicesBySystems, groupServicesByServices, getAutoCompleteData } from '../utils/utils'
+import { getAutoCompleteData, groupServicesByServices, groupServicesBySystems } from '../utils/utils'
 
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
 
 function receiveServices(groupBySystems, groupByServices, autoCompleteData) {
-  return {
+  const serviceObject = {
     type: RECEIVE_SERVICES,
     groupByServices,
-    groupBySystems,
-    systemList: autoCompleteData.systemList,
-    serviceList: autoCompleteData.serviceList
+    groupBySystems
   }
+
+  if (autoCompleteData) {
+    serviceObject.systemList = autoCompleteData.systemList
+    serviceObject.serviceList = autoCompleteData.serviceList
+    serviceObject.interfaceList = autoCompleteData.interfaceList
+  }
+
+  return serviceObject
 }
 
 export function getServices() {
@@ -29,7 +35,7 @@ export function getFilteredServices(queryData) {
   return (dispatch, getState) => {
     networkService.put('/serviceregistry/mgmt/query', queryData)
       .then(response => {
-        dispatch(receiveServices(groupServicesBySystems({serviceQueryData: response.data}), groupServicesByServices({serviceQueryData: response.data})))
+        dispatch(receiveServices(groupServicesBySystems({ serviceQueryData: response.data }), groupServicesByServices({ serviceQueryData: response.data })))
       })
       .catch(error => {
         console.log(error)
