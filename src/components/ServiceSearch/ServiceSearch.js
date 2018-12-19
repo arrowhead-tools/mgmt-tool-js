@@ -25,15 +25,19 @@ class ServiceSearch extends Component {
   }
 
   handleServiceSearchOnChange = value => {
-    this.setState({
-      serviceSearch: value
-    })
+    if (value !== undefined) {
+      this.setState({
+        serviceSearch: value
+      })
+    }
   }
 
   handleInterfaceSearchOnChange = value => {
-    this.setState({
-      interfaceSearch: value
-    })
+    if (value !== undefined) {
+      this.setState({
+        interfaceSearch: value
+      })
+    }
   }
 
   render() {
