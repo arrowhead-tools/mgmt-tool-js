@@ -6,8 +6,7 @@ import gatekeeper from './gatekeeper'
 import relay from './relay'
 import tableData from './orch'
 import orchStoreData from './orchStore'
-
-
+import modal from './modal'
 import { reducer as formReducer } from 'redux-form'
 
 const rootReducer = combineReducers({
@@ -18,7 +17,8 @@ const rootReducer = combineReducers({
   gatekeeper,
   relay,
   tableData,
-  orchStoreData
+  orchStoreData,
+  modal
 })
 
 export default rootReducer

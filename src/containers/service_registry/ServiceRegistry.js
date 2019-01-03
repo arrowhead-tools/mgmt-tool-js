@@ -10,12 +10,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Grid from '@material-ui/core/Grid'
 import Switch from '@material-ui/core/Switch'
-import Modal from '@material-ui/core/Modal'
 import GridItem from '../../components/Grid/GridItem'
 import Table from '../../components/Table/Table'
 import { getFilteredServices, getServices } from '../../actions/serviceRegistry'
 import Button from '../../components/CustomButtons/Button'
 import ServiceSearch from '../../components/ServiceSearch/ServiceSearch'
+import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
+import { hideModal, showModal } from '../../actions/modal'
 
 const styles = theme => ({
   root: {
@@ -77,7 +78,10 @@ class ServiceRegistry extends Component {
   }
 
   handleAddClick = () => {
-    this.setState({ open: true })
+    this.props.showModal({
+      open: true,
+      closeModal: this.closeModal
+    }, 'add')
   }
 
   handleClose = () => {
@@ -163,22 +167,7 @@ class ServiceRegistry extends Component {
             </ExpansionPanelDetails>
           </ExpansionPanel>
         ))}
-        <Modal
-          open={this.state.open}
-          onClose={this.handleClose}>
-          <div style={{
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)'
-          }} className={classes.paper}>
-            <Typography variant='headline' id='modal-title'>
-              Text in a modal
-            </Typography>
-            <Typography variant='subheading' id='simple-modal-description'>
-              Sample text
-            </Typography>
-          </div>
-        </Modal>
+        <ModalContainer />
       </div>
 
     )
@@ -189,7 +178,9 @@ ServiceRegistry.propTypes = {
   classes: PropTypes.object.isRequired,
   getServices: PropTypes.func.isRequired,
   getFilteredServices: PropTypes.func.isRequired,
-  services: PropTypes.object.isRequired
+  services: PropTypes.object.isRequired,
+  hideModal: PropTypes.func.isRequired,
+  showModal: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -204,6 +195,12 @@ function mapDispatchToProps(dispatch) {
     },
     getFilteredServices: (queryData) => {
       dispatch(getFilteredServices(queryData))
+    },
+    hideModal: () => {
+      dispatch(hideModal())
+    },
+    showModal: (modalProps, modalType) => {
+      dispatch(showModal({modalProps, modalType}))
     }
   }
 }
