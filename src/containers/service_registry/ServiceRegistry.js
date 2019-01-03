@@ -10,6 +10,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Grid from '@material-ui/core/Grid'
 import Switch from '@material-ui/core/Switch'
+import Modal from '@material-ui/core/Modal'
 import GridItem from '../../components/Grid/GridItem'
 import Table from '../../components/Table/Table'
 import { getFilteredServices, getServices } from '../../actions/serviceRegistry'
@@ -27,6 +28,13 @@ const styles = theme => ({
   child: {
     display: 'flex',
     flexDirection: 'column'
+  },
+  paper: {
+    position: 'absolute',
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4
   }
 })
 
@@ -36,7 +44,8 @@ class ServiceRegistry extends Component {
   }
 
   state = {
-    switchState: false
+    switchState: false,
+    open: false
   }
 
   handleSwitchChange = () => event => {
@@ -65,6 +74,14 @@ class ServiceRegistry extends Component {
     }
 
     this.props.getFilteredServices(queryData)
+  }
+
+  handleAddClick = () => {
+    this.setState({ open: true })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false })
   }
 
   render() {
@@ -102,7 +119,7 @@ class ServiceRegistry extends Component {
               label='System' />
           </GridItem>
           <GridItem>
-            <Button color='primary'>
+            <Button color='primary' onClick={this.handleAddClick}>
               Add
             </Button>
           </GridItem>
@@ -146,6 +163,22 @@ class ServiceRegistry extends Component {
             </ExpansionPanelDetails>
           </ExpansionPanel>
         ))}
+        <Modal
+          open={this.state.open}
+          onClose={this.handleClose}>
+          <div style={{
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)'
+          }} className={classes.paper}>
+            <Typography variant='headline' id='modal-title'>
+              Text in a modal
+            </Typography>
+            <Typography variant='subheading' id='simple-modal-description'>
+              Sample text
+            </Typography>
+          </div>
+        </Modal>
       </div>
 
     )
