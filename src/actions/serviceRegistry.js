@@ -3,7 +3,7 @@ import { getAutoCompleteData, groupServicesByServices, groupServicesBySystems } 
 
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
 
-function receiveServices(groupBySystems, groupByServices, autoCompleteData, queryDataObject) {
+function receiveServices(groupBySystems, groupByServices, autoCompleteData, queryDataObject = {}) {
   const serviceObject = {
     type: RECEIVE_SERVICES,
     groupByServices,

@@ -23,7 +23,7 @@ const muiTheme = createMuiTheme({
   button: {
     primaryColor
   },
-  card:{
+  card: {
     primaryColor
   }
 

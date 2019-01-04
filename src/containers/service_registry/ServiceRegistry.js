@@ -16,6 +16,7 @@ import { getFilteredServices, getServices } from '../../actions/serviceRegistry'
 import Button from '../../components/CustomButtons/Button'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
 import { hideModal, showModal } from '../../actions/modal'
+import _ from 'lodash'
 
 const styles = theme => ({
   root: {
@@ -66,6 +67,10 @@ class ServiceRegistry extends Component {
     }, 'serviceSearch')
   }
 
+  handleServiceSearchClearClick = () => {
+    this.props.getServices()
+  }
+
   handleClose = () => {
     this.setState({ open: false })
   }
@@ -106,10 +111,15 @@ class ServiceRegistry extends Component {
           </GridItem>
           <GridItem>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <Button color='primary' onClick={this.handleServiceSearchClick}>
+              {!_.isEmpty(services.queryData) &&
+                <Button color='primary' onClick={this.handleServiceSearchClearClick}>
+                  Clear Filter
+                </Button>
+              }
+              <Button color='primary' onClick={this.handleServiceSearchClick} style={{ marginLeft: '10px', marginRight: '10px' }}>
                 Search
               </Button>
-              <Button color='primary' onClick={this.handleAddClick} style={{ marginLeft: '10px' }}>
+              <Button color='primary' onClick={this.handleAddClick}>
                 Add
               </Button>
             </div>
