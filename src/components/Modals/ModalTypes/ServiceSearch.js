@@ -7,7 +7,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import AutoComplete from '../../AutoComplete/AutoComplete'
 import { getFilteredServices } from '../../../actions/serviceRegistry'
 
-class ServiceSearchModal extends Component {
+class ServiceSearch extends Component {
   constructor(props) {
     super(props)
 
@@ -114,7 +114,7 @@ class ServiceSearchModal extends Component {
   }
 }
 
-ServiceSearchModal.propTypes = {
+ServiceSearch.propTypes = {
   services: PropTypes.object.isRequired,
   getFilteredServices: PropTypes.func.isRequired
 }
@@ -132,4 +132,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ServiceSearchModal)
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceSearch)

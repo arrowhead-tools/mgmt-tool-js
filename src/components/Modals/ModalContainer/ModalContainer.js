@@ -4,10 +4,13 @@ import Modal from '@material-ui/core/Modal'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import AddModal from '../ModalTypes/AddModal'
-import ServiceSearchModal from '../ModalTypes/ServiceSearchModal'
+import ServiceSearchModal from '../ModalTypes/ServiceSearch'
+import AddSREntry from '../ModalTypes/AddSREntry'
+
 const MODAL_TYPES = {
   'add': AddModal,
-  'serviceSearch': ServiceSearchModal
+  'serviceSearch': ServiceSearchModal,
+  'addSREntry': AddSREntry
 }
 
 const styles = theme => ({
