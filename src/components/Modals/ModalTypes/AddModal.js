@@ -1,17 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Typography from '@material-ui/core/Typography'
 import { connect } from 'react-redux'
+import AddSystem from './AddSystem'
 
 const AddModal = ({ closeModal }) => {
   return (
     <div>
-      <Typography variant='headline' id='modal-title'>
-        Text in a modal
-      </Typography>
-      <Typography variant='subheading' id='simple-modal-description'>
-        Sample text
-      </Typography>
+      <AddSystem />
     </div>
   )
 }
