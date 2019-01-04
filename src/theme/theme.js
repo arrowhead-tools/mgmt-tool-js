@@ -1,10 +1,10 @@
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import 'typeface-roboto'
 
 const primaryColor = '#004676'
 const errorColor = '#d50000'
 
-const muiTheme = getMuiTheme({
+const muiTheme = createMuiTheme({
   palette: {
     primary1Color: primaryColor,
     accent1Color: primaryColor

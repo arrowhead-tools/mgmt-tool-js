@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
-import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { startLogin } from '../../actions/auth'
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/core'
 
 class Login extends Component {
   constructor(props) {
@@ -48,7 +48,7 @@ class Login extends Component {
             <TextField name='password' type='password' floatingLabelText='Password'  required />
           </Grid>
           <Grid item>
-            <RaisedButton type='submit' label='Login' primary />
+            <Button type='submit' label='Login' primary />
           </Grid>
           <Grid item>
             <Typography variant='subheading' color='inherit'>

@@ -65,9 +65,6 @@ class AddSystem extends Component {
           onChange={this.handleSystemNameOnChange}
           label='System Name'
           className={classes.input}
-          inputProps={{
-            'aria-label': 'Description'
-          }}
         />
         <TextField
           id='system_address'
@@ -75,9 +72,6 @@ class AddSystem extends Component {
           onChange={this.handleAddressOnChange}
           label='Address'
           className={classes.input}
-          inputProps={{
-            'aria-label': 'Description'
-          }}
         />
         <TextField
           value={this.state.port}
