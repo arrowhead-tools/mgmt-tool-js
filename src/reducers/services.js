@@ -5,7 +5,8 @@ export const initialState = {
   groupByServices: [],
   systemList: [],
   serviceList: [],
-  interfaceList: []
+  interfaceList: [],
+  queryData: {}
 }
 
 export default function services(state = initialState, action = {}) {
@@ -24,6 +25,9 @@ export default function services(state = initialState, action = {}) {
       }
       if (action.interfaceList) {
         servicesObject.interfaceList = action.interfaceList
+      }
+      if (action.queryData) {
+        servicesObject.queryData = action.queryData
       }
       return servicesObject
     default:

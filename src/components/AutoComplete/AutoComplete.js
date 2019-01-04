@@ -15,14 +15,14 @@ class AutoComplete extends Component {
       margin: '5px'
     }
 
-    const { suggestions, placeholder, id, classes, handleOnChange } = this.props
+    const { defaultValue, suggestions, placeholder, id, classes, handleOnChange } = this.props
     return (
       <Downshift
         onStateChange={({ inputValue }) => {
           handleOnChange(inputValue)
           return this.setState({ inputValue })
         }}
-        selectedItem={this.state.inputValue}
+        selectedItem={defaultValue || this.state.inputValue}
       >
         {({ getInputProps, getItemProps, isOpen, inputValue, selectedItem, highlightedIndex }) => (
           <div>
@@ -55,6 +55,7 @@ class AutoComplete extends Component {
 }
 
 AutoComplete.propTypes = {
+  defaultValue: PropTypes.string,
   suggestions: PropTypes.arrayOf(String).isRequired,
   placeholder: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,

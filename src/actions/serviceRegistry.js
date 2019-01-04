@@ -3,7 +3,7 @@ import { getAutoCompleteData, groupServicesByServices, groupServicesBySystems } 
 
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
 
-function receiveServices(groupBySystems, groupByServices, autoCompleteData) {
+function receiveServices(groupBySystems, groupByServices, autoCompleteData, queryDataObject) {
   const serviceObject = {
     type: RECEIVE_SERVICES,
     groupByServices,
@@ -14,6 +14,10 @@ function receiveServices(groupBySystems, groupByServices, autoCompleteData) {
     serviceObject.systemList = autoCompleteData.systemList
     serviceObject.serviceList = autoCompleteData.serviceList
     serviceObject.interfaceList = autoCompleteData.interfaceList
+  }
+
+  if (queryDataObject) {
+    serviceObject.queryData = queryDataObject
   }
 
   return serviceObject
@@ -31,11 +35,11 @@ export function getServices() {
   }
 }
 
-export function getFilteredServices(queryData) {
+export function getFilteredServices(queryData, queryDataObject) {
   return (dispatch, getState) => {
     networkService.put('/serviceregistry/mgmt/query', queryData)
       .then(response => {
-        dispatch(receiveServices(groupServicesBySystems({ serviceQueryData: response.data }), groupServicesByServices({ serviceQueryData: response.data })))
+        dispatch(receiveServices(groupServicesBySystems({ serviceQueryData: response.data }), groupServicesByServices({ serviceQueryData: response.data }), undefined, queryDataObject))
       })
       .catch(error => {
         console.log(error)
@@ -75,5 +79,4 @@ export function addSystem(systemName, address, port, authenticationInfo) {
         console.log(error)
       })
   }
-
 }

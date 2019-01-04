@@ -14,7 +14,6 @@ import GridItem from '../../components/Grid/GridItem'
 import Table from '../../components/Table/Table'
 import { getFilteredServices, getServices } from '../../actions/serviceRegistry'
 import Button from '../../components/CustomButtons/Button'
-import ServiceSearch from '../../components/ServiceSearch/ServiceSearch'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
 import { hideModal, showModal } from '../../actions/modal'
 
@@ -53,35 +52,18 @@ class ServiceRegistry extends Component {
     this.setState({ switchState: event.target.checked })
   }
 
-  handleSearchClick = (systemSearch, serviceSearch, interfaceSearch) => {
-    console.log(systemSearch, serviceSearch, interfaceSearch)
-    let queryData = []
-    if (systemSearch) {
-      queryData.push({
-        regularExpression: systemSearch,
-        fieldName: 'systemName',
-        partialMath: true
-      })
-    }
-    if (serviceSearch) {
-      queryData.push({
-        regularExpression: serviceSearch,
-        fieldName: 'serviceDefinition',
-        partialMath: true
-      })
-    }
-    if (interfaceSearch) {
-      queryData.push({ regularExpression: interfaceSearch, fieldName: 'interfaces', partialMath: true })
-    }
-
-    this.props.getFilteredServices(queryData)
-  }
-
   handleAddClick = () => {
     this.props.showModal({
       open: true,
       closeModal: this.closeModal
     }, 'add')
+  }
+
+  handleServiceSearchClick = () => {
+    this.props.showModal({
+      open: true,
+      closeModal: this.closeModal
+    }, 'serviceSearch')
   }
 
   handleClose = () => {
@@ -123,21 +105,14 @@ class ServiceRegistry extends Component {
               label='System' />
           </GridItem>
           <GridItem>
-            <Button color='primary' onClick={this.handleAddClick}>
-              Add
-            </Button>
-          </GridItem>
-        </Grid>
-        <Grid
-          container direction='column'
-          justify='center' alignItems='center'
-          style={{ paddingBottom: '10px', marginBottom: '20px' }}>
-          <GridItem style={{ margin: '10px', marginTop: '20px' }}>
-            <ServiceSearch
-              systemSuggestions={services.systemList}
-              serviceSuggestions={services.serviceList}
-              interfaceSuggestions={services.interfaceList}
-              handleSearchClick={this.handleSearchClick} />
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <Button color='primary' onClick={this.handleServiceSearchClick}>
+                Search
+              </Button>
+              <Button color='primary' onClick={this.handleAddClick} style={{ marginLeft: '10px' }}>
+                Add
+              </Button>
+            </div>
           </GridItem>
         </Grid>
         {this.state.switchState && services && services.groupBySystems && services.groupBySystems.map(serviceData => (
@@ -169,7 +144,6 @@ class ServiceRegistry extends Component {
         ))}
         <ModalContainer />
       </div>
-
     )
   }
 }
@@ -177,7 +151,6 @@ class ServiceRegistry extends Component {
 ServiceRegistry.propTypes = {
   classes: PropTypes.object.isRequired,
   getServices: PropTypes.func.isRequired,
-  getFilteredServices: PropTypes.func.isRequired,
   services: PropTypes.object.isRequired,
   hideModal: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired
@@ -200,7 +173,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(hideModal())
     },
     showModal: (modalProps, modalType) => {
-      dispatch(showModal({modalProps, modalType}))
+      dispatch(showModal({ modalProps, modalType }))
     }
   }
 }
