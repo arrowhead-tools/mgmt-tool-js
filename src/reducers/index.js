@@ -7,12 +7,14 @@ import relay from './relay'
 import tableData from './orch'
 import orchStoreData from './orchStore'
 import modal from './modal'
+import system from './system'
 import { reducer as formReducer } from 'redux-form'
 
 const rootReducer = combineReducers({
   form: formReducer,
   global,
   auth,
+  system,
   services,
   gatekeeper,
   relay,

@@ -57,7 +57,7 @@ class ServiceRegistry extends Component {
     this.props.showModal({
       open: true,
       closeModal: this.closeModal
-    }, 'add')
+    }, 'addSREntry')
   }
 
   handleServiceSearchClick = () => {
