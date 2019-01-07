@@ -13,6 +13,8 @@ import ChipInput from 'material-ui-chip-input'
 import AutoComplete from '../../AutoComplete/AutoComplete'
 import { getSystems } from '../../../actions/system'
 import { withStyles } from '@material-ui/core/styles'
+import moment from 'moment'
+import { addSREntry } from '../../../actions/serviceRegistry'
 
 const styles = theme => ({
   input: {
@@ -27,13 +29,13 @@ const styles = theme => ({
     alignItems: 'flex-end'
   },
   propKey: {
-    width: '30%',
+    width: '40%',
     marginLeft: '20px',
     marginRight: theme.spacing.unit * 2,
     marginBottom: '10px'
   },
   propValue: {
-    width: '30%',
+    width: '40%',
     marginRight: '20px',
     marginBottom: '10px'
   },
@@ -57,7 +59,13 @@ class AddSREntry extends Component {
       address: '',
       port: '',
       authenticationInfo: '',
-      serviceMetadata: [{ name: '', value: '' }]
+      serviceDefinition: '',
+      serviceMetadata: [{ name: '', value: '' }],
+      interface: [],
+      serviceURI: '',
+      UDP: '',
+      endOfValidity: '',
+      version: ''
 
     }
   }
@@ -97,8 +105,35 @@ class AddSREntry extends Component {
     this.setState({ serviceDefinition: event.target.value })
   }
 
+  handleServiceURIOnChange = event => {
+    this.setState({ serviceURI: event.target.value })
+  }
+
+  handleUDPOnChange = event => {
+    this.setState({ UDP: event.target.value })
+  }
+
+  handleEndOfValidityOnChange = event => {
+    this.setState({ endOfValidity: event.target.value })
+  }
+
+  handleVersionChange = event => {
+    this.setState({ version: event.target.value })
+  }
+
+  handleAddSREntryButtonClick = () => {
+    console.log(this.state)
+    this.props.addSREntry(null, this.state.systemName, this.state.address, this.state.port, this.state.authenticationInfo,
+      this.state.serviceDefinition, this.state.serviceMetadata, this.state.interface, this.state.serviceURI,
+      this.state.UDP, this.state.endOfValidity, this.state.version)
+  }
+
   addServiceMetadataPropertyAdd = () => {
     this.setState({ serviceMetadata: [...this.state.serviceMetadata, { name: '', value: '' }] })
+  }
+
+  handleInterfaceChipsOnChange = chips => {
+    this.setState({ interface: chips })
   }
 
   handleServiceMetadataChange = (index, key) => event => {
@@ -119,6 +154,7 @@ class AddSREntry extends Component {
           <Typography variant='headline' align='center' style={{ paddingTop: '10px' }}>System Details</Typography>
           <AutoComplete
             suggestions={[]/* system */}
+            label='System Name'
             placeholder='System Name'
             id='system_search'
             handleOnChange={this.handleSystemSearchOnChange}
@@ -190,15 +226,39 @@ class AddSREntry extends Component {
             size='small' color='secondary'
             aria-label='Add'
             onClick={this.addServiceMetadataPropertyAdd}><AddIcon /></Fab>
-          <TextField id='serviceURI' className={classes.input} label='Service URI' />
-          <TextField id='udp' className={classes.input} label='UDP' />
-          <TextField id='endOfValidity' className={classes.input} label='End of Validity' />
-          <TextField id='version' className={classes.input} label='Version' />
+          <TextField
+            id='serviceURI'
+            className={classes.input}
+            label='Service URI'
+            onChange={this.handleServiceURIOnChange}
+          />
+          <TextField
+            id='udp'
+            className={classes.input}
+            label='UDP'
+            onChange={this.handleUDPOnChange}
+          />
+          <TextField
+            type='datetime-local'
+            id='endOfValidity'
+            className={classes.input}
+            defaultValue={moment().format('YYYY-MM-DDTHH:mm:ss')}
+            label='End of Validity'
+            onChange={this.handleEndOfValidityOnChange}
+          />
+          <TextField
+            id='version'
+            className={classes.input}
+            label='Version' type='number'
+            onChange={this.handleVersionChange}
+            inputProps={{
+              min: '1'
+            }} />
         </Card>
         <Button
-          disabled={this.state.systemName === '' || this.state.address === '' || this.state.port === ''}
+          disabled={this.state.systemName === '' || this.state.address === '' || this.state.port === '' || this.state.serviceURI === '' || this.state.serviceDefinition === ''}
           color='primary'
-          onClick={this.handleAddSystemButtonClick}
+          onClick={this.handleAddSREntryButtonClick}
           style={{
             width: '440px',
             marginLeft: '10px'
@@ -211,6 +271,7 @@ class AddSREntry extends Component {
 AddSREntry.propTypes = {
   classes: PropTypes.object.isRequired,
   getSystems: PropTypes.func.isRequired,
+  addSREntry: PropTypes.func.isRequired,
   system: PropTypes.array.isRequired
 }
 
@@ -223,6 +284,14 @@ function mapDispatchToProps(dispatch) {
   return {
     getSystems: () => {
       dispatch(getSystems())
+    },
+    addSREntry: (
+      systemId, systemName, address, port, authenticationInfo,
+      serviceDefinition, serviceMetadata, interfaces, serviceURI,
+      udp, endOfValidity, version) => {
+      dispatch(addSREntry(systemId, systemName, address, port, authenticationInfo,
+        serviceDefinition, serviceMetadata, interfaces, serviceURI,
+        udp, endOfValidity, version))
     }
   }
 }

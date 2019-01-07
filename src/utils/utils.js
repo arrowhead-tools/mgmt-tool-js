@@ -8,14 +8,14 @@ export function groupServicesBySystems(serviceData) {
       data.providedService.port = data.port
       data.providedService.serviceURI = data.serviceURI
       data.providedService.version = data.version
-      data.providedService.udp = data.udp.toString()
+      data.providedService.udp = data.udp ? data.udp.toString() : ''
       data.providedService.ttl = data.ttl
       helperObject[data.provider.id].services = [data.providedService]
     } else {
       data.providedService.port = data.port
       data.providedService.serviceURI = data.serviceURI
       data.providedService.version = data.version
-      data.providedService.udp = data.udp.toString()
+      data.providedService.udp = data.udp ? data.udp.toString() : ''
       data.providedService.ttl = data.ttl
       helperObject[data.provider.id].services.push(data.providedService)
     }
@@ -38,7 +38,7 @@ export function groupServicesByServices(serviceData) {
           interface: iface,
           provider: [data.provider],
           serviceURI: data.serviceURI,
-          udp: data.udp,
+          udp: data.udp || '',
           version: data.version
         }
       } else {

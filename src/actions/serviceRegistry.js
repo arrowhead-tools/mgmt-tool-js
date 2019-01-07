@@ -1,5 +1,6 @@
 import networkService from '../services/networkServiceSR'
 import { getAutoCompleteData, groupServicesByServices, groupServicesBySystems } from '../utils/utils'
+import { hideModal } from './modal'
 
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
 
@@ -40,6 +41,7 @@ export function getFilteredServices(queryData, queryDataObject) {
     networkService.put('/serviceregistry/mgmt/query', queryData)
       .then(response => {
         dispatch(receiveServices(groupServicesBySystems({ serviceQueryData: response.data }), groupServicesByServices({ serviceQueryData: response.data }), undefined, queryDataObject))
+        dispatch(hideModal())
       })
       .catch(error => {
         console.log(error)
@@ -74,6 +76,52 @@ export function addSystem(systemName, address, port, authenticationInfo) {
       .then(response => {
         console.log(response)
         dispatch(getServices())
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+}
+
+export function addSREntry(
+  systemId, systemName, address, port, authenticationInfo,
+  serviceDefinition, serviceMetadata = [], interfaces = [], serviceURI,
+  udp, endOfValidity, version) {
+  const serviceMetadataHelper = {}
+  for (const item of serviceMetadata) {
+    if (item.name !== '' || item.value !== '') {
+      serviceMetadataHelper[item.name] = item.value
+    }
+  }
+
+  const SREObject = {
+    providedService: {
+      serviceDefinition,
+      interfaces,
+      serviceMetadata: serviceMetadataHelper
+    },
+    provider: {
+      systemName,
+      address,
+      port,
+      authenticationInfo
+    },
+    serviceURI,
+    udp,
+    endOfValidity,
+    version
+  }
+
+  if (systemId) {
+    SREObject.provider.id = systemId
+  }
+
+  return (dispatch, getState) => {
+    networkService.post('/serviceregistry/register', SREObject)
+      .then(response => {
+        console.log(response.data)
+        dispatch(getServices())
+        dispatch(hideModal())
       })
       .catch(error => {
         console.log(error)

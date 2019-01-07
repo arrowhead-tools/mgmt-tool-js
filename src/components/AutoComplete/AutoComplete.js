@@ -15,7 +15,7 @@ class AutoComplete extends Component {
       margin: '5px'
     }
 
-    const { defaultValue, suggestions, placeholder, id, classes, handleOnChange } = this.props
+    const { defaultValue, suggestions, placeholder, id, classes, handleOnChange, label } = this.props
     return (
       <Downshift
         onStateChange={({ inputValue }) => {
@@ -29,6 +29,7 @@ class AutoComplete extends Component {
             {renderInput({
               fullWidth: true,
               classes,
+              label,
               InputProps: getInputProps({
                 placeholder,
                 id
@@ -60,15 +61,17 @@ AutoComplete.propTypes = {
   placeholder: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   classes: PropTypes.object,
+  label: PropTypes.string,
   handleOnChange: PropTypes.func.isRequired
 }
 
 function renderInput(inputProps) {
-  const { InputProps, classes, ref, ...other } = inputProps
+  const { InputProps, classes, ref, label, ...other } = inputProps
 
   return (
     <TextField
       style={classes.textField}
+      label={label}
       InputProps={{
         inputRef: ref,
         ...InputProps
