@@ -79,7 +79,7 @@ class ServiceRegistry extends Component {
     const { classes, services } = this.props
     const serviceColumnData = [
       { id: 'service_definition', numeric: false, disablePadding: false, label: 'Service Definition' },
-      { id: 'interfaces', numeric: false, disablePadding: false, label: 'Interfaces' },
+      { id: 'interfaces', numeric: false, disablePadding: false, label: 'Interface' },
       { id: 'service_uri', numeric: false, disablePadding: false, label: 'Service URI' },
       { id: 'udp', numeric: false, disablePadding: false, label: 'UDP' }
     ]
