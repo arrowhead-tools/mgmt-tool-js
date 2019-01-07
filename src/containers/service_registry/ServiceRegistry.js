@@ -16,7 +16,11 @@ import { getFilteredServices, getServices } from '../../actions/serviceRegistry'
 import Button from '../../components/CustomButtons/Button'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
 import { hideModal, showModal } from '../../actions/modal'
+import ClearIcon from '@material-ui/icons/Clear'
+import SearchIcon from '@material-ui/icons/Search'
+import AddIcon from '@material-ui/icons/Add'
 import _ from 'lodash'
+import { red } from '@material-ui/core/colors'
 
 const styles = theme => ({
   root: {
@@ -29,6 +33,13 @@ const styles = theme => ({
   child: {
     display: 'flex',
     flexDirection: 'column'
+  },
+  removeButton: {
+    color: 'white',
+    backgroundColor: red[500],
+    '&:hover': {
+      backgroundColor: red[700]
+    }
   },
   paper: {
     position: 'absolute',
@@ -112,15 +123,18 @@ class ServiceRegistry extends Component {
           <GridItem>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
               {!_.isEmpty(services.queryData) &&
-                <Button color='primary' onClick={this.handleServiceSearchClearClick}>
-                  Clear Filter
-                </Button>
+              <Button color='primary' className={classes.removeButton} onClick={this.handleServiceSearchClearClick}>
+                <ClearIcon />Clear Filter
+              </Button>
               }
-              <Button color='primary' onClick={this.handleServiceSearchClick} style={{ marginLeft: '10px', marginRight: '10px' }}>
-                Search
+              <Button
+                color='primary'
+                onClick={this.handleServiceSearchClick}
+                style={{ marginLeft: '10px', marginRight: '10px' }}>
+                <SearchIcon />Search
               </Button>
               <Button color='primary' onClick={this.handleAddClick}>
-                Add
+                <AddIcon />Add
               </Button>
             </div>
           </GridItem>

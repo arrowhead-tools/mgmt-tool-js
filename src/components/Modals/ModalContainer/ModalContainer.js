@@ -56,7 +56,9 @@ class ModalContainer extends Component {
       <div style={{
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%)'
+        maxHeight: '100%',
+        transform: 'translate(-50%, -50%)',
+        overflowX: 'auto'
       }} className={this.props.classes.paper}>
         <SpecifiedModal closeModal={this.closeModal} {...this.props.modalProps} />
       </div>
