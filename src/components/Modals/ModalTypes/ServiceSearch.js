@@ -79,6 +79,7 @@ class ServiceSearch extends Component {
           suggestions={services.systemList}
           defaultValue={services.queryData.systemName || ''}
           placeholder='System Name' id='system_search'
+          label='System Name'
           classes={{
             inputRoot: { flexWrap: 'wrap' },
             textField: { width: '400px', marginTop: '20px', marginLeft: '20px', marginRight: '20px' }
@@ -88,12 +89,14 @@ class ServiceSearch extends Component {
           suggestions={services.serviceList}
           defaultValue={services.queryData.serviceDefinition || ''}
           placeholder='Service Definition' id='service_definition_search'
+          label='Service Definition'
           classes={{ inputRoot: { flexWrap: 'wrap' }, textField: { width: '400px', margin: '20px' } }} />
         <AutoComplete
           handleOnChange={this.handleInterfaceSearchOnChange}
           suggestions={services.interfaceList}
           defaultValue={services.queryData.interfaces || ''}
           placeholder='Interface' id='interface_search'
+          label='Interface'
           classes={{
             inputRoot: { flexWrap: 'wrap' },
             textField: { width: '400px', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }
