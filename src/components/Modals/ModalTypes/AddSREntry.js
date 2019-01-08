@@ -54,7 +54,7 @@ class AddSREntry extends Component {
     super(props)
 
     this.state = {
-      autoFillSystemId: null,
+      systemId: null,
       systemName: '',
       address: '',
       port: '',
@@ -77,14 +77,17 @@ class AddSREntry extends Component {
   handleSystemSearchOnChange = value => {
     if (value !== undefined) {
       this.setState({
-        systemName: value
-        //  autoFillSystemId
+        systemId: value.id,
+        systemName: value.systemName,
+        address: value.address,
+        port: value.port,
+        authenticationInfo: value.authenticationInfo
       })
     }
   }
 
-  handleSystemNameOnChange = event => {
-    this.setState({ systemName: event.target.value })
+  handleSystemNameOnChange = value => {
+    this.setState({ systemName: value, systemId: null })
   }
 
   handleAddressOnChange = event => {
@@ -123,7 +126,7 @@ class AddSREntry extends Component {
 
   handleAddSREntryButtonClick = () => {
     console.log(this.state)
-    this.props.addSREntry(null, this.state.systemName, this.state.address, this.state.port, this.state.authenticationInfo,
+    this.props.addSREntry(this.state.systemId, this.state.systemName, this.state.address, this.state.port, this.state.authenticationInfo,
       this.state.serviceDefinition, this.state.serviceMetadata, this.state.interface, this.state.serviceURI,
       this.state.UDP, this.state.endOfValidity, this.state.version)
   }
@@ -153,8 +156,11 @@ class AddSREntry extends Component {
         <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', width: '440px' }}>
           <Typography variant='headline' align='center' style={{ paddingTop: '10px' }}>System Details</Typography>
           <AutoComplete
-            suggestions={[]/* system */}
+            defaultValue=''
+            suggestions={system}
             label='System Name'
+            keyValue='systemName'
+            handleTextChange={this.handleSystemNameOnChange}
             placeholder='System Name'
             id='system_search'
             handleOnChange={this.handleSystemSearchOnChange}
@@ -163,6 +169,7 @@ class AddSREntry extends Component {
               textField: { width: '400px', marginTop: '20px', marginLeft: '20px', marginRight: '20px' }
             }} />
           <TextField
+            value={this.state.address}
             className={classes.input}
             id='address'
             label='Address'
