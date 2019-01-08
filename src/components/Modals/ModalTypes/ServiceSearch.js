@@ -21,12 +21,28 @@ class ServiceSearch extends Component {
   handleSystemSearchOnChange = value => {
     if (value !== undefined) {
       this.setState({
+        systemSearch: value.systemName
+      })
+    }
+  }
+
+  handleSystemSearchTextOnChange = value => {
+    if (value !== undefined) {
+      this.setState({
         systemSearch: value
       })
     }
   }
 
   handleServiceSearchOnChange = value => {
+    if (value !== undefined) {
+      this.setState({
+        serviceSearch: value.value
+      })
+    }
+  }
+
+  handleServiceSearchTextOnChange = value => {
     if (value !== undefined) {
       this.setState({
         serviceSearch: value
@@ -37,7 +53,15 @@ class ServiceSearch extends Component {
   handleInterfaceSearchOnChange = value => {
     if (value !== undefined) {
       this.setState({
-        interfaceSearch: value
+        interfaceSearch: value.value
+      })
+    }
+  }
+
+  handleInterfaceSearchTextOnChange = value => {
+    if (value !== undefined) {
+      this.setState({
+        interfaceSearch: value.value
       })
     }
   }
@@ -76,7 +100,9 @@ class ServiceSearch extends Component {
       <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', marginTop: '20px' }}>
         <AutoComplete
           handleOnChange={this.handleSystemSearchOnChange}
+          handleTextChange={this.handleSystemSearchTextOnChange}
           suggestions={services.systemList}
+          keyValue='systemName'
           defaultValue={services.queryData.systemName || ''}
           placeholder='System Name' id='system_search'
           label='System Name'
@@ -87,6 +113,8 @@ class ServiceSearch extends Component {
         <AutoComplete
           handleOnChange={this.handleServiceSearchOnChange}
           suggestions={services.serviceList}
+          keyValue='value'
+          handleTextChange={this.handleServiceSearchTextOnChange}
           defaultValue={services.queryData.serviceDefinition || ''}
           placeholder='Service Definition' id='service_definition_search'
           label='Service Definition'
@@ -94,6 +122,8 @@ class ServiceSearch extends Component {
         <AutoComplete
           handleOnChange={this.handleInterfaceSearchOnChange}
           suggestions={services.interfaceList}
+          keyValue='value'
+          handleTextChange={this.handleInterfaceSearchTextOnChange}
           defaultValue={services.queryData.interfaces || ''}
           placeholder='Interface' id='interface_search'
           label='Interface'

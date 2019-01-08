@@ -64,20 +64,21 @@ export function getAutoCompleteData(serviceData) {
 
   for (const data of serviceData.serviceQueryData) {
     if (!serviceListHelper[data.providedService.serviceDefinition]) {
-      serviceListHelper[data.providedService.serviceDefinition] = data.providedService.serviceDefinition
+      serviceListHelper[data.providedService.serviceDefinition] = {value: data.providedService.serviceDefinition}
     }
 
     for (const iface of data.providedService.interfaces) {
       if (!interfaceListHelper[iface]) {
-        interfaceListHelper[iface] = iface
+        interfaceListHelper[iface] = {value: iface}
       }
     }
 
     if (!systemListHelper[data.provider.systemName]) {
-      systemListHelper[data.provider.systemName] = data.provider.systemName
+      systemListHelper[data.provider.systemName] = data.provider
     }
   }
   _.forEach(interfaceListHelper, (v) => {
+    v.id = interfaceList.length
     interfaceList.push(v)
   })
 
@@ -86,9 +87,9 @@ export function getAutoCompleteData(serviceData) {
   })
 
   _.forEach(serviceListHelper, (v) => {
+    v.id = serviceList.length
     serviceList.push(v)
   })
-  console.log(systemList)
   return { serviceList, systemList, interfaceList }
 }
 
