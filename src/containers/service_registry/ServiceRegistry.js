@@ -89,16 +89,16 @@ class ServiceRegistry extends Component {
   render() {
     const { classes, services } = this.props
     const serviceColumnData = [
-      { id: 'service_definition', numeric: false, disablePadding: false, label: 'Service Definition' },
-      { id: 'interfaces', numeric: false, disablePadding: false, label: 'Interface' },
-      { id: 'service_uri', numeric: false, disablePadding: false, label: 'Service URI' },
-      { id: 'udp', numeric: false, disablePadding: false, label: 'UDP' }
+      { id: 'service_definition', disablePadding: false, label: 'Service Definition' },
+      { id: 'interfaces', disablePadding: false, label: 'Interface' },
+      { id: 'service_uri', disablePadding: false, label: 'Service URI' },
+      { id: 'udp', disablePadding: false, label: 'UDP' }
     ]
 
     const systemColumnData = [
-      { id: 'system_name', numeric: false, disablePadding: false, label: 'System Name' },
-      { id: 'address', numeric: false, disablePadding: false, label: 'Address' },
-      { id: 'port', numeric: false, disablePadding: false, label: 'Port' }
+      { id: 'system_name', disablePadding: false, label: 'System Name' },
+      { id: 'address', disablePadding: false, label: 'Address' },
+      { id: 'port', disablePadding: false, label: 'Port' }
     ]
     return (
       <div className={classes.root}>
@@ -139,8 +139,8 @@ class ServiceRegistry extends Component {
             </div>
           </GridItem>
         </Grid>
-        {this.state.switchState && services && services.groupBySystems && services.groupBySystems.map(serviceData => (
-          <ExpansionPanel key={serviceData.id}>
+        {this.state.switchState && services && services.groupBySystems && services.groupBySystems.map((serviceData, index) => (
+          <ExpansionPanel key={index}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{serviceData.systemName}</Typography>
             </ExpansionPanelSummary>
@@ -152,8 +152,8 @@ class ServiceRegistry extends Component {
             </ExpansionPanelDetails>
           </ExpansionPanel>
         ))}
-        {!this.state.switchState && services && services.groupByServices && services.groupByServices.map(serviceData => (
-          <ExpansionPanel key={serviceData.serviceDefinition}>
+        {!this.state.switchState && services && services.groupByServices && services.groupByServices.map((serviceData, index) => (
+          <ExpansionPanel key={index}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{serviceData.serviceDefinition}</Typography>
             </ExpansionPanelSummary>

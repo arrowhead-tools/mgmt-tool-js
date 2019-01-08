@@ -131,7 +131,7 @@ class EnhancedTable extends React.Component {
               {data
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
+                .map((n, index) => {
                   return (
                     system ? (<TableRow
                       hover
@@ -143,7 +143,7 @@ class EnhancedTable extends React.Component {
                       <TableCell>{n.udp}</TableCell>
                     </TableRow>) : (<TableRow
                       hover
-                      key={n.systemName}
+                      key={n.systemName + index}
                     >
                       <TableCell>{n.systemName}</TableCell>
                       <TableCell>{n.address}</TableCell>

@@ -67,8 +67,8 @@ class ModalContainer extends Component {
 }
 
 ModalContainer.propTypes = {
-  modalType: PropTypes.object.isRequired,
-  modalProps: PropTypes.object.isRequired,
+  modalType: PropTypes.string,
+  modalProps: PropTypes.object,
   classes: PropTypes.object
 }
 
