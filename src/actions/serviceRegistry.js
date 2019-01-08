@@ -1,6 +1,7 @@
 import networkService from '../services/networkServiceSR'
 import { getAutoCompleteData, groupServicesByServices, groupServicesBySystems } from '../utils/utils'
 import { hideModal } from './modal'
+import { showNotification } from './global'
 
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
 
@@ -119,11 +120,34 @@ export function addSREntry(
   return (dispatch, getState) => {
     networkService.post('/serviceregistry/register', SREObject)
       .then(response => {
-        console.log(response.data)
+        dispatch(
+          showNotification(
+            {
+              title: 'Sikeres mentés',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
         dispatch(getServices())
         dispatch(hideModal())
       })
       .catch(error => {
+        dispatch(
+          showNotification(
+            {
+              title: 'Sikertelen mentés',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 10
+            },
+            'error'
+          )
+        )
         console.log(error)
       })
   }

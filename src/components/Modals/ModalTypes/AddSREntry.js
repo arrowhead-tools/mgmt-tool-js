@@ -284,7 +284,7 @@ AddSREntry.propTypes = {
 
 function mapStateToProps(state) {
   const { system } = state
-  return { system }
+  return { system: system.system }
 }
 
 function mapDispatchToProps(dispatch) {
