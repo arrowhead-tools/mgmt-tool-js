@@ -123,7 +123,7 @@ export function addSREntry(
         dispatch(
           showNotification(
             {
-              title: 'Sikeres mentés',
+              title: 'Saving was successful',
               message: '',
               position: 'tc',
               dismissible: true,
@@ -139,7 +139,7 @@ export function addSREntry(
         dispatch(
           showNotification(
             {
-              title: 'Sikertelen mentés',
+              title: 'Saving was unsuccessful',
               message: '',
               position: 'tc',
               dismissible: true,
@@ -149,6 +149,42 @@ export function addSREntry(
           )
         )
         console.log(error)
+      })
+  }
+}
+
+export function deleteServiceById(serviceId) {
+  return (dispatch, getState) => {
+    networkService.delete(`/serviceregistry/mgmt/${serviceId}`)
+      .then(response => {
+        dispatch(
+          showNotification(
+            {
+              title: 'Deletion was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
+        dispatch(getServices())
+      })
+      .catch(error => {
+        console.log(error)
+        dispatch(
+          showNotification(
+            {
+              title: 'Deletion was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'error'
+          )
+        )
       })
   }
 }

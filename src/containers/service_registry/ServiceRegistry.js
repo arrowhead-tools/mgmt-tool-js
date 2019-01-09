@@ -92,7 +92,8 @@ class ServiceRegistry extends Component {
       { id: 'service_definition', disablePadding: false, label: 'Service Definition' },
       { id: 'interfaces', disablePadding: false, label: 'Interface' },
       { id: 'service_uri', disablePadding: false, label: 'Service URI' },
-      { id: 'udp', disablePadding: false, label: 'UDP' }
+      { id: 'udp', disablePadding: false, label: 'UDP' },
+      { id: 'actions', disablePadding: false, label: 'Actions'}
     ]
 
     const systemColumnData = [
@@ -102,7 +103,8 @@ class ServiceRegistry extends Component {
       { id: 'interface', disablePadding: false, label: 'Interface' },
       { id: 'service_uri', disablePadding: false, label: 'Service URI' },
       { id: 'udp', disablePadding: false, label: 'UDP' },
-      { id: 'version', disablePadding: false, label: 'Service Version' }
+      { id: 'version', disablePadding: false, label: 'Service Version' },
+      { id: 'actions', disablePadding: false, label: 'Actions'}
     ]
     return (
       <div className={classes.root}>
@@ -144,7 +146,7 @@ class ServiceRegistry extends Component {
           </GridItem>
         </Grid>
         {this.state.switchState && services && services.groupBySystems && services.groupBySystems.map((serviceData, index) => (
-          <ExpansionPanel key={index}>
+          <ExpansionPanel key={serviceData.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{serviceData.systemName}</Typography>
             </ExpansionPanelSummary>
@@ -157,7 +159,7 @@ class ServiceRegistry extends Component {
           </ExpansionPanel>
         ))}
         {!this.state.switchState && services && services.groupByServices && services.groupByServices.map((serviceData, index) => (
-          <ExpansionPanel key={index}>
+          <ExpansionPanel key={serviceData.serviceId}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{serviceData.serviceDefinition}</Typography>
             </ExpansionPanelSummary>

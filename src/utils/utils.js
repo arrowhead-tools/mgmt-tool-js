@@ -36,6 +36,7 @@ export function groupServicesByServices(serviceData) {
       providerData.interface = iface
       providerData.serviceURI = data.serviceURI
       providerData.udp = data.udp || ''
+      providerData.serviceId = data.id
       providerData.version = data.version
       if (!helperObject[data.providedService.serviceDefinition + iface]) {
         helperObject[data.providedService.serviceDefinition + iface] = {
@@ -43,6 +44,7 @@ export function groupServicesByServices(serviceData) {
           interface: iface,
           provider: [providerData],
           serviceURI: data.serviceURI,
+          serviceId: data.id,
           udp: data.udp || '',
           version: data.version
         }

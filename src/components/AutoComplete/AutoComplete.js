@@ -39,8 +39,13 @@ class AutoComplete extends Component {
             selectedItem
           }) => (
           <div>
-            <TextField value={this.state.inputValue} label={label} placeholder={placeholder} {...getInputProps()}
-                       style={classes.textField} required={required}/>
+            <TextField
+              value={this.state.inputValue}
+              label={label}
+              placeholder={placeholder}
+              {...getInputProps()}
+              style={classes.textField}
+              required={required} />
             <div {...getMenuProps()}>
               {isOpen ?
                 <Paper className={classes.paper} square>{

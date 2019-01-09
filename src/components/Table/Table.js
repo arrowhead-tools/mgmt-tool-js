@@ -10,6 +10,11 @@ import TableRow from '@material-ui/core/TableRow'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Paper from '@material-ui/core/Paper'
 import Tooltip from '@material-ui/core/Tooltip'
+import IconButton from '@material-ui/core/IconButton'
+import EditIcon from '@material-ui/icons/Edit'
+import ClearIcon from '@material-ui/icons/Clear'
+import { deleteServiceById } from '../../actions/serviceRegistry'
+import { connect } from 'react-redux'
 
 function getSorting(order, orderBy) {
   return order === 'desc'
@@ -112,6 +117,10 @@ class EnhancedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value })
   }
 
+  handleServiceDelete = (serviceId) => () => {
+    this.props.deleteServiceById(serviceId)
+  }
+
   render() {
     const { classes, columnData, system } = this.props
     const { data, order, orderBy, rowsPerPage, page } = this.state
@@ -132,27 +141,45 @@ class EnhancedTable extends React.Component {
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, index) => {
+                  console.log('nnn', n)
                   return (
-                    system ? (<TableRow
-                      hover
-                      key={n.serviceDefinition}
-                    >
-                      <TableCell>{n.serviceDefinition}</TableCell>
-                      <TableCell>{n.interfaces.join(',')}</TableCell>
-                      <TableCell>{n.serviceURI}</TableCell>
-                      <TableCell>{n.udp}</TableCell>
-                    </TableRow>) : (<TableRow
-                      hover
-                      key={n.systemName + index}
-                    >
-                      <TableCell>{n.systemName}</TableCell>
-                      <TableCell>{n.address}</TableCell>
-                      <TableCell>{n.port}</TableCell>
-                      <TableCell>{n.interface}</TableCell>
-                      <TableCell>{n.serviceURI}</TableCell>
-                      <TableCell>{n.udp}</TableCell>
-                      <TableCell>{n.version}</TableCell>
-                    </TableRow>)
+                    system ? (
+                      <TableRow
+                        hover
+                        key={n.serviceDefinition}
+                      >
+                        <TableCell>{n.serviceDefinition}</TableCell>
+                        <TableCell>{n.interfaces.join(',')}</TableCell>
+                        <TableCell>{n.serviceURI}</TableCell>
+                        <TableCell>{n.udp}</TableCell>
+                      </TableRow>
+                    ) : (
+                      <TableRow
+                        hover
+                        key={n.systemName + index}
+                      >
+                        <TableCell>{n.systemName}</TableCell>
+                        <TableCell>{n.address}</TableCell>
+                        <TableCell>{n.port}</TableCell>
+                        <TableCell>{n.interface}</TableCell>
+                        <TableCell>{n.serviceURI}</TableCell>
+                        <TableCell>{n.udp}</TableCell>
+                        <TableCell>{n.version}</TableCell>
+                        <TableCell style={{ display: 'flex', flexDirection: 'row' }}>
+                          <IconButton
+                            color='secondary'
+                            aria-label='Edit Entry'>
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            color='secondary'
+                            aria-label='Delete Entry'
+                            onClick={this.handleServiceDelete(n.serviceId)}
+                          >
+                            <ClearIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>)
                   )
                 })}
             </TableBody>
@@ -181,7 +208,16 @@ EnhancedTable.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
   columnData: PropTypes.array.isRequired,
-  system: PropTypes.bool
+  system: PropTypes.bool,
+  deleteServiceById: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(EnhancedTable)
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteServiceById: (serviceId) => {
+      dispatch(deleteServiceById(serviceId))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(EnhancedTable))
