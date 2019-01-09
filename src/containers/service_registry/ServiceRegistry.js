@@ -24,7 +24,8 @@ import { red } from '@material-ui/core/colors'
 
 const styles = theme => ({
   root: {
-    width: '97%'
+    width: '97%',
+    paddingBottom: '10px'
   },
   heading: {
     fontSize: theme.typography.pxToRem(18),
@@ -93,7 +94,7 @@ class ServiceRegistry extends Component {
       { id: 'interfaces', disablePadding: false, label: 'Interface' },
       { id: 'service_uri', disablePadding: false, label: 'Service URI' },
       { id: 'udp', disablePadding: false, label: 'UDP' },
-      { id: 'actions', disablePadding: false, label: 'Actions'}
+      { id: 'actions', disablePadding: false, label: 'Actions' }
     ]
 
     const systemColumnData = [
@@ -104,7 +105,7 @@ class ServiceRegistry extends Component {
       { id: 'service_uri', disablePadding: false, label: 'Service URI' },
       { id: 'udp', disablePadding: false, label: 'UDP' },
       { id: 'version', disablePadding: false, label: 'Service Version' },
-      { id: 'actions', disablePadding: false, label: 'Actions'}
+      { id: 'actions', disablePadding: false, label: 'Actions' }
     ]
     return (
       <div className={classes.root}>
