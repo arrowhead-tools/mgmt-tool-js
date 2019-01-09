@@ -314,7 +314,6 @@ export function editSystem(systemId, systemName, address, port, authenticationId
   return (dispatch, getState) => {
     networkService.put(`/mgmt/systems/${systemId}`, systemData)
       .then(response => {
-        console.log(response.data)
         dispatch(
           showNotification(
             {
