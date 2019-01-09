@@ -3,6 +3,8 @@ import _ from 'lodash'
 export function groupServicesBySystems(serviceData) {
   const helperObject = {}
   for (const data of serviceData.serviceQueryData) {
+    const providedService = data.providedService
+    providedService.serviceId = data.id
     if (!helperObject[data.provider.id]) {
       helperObject[data.provider.id] = data.provider
       data.providedService.port = data.port

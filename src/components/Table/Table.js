@@ -80,6 +80,9 @@ const styles = theme => ({
   },
   tableWrapper: {
     overflowX: 'auto'
+  },
+  actionCell: {
+    display: 'flex', flexDirection: 'row'
   }
 })
 
@@ -152,6 +155,21 @@ class EnhancedTable extends React.Component {
                         <TableCell>{n.interfaces.join(',')}</TableCell>
                         <TableCell>{n.serviceURI}</TableCell>
                         <TableCell>{n.udp}</TableCell>
+                        <TableCell className={classes.actionCell}>
+                          <IconButton
+                            color='secondary'
+                            aria-label='Edit Entry'
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            color='secondary'
+                            aria-label='Delete Entry'
+                            onClick={this.handleServiceDelete(n.serviceId)}
+                          >
+                            <ClearIcon />
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
                     ) : (
                       <TableRow
@@ -165,10 +183,11 @@ class EnhancedTable extends React.Component {
                         <TableCell>{n.serviceURI}</TableCell>
                         <TableCell>{n.udp}</TableCell>
                         <TableCell>{n.version}</TableCell>
-                        <TableCell style={{ display: 'flex', flexDirection: 'row' }}>
+                        <TableCell className={classes.actionCell}>
                           <IconButton
                             color='secondary'
-                            aria-label='Edit Entry'>
+                            aria-label='Edit Entry'
+                          >
                             <EditIcon />
                           </IconButton>
                           <IconButton
