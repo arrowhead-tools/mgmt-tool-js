@@ -11,7 +11,7 @@ class AutoComplete extends Component {
   }
 
   render() {
-    const { classes, handleOnChange, keyValue, suggestions, label, placeholder, defaultValue, handleTextChange, required, disabled } = this.props
+    const { classes, handleOnChange, keyValue, suggestions, label, placeholder, defaultValue, handleTextChange, required, disabled, isEdit } = this.props
     return (
       <Downshift
         onChange={selection => {
@@ -25,7 +25,7 @@ class AutoComplete extends Component {
         }}
         selectedItem={defaultValue || this.state.inputValue}
         itemToString={item => {
-          if (disabled) {
+          if (isEdit) {
             return defaultValue
           }
           return item && item[keyValue] ? item[keyValue] : this.state.inputValue
@@ -86,7 +86,8 @@ AutoComplete.propTypes = {
   placeholder: PropTypes.string.isRequired,
   handleTextChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  isEdit: PropTypes.bool
 }
 
 export default AutoComplete

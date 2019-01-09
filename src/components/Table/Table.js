@@ -154,7 +154,6 @@ class EnhancedTable extends React.Component {
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, index) => {
-                  console.log(n)
                   return (
                     system ? (
                       <TableRow

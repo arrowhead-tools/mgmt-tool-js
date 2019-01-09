@@ -278,3 +278,60 @@ export function getServiceById(serviceId) {
       })
   }
 }
+
+export function editService(serviceId, serviceDefinition, interfaces, serviceMetadata) {
+  const serviceMetadataHelper = {}
+  for (const item of serviceMetadata) {
+    if (item.name !== '' || item.value !== '') {
+      serviceMetadataHelper[item.name] = item.value
+    }
+  }
+  const serviceData = {
+    id: serviceId,
+    serviceDefinition,
+    interfaces,
+    serviceMetadata: serviceMetadataHelper
+  }
+  return (dispatch, getState) => {
+    networkService.put(`/mgmt/services/${serviceId}`, serviceData)
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+}
+
+export function editSystem(systemId, systemName, address, port, authenticationId) {
+  const systemData = {
+    id: systemId,
+    systemName,
+    address,
+    port,
+    authenticationId
+  }
+  return (dispatch, getState) => {
+    networkService.put(`/mgmt/systems/${systemId}`, systemData)
+      .then(response => {
+        console.log(response.data)
+        dispatch(
+          showNotification(
+            {
+              title: 'Edit was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
+        dispatch(getServices())
+        dispatch(hideModal())
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+}
