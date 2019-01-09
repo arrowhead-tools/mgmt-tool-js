@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 import AddIcon from '@material-ui/icons/Add'
+import EditIcon from '@material-ui/icons/Edit'
 import ClearIcon from '@material-ui/icons/Clear'
 import Fab from '@material-ui/core/Fab'
 import Button from '../../CustomButtons/Button'
@@ -15,7 +16,8 @@ import AutoComplete from '../../AutoComplete/AutoComplete'
 import { getSystems } from '../../../actions/system'
 import { withStyles } from '@material-ui/core/styles'
 import moment from 'moment'
-import { addSREntry } from '../../../actions/serviceRegistry'
+import { addSREntry, editSREntry, getServiceById } from '../../../actions/serviceRegistry'
+import _ from 'lodash'
 
 const styles = theme => ({
   input: {
@@ -55,6 +57,8 @@ class AddSREntry extends Component {
     super(props)
 
     this.state = {
+      SREntryId: null,
+      providedServiceId: null,
       systemId: null,
       systemName: '',
       address: '',
@@ -67,12 +71,49 @@ class AddSREntry extends Component {
       UDP: '',
       endOfValidity: '',
       version: ''
-
     }
   }
 
   componentDidMount() {
     this.props.getSystems()
+    if (this.props.isEdit && this.props.serviceId) {
+      this.props.getServiceById(this.props.serviceId)
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.isEdit && nextProps.serviceId && !_.isEmpty(nextProps.serviceData) &&
+      nextProps.serviceData[nextProps.serviceId].id !== prevState.SREntryId) {
+      const serviceMetadata = []
+      if (nextProps.serviceData[nextProps.serviceId].providedService.serviceMetadata === undefined || nextProps.serviceData[nextProps.serviceId].providedService.serviceMetadata === {}) {
+        serviceMetadata.push({ name: '', value: '' })
+      } else {
+        for (const key in nextProps.serviceData[nextProps.serviceId].providedService.serviceMetadata) {
+          serviceMetadata.push({
+            name: key,
+            value: nextProps.serviceData[nextProps.serviceId].providedService.serviceMetadata[key]
+          })
+        }
+      }
+      return {
+        SREntryId: nextProps.serviceData[nextProps.serviceId].id,
+        providedServiceId: nextProps.serviceData[nextProps.serviceId].providedService.id,
+        serviceDefinition: nextProps.serviceData[nextProps.serviceId].providedService.serviceDefinition,
+        interface: nextProps.serviceData[nextProps.serviceId].providedService.interfaces,
+        systemId: nextProps.serviceData[nextProps.serviceId].provider.id,
+        systemName: nextProps.serviceData[nextProps.serviceId].provider.systemName,
+        address: nextProps.serviceData[nextProps.serviceId].provider.address,
+        port: nextProps.serviceData[nextProps.serviceId].provider.port,
+        authenticationInfo: nextProps.serviceData[nextProps.serviceId].provider.authenticationInfo,
+        serviceMetadata,
+        serviceURI: nextProps.serviceData[nextProps.serviceId].serviceURI,
+        UDP: !!nextProps.serviceData[nextProps.serviceId].udp,
+        endOfValidity: nextProps.serviceData[nextProps.serviceId].endOfValidity,
+        version: nextProps.serviceData[nextProps.serviceId].version
+      }
+    } else {
+      return null
+    }
   }
 
   handleSystemSearchOnChange = value => {
@@ -126,10 +167,15 @@ class AddSREntry extends Component {
   }
 
   handleAddSREntryButtonClick = () => {
-    console.log(this.state)
-    this.props.addSREntry(this.state.systemId, this.state.systemName, this.state.address, this.state.port, this.state.authenticationInfo,
-      this.state.serviceDefinition, this.state.serviceMetadata, this.state.interface, this.state.serviceURI,
-      this.state.UDP, this.state.endOfValidity, this.state.version)
+    if (this.props.isEdit) {
+      this.props.editSREntry(this.state.systemId, this.state.systemName, this.state.address, this.state.port, this.state.authenticationInfo,
+        this.state.serviceDefinition, this.state.serviceMetadata, this.state.interface, this.state.serviceURI,
+        this.state.UDP, this.state.endOfValidity, this.state.version)
+    } else {
+      this.props.addSREntry(this.state.systemId, this.state.systemName, this.state.address, this.state.port, this.state.authenticationInfo,
+        this.state.serviceDefinition, this.state.serviceMetadata, this.state.interface, this.state.serviceURI,
+        this.state.UDP, this.state.endOfValidity, this.state.version)
+    }
   }
 
   addServiceMetadataPropertyAdd = () => {
@@ -151,15 +197,16 @@ class AddSREntry extends Component {
   }
 
   render() {
-    const { classes, system } = this.props
+    const { classes, system, isEdit = false } = this.props
     return (
       <div>
         <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', width: '440px' }}>
           <Typography variant='headline' align='center' style={{ paddingTop: '10px' }}>System Details</Typography>
           <AutoComplete
-            defaultValue=''
+            defaultValue={this.state.systemName || ''}
             suggestions={system}
             required
+            disabled={isEdit}
             label='System Name'
             keyValue='systemName'
             handleTextChange={this.handleSystemNameOnChange}
@@ -175,6 +222,7 @@ class AddSREntry extends Component {
             className={classes.input}
             id='address'
             required
+            disabled={isEdit}
             label='Address'
             onChange={this.handleAddressOnChange}
           />
@@ -183,6 +231,7 @@ class AddSREntry extends Component {
             id='port'
             label='Port'
             required
+            disabled={isEdit}
             onChange={this.handlePortOnChange}
             value={this.state.port}
             type='number'
@@ -195,6 +244,7 @@ class AddSREntry extends Component {
             className={classes.input}
             id='authenticationInfo'
             label='Authentication Info'
+            disabled={isEdit}
             onChange={this.handleAuthenticationInfoOnChange} />
         </Card>
         <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', width: '440px' }}>
@@ -203,11 +253,15 @@ class AddSREntry extends Component {
             required
             id='serviceDefinition'
             className={classes.input}
+            value={this.state.serviceDefinition}
+            disabled={isEdit}
             label='Service Definition'
             onChange={this.handleServiceDefinitionOnChange} />
           <ChipInput
             required
+            value={this.state.interface}
             id='interface'
+            disabled={isEdit}
             className={classes.input}
             label='Interface'
             onChange={this.handleInterfaceChipsOnChange} />
@@ -218,17 +272,20 @@ class AddSREntry extends Component {
                 <TextField
                   label='Name'
                   value={name}
+                  disabled={isEdit}
                   className={classes.propKey}
                   onChange={this.handleServiceMetadataChange(index, 'name', value)}
                 />
                 <TextField
                   label='Value'
                   value={value}
+                  disabled={isEdit}
                   className={classes.propValue}
                   onChange={this.handleServiceMetadataChange(index, 'value', value)}
                 />
                 <IconButton
                   color='secondary'
+                  disabled={isEdit}
                   aria-label='Remove Property'
                   onClick={this.removeServiceMetadataProperty(index)}><ClearIcon /></IconButton>
               </div>
@@ -238,10 +295,12 @@ class AddSREntry extends Component {
             className={classes.fabStyle}
             size='small' color='secondary'
             aria-label='Add'
+            disabled={isEdit}
             onClick={this.addServiceMetadataPropertyAdd}><AddIcon /></Fab>
           <TextField
             required
             id='serviceURI'
+            value={this.state.serviceURI}
             className={classes.input}
             label='Service URI'
             onChange={this.handleServiceURIOnChange}
@@ -251,6 +310,7 @@ class AddSREntry extends Component {
             <Checkbox
               checked={this.state.UDP}
               id='udp'
+              disabled={isEdit}
               label='UDP'
               onChange={this.handleUDPOnChange}
             />
@@ -264,7 +324,9 @@ class AddSREntry extends Component {
             onChange={this.handleEndOfValidityOnChange}
           />
           <TextField
+            value={this.state.version}
             id='version'
+            disabled={isEdit}
             className={classes.input}
             label='Service Version' type='number'
             onChange={this.handleVersionChange}
@@ -278,8 +340,9 @@ class AddSREntry extends Component {
           onClick={this.handleAddSREntryButtonClick}
           style={{
             width: '440px',
-            marginLeft: '10px'
-          }}><AddIcon />Add</Button>
+            marginLeft: '10px',
+            padding: '0px'
+          }}>{isEdit ? (<p><EditIcon />Edit</p>) : (<p><AddIcon />Add</p>)}</Button>
       </div>
     )
   }
@@ -289,12 +352,17 @@ AddSREntry.propTypes = {
   classes: PropTypes.object.isRequired,
   getSystems: PropTypes.func.isRequired,
   addSREntry: PropTypes.func.isRequired,
-  system: PropTypes.array.isRequired
+  editSREntry: PropTypes.func.isRequired,
+  system: PropTypes.array.isRequired,
+  isEdit: PropTypes.bool,
+  serviceData: PropTypes.object,
+  serviceId: PropTypes.number,
+  getServiceById: PropTypes.func
 }
 
 function mapStateToProps(state) {
-  const { system } = state
-  return { system: system.system }
+  const { system, services } = state
+  return { system: system.system, serviceData: services.serviceData }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -309,6 +377,17 @@ function mapDispatchToProps(dispatch) {
       dispatch(addSREntry(systemId, systemName, address, port, authenticationInfo,
         serviceDefinition, serviceMetadata, interfaces, serviceURI,
         udp, endOfValidity, version))
+    },
+    editSREntry: (
+      systemId, systemName, address, port, authenticationInfo,
+      serviceDefinition, serviceMetadata, interfaces, serviceURI,
+      udp, endOfValidity, version) => {
+      dispatch(editSREntry(systemId, systemName, address, port, authenticationInfo,
+        serviceDefinition, serviceMetadata, interfaces, serviceURI,
+        udp, endOfValidity, version))
+    },
+    getServiceById: (serviceId) => {
+      dispatch(getServiceById(serviceId))
     }
   }
 }

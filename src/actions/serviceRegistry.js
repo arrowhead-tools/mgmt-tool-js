@@ -4,6 +4,7 @@ import { hideModal } from './modal'
 import { showNotification } from './global'
 
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
+export const RECEIVE_SERVICE = 'RECEIVE_SERVICE'
 
 function receiveServices(groupBySystems, groupByServices, autoCompleteData, queryDataObject = {}) {
   const serviceObject = {
@@ -23,6 +24,14 @@ function receiveServices(groupBySystems, groupByServices, autoCompleteData, quer
   }
 
   return serviceObject
+}
+
+function receiveServiceDataById(serviceId, serviceData) {
+  return {
+    type: RECEIVE_SERVICE,
+    serviceId,
+    serviceData
+  }
 }
 
 export function getServices() {
@@ -185,6 +194,87 @@ export function deleteServiceById(serviceId) {
             'error'
           )
         )
+      })
+  }
+}
+
+export function editSREntry(
+  systemId, systemName, address, port, authenticationInfo,
+  serviceDefinition, serviceMetadata = [], interfaces = [], serviceURI,
+  udp, endOfValidity, version) {
+  const serviceMetadataHelper = {}
+  for (const item of serviceMetadata) {
+    if (item.name !== '' || item.value !== '') {
+      serviceMetadataHelper[item.name] = item.value
+    }
+  }
+
+  const SREObject = {
+    providedService: {
+      serviceDefinition,
+      interfaces,
+      serviceMetadata: serviceMetadataHelper
+    },
+    provider: {
+      systemName,
+      address,
+      port,
+      authenticationInfo
+    },
+    serviceURI,
+    udp,
+    endOfValidity,
+    version
+  }
+
+  if (systemId) {
+    SREObject.provider.id = systemId
+  }
+
+  return (dispatch, getState) => {
+    networkService.put('/serviceregistry/mgmt/update', SREObject)
+      .then(response => {
+        dispatch(
+          showNotification(
+            {
+              title: 'Edit was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
+        dispatch(getServices())
+        dispatch(hideModal())
+      })
+      .catch(error => {
+        dispatch(
+          showNotification(
+            {
+              title: 'Edit was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 10
+            },
+            'error'
+          )
+        )
+        console.log(error)
+      })
+  }
+}
+
+export function getServiceById(serviceId) {
+  return dispatch => {
+    networkService.get(`/serviceregistry/mgmt/id/${serviceId}`)
+      .then(response => {
+        dispatch(receiveServiceDataById(serviceId, response.data))
+      })
+      .catch(error => {
+        console.log(error)
       })
   }
 }

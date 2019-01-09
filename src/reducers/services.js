@@ -1,4 +1,4 @@
-import { RECEIVE_SERVICES } from '../actions/serviceRegistry'
+import { RECEIVE_SERVICES, RECEIVE_SERVICE } from '../actions/serviceRegistry'
 
 export const initialState = {
   groupBySystems: [],
@@ -6,6 +6,7 @@ export const initialState = {
   systemList: [],
   serviceList: [],
   interfaceList: [],
+  serviceData: {},
   queryData: {}
 }
 
@@ -30,6 +31,13 @@ export default function services(state = initialState, action = {}) {
         servicesObject.queryData = action.queryData
       }
       return servicesObject
+    case RECEIVE_SERVICE:
+      const sData = {...state.serviceData}
+      sData[action.serviceId] = action.serviceData
+      return {
+        ...state,
+        serviceData: sData
+      }
     default:
       return state
   }

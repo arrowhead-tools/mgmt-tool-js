@@ -25,7 +25,8 @@ import { red } from '@material-ui/core/colors'
 const styles = theme => ({
   root: {
     width: '97%',
-    paddingBottom: '10px'
+    paddingBottom: '10px',
+    paddingLeft: '5px'
   },
   heading: {
     fontSize: theme.typography.pxToRem(18),
@@ -112,7 +113,7 @@ class ServiceRegistry extends Component {
         <br /><br /><br />
         <Grid
           container direction='row' spacing={16} justify='space-between' alignItems='baseline'
-          style={{ margin: '16px', maxWidth: '95%' }}>
+          style={{ marginBottom: '10px'}}>
           <GridItem style={{ display: 'flex' }}>
             <Typography style={{ paddingRight: '14px', display: 'flex', alignItems: 'center' }}><b>Group
               by:</b>&nbsp;Service</Typography>
@@ -146,7 +147,7 @@ class ServiceRegistry extends Component {
             </div>
           </GridItem>
         </Grid>
-        {this.state.switchState && services && services.groupBySystems && services.groupBySystems.map((serviceData, index) => (
+        {this.state.switchState && services && services.groupBySystems && services.groupBySystems.map((serviceData, index) =>(
           <ExpansionPanel key={serviceData.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{serviceData.systemName}</Typography>
@@ -160,7 +161,7 @@ class ServiceRegistry extends Component {
           </ExpansionPanel>
         ))}
         {!this.state.switchState && services && services.groupByServices && services.groupByServices.map((serviceData, index) => (
-          <ExpansionPanel key={serviceData.serviceId}>
+          <ExpansionPanel key={index + serviceData.serviceId}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{serviceData.serviceDefinition}</Typography>
             </ExpansionPanelSummary>

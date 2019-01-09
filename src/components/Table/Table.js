@@ -15,6 +15,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import ClearIcon from '@material-ui/icons/Clear'
 import { deleteServiceById } from '../../actions/serviceRegistry'
 import { connect } from 'react-redux'
+import { showModal } from '../../actions/modal'
 
 function getSorting(order, orderBy) {
   return order === 'desc'
@@ -124,6 +125,15 @@ class EnhancedTable extends React.Component {
     this.props.deleteServiceById(serviceId)
   }
 
+  handleServiceEdit = (serviceId) => () => {
+    this.props.showModal({
+      open: true,
+      isEdit: true,
+      serviceId,
+      closeModal: this.closeModal
+    }, 'addSREntry')
+  }
+
   render() {
     const { classes, columnData, system } = this.props
     const { data, order, orderBy, rowsPerPage, page } = this.state
@@ -144,6 +154,7 @@ class EnhancedTable extends React.Component {
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, index) => {
+                  console.log(n)
                   return (
                     system ? (
                       <TableRow
@@ -153,11 +164,12 @@ class EnhancedTable extends React.Component {
                         <TableCell>{n.serviceDefinition}</TableCell>
                         <TableCell>{n.interfaces.join(',')}</TableCell>
                         <TableCell>{n.serviceURI}</TableCell>
-                        <TableCell>{n.udp}</TableCell>
+                        <TableCell>{n.udp.toString()}</TableCell>
                         <TableCell className={classes.actionCell}>
                           <IconButton
                             color='secondary'
                             aria-label='Edit Entry'
+                            onClick={this.handleServiceEdit(n.serviceId)}
                           >
                             <EditIcon />
                           </IconButton>
@@ -180,12 +192,13 @@ class EnhancedTable extends React.Component {
                         <TableCell>{n.port}</TableCell>
                         <TableCell>{n.interface}</TableCell>
                         <TableCell>{n.serviceURI}</TableCell>
-                        <TableCell>{n.udp}</TableCell>
+                        <TableCell>{n.udp.toString()}</TableCell>
                         <TableCell>{n.version}</TableCell>
                         <TableCell className={classes.actionCell}>
                           <IconButton
                             color='secondary'
                             aria-label='Edit Entry'
+                            onClick={this.handleServiceEdit(n.serviceId)}
                           >
                             <EditIcon />
                           </IconButton>
@@ -227,13 +240,17 @@ EnhancedTable.propTypes = {
   data: PropTypes.array.isRequired,
   columnData: PropTypes.array.isRequired,
   system: PropTypes.bool,
-  deleteServiceById: PropTypes.func.isRequired
+  deleteServiceById: PropTypes.func.isRequired,
+  showModal: PropTypes.func.isRequired
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     deleteServiceById: (serviceId) => {
       dispatch(deleteServiceById(serviceId))
+    },
+    showModal: (modalProps, modalType) => {
+      dispatch(showModal({ modalProps, modalType }))
     }
   }
 }
