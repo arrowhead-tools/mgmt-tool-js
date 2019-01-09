@@ -11,7 +11,7 @@ class AutoComplete extends Component {
   }
 
   render() {
-    const { classes, handleOnChange, keyValue, suggestions, label, placeholder, defaultValue, handleTextChange } = this.props
+    const { classes, handleOnChange, keyValue, suggestions, label, placeholder, defaultValue, handleTextChange, required } = this.props
     return (
       <Downshift
         onChange={selection => {
@@ -40,7 +40,7 @@ class AutoComplete extends Component {
           }) => (
           <div>
             <TextField value={this.state.inputValue} label={label} placeholder={placeholder} {...getInputProps()}
-                       style={classes.textField} />
+                       style={classes.textField} required={required}/>
             <div {...getMenuProps()}>
               {isOpen ?
                 <Paper className={classes.paper} square>{
@@ -75,7 +75,8 @@ AutoComplete.propTypes = {
   keyValue: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  handleTextChange: PropTypes.func.isRequired
+  handleTextChange: PropTypes.func.isRequired,
+  required: PropTypes.bool
 }
 
 export default AutoComplete

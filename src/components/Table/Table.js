@@ -148,6 +148,10 @@ class EnhancedTable extends React.Component {
                       <TableCell>{n.systemName}</TableCell>
                       <TableCell>{n.address}</TableCell>
                       <TableCell>{n.port}</TableCell>
+                      <TableCell>{n.interface}</TableCell>
+                      <TableCell>{n.serviceURI}</TableCell>
+                      <TableCell>{n.udp}</TableCell>
+                      <TableCell>{n.version}</TableCell>
                     </TableRow>)
                   )
                 })}

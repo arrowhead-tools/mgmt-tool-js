@@ -9,6 +9,7 @@ import Fab from '@material-ui/core/Fab'
 import Button from '../../CustomButtons/Button'
 import IconButton from '@material-ui/core/IconButton/IconButton'
 import Card from '@material-ui/core/Card'
+import Checkbox from '@material-ui/core/Checkbox'
 import ChipInput from 'material-ui-chip-input'
 import AutoComplete from '../../AutoComplete/AutoComplete'
 import { getSystems } from '../../../actions/system'
@@ -113,7 +114,7 @@ class AddSREntry extends Component {
   }
 
   handleUDPOnChange = event => {
-    this.setState({ UDP: event.target.value })
+    this.setState({ UDP: event.target.checked })
   }
 
   handleEndOfValidityOnChange = event => {
@@ -158,6 +159,7 @@ class AddSREntry extends Component {
           <AutoComplete
             defaultValue=''
             suggestions={system}
+            required
             label='System Name'
             keyValue='systemName'
             handleTextChange={this.handleSystemNameOnChange}
@@ -172,6 +174,7 @@ class AddSREntry extends Component {
             value={this.state.address}
             className={classes.input}
             id='address'
+            required
             label='Address'
             onChange={this.handleAddressOnChange}
           />
@@ -179,6 +182,7 @@ class AddSREntry extends Component {
             className={classes.input}
             id='port'
             label='Port'
+            required
             onChange={this.handlePortOnChange}
             value={this.state.port}
             type='number'
@@ -196,11 +200,13 @@ class AddSREntry extends Component {
         <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', width: '440px' }}>
           <Typography variant='headline' align='center' style={{ paddingTop: '10px' }}>Service Details</Typography>
           <TextField
+            required
             id='serviceDefinition'
             className={classes.input}
             label='Service Definition'
             onChange={this.handleServiceDefinitionOnChange} />
           <ChipInput
+            required
             id='interface'
             className={classes.input}
             label='Interface'
@@ -234,17 +240,21 @@ class AddSREntry extends Component {
             aria-label='Add'
             onClick={this.addServiceMetadataPropertyAdd}><AddIcon /></Fab>
           <TextField
+            required
             id='serviceURI'
             className={classes.input}
             label='Service URI'
             onChange={this.handleServiceURIOnChange}
           />
-          <TextField
-            id='udp'
-            className={classes.input}
-            label='UDP'
-            onChange={this.handleUDPOnChange}
-          />
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <Typography variant='subtitle2' style={{ margin: '20px' }}>is UDP?</Typography>
+            <Checkbox
+              checked={this.state.UDP}
+              id='udp'
+              label='UDP'
+              onChange={this.handleUDPOnChange}
+            />
+          </div>
           <TextField
             type='datetime-local'
             id='endOfValidity'
@@ -256,14 +266,14 @@ class AddSREntry extends Component {
           <TextField
             id='version'
             className={classes.input}
-            label='Version' type='number'
+            label='Service Version' type='number'
             onChange={this.handleVersionChange}
             inputProps={{
               min: '1'
             }} />
         </Card>
         <Button
-          disabled={this.state.systemName === '' || this.state.address === '' || this.state.port === '' || this.state.serviceURI === '' || this.state.serviceDefinition === ''}
+          disabled={this.state.systemName === '' || this.state.address === '' || this.state.port === '' || this.state.serviceURI === '' || this.state.serviceDefinition === '' || this.state.interface === []}
           color='primary'
           onClick={this.handleAddSREntryButtonClick}
           style={{

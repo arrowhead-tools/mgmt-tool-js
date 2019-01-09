@@ -98,7 +98,11 @@ class ServiceRegistry extends Component {
     const systemColumnData = [
       { id: 'system_name', disablePadding: false, label: 'System Name' },
       { id: 'address', disablePadding: false, label: 'Address' },
-      { id: 'port', disablePadding: false, label: 'Port' }
+      { id: 'port', disablePadding: false, label: 'Port' },
+      { id: 'interface', disablePadding: false, label: 'Interface' },
+      { id: 'service_uri', disablePadding: false, label: 'Service URI' },
+      { id: 'udp', disablePadding: false, label: 'UDP' },
+      { id: 'version', disablePadding: false, label: 'Service Version' }
     ]
     return (
       <div className={classes.root}>
@@ -158,10 +162,6 @@ class ServiceRegistry extends Component {
               <Typography className={classes.heading}>{serviceData.serviceDefinition}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.child}>
-              <Typography><b>Interface:</b> {serviceData.interface}</Typography>
-              <Typography><b>Service URI:</b> {serviceData.serviceURI}</Typography>
-              <Typography><b>UDP:</b> {serviceData.udp}</Typography>
-              <Typography><b>Version:</b> {serviceData.version}</Typography>
               <Table data={serviceData.provider} columnData={systemColumnData} system={false} />
             </ExpansionPanelDetails>
           </ExpansionPanel>
