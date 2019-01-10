@@ -34,12 +34,7 @@ export function groupServicesByServices(serviceData) {
   const helperObject = {}
   for (const data of serviceData.serviceQueryData) {
     for (const iface of data.providedService.interfaces) {
-      const providerData = data.provider
-      providerData.interface = iface
-      providerData.serviceURI = data.serviceURI
-      providerData.udp = data.udp || ''
-      providerData.serviceId = data.id
-      providerData.version = data.version
+      const providerData = {...data.provider, interface: iface, serviceURI: data.serviceURI, udp: data.udp || '', serviceId: data.id, version: data.version}
       if (!helperObject[data.providedService.serviceDefinition + iface]) {
         helperObject[data.providedService.serviceDefinition + iface] = {
           serviceDefinition: data.providedService.serviceDefinition,
@@ -55,7 +50,6 @@ export function groupServicesByServices(serviceData) {
       }
     }
   }
-
   const digested = []
   _.forEach(helperObject, (v, k) => {
     digested.push(v)
