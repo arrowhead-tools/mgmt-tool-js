@@ -308,7 +308,8 @@ class AddSREntry extends Component {
             type='datetime-local'
             id='endOfValidity'
             className={classes.input}
-            defaultValue={moment().format('YYYY-MM-DDTHH:mm:ss')}
+            value={this.state.endOfValidity}
+            defaultValue={this.state.endOfValidity || moment().format('YYYY-MM-DDTHH:mm:ss')}
             label='End of Validity'
             onChange={this.handleEndOfValidityOnChange}
           />
