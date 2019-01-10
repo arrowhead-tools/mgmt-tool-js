@@ -98,7 +98,7 @@ class EnhancedTable extends React.Component {
       orderBy: system ? 'serviceDefinition' : 'systemName',
       data,
       page: 0,
-      rowsPerPage: 5
+      rowsPerPage: 10
     }
   }
 
