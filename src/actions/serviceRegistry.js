@@ -232,38 +232,42 @@ export function editSREntry(
   }
 
   return (dispatch, getState) => {
-    networkService.put('/serviceregistry/mgmt/update', SREObject)
-      .then(response => {
-        dispatch(
-          showNotification(
-            {
-              title: 'Edit was successful',
-              message: '',
-              position: 'tc',
-              dismissible: true,
-              autoDismiss: 5
-            },
-            'success'
+    return new Promise((resolve, reject) => {
+      networkService.put('/serviceregistry/mgmt/update', SREObject)
+        .then(response => {
+          dispatch(
+            showNotification(
+              {
+                title: 'Edit was successful',
+                message: '',
+                position: 'tc',
+                dismissible: true,
+                autoDismiss: 5
+              },
+              'success'
+            )
           )
-        )
-        dispatch(getServices())
-        dispatch(hideModal())
-      })
-      .catch(error => {
-        dispatch(
-          showNotification(
-            {
-              title: 'Edit was unsuccessful',
-              message: '',
-              position: 'tc',
-              dismissible: true,
-              autoDismiss: 10
-            },
-            'error'
+          dispatch(getServices())
+          dispatch(hideModal())
+          resolve()
+        })
+        .catch(error => {
+          dispatch(
+            showNotification(
+              {
+                title: 'Edit was unsuccessful',
+                message: '',
+                position: 'tc',
+                dismissible: true,
+                autoDismiss: 10
+              },
+              'error'
+            )
           )
-        )
-        console.log(error)
-      })
+          console.log(error)
+          reject(error)
+        })
+    })
   }
 }
 
@@ -293,13 +297,16 @@ export function editService(serviceId, serviceDefinition, interfaces, serviceMet
     serviceMetadata: serviceMetadataHelper
   }
   return (dispatch, getState) => {
-    networkService.put(`/mgmt/services/${serviceId}`, serviceData)
-      .then(response => {
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    return new Promise((resolve, reject) => {
+      networkService.put(`/mgmt/services/${serviceId}`, serviceData)
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+          reject(error)
+        })
+    })
   }
 }
 
@@ -312,25 +319,27 @@ export function editSystem(systemId, systemName, address, port, authenticationId
     authenticationId
   }
   return (dispatch, getState) => {
-    networkService.put(`/mgmt/systems/${systemId}`, systemData)
-      .then(response => {
-        dispatch(
-          showNotification(
-            {
-              title: 'Edit was successful',
-              message: '',
-              position: 'tc',
-              dismissible: true,
-              autoDismiss: 5
-            },
-            'success'
-          )
-        )
-        dispatch(getServices())
-        dispatch(hideModal())
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    return new Promise((resolve, reject) => {
+      networkService.put(`/mgmt/systems/${systemId}`, systemData)
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+          reject(error)
+        })
+    })
+  }
+}
+
+export function editSREntryCollection(
+  systemId, systemName, address, port, authenticationInfo,
+  serviceDefinition, serviceMetadata = [], interfaces = [], serviceURI,
+  udp, endOfValidity, version, serviceId) {
+  return (dispatch, getState) => {
+    dispatch(editSystem(systemId, systemName, address, port, authenticationInfo))
+      .then(dispatch(editService(serviceId, serviceDefinition, interfaces, serviceMetadata)))
+      .then(dispatch(editSREntry(systemId, systemName, address, port, authenticationInfo,
+        serviceDefinition, serviceMetadata, interfaces, serviceURI, udp, endOfValidity, version)))
   }
 }

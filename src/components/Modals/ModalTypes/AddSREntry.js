@@ -16,7 +16,7 @@ import AutoComplete from '../../AutoComplete/AutoComplete'
 import { getSystems } from '../../../actions/system'
 import { withStyles } from '@material-ui/core/styles'
 import moment from 'moment'
-import { addSREntry, editService, editSystem, getServiceById } from '../../../actions/serviceRegistry'
+import { addSREntry, editSREntryCollection, getServiceById } from '../../../actions/serviceRegistry'
 import _ from 'lodash'
 
 const styles = theme => ({
@@ -168,8 +168,8 @@ class AddSREntry extends Component {
 
   handleAddSREntryButtonClick = () => {
     if (this.props.isEdit) {
-      this.props.editService(this.state.providedServiceId, this.state.serviceDefinition, this.state.interface, this.state.serviceMetadata)
-      this.props.editSystem(this.state.systemId, this.state.systemName, this.state.address, this.state.port, this.state.authenticationId)
+      this.props.editSREntryCollection(this.state.systemId, this.state.systemName, this.state.address, this.state.port, this.state.authenticationInfo,
+        this.state.serviceDefinition, this.state.serviceMetadata, this.state.interface, this.state.serviceURI, this.state.udp, this.state.endOfValidity, this.state.version, this.state.providedServiceId)
     } else {
       this.props.addSREntry(this.state.systemId, this.state.systemName, this.state.address, this.state.port, this.state.authenticationInfo,
         this.state.serviceDefinition, this.state.serviceMetadata, this.state.interface, this.state.serviceURI,
@@ -345,8 +345,7 @@ AddSREntry.propTypes = {
   serviceData: PropTypes.object,
   serviceId: PropTypes.number,
   getServiceById: PropTypes.func,
-  editSystem: PropTypes.func,
-  editService: PropTypes.func
+  editSREntryCollection: PropTypes.func
 }
 
 function mapStateToProps(state) {
@@ -370,11 +369,11 @@ function mapDispatchToProps(dispatch) {
     getServiceById: (serviceId) => {
       dispatch(getServiceById(serviceId))
     },
-    editSystem: (systemId, systemName, address, port, authenticationId) => {
-      dispatch(editSystem(systemId, systemName, address, port, authenticationId))
-    },
-    editService: (serviceId, serviceDefinition, interfaces, serviceMetadata) => {
-      dispatch(editService(serviceId, serviceDefinition, interfaces, serviceMetadata))
+    editSREntryCollection: (
+      systemId, systemName, address, port, authenticationInfo,
+      serviceDefinition, serviceMetadata, interfaces, serviceURI, udp, endOfValidity, version, serviceId) => {
+      dispatch(editSREntryCollection(systemId, systemName, address, port, authenticationInfo,
+        serviceDefinition, serviceMetadata, interfaces, serviceURI, udp, endOfValidity, version, serviceId))
     }
   }
 }
