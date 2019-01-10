@@ -50,7 +50,7 @@ class EnhancedTableHead extends React.Component {
                   <TableSortLabel
                     active={orderBy === column.id}
                     direction={order}
-                    onClick={this.createSortHandler(column.id)}
+                    onClick={column.disableSort ? null : this.createSortHandler(column.id)}
                   >
                     {column.label}
                   </TableSortLabel>
@@ -95,7 +95,7 @@ class EnhancedTable extends React.Component {
 
     this.state = {
       order: 'asc',
-      orderBy: system ? 'service_definition' : 'system_name',
+      orderBy: system ? 'serviceDefinition' : 'systemName',
       data,
       page: 0,
       rowsPerPage: 5

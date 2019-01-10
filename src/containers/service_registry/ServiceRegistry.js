@@ -91,29 +91,29 @@ class ServiceRegistry extends Component {
   render() {
     const { classes, services } = this.props
     const serviceColumnData = [
-      { id: 'service_definition', disablePadding: false, label: 'Service Definition' },
+      { id: 'serviceDefinition', disablePadding: false, label: 'Service Definition' },
       { id: 'interfaces', disablePadding: false, label: 'Interface' },
-      { id: 'service_uri', disablePadding: false, label: 'Service URI' },
+      { id: 'serviceURI', disablePadding: false, label: 'Service URI' },
       { id: 'udp', disablePadding: false, label: 'UDP' },
-      { id: 'actions', disablePadding: false, label: 'Actions' }
+      { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
     ]
 
     const systemColumnData = [
-      { id: 'system_name', disablePadding: false, label: 'System Name' },
+      { id: 'systemName', disablePadding: false, label: 'System Name' },
       { id: 'address', disablePadding: false, label: 'Address' },
       { id: 'port', disablePadding: false, label: 'Port' },
       { id: 'interface', disablePadding: false, label: 'Interface' },
-      { id: 'service_uri', disablePadding: false, label: 'Service URI' },
+      { id: 'serviceURI', disablePadding: false, label: 'Service URI' },
       { id: 'udp', disablePadding: false, label: 'UDP' },
       { id: 'version', disablePadding: false, label: 'Service Version' },
-      { id: 'actions', disablePadding: false, label: 'Actions' }
+      { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
     ]
     return (
       <div className={classes.root}>
         <br /><br /><br />
         <Grid
           container direction='row' spacing={16} justify='space-between' alignItems='baseline'
-          style={{ marginBottom: '10px'}}>
+          style={{ marginBottom: '10px' }}>
           <GridItem style={{ display: 'flex' }}>
             <Typography style={{ paddingRight: '14px', display: 'flex', alignItems: 'center' }}><b>Group
               by:</b>&nbsp;Service</Typography>
@@ -147,7 +147,7 @@ class ServiceRegistry extends Component {
             </div>
           </GridItem>
         </Grid>
-        {this.state.switchState && services && services.groupBySystems && services.groupBySystems.map((serviceData, index) =>(
+        {this.state.switchState && services && services.groupBySystems && services.groupBySystems.map((serviceData, index) => (
           <ExpansionPanel key={serviceData.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{serviceData.systemName}</Typography>
