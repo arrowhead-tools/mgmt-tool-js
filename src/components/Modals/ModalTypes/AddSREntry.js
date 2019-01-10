@@ -181,8 +181,12 @@ class AddSREntry extends Component {
     this.setState({ serviceMetadata: [...this.state.serviceMetadata, { name: '', value: '' }] })
   }
 
-  handleInterfaceChipsOnChange = chips => {
-    this.setState({ interface: chips })
+  handleChipAdd = chip => {
+    this.setState({ interface: [...this.state.interface, chip] })
+  }
+
+  handleDeleteChip = (deletedChip, index) => {
+    this.setState({ interface: this.state.interface.filter((c) => c !== deletedChip) })
   }
 
   handleServiceMetadataChange = (index, key) => event => {
@@ -258,7 +262,8 @@ class AddSREntry extends Component {
             id='interface'
             className={classes.input}
             label='Interface'
-            onChange={this.handleInterfaceChipsOnChange} />
+            onAdd={(chip) => this.handleChipAdd(chip)}
+            onDelete={(chip, index) => this.handleDeleteChip(chip, index)} />
           <Typography variant='subtitle2' style={{ margin: '20px' }}>Service Metadata</Typography>
           <div>
             {this.state.serviceMetadata.map(({ name, value }, index) => (
