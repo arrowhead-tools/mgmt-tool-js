@@ -49,6 +49,23 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4
+  },
+  grid: {
+    marginBottom: '10px'
+  },
+  buttonMargin: {
+    marginLeft: '10px',
+    marginRight: '10px'
+  },
+  title: {
+    paddingRight: '14px',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
   }
 })
 
@@ -113,9 +130,9 @@ class ServiceRegistry extends Component {
         <br /><br /><br />
         <Grid
           container direction='row' spacing={16} justify='space-between' alignItems='baseline'
-          style={{ marginBottom: '10px' }}>
-          <GridItem style={{ display: 'flex' }}>
-            <Typography style={{ paddingRight: '14px', display: 'flex', alignItems: 'center' }}><b>Group
+          className={classes.grid}>
+          <GridItem style={{display: 'flex'}}>
+            <Typography className={classes.title}><b>Group
               by:</b>&nbsp;Service</Typography>
             <FormControlLabel
               control={
@@ -129,7 +146,7 @@ class ServiceRegistry extends Component {
               label='System' />
           </GridItem>
           <GridItem>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <div className={classes.buttonContainer}>
               {!_.isEmpty(services.queryData) &&
               <Button color='primary' className={classes.removeButton} onClick={this.handleServiceSearchClearClick}>
                 <ClearIcon />Clear Filter
@@ -138,7 +155,7 @@ class ServiceRegistry extends Component {
               <Button
                 color='primary'
                 onClick={this.handleServiceSearchClick}
-                style={{ marginLeft: '10px', marginRight: '10px' }}>
+                className={classes.buttonMargin}>
                 <SearchIcon />Search
               </Button>
               <Button color='primary' onClick={this.handleAddClick}>
