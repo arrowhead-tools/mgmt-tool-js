@@ -37,4 +37,20 @@ Running this project has 2 options:
     svetlint/arrowhead-react
     ```
 
+##Available environment variables
+   You can use the following environment variables in the `.env` file, or in the docker run command with the `-e` flag.
+   
+    ```
+    REACT_APP_ARROWHEAD_SR_URL=URL:port of your Service Registry Core System
+    REACT_APP_ARROWHEAD_ORCH_URL=URL:port of your Orchestrator Core System
+    REACT_APP_ARROWHEAD_GK_URL=URL:port or your Gatekeeper Core System
+    ```
+Example environment variables, for the BME public test beds
 
+    ```
+    REACT_APP_ARROWHEAD_SR_URL=http://arrowhead.tmit.bme.hu:8342
+    REACT_APP_ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340
+    REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348
+    ```    
+    
+    
