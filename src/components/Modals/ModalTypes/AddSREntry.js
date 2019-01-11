@@ -16,8 +16,12 @@ import AutoComplete from '../../AutoComplete/AutoComplete'
 import { getSystems } from '../../../actions/system'
 import { withStyles } from '@material-ui/core/styles'
 import moment from 'moment'
+import { DateTimePicker, MuiPickersUtilsProvider } from 'material-ui-pickers'
 import { addSREntry, editSREntryCollection, getServiceById } from '../../../actions/serviceRegistry'
 import _ from 'lodash'
+import MomentUtils from '@date-io/moment'
+
+moment.locale('hu')
 
 const styles = theme => ({
   input: {
@@ -69,7 +73,7 @@ class AddSREntry extends Component {
       interface: [],
       serviceURI: '',
       UDP: '',
-      endOfValidity: '',
+      endOfValidity: moment(),
       version: ''
     }
   }
@@ -108,7 +112,7 @@ class AddSREntry extends Component {
         serviceMetadata,
         serviceURI: nextProps.serviceData[nextProps.serviceId].serviceURI,
         UDP: !!nextProps.serviceData[nextProps.serviceId].udp,
-        endOfValidity: nextProps.serviceData[nextProps.serviceId].endOfValidity,
+        endOfValidity: moment(nextProps.serviceData[nextProps.serviceId].endOfValidity),
         version: nextProps.serviceData[nextProps.serviceId].version
       }
     } else {
@@ -158,8 +162,8 @@ class AddSREntry extends Component {
     this.setState({ UDP: event.target.checked })
   }
 
-  handleEndOfValidityOnChange = event => {
-    this.setState({ endOfValidity: event.target.value })
+  handleEndOfValidityOnChange = date => {
+    this.setState({ endOfValidity: date })
   }
 
   handleVersionChange = event => {
@@ -167,13 +171,14 @@ class AddSREntry extends Component {
   }
 
   handleAddSREntryButtonClick = () => {
+    const endOfValidity = moment(this.state.endOfValidity).format('YYYY-MM-DDTHH:mm:ss')
     if (this.props.isEdit) {
       this.props.editSREntryCollection(this.state.systemId, this.state.systemName, this.state.address, this.state.port, this.state.authenticationInfo,
-        this.state.serviceDefinition, this.state.serviceMetadata, this.state.interface, this.state.serviceURI, this.state.udp, this.state.endOfValidity, this.state.version, this.state.providedServiceId)
+        this.state.serviceDefinition, this.state.serviceMetadata, this.state.interface, this.state.serviceURI, this.state.udp, endOfValidity, this.state.version, this.state.providedServiceId)
     } else {
       this.props.addSREntry(this.state.systemId, this.state.systemName, this.state.address, this.state.port, this.state.authenticationInfo,
         this.state.serviceDefinition, this.state.serviceMetadata, this.state.interface, this.state.serviceURI,
-        this.state.UDP, this.state.endOfValidity, this.state.version)
+        this.state.UDP, endOfValidity, this.state.version)
     }
   }
 
@@ -309,15 +314,13 @@ class AddSREntry extends Component {
               onChange={this.handleUDPOnChange}
             />
           </div>
-          <TextField
-            type='datetime-local'
-            id='endOfValidity'
-            className={classes.input}
-            value={this.state.endOfValidity}
-            defaultValue={this.state.endOfValidity || moment().format('YYYY-MM-DDTHH:mm:ss')}
-            label='End of Validity'
-            onChange={this.handleEndOfValidityOnChange}
-          />
+          <MuiPickersUtilsProvider utils={MomentUtils} moment={moment} locale={{ hu: 'hu' }}>
+            <div>
+              <DateTimePicker
+                disablePast showTodayButton className={classes.input} ampm={false} label='End of Validity'
+                value={this.state.endOfValidity} onChange={this.handleEndOfValidityOnChange} />
+            </div>
+          </MuiPickersUtilsProvider>
           <TextField
             value={this.state.version}
             id='version'
