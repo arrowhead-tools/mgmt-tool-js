@@ -87,7 +87,7 @@ class AddSREntry extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.isEdit && nextProps.serviceId && !_.isEmpty(nextProps.serviceData) &&
-      nextProps.serviceData[nextProps.serviceId].id !== prevState.SREntryId) {
+      nextProps.serviceData[nextProps.serviceId] && nextProps.serviceData[nextProps.serviceId].id !== prevState.SREntryId) {
       const serviceMetadata = []
       if (nextProps.serviceData[nextProps.serviceId].providedService.serviceMetadata === undefined || nextProps.serviceData[nextProps.serviceId].providedService.serviceMetadata === {}) {
         serviceMetadata.push({ name: '', value: '' })

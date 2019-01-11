@@ -38,7 +38,12 @@ export function groupServicesByServices(serviceData) {
       if (!helperObject[data.providedService.serviceDefinition]) {
         helperObject[data.providedService.serviceDefinition] = {
           serviceDefinition: data.providedService.serviceDefinition,
-          provider: [providerData]
+          interface: iface,
+          provider: [providerData],
+          serviceURI: data.serviceURI,
+          serviceId: data.id,
+          udp: data.udp || '',
+          version: data.version
         }
       } else {
         helperObject[data.providedService.serviceDefinition].provider.push(providerData)
