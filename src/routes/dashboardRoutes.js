@@ -8,11 +8,9 @@ import Fingerprint from '@material-ui/icons/Fingerprint'
 import SdCard from '@material-ui/icons/SdCard'
 import EventNote from '@material-ui/icons/EventNote'
 import StorageIcon from '@material-ui/icons/Storage'
-
 // core components/views
 import RelayPage from '../containers/relay/Relay'
 import GatekeeperPage from '../containers/gatekeeper/Gatekeeper'
-import OrchestratorPage from '../containers/orchestrator/Orchestrator'
 import OechestrationStorePage from '../containers/orch_store/OrchStore'
 import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
 import DashboardPage from '../components/Dashboard/Dashboard'
@@ -40,6 +38,13 @@ const dashboardRoutes = [
     component: OechestrationStorePage
   },
   {
+    path: '/authorization',
+    sidebarName: 'Authorization',
+    navbarName: 'Authorization',
+    icon: Fingerprint,
+    component: DashboardPage
+  },
+  {
     path: '/gatekeeper',
     sidebarName: 'Gatekeeper',
     navbarName: 'Gatekeeper',
@@ -52,13 +57,6 @@ const dashboardRoutes = [
     navbarName: 'Relay',
     icon: Backup,
     component: RelayPage
-  },
-  {
-    path: '/authorization',
-    sidebarName: 'Authorization',
-    navbarName: 'Authorization',
-    icon: Fingerprint,
-    component: DashboardPage
   },
   {
     path: '/eventhandler',
@@ -75,13 +73,13 @@ const dashboardRoutes = [
     component: DashboardPage
   },
   {
-  path: '/devregistry',
+    path: '/devregistry',
     sidebarName: 'Device Registry',
     navbarName: 'Device Registry',
     icon: SdCard,
     component: DashboardPage
   },
-  
+
   { redirect: true, path: '/', to: '/registry', navbarName: 'Redirect' }
 ]
 
