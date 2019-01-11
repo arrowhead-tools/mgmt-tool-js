@@ -35,18 +35,13 @@ export function groupServicesByServices(serviceData) {
   for (const data of serviceData.serviceQueryData) {
     for (const iface of data.providedService.interfaces) {
       const providerData = {...data.provider, interface: iface, serviceURI: data.serviceURI, udp: data.udp || '', serviceId: data.id, version: data.version}
-      if (!helperObject[data.providedService.serviceDefinition + iface]) {
-        helperObject[data.providedService.serviceDefinition + iface] = {
+      if (!helperObject[data.providedService.serviceDefinition]) {
+        helperObject[data.providedService.serviceDefinition] = {
           serviceDefinition: data.providedService.serviceDefinition,
-          interface: iface,
-          provider: [providerData],
-          serviceURI: data.serviceURI,
-          serviceId: data.id,
-          udp: data.udp || '',
-          version: data.version
+          provider: [providerData]
         }
       } else {
-        helperObject[data.providedService.serviceDefinition + iface].provider.push(providerData)
+        helperObject[data.providedService.serviceDefinition].provider.push(providerData)
       }
     }
   }
