@@ -21,8 +21,8 @@ class AuthTabContainer extends Component {
   }
 
   handleChangeIndex = index => {
-    this.setState({ value: index });
-  };
+    this.setState({ value: index })
+  }
 
   render() {
     const { theme } = this.props
