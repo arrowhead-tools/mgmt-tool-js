@@ -26,7 +26,6 @@ const muiTheme = createMuiTheme({
   card: {
     primaryColor
   }
-
 })
 
 export default muiTheme

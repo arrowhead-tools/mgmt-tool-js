@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
-import Grid from '@material-ui/core/Grid'
-import GridItem from '../../components/Grid/GridItem'
 import Button from '../../components/CustomButtons/Button'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
 import { hideModal, showModal } from '../../actions/modal'
 import AddIcon from '@material-ui/icons/Add'
 import { getAuthData } from '../../actions/auth'
+import AuthTabContainer from './AuthTabContainer'
 
 const styles = theme => ({
   root: {},
@@ -41,21 +40,12 @@ class Auth extends Component {
     console.log('Auth render')
     return (
       <div className={classes.root}>
-        <Grid
-          container
-          direction='row'
-          spacing={16}
-          justify='flex-end'
-          alignItems='baseline'
-          className={classes.grid}>
-          <GridItem>
-            <div className={classes.buttonContainer}>
-              <Button color='primary' onClick={this.handleAddClick}>
-                <AddIcon />Add
-              </Button>
-            </div>
-          </GridItem>
-        </Grid>
+        <div className={classes.buttonContainer}>
+          <Button color='primary' onClick={this.handleAddClick}>
+            <AddIcon />Add
+          </Button>
+        </div>
+        <AuthTabContainer />
         <ModalContainer />
       </div>
     )

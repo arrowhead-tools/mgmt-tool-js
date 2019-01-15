@@ -24,6 +24,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
+    "react-swipeable-views": "^0.13.0",
     "react-time": "^4.3.0",
     "redux": "^4.0.0",
     "redux-form": "^7.4.2",
