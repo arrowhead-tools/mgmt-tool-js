@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import { startLogin } from '../../actions/auth'
+import { startLogin } from '../../actions/pageAuth'
 import { withStyles } from '@material-ui/core'
 
 class Login extends Component {
@@ -68,10 +68,10 @@ Login.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { auth } = state
-  if (auth) {
+  const { pageAuth } = state
+  if (pageAuth) {
     return {
-      user: auth.user
+      user: pageAuth.user
     }
   }
   return {

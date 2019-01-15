@@ -10,7 +10,6 @@ const dashboardStyle = theme => ({
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`
     },
-    overflow: 'auto',
     position: 'relative',
     float: 'right',
     ...transition,
@@ -25,7 +24,7 @@ const dashboardStyle = theme => ({
   },
   container,
   map: {
-    marginTop: '70px'
+    marginTop: '150px'
   }
 })
 

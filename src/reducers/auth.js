@@ -1,56 +1,27 @@
-import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  LOGOUT_REQUEST,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAILURE
-} from '../actions/auth'
+import { RECEIVE_AUTH_DATA, RECEIVE_AUTH_SERVICES, RECEIVE_AUTH_SYSTEMS } from '../actions/auth'
 
-const initialState = {
-  user: null,
-  password: null,
-  loggingIn: false,
-  loggingOut: false,
-  loginError: null
+export const initialState = {
+  data: [],
+  systems: [],
+  services: []
 }
 
 export default function auth(state = initialState, action = {}) {
   switch (action.type) {
-    case LOGIN_REQUEST:
+    case RECEIVE_AUTH_DATA:
       return {
         ...state,
-        loggingIn: true
+        data: action.data
       }
-    case LOGIN_SUCCESS:
+    case RECEIVE_AUTH_SYSTEMS:
       return {
         ...state,
-        loggingIn: true,
-        user: action.userData
+        systems: action.systems
       }
-    case LOGIN_FAILURE:
+    case RECEIVE_AUTH_SERVICES:
       return {
         ...state,
-        loggingIn: false,
-        user: null,
-        role: null,
-        loginError: action.error
-      }
-    case LOGOUT_REQUEST:
-      return {
-        ...state,
-        loggingOut: true
-      }
-    case LOGOUT_SUCCESS:
-      return {
-        ...state,
-        ...initialState
-      }
-    case LOGOUT_FAILURE:
-      return {
-        ...state,
-        loggingOut: false,
-        logoutError: action.error
+        services: action.services
       }
     default:
       return state

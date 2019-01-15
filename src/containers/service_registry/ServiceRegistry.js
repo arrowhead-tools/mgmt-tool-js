@@ -127,7 +127,6 @@ class ServiceRegistry extends Component {
     ]
     return (
       <div className={classes.root}>
-        <br /><br /><br />
         <Grid
           container direction='row' spacing={16} justify='space-between' alignItems='baseline'
           className={classes.grid}>

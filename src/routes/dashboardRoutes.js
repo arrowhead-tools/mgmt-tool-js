@@ -14,6 +14,7 @@ import GatekeeperPage from '../containers/gatekeeper/Gatekeeper'
 import OechestrationStorePage from '../containers/orch_store/OrchStore'
 import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
 import DashboardPage from '../components/Dashboard/Dashboard'
+import AuthPage from '../containers/auth/Auth'
 
 const dashboardRoutes = [
   {
@@ -42,7 +43,7 @@ const dashboardRoutes = [
     sidebarName: 'Authorization',
     navbarName: 'Authorization',
     icon: Fingerprint,
-    component: DashboardPage
+    component: AuthPage
   },
   {
     path: '/gatekeeper',

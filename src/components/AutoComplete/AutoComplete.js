@@ -84,7 +84,7 @@ AutoComplete.propTypes = {
   keyValue: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  handleTextChange: PropTypes.func.isRequired,
+  handleTextChange: PropTypes.func,
   required: PropTypes.bool,
   disabled: PropTypes.bool,
   isEdit: PropTypes.bool

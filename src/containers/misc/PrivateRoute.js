@@ -28,7 +28,7 @@ PrivateRoute.propTypes = {
 }
 
 function mapStateToProps(state) {
-  return { user: state.auth.user }
+  return { user: state.pageAuth.user }
 }
 
 export default connect(mapStateToProps)(PrivateRoute)

@@ -5,7 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { clientPublicRoutes, clientPrivateRoutes } from '../../routes/routes'
 import { connect } from 'react-redux'
 import PrivateRoute from '../misc/PrivateRoute'
-import { loginSuccess, loginFailure } from '../../actions/auth'
+import { loginSuccess, loginFailure } from '../../actions/pageAuth'
 import Notifications from 'react-notification-system-redux'
 
 class App extends Component {
@@ -53,10 +53,10 @@ App.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { auth, global, notifications } = state
+  const { pageAuth, global, notifications } = state
   return {
     notifications,
-    user: auth ? auth.user : null,
+    user: pageAuth ? pageAuth.user : null,
     global: global || null
   }
 }

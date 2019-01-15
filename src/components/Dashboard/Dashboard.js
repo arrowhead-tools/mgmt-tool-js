@@ -17,8 +17,8 @@ Dashboard.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { auth } = state
-  return { user: auth.user }
+  const { pageAuth } = state
+  return { user: pageAuth.user }
 }
 
 export default connect(mapStateToProps)(Dashboard)

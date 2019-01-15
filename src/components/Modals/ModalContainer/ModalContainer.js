@@ -6,11 +6,13 @@ import { connect } from 'react-redux'
 import AddModal from '../ModalTypes/AddModal'
 import ServiceSearchModal from '../ModalTypes/ServiceSearch'
 import AddSREntry from '../ModalTypes/AddSREntry'
+import AddAuthEntry from '../ModalTypes/AddAuthEntry'
 
 const MODAL_TYPES = {
   'add': AddModal,
   'serviceSearch': ServiceSearchModal,
-  'addSREntry': AddSREntry
+  'addSREntry': AddSREntry,
+  'addAuthEntry': AddAuthEntry
 }
 
 const styles = theme => ({

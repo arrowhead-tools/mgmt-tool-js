@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import matchSorter from 'match-sorter'
 
 export function groupServicesBySystems(serviceData) {
   const helperObject = {}
@@ -240,6 +241,12 @@ function digestOrchStatuses() {
       ]
     }
   ]
+}
+
+export function filterItems(data, filter, key){
+  return filter ? matchSorter(data, filter, {
+    keys: [key]
+  }) : data
 }
 
 export const services = {

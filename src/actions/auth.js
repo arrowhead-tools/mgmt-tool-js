@@ -1,41 +1,107 @@
-export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILURE = 'LOGIN_FAILURE'
+import networkService from '../services/networkServiceAuth'
+import { showNotification } from './global'
+import { hideModal } from './modal'
 
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
-export const LOGOUT_FAILURE = 'LOGOUT_FAILURE'
+export const RECEIVE_AUTH_DATA = 'RECEIVE_AUTH_DATA'
+export const RECEIVE_AUTH_SYSTEMS = 'RECEIVE_AUTH_SYSTEMS'
+export const RECEIVE_AUTH_SERVICES = 'RECEIVE_AUTH_SERVICES'
 
-export function loginSuccess(userData) {
-  return { type: LOGIN_SUCCESS, userData }
-}
-
-export function loginFailure(error) {
-  return { type: LOGIN_FAILURE, error }
-}
-
-export function logoutSuccess() {
-  return { type: LOGOUT_SUCCESS }
-}
-
-export function startLogin(email, password) {
-  return function (dispatch) {
-    const testUser = {
-      email: email,
-      pwd: password
-    }
-    window.localStorage.setItem('user', JSON.stringify(testUser))
-
-    if ((testUser.email == process.env.REACT_APP_USERNAME) == 0 &&
-     (testUser.password == process.env.REACT_APP_PWD == 0)) {
-    dispatch(loginSuccess(testUser))
-     } else dispatch(loginFailure(testUser))
+function receiveAuthData(authData) {
+  return {
+    type: RECEIVE_AUTH_DATA,
+    data: authData
   }
 }
 
-export function startLogout() {
-  return function (dispatch) {
-    window.localStorage.removeItem('user')
-    dispatch(logoutSuccess())
+function receiveAuthSystems(systems) {
+  return {
+    type: RECEIVE_AUTH_SYSTEMS,
+    systems
+  }
+}
+
+function receiveAuthServices(services) {
+  return {
+    type: RECEIVE_AUTH_SERVICES,
+    services
+  }
+}
+
+export function getAuthData() {
+  return (dispatch, getState) => {
+    networkService.get('/authorization/mgmt/intracloud')
+      .then(response => {
+        dispatch(receiveAuthData(response.data))
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+}
+
+export function getAuthSystems() {
+  return dispatch => {
+    networkService.get('/mgmt/systems')
+      .then(response => {
+        dispatch(receiveAuthSystems(response.data))
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+}
+
+export function getAuthServices() {
+  return dispatch => {
+    networkService.get('/mgmt/services')
+      .then(response => {
+        dispatch(receiveAuthServices(response.data))
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+}
+
+export function addAuthData(consumer, providerList, service) {
+  const authData = {
+    consumer,
+    providerList: [providerList],
+    serviceList: [service]
+  }
+  return dispatch => {
+    networkService.post('/authorization/mgmt/intracloud', authData)
+      .then(response => {
+        console.log(response.data)
+        dispatch(getAuthData())
+        dispatch(hideModal())
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
+      })
+      .catch(error => {
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 10
+            },
+            'error'
+          )
+        )
+        console.log(error)
+      })
   }
 }
