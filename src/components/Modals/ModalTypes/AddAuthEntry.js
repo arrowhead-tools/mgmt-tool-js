@@ -8,6 +8,7 @@ import { addAuthData, getAuthServices, getAuthSystems } from '../../../actions/a
 import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
 import Button from '../../CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
+import AutoCompleteList from '../../AutoCompleteList/AutoCompleteList'
 
 const styles = theme => ({
   card: {
@@ -91,17 +92,12 @@ class AddAuthEntry extends Component {
         </Card>
         <Card raised className={classes.card}>
           <Typography variant='headline' align='center' className={classes.title}>Provider System</Typography>
-          <AutoCompleteSingle
-            classes={{
-              inputRoot: { flexWrap: 'wrap' },
-              textField: { width: '400px', marginTop: '20px', marginLeft: '20px' }
-            }}
+          <AutoCompleteList
             suggestions={systems}
             handleOnChange={this.handleProviderSystemOnChange}
             keyValue='systemName'
             label='Provider Systems'
             placeholder='System Name'
-            handleTextChange={null}
             disabled={this.state.providedService === null}
           />
         </Card>

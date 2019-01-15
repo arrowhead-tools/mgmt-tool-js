@@ -66,7 +66,7 @@ export function getAuthServices() {
 export function addAuthData(consumer, providerList, service) {
   const authData = {
     consumer,
-    providerList: [providerList],
+    providerList: providerList,
     serviceList: [service]
   }
   return dispatch => {
