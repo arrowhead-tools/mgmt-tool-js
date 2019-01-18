@@ -91,7 +91,7 @@ class AddAuthEntry extends Component {
             disabled={this.state.consumerSystem === null} />
         </Card>
         <Card raised className={classes.card}>
-          <Typography variant='headline' align='center' className={classes.title}>Provider System</Typography>
+          <Typography variant='headline' align='center' className={classes.title}>Provider Systems</Typography>
           <AutoCompleteList
             suggestions={systems}
             handleOnChange={this.handleProviderSystemOnChange}

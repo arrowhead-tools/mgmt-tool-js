@@ -1,15 +1,18 @@
 import networkService from '../services/networkServiceAuth'
 import { showNotification } from './global'
 import { hideModal } from './modal'
+import { groupAuthDataByConsumer } from '../utils/utils'
 
 export const RECEIVE_AUTH_DATA = 'RECEIVE_AUTH_DATA'
 export const RECEIVE_AUTH_SYSTEMS = 'RECEIVE_AUTH_SYSTEMS'
 export const RECEIVE_AUTH_SERVICES = 'RECEIVE_AUTH_SERVICES'
 
-function receiveAuthData(authData) {
+function receiveAuthData(consumer, provider, service) {
   return {
     type: RECEIVE_AUTH_DATA,
-    data: authData
+    consumer,
+    provider,
+    service
   }
 }
 
@@ -31,7 +34,7 @@ export function getAuthData() {
   return (dispatch, getState) => {
     networkService.get('/authorization/mgmt/intracloud')
       .then(response => {
-        dispatch(receiveAuthData(response.data))
+        dispatch(receiveAuthData(groupAuthDataByConsumer(response.data)))
       })
       .catch(error => {
         console.log(error)

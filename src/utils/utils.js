@@ -35,7 +35,14 @@ export function groupServicesByServices(serviceData) {
   const helperObject = {}
   for (const data of serviceData.serviceQueryData) {
     for (const iface of data.providedService.interfaces) {
-      const providerData = {...data.provider, interface: iface, serviceURI: data.serviceURI, udp: data.udp || '', serviceId: data.id, version: data.version}
+      const providerData = {
+        ...data.provider,
+        interface: iface,
+        serviceURI: data.serviceURI,
+        udp: data.udp || '',
+        serviceId: data.id,
+        version: data.version
+      }
       if (!helperObject[data.providedService.serviceDefinition]) {
         helperObject[data.providedService.serviceDefinition] = {
           serviceDefinition: data.providedService.serviceDefinition,
@@ -68,12 +75,12 @@ export function getAutoCompleteData(serviceData) {
 
   for (const data of serviceData.serviceQueryData) {
     if (!serviceListHelper[data.providedService.serviceDefinition]) {
-      serviceListHelper[data.providedService.serviceDefinition] = {value: data.providedService.serviceDefinition}
+      serviceListHelper[data.providedService.serviceDefinition] = { value: data.providedService.serviceDefinition }
     }
 
     for (const iface of data.providedService.interfaces) {
       if (!interfaceListHelper[iface]) {
-        interfaceListHelper[iface] = {value: iface}
+        interfaceListHelper[iface] = { value: iface }
       }
     }
 
@@ -243,7 +250,7 @@ function digestOrchStatuses() {
   ]
 }
 
-export function filterItems(data, filter, key){
+export function filterItems(data, filter, key) {
   return filter ? matchSorter(data, filter, {
     keys: [key]
   }) : data
@@ -255,4 +262,44 @@ export const services = {
   digestRelay: digestRelays,
   digestOrchStatus: digestOrchStatuses,
   digestOrchStoreData: digestOrchStoreData
+}
+
+export function groupAuthDataByConsumer(authData) {
+  const helperObject = {}
+  for (const data of authData) {
+    if (!helperObject[data.consumer.id]) {
+      helperObject[data.consumer.id] = {
+        consumer: data.consumer,
+        relation: [{
+          authEntryId: data.id,
+          provider: data.provider,
+          service: data.service
+        }]
+      }
+    } else {
+      helperObject[data.consumer.id].relation.push({
+        authEntryId: data.id,
+        provider: data.provider,
+        service: data.service
+      })
+    }
+  }
+
+  console.log('helperObject', helperObject)
+
+  const digested = []
+  _.forEach(helperObject, (v, k) => {
+    digested.push(v)
+  })
+
+  console.log('digested', digested)
+  return digested
+}
+
+export function groupAuthDataByProvider(authData) {
+
+}
+
+export function groupAuthDataByService(authData) {
+
 }

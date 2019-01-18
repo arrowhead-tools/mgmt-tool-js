@@ -1,7 +1,9 @@
 import { RECEIVE_AUTH_DATA, RECEIVE_AUTH_SERVICES, RECEIVE_AUTH_SYSTEMS } from '../actions/auth'
 
 export const initialState = {
-  data: [],
+  groupByConsumer: [],
+  groupByProvider: [],
+  groupByService: [],
   systems: [],
   services: []
 }
@@ -11,7 +13,9 @@ export default function auth(state = initialState, action = {}) {
     case RECEIVE_AUTH_DATA:
       return {
         ...state,
-        data: action.data
+        groupByConsumer: action.consumer,
+        groupByProvider: action.provider,
+        groupByService: action.service
       }
     case RECEIVE_AUTH_SYSTEMS:
       return {
