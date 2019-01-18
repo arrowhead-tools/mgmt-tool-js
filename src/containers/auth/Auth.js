@@ -36,7 +36,7 @@ class Auth extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, auth } = this.props
     console.log('Auth render')
     return (
       <div className={classes.root}>
@@ -45,7 +45,7 @@ class Auth extends Component {
             <AddIcon />Add
           </Button>
         </div>
-        <AuthTabContainer />
+        <AuthTabContainer consumerData={auth.groupByConsumer} />
         <ModalContainer />
       </div>
     )
@@ -56,7 +56,8 @@ Auth.propTypes = {
   getAuthData: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   hideModal: PropTypes.func.isRequired,
-  showModal: PropTypes.func.isRequired
+  showModal: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {

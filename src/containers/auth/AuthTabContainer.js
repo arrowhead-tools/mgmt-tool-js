@@ -5,7 +5,7 @@ import Tab from '@material-ui/core/Tab'
 import SwipeableViews from 'react-swipeable-views'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import ConsumerTab from './ConsumerTab'
+import ConsumerTab from './Consumer/ConsumerTab'
 import ProviderTab from './ProviderTab'
 import ServiceTab from './ServiceTab'
 
@@ -25,7 +25,7 @@ class AuthTabContainer extends Component {
   }
 
   render() {
-    const { theme } = this.props
+    const { theme, consumerData } = this.props
     const { value } = this.state
     return (
       <div>
@@ -41,7 +41,7 @@ class AuthTabContainer extends Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <ConsumerTab dir={theme.direction} />
+          <ConsumerTab dir={theme.direction} consumerData={consumerData} />
           <ProviderTab dir={theme.direction} />
           <ServiceTab dir={theme.direction} />
         </SwipeableViews>
@@ -52,7 +52,8 @@ class AuthTabContainer extends Component {
 
 AuthTabContainer.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
+  consumerData: PropTypes.object.isRequired
 }
 
 export default withStyles(styles, { withTheme: true })(AuthTabContainer)
