@@ -35,7 +35,6 @@ const columnData = [
 class ConsumerTab extends Component {
   render() {
     const { consumerData, classes, deleteAuthEntry } = this.props
-    console.log('Consumer Tab render')
     return (<div className={classes.root}>
       {
         consumerData.map(consumerEntry => {
