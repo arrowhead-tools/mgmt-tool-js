@@ -25,7 +25,7 @@ class AuthTabContainer extends Component {
   }
 
   render() {
-    const { theme, consumerData } = this.props
+    const { theme, consumerData, deleteAuthEntry } = this.props
     const { value } = this.state
     return (
       <div>
@@ -41,7 +41,7 @@ class AuthTabContainer extends Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <ConsumerTab dir={theme.direction} consumerData={consumerData} />
+          <ConsumerTab dir={theme.direction} consumerData={consumerData} deleteAuthEntry={deleteAuthEntry} />
           <ProviderTab dir={theme.direction} />
           <ServiceTab dir={theme.direction} />
         </SwipeableViews>
@@ -53,7 +53,8 @@ class AuthTabContainer extends Component {
 AuthTabContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  consumerData: PropTypes.object.isRequired
+  consumerData: PropTypes.array.isRequired,
+  deleteAuthEntry: PropTypes.func.isRequired
 }
 
 export default withStyles(styles, { withTheme: true })(AuthTabContainer)

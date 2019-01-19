@@ -14,12 +14,7 @@ import { deleteServiceById } from '../../actions/serviceRegistry'
 import { connect } from 'react-redux'
 import { showModal } from '../../actions/modal'
 import EnhancedTableHead from './EnhancedTableHead'
-
-function getSorting(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
-    : (a, b) => (a[orderBy] < b[orderBy] ? -1 : 1)
-}
+import { getSorting } from '../../utils/utils'
 
 const styles = theme => ({
   root: {

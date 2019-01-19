@@ -264,6 +264,12 @@ export const services = {
   digestOrchStoreData: digestOrchStoreData
 }
 
+export function getSorting(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => (_.get(b, orderBy) < _.get(a, orderBy) ? -1 : 1)
+    : (a, b) => (_.get(a, orderBy) < _.get(b, orderBy) ? -1 : 1)
+}
+
 export function groupAuthDataByConsumer(authData) {
   const helperObject = {}
   for (const data of authData) {

@@ -108,3 +108,26 @@ export function addAuthData(consumer, providerList, service) {
       })
   }
 }
+
+export function deleteAuthEntry(authEntryId) {
+  return dispatch => {
+    networkService.delete(`/authorization/mgmt/intracloud/${authEntryId}`)
+      .then(response => {
+        console.log(response.data)
+        dispatch(getAuthData())
+        dispatch(hideModal())
+        dispatch(
+          showNotification(
+            {
+              title: 'Deletion was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
+      })
+  }
+}

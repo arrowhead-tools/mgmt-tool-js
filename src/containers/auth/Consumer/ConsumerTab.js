@@ -6,6 +6,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
+import ConsumerTable from './ConsumerTable'
 
 const styles = theme => ({
   root: {
@@ -24,9 +25,16 @@ const styles = theme => ({
   }
 })
 
+const columnData = [
+  { id: 'service.serviceDefinition', disablePadding: false, label: 'Service Definition' },
+  { id: 'service.interfaces', disablePadding: false, label: 'Interface' },
+  { id: 'provider.systemName', disablePadding: false, label: 'Providing System Name' },
+  { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
+]
+
 class ConsumerTab extends Component {
   render() {
-    const { consumerData, classes } = this.props
+    const { consumerData, classes, deleteAuthEntry } = this.props
     console.log('Consumer Tab render')
     return (<div className={classes.root}>
       {
@@ -37,7 +45,13 @@ class ConsumerTab extends Component {
                 <Typography className={classes.heading}>{consumerEntry.consumer.systemName}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
-                Detail
+                <Typography><b>Address:</b> {consumerEntry.consumer.address}</Typography>
+                <Typography><b>Port:</b> {consumerEntry.consumer.port}</Typography>
+                <ConsumerTable
+                  data={consumerEntry.relation}
+                  deleteAuthEntryById={deleteAuthEntry}
+                  columnData={columnData}
+                />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           )
@@ -49,7 +63,8 @@ class ConsumerTab extends Component {
 
 ConsumerTab.propTypes = {
   consumerData: PropTypes.array.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  deleteAuthEntry: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(ConsumerTab)

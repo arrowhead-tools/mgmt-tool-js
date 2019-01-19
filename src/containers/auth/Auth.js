@@ -6,7 +6,7 @@ import Button from '../../components/CustomButtons/Button'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
 import { hideModal, showModal } from '../../actions/modal'
 import AddIcon from '@material-ui/icons/Add'
-import { getAuthData } from '../../actions/auth'
+import { deleteAuthEntry, getAuthData } from '../../actions/auth'
 import AuthTabContainer from './AuthTabContainer'
 
 const styles = theme => ({
@@ -35,9 +35,12 @@ class Auth extends Component {
     }, 'addAuthEntry')
   }
 
+  deleteAuthEntry = (authEntryId) => () => {
+    this.props.deleteAuthEntry(authEntryId)
+  }
+
   render() {
     const { classes, auth } = this.props
-    console.log('Auth render')
     return (
       <div className={classes.root}>
         <div className={classes.buttonContainer}>
@@ -45,7 +48,7 @@ class Auth extends Component {
             <AddIcon />Add
           </Button>
         </div>
-        <AuthTabContainer consumerData={auth.groupByConsumer} />
+        <AuthTabContainer consumerData={auth.groupByConsumer} deleteAuthEntry={this.deleteAuthEntry}/>
         <ModalContainer />
       </div>
     )
@@ -57,7 +60,8 @@ Auth.propTypes = {
   classes: PropTypes.object.isRequired,
   hideModal: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  deleteAuthEntry: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -75,6 +79,9 @@ function mapDispatchToProps(dispatch) {
     },
     showModal: (modalProps, modalType) => {
       dispatch(showModal({ modalProps, modalType }))
+    },
+    deleteAuthEntry: (authEntryId) => {
+      dispatch(deleteAuthEntry(authEntryId))
     }
   }
 }
