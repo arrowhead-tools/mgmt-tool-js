@@ -6,7 +6,7 @@ import SwipeableViews from 'react-swipeable-views'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ConsumerTab from './Consumer/ConsumerTab'
-import ProviderTab from './ProviderTab'
+import ProviderTab from './Provider/ProviderTab'
 import ServiceTab from './ServiceTab'
 
 const styles = theme => ({})
@@ -25,7 +25,7 @@ class AuthTabContainer extends Component {
   }
 
   render() {
-    const { theme, consumerData, deleteAuthEntry } = this.props
+    const { theme, consumerData, providerData, serviceData, deleteAuthEntry } = this.props
     const { value } = this.state
     return (
       <div>
@@ -42,8 +42,8 @@ class AuthTabContainer extends Component {
           onChangeIndex={this.handleChangeIndex}
         >
           <ConsumerTab dir={theme.direction} consumerData={consumerData} deleteAuthEntry={deleteAuthEntry} />
-          <ProviderTab dir={theme.direction} />
-          <ServiceTab dir={theme.direction} />
+          <ProviderTab dir={theme.direction} providerData={providerData} deleteAuthEntry={deleteAuthEntry} />
+          <ServiceTab dir={theme.direction} serviceData={serviceData} deleteAuthEntry={deleteAuthEntry} />
         </SwipeableViews>
       </div>
     )
@@ -54,6 +54,8 @@ AuthTabContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   consumerData: PropTypes.array.isRequired,
+  providerData: PropTypes.array.isRequired,
+  serviceData: PropTypes.array.isRequired,
   deleteAuthEntry: PropTypes.func.isRequired
 }
 

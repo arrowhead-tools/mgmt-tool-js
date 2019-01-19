@@ -291,19 +291,38 @@ export function groupAuthDataByConsumer(authData) {
     }
   }
 
-  console.log('helperObject', helperObject)
+  const digested = []
+  _.forEach(helperObject, (v, k) => {
+    digested.push(v)
+  })
+
+  return digested
+}
+
+export function groupAuthDataByProvider(authData) {
+  const helperObject = {}
+  for (const data of authData) {
+    const relationData = {
+      authEntryId: data.id,
+      consumer: data.consumer,
+      service: data.service
+    }
+    if (!helperObject[data.provider.id]) {
+      helperObject[data.provider.id] = {
+        provider: data.provider,
+        relation: [relationData]
+      }
+    } else {
+      helperObject[data.provider.id].relation.push(relationData)
+    }
+  }
 
   const digested = []
   _.forEach(helperObject, (v, k) => {
     digested.push(v)
   })
 
-  console.log('digested', digested)
   return digested
-}
-
-export function groupAuthDataByProvider(authData) {
-
 }
 
 export function groupAuthDataByService(authData) {

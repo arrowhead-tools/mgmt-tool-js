@@ -82,7 +82,7 @@ class ConsumerTable extends React.Component {
                       key={n.authEntryId}>
                       <TableCell>{n.service.serviceDefinition}</TableCell>
                       <TableCell>{n.service.interfaces.join(',')}</TableCell>
-                      <TableCell>{n.provider.systemName}</TableCell>
+                      <TableCell>{n.consumer.systemName}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton color='secondary' aria-label='Delete Entry' onClick={deleteAuthEntryById(n.authEntryId)}>
                           <ClearIcon />

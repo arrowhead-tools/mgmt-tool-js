@@ -48,7 +48,7 @@ class Auth extends Component {
             <AddIcon />Add
           </Button>
         </div>
-        <AuthTabContainer consumerData={auth.groupByConsumer} deleteAuthEntry={this.deleteAuthEntry}/>
+        <AuthTabContainer consumerData={auth.groupByConsumer} providerData={auth.groupByProvider} serviceData={auth.groupByServices} deleteAuthEntry={this.deleteAuthEntry} />
         <ModalContainer />
       </div>
     )
