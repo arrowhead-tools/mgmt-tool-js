@@ -273,21 +273,19 @@ export function getSorting(order, orderBy) {
 export function groupAuthDataByConsumer(authData) {
   const helperObject = {}
   for (const data of authData) {
+    const relationData = {
+      authEntryId: data.id,
+      provider: data.provider,
+      service: data.service
+    }
+
     if (!helperObject[data.consumer.id]) {
       helperObject[data.consumer.id] = {
         consumer: data.consumer,
-        relation: [{
-          authEntryId: data.id,
-          provider: data.provider,
-          service: data.service
-        }]
+        relation: [relationData]
       }
     } else {
-      helperObject[data.consumer.id].relation.push({
-        authEntryId: data.id,
-        provider: data.provider,
-        service: data.service
-      })
+      helperObject[data.consumer.id].relation.push(relationData)
     }
   }
 
@@ -307,6 +305,7 @@ export function groupAuthDataByProvider(authData) {
       consumer: data.consumer,
       service: data.service
     }
+
     if (!helperObject[data.provider.id]) {
       helperObject[data.provider.id] = {
         provider: data.provider,
@@ -326,5 +325,29 @@ export function groupAuthDataByProvider(authData) {
 }
 
 export function groupAuthDataByService(authData) {
+  const helperObject = {}
+  for (const data of authData) {
+    const relationData = {
+      authEntryId: data.id,
+      service: data.service,
+      consumer: data.consumer,
+      provider: data.provider
+    }
 
+    if (!helperObject[data.service.id]) {
+      helperObject[data.service.id] = {
+        service: data.service,
+        relation: [relationData]
+      }
+    } else {
+      helperObject[data.service.id].relation.push(relationData)
+    }
+  }
+
+  const digested = []
+  _.forEach(helperObject, (v, k) => {
+    digested.push(v)
+  })
+
+  return digested
 }

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ConsumerTab from './Consumer/ConsumerTab'
 import ProviderTab from './Provider/ProviderTab'
-import ServiceTab from './ServiceTab'
+import ServiceTab from './Service/ServiceTab'
 
 const styles = theme => ({})
 
