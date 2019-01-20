@@ -9,6 +9,7 @@ import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
 import Button from '../../CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
 import AutoCompleteList from '../../AutoCompleteList/AutoCompleteList'
+import ChipInput from 'material-ui-chip-input'
 
 const styles = theme => ({
   card: {
@@ -30,6 +31,13 @@ const styles = theme => ({
   textBottom: {
     paddingLeft: '20px',
     paddingBottom: '10px'
+  },
+  input: {
+    marginLeft: '20px',
+    marginRight: '20px',
+    marginTop: '10px',
+    marginBottom: '10px',
+    width: '400px'
   }
 })
 
@@ -40,7 +48,8 @@ class AddAuthEntry extends Component {
     this.state = {
       consumerSystem: null,
       providerSystems: null,
-      providedService: null
+      providedService: null,
+      interface: [],
     }
   }
 
@@ -62,7 +71,15 @@ class AddAuthEntry extends Component {
   }
 
   handleAddButtonClick = () => {
-    this.props.addAuthData(this.state.consumerSystem, this.state.providerSystems, this.state.providedService)
+    this.props.addAuthData(this.state.consumerSystem, this.state.providerSystems, this.state.providedService, this.state.interface)
+  }
+
+  handleChipAdd = chip => {
+    this.setState({ interface: [...this.state.interface, chip] })
+  }
+
+  handleDeleteChip = (deletedChip, index) => {
+    this.setState({ interface: this.state.interface.filter((c) => c !== deletedChip) })
   }
 
   render() {
@@ -98,6 +115,15 @@ class AddAuthEntry extends Component {
             handleTextChange={null}
             handleOnChange={this.handleProvidedServiceOnChange}
             disabled={this.state.consumerSystem === null} />
+          <ChipInput
+            disabled={this.state.providedService === null}
+            required
+            value={this.state.interface}
+            id='interface'
+            className={classes.input}
+            label='Interface'
+            onAdd={(chip) => this.handleChipAdd(chip)}
+            onDelete={(chip, index) => this.handleDeleteChip(chip, index)} />
         </Card>
         <Card raised className={classes.card}>
           <Typography variant='headline' align='center' className={classes.title}>Provider Systems</Typography>
@@ -107,11 +133,11 @@ class AddAuthEntry extends Component {
             keyValue='systemName'
             label='Provider Systems'
             placeholder='System Name'
-            disabled={this.state.providedService === null}
+            disabled={this.state.interface === []}
           />
         </Card>
         <Button
-          disabled={this.state.consumerSystem === null || this.state.providedService === null || this.state.providerSystems === null}
+          disabled={this.state.consumerSystem === null || this.state.providedService === null || this.state.providerSystems === null || this.state.interface === []}
           color='primary'
           onClick={this.handleAddButtonClick}
           className={classes.buttonStyle}>
@@ -144,8 +170,8 @@ function mapDispatchToProps(dispatch) {
     getAuthServices: () => {
       dispatch(getAuthServices())
     },
-    addAuthData: (consumerSystem, providerSystems, providedService) => {
-      dispatch(addAuthData(consumerSystem, providerSystems, providedService))
+    addAuthData: (consumerSystem, providerSystems, providedService, interfaces) => {
+      dispatch(addAuthData(consumerSystem, providerSystems, providedService, interfaces))
     }
   }
 }

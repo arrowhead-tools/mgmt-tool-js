@@ -66,7 +66,8 @@ export function getAuthServices() {
   }
 }
 
-export function addAuthData(consumer, providerList, service) {
+export function addAuthData(consumer, providerList, service, interfaces) {
+  service.interfaces = interfaces
   const authData = {
     consumer,
     providerList: providerList,
