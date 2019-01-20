@@ -23,6 +23,13 @@ const styles = theme => ({
   buttonStyle: {
     width: '440px',
     marginLeft: '10px'
+  },
+  text: {
+    paddingLeft: '20px'
+  },
+  textBottom: {
+    paddingLeft: '20px',
+    paddingBottom: '10px'
   }
 })
 
@@ -74,6 +81,8 @@ class AddAuthEntry extends Component {
             keyValue='systemName'
             placeholder='Consumer System'
             label='Consumer System' />
+          <Typography className={classes.text}><b>Address:</b> {this.state.consumerSystem ? this.state.consumerSystem.address : ''}</Typography>
+          <Typography className={classes.textBottom}><b>Port:</b> {this.state.consumerSystem ? this.state.consumerSystem.port : ''}</Typography>
         </Card>
         <Card raised className={classes.card}>
           <Typography variant='headline' align='center' className={classes.title}>Consumed Service</Typography>
