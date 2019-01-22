@@ -65,7 +65,7 @@ class AutoCompleteSingle extends Component {
                           key={item.id}
                           component='div'
                           selected={highlightedIndex === index}
-                          stle={{ fontWeight: selectedItem === item ? 500 : 400 }}>
+                          style={{ fontWeight: selectedItem === item ? 500 : 400 }}>
                           {item[keyValue]}
                         </MenuItem>
                       )

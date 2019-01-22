@@ -7,50 +7,20 @@ import TextField from '@material-ui/core/TextField'
 import MenuList from '@material-ui/core/MenuList'
 import MenuItem from '@material-ui/core/MenuItem'
 import Chip from '@material-ui/core/Chip'
-
-const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' }
-]
+import Button from '../CustomButtons/Button'
+import ClearIcon from '@material-ui/icons/Clear'
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
+import { filterItems } from '../../utils/utils'
 
 function renderInput(inputProps) {
-  const { InputProps, classes, ref, ...other } = inputProps
-
+  const { InputProps, classes, disabled, deleteAll, getToggleButtonProps, selectedItem, required, ref, ...other } = inputProps
+  console.log('selectedItem', selectedItem)
+  console.log('gtb', getToggleButtonProps)
   return (
-    <div className={classes.textField}>
+    <div style={{ marginLeft: '20px', display: 'flex', alignItems: 'baseline' }}>
       <TextField
+        required={required}
+        disabled={disabled}
         InputProps={{
           inputRef: ref,
           classes: {
@@ -61,54 +31,21 @@ function renderInput(inputProps) {
         }}
         {...other}
       />
+      {selectedItem.length > 0 ? (
+        <Button
+          justIcon
+          color='transparent'
+          onClick={deleteAll}
+        >
+          <ClearIcon />
+        </Button>
+      ) : (
+        <Button disabled={disabled} color='transparent' justIcon {...getToggleButtonProps()}>
+          <KeyboardArrowDown />
+        </Button>
+      )}
     </div>
   )
-}
-
-function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
-  const isHighlighted = highlightedIndex === index
-  const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1
-
-  return (
-    <MenuItem
-      {...itemProps}
-      key={suggestion.label}
-      selected={isHighlighted}
-      component='div'
-      style={{
-        fontWeight: isSelected ? 500 : 400
-      }}
-    >
-      {suggestion.label}
-    </MenuItem>
-  )
-}
-
-renderSuggestion.propTypes = {
-  highlightedIndex: PropTypes.number,
-  index: PropTypes.number,
-  itemProps: PropTypes.object,
-  selectedItem: PropTypes.string,
-  suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired
-}
-
-function getSuggestions(value) {
-  const inputValue = value.trim().toLowerCase()
-  const inputLength = inputValue.length
-  let count = 0
-
-  return inputLength === 0
-    ? []
-    : suggestions.filter(suggestion => {
-      const keep =
-        count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue
-
-      if (keep) {
-        count += 1
-      }
-
-      return keep
-    })
 }
 
 class AutoCompleteMulti extends React.Component {
@@ -131,19 +68,21 @@ class AutoCompleteMulti extends React.Component {
   }
 
   handleChange = item => {
-    let { selectedItem } = this.state
-    const { handleOnChange } = this.props
+    if (item) {
+      let { selectedItem } = this.state
+      const { handleOnChange } = this.props
 
-    if (selectedItem.indexOf(item) === -1) {
-      selectedItem = [...selectedItem, item]
+      if (selectedItem.indexOf(item) === -1) {
+        selectedItem = [...selectedItem, item]
+      }
+
+      handleOnChange(selectedItem)
+
+      this.setState({
+        inputValue: '',
+        selectedItem
+      })
     }
-
-    handleOnChange(selectedItem)
-
-    this.setState({
-      inputValue: '',
-      selectedItem
-    })
   }
 
   handleDelete = item => () => {
@@ -154,8 +93,13 @@ class AutoCompleteMulti extends React.Component {
     this.setState({ selectedItem })
   }
 
+  deleteAll = () => {
+    this.props.handleOnChange([])
+    this.setState({ selectedItem: [] })
+  }
+
   render() {
-    const { classes } = this.props
+    const { classes, disabled, label, placeholder, suggestions, keyValue, required } = this.props
     const { inputValue, selectedItem } = this.state
 
     return (
@@ -169,6 +113,7 @@ class AutoCompleteMulti extends React.Component {
             getItemProps,
             getMenuProps,
             isOpen,
+            getToggleButtonProps,
             inputValue: inputValue2,
             selectedItem: selectedItem2,
             highlightedIndex
@@ -177,12 +122,17 @@ class AutoCompleteMulti extends React.Component {
             {renderInput({
               fullWidth: true,
               classes,
+              required,
+              selectedItem,
+              disabled,
+              deleteAll: this.deleteAll,
+              getToggleButtonProps,
               InputProps: getInputProps({
                 startAdornment: selectedItem.map(item => (
                   <Chip
-                    key={item}
+                    key={item.id}
                     tabIndex={-1}
-                    label={item}
+                    label={item[keyValue]}
                     className={classes.chip}
                     onDelete={this.handleDelete(item)}
                   />
@@ -190,22 +140,23 @@ class AutoCompleteMulti extends React.Component {
                 onChange: this.handleInputChange,
                 onKeyDown: this.handleKeyDown
               }),
-              label: 'Label',
-              placeholder: 'asd'
+              label,
+              placeholder
             })}
             <div>
               <MenuList {...getMenuProps({ open: isOpen })}>
-                {isOpen ? (
-                  getSuggestions(inputValue2).map((suggestion, index) =>
-                    renderSuggestion({
-                      suggestion,
-                      index,
-                      itemProps: getItemProps({ item: suggestion.label }),
-                      highlightedIndex,
-                      selectedItem: selectedItem2
-                    })
-                  )
-                ) : null}
+                {isOpen
+                  ? filterItems(suggestions, inputValue2, keyValue).map(
+                    (item, index) => (
+                      <MenuItem
+                        {...getItemProps({ key: item.id, index, item })}
+                        key={item.id}
+                        component='div'
+                        selected={highlightedIndex === index}>
+                        {item[keyValue]}
+                      </MenuItem>
+                    )
+                  ) : null}
               </MenuList>
             </div>
           </div>
@@ -217,7 +168,13 @@ class AutoCompleteMulti extends React.Component {
 
 AutoCompleteMulti.propTypes = {
   classes: PropTypes.object.isRequired,
-  handleOnChange: PropTypes.func.isRequired
+  handleOnChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  suggestions: PropTypes.array,
+  keyValue: PropTypes.string,
+  required: PropTypes.bool
 }
 
 const styles = theme => ({

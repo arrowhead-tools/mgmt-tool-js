@@ -128,6 +128,7 @@ class AddAuthEntry extends Component {
             suggestions={systems}
             handleOnChange={this.handleConsumerSystemOnChange}
             keyValue='systemName'
+            required
             placeholder='Consumer System'
             label='Consumer System' />
           <Typography
@@ -149,6 +150,7 @@ class AddAuthEntry extends Component {
             label='Consumed Service'
             placeholder='Consumed Service'
             handleTextChange={null}
+            required
             handleOnChange={this.handleProvidedServiceOnChange}
             disabled={this.state.consumerSystem === null} />
           <ChipInput
@@ -163,7 +165,15 @@ class AddAuthEntry extends Component {
         </Card>
         <Card raised className={classes.card}>
           <Typography variant='headline' align='center' className={classes.title}>Provider Systems</Typography>
-          <AutoCompleteMulti handleOnChange={this.handleProviderSystemOnChange} />
+          <AutoCompleteMulti
+            handleOnChange={this.handleProviderSystemOnChange}
+            disabled={this.state.interface === []}
+            label='Provider Systems'
+            placeholder='Provider Systems'
+            keyValue='systemName'
+            required
+            suggestions={systems}
+          />
         </Card>
         <Button
           disabled={this.state.consumerSystem === null || this.state.providedService === null || this.state.providerSystems === [] || this.state.interface === []}
