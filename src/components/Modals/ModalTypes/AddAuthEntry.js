@@ -10,6 +10,7 @@ import Button from '../../CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
 import AutoCompleteList from '../../AutoCompleteList/AutoCompleteList'
 import ChipInput from 'material-ui-chip-input'
+import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
 
 const styles = theme => ({
   card: {
@@ -47,15 +48,45 @@ class AddAuthEntry extends Component {
 
     this.state = {
       consumerSystem: null,
-      providerSystems: null,
+      providerSystems: [],
       providedService: null,
       interface: [],
+      inputValue: ''
     }
   }
 
   componentDidMount() {
     this.props.getAuthSystems()
     this.props.getAuthServices()
+  }
+
+  handleChange = system => {
+    if (this.state.providerSystems.includes(system)) {
+      this.removeSelectedItem(system)
+    } else {
+      this.addSelectedItem(system)
+    }
+  }
+
+  addSelectedItem(system) {
+    this.setState(({ providerSystems }) => ({
+      inputValue: '',
+      providerSystems: [...providerSystems, system]
+    }))
+  }
+
+  removeSelectedItem = system => {
+    this.setState(({ providerSystems }) => ({
+      inputValue: '',
+      providerSystems: providerSystems.filter(i => i !== system)
+    }))
+  }
+
+  handleChangeInput = inputVal => {
+    const t = inputVal.split(',')
+    if (JSON.stringify(t) !== JSON.stringify(this.state.selectedItem)) {
+      this.setState({ inputValue: inputVal })
+    }
   }
 
   handleConsumerSystemOnChange = consumerSystem => {
@@ -67,6 +98,7 @@ class AddAuthEntry extends Component {
   }
 
   handleProviderSystemOnChange = providerSystems => {
+    console.log(providerSystems)
     this.setState({ providerSystems })
   }
 
@@ -98,8 +130,12 @@ class AddAuthEntry extends Component {
             keyValue='systemName'
             placeholder='Consumer System'
             label='Consumer System' />
-          <Typography className={classes.text}><b>Address:</b> {this.state.consumerSystem ? this.state.consumerSystem.address : ''}</Typography>
-          <Typography className={classes.textBottom}><b>Port:</b> {this.state.consumerSystem ? this.state.consumerSystem.port : ''}</Typography>
+          <Typography
+            className={classes.text}><b>Address:</b> {this.state.consumerSystem ? this.state.consumerSystem.address : ''}
+          </Typography>
+          <Typography
+            className={classes.textBottom}><b>Port:</b> {this.state.consumerSystem ? this.state.consumerSystem.port : ''}
+          </Typography>
         </Card>
         <Card raised className={classes.card}>
           <Typography variant='headline' align='center' className={classes.title}>Consumed Service</Typography>
@@ -127,17 +163,10 @@ class AddAuthEntry extends Component {
         </Card>
         <Card raised className={classes.card}>
           <Typography variant='headline' align='center' className={classes.title}>Provider Systems</Typography>
-          <AutoCompleteList
-            suggestions={systems}
-            handleOnChange={this.handleProviderSystemOnChange}
-            keyValue='systemName'
-            label='Provider Systems'
-            placeholder='System Name'
-            disabled={this.state.interface === []}
-          />
+          <AutoCompleteMulti handleOnChange={this.handleProviderSystemOnChange} />
         </Card>
         <Button
-          disabled={this.state.consumerSystem === null || this.state.providedService === null || this.state.providerSystems === null || this.state.interface === []}
+          disabled={this.state.consumerSystem === null || this.state.providedService === null || this.state.providerSystems === [] || this.state.interface === []}
           color='primary'
           onClick={this.handleAddButtonClick}
           className={classes.buttonStyle}>
