@@ -19,8 +19,16 @@ function Header({ ...props }) {
   function makeBrand() {
     let name
     props.routes.map((prop, key) => {
-      if (prop.path === props.location.pathname) {
-        name = prop.navbarName
+      if (prop.collapse) {
+        prop.views.map((view) => {
+          if (view.path === props.location.pathname) {
+            name = view.navbarName
+          }
+        })
+      } else {
+        if (prop.path === props.location.pathname) {
+          name = prop.navbarName
+        }
       }
       return null
     })
@@ -38,7 +46,7 @@ function Header({ ...props }) {
           {/* Here we create navbar brand, based on route name */}
           <Button color='transparent' href='#' className={classes.title}>
             {makeBrand()}
-          </Button> 
+          </Button>
         </div>
         <Hidden smDown implementation='css'>
           <HeaderLinks />

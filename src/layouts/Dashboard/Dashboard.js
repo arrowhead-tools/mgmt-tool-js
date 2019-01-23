@@ -21,7 +21,13 @@ const switchRoutes = (
       if (prop.redirect) {
         return <Redirect from={prop.path} to={prop.to} key={key} />
       }
-      return <Route path={prop.path} component={prop.component} key={key} />
+      if (prop.collapse) {
+        return prop.views.map((view, index) => {
+          return <Route path={view.path} component={view.component} key={key + '-' + index} />
+        })
+      } else {
+        return <Route path={prop.path} component={prop.component} key={key} />
+      }
     })}
   </Switch>
 )

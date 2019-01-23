@@ -7,11 +7,13 @@ import List from '@material-ui/icons/List'
 import Fingerprint from '@material-ui/icons/Fingerprint'
 import SdCard from '@material-ui/icons/SdCard'
 import EventNote from '@material-ui/icons/EventNote'
+import Store from '@material-ui/icons/Store'
 import StorageIcon from '@material-ui/icons/Storage'
 // core components/views
 import RelayPage from '../containers/relay/Relay'
 import GatekeeperPage from '../containers/gatekeeper/Gatekeeper'
-import OechestrationStorePage from '../containers/orch_store/OrchStore'
+import OrchestratorStatus from '../containers/orchestrator/OrchestratorStatus'
+import OrchestratorStore from '../containers/orchestrator/OrchestratorStore'
 import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
 import DashboardPage from '../components/Dashboard/Dashboard'
 import AuthPage from '../containers/auth/Auth'
@@ -25,18 +27,28 @@ const dashboardRoutes = [
     component: ServiceRegistryPage
   },
   {
-    path: '/orch',
-    sidebarName: 'Orchestration Status',
-    navbarName: 'Orchestration Status',
+    collapse: true,
+    path: '/orchestrator',
+    sidebarName: 'Orchestration',
+    navbarName: 'Orchestration',
     icon: DeviceHub,
-    component: DashboardPage
-  },
-  {
-    path: '/store',
-    sidebarName: 'Orchestration Store',
-    navbarName: 'Orchestration Store',
-    icon: StorageIcon,
-    component: OechestrationStorePage
+    state: 'orchestration',
+    views: [
+      {
+        path: '/orchestrator/status',
+        navbarName: 'Status',
+        sidebarName: 'Status',
+        icon: StorageIcon,
+        component: OrchestratorStatus
+      },
+      {
+        path: '/orchestrator/store',
+        sidebarName: 'Store',
+        navbarName: 'Store',
+        icon: Store,
+        component: OrchestratorStore
+      }
+    ]
   },
   {
     path: '/authorization',

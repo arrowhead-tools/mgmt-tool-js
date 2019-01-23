@@ -6,6 +6,7 @@ import {
   infoColor,
   primaryBoxShadow,
   primaryColor,
+  whiteColor,
   successColor,
   transition,
   warningColor
@@ -134,7 +135,7 @@ const sidebarStyle = theme => ({
     margin: '10px 15px 0',
     borderRadius: '3px',
     position: 'relative',
-    display: 'block',
+    display: 'flex',
     padding: '10px 15px',
     backgroundColor: 'transparent',
     ...defaultFont
@@ -155,6 +156,9 @@ const sidebarStyle = theme => ({
     fontSize: '14px',
     color: '#FFFFFF'
   },
+  nested: {
+    paddingLeft: theme.spacing.unit * 4
+  },
   whiteFont: {
     color: '#FFFFFF'
   },
@@ -165,6 +169,9 @@ const sidebarStyle = theme => ({
       backgroundColor: primaryColor,
       ...primaryBoxShadow
     }
+  },
+  white: {
+    color: whiteColor
   },
   blue: {
     backgroundColor: infoColor,
