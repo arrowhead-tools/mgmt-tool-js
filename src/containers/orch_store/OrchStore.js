@@ -10,7 +10,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 //actions
-import { getOrchStoreData } from '../../actions/orchStore'
+import { getOrchestrationStoreData } from '../../actions/orchestrator'
 //components
 import TableOrchStore from '../../components/Table/TableOrchStore'
 
@@ -91,7 +91,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getOrchStoreData: () => {
-      dispatch(getOrchStoreData())
+      dispatch(getOrchestrationStoreData())
     }
   }
 }

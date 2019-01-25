@@ -1,5 +1,5 @@
 import networkService from '../services/networkServiceGK'
-import { services } from '../utils/utils'
+import { digestRelays } from '../utils/utils'
 
 export const RECEIVE_RELAYS = 'RECEIVE_RELAYS'
 export const ADD_RELAY = 'ADD_RELAY'
@@ -38,7 +38,7 @@ export function getRelays() {
   return (dispatch, getState) => {
     networkService.get('/gatekeeper/mgmt/brokers')
       .then(response => {
-        dispatch(receiveRelays(services.digestRelay(response.data)))
+        dispatch(receiveRelays(digestRelays(response.data)))
       })
       .catch(error => {
         console.log(error)

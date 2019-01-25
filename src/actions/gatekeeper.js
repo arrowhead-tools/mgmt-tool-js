@@ -1,5 +1,5 @@
 import networkService from '../services/networkServiceGK'
-import { services } from '../utils/utils'
+import { digestClouds } from '../utils/utils'
 
 export const RECEIVE_CLOUDS = 'RECEIVE_CLOUDS'
 export const ADD_CLOUD = 'ADD_CLOUD'
@@ -38,7 +38,7 @@ export function getClouds() {
   return (dispatch, getState) => {
     networkService.get('/gatekeeper/mgmt/neighborhood')
       .then(response => {
-        dispatch(receiveClouds(services.digestCloud(response.data)))
+        dispatch(receiveClouds(digestClouds(response.data)))
       })
       .catch(error => {
         console.log(error)
