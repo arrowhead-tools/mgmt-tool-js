@@ -3,7 +3,7 @@ import matchSorter from 'match-sorter'
 
 export function groupServicesBySystems(serviceData) {
   const helperObject = {}
-  for(const data of serviceData.serviceQueryData) {
+  for (const data of serviceData.serviceQueryData) {
     const providedService = data.providedService
     providedService.serviceId = data.id
     if (!helperObject[data.provider.id]) {
@@ -33,8 +33,8 @@ export function groupServicesBySystems(serviceData) {
 
 export function groupServicesByServices(serviceData) {
   const helperObject = {}
-  for(const data of serviceData.serviceQueryData) {
-    for(const iface of data.providedService.interfaces) {
+  for (const data of serviceData.serviceQueryData) {
+    for (const iface of data.providedService.interfaces) {
       const providerData = {
         ...data.provider,
         interface: iface,
@@ -73,12 +73,12 @@ export function getAutoCompleteData(serviceData) {
   const interfaceListHelper = {}
   const interfaceList = []
 
-  for(const data of serviceData.serviceQueryData) {
+  for (const data of serviceData.serviceQueryData) {
     if (!serviceListHelper[data.providedService.serviceDefinition]) {
       serviceListHelper[data.providedService.serviceDefinition] = { value: data.providedService.serviceDefinition }
     }
 
-    for(const iface of data.providedService.interfaces) {
+    for (const iface of data.providedService.interfaces) {
       if (!interfaceListHelper[iface]) {
         interfaceListHelper[iface] = { value: iface }
       }
@@ -106,7 +106,7 @@ export function getAutoCompleteData(serviceData) {
 
 export function digestOrchestratorStoreData(orchStoreData) {
   const helperObject = {}
-  for(const data of orchStoreData) {
+  for (const data of orchStoreData) {
     if (!helperObject[data.consumer.id]) {
       helperObject[data.consumer.id] = data.consumer
       data.consumer.lastUpdated = data.lastUpdated
@@ -137,7 +137,7 @@ export function digestOrchestratorStoreData(orchStoreData) {
 
 export function digestClouds(serviceData) {
   const helperObject = {}
-  for(const data of serviceData) {
+  for (const data of serviceData) {
     helperObject[data.cloud.id] = data.cloud
     helperObject[data.cloud.id].clouds = [data.cloud]
   }
@@ -146,7 +146,7 @@ export function digestClouds(serviceData) {
 
 export function digestRelays(serviceData) {
   const helperObject = {}
-  for(const data of serviceData) {
+  for (const data of serviceData) {
     helperObject[data.id] = data
     helperObject[data.id].relays = [data]
   }
@@ -263,7 +263,7 @@ export function getSorting(order, orderBy) {
 
 export function groupAuthDataByConsumer(authData) {
   const helperObject = {}
-  for(const data of authData) {
+  for (const data of authData) {
     const relationData = {
       authEntryId: data.id,
       provider: data.provider,
@@ -290,7 +290,7 @@ export function groupAuthDataByConsumer(authData) {
 
 export function groupAuthDataByProvider(authData) {
   const helperObject = {}
-  for(const data of authData) {
+  for (const data of authData) {
     const relationData = {
       authEntryId: data.id,
       consumer: data.consumer,
@@ -317,7 +317,7 @@ export function groupAuthDataByProvider(authData) {
 
 export function groupAuthDataByService(authData) {
   const helperObject = {}
-  for(const data of authData) {
+  for (const data of authData) {
     const relationData = {
       authEntryId: data.id,
       service: data.service,
@@ -345,7 +345,7 @@ export function groupAuthDataByService(authData) {
 
 export function digestOrchestrationBackupListData(orchestrationData) {
   const helperObject = {}
-  for(const data of orchestrationData) {
+  for (const data of orchestrationData) {
     const providerSystem = { ...data.providerSystem, priority: data.priority, storeEntryId: data.id }
     if (!helperObject[data.consumer.id]) {
       helperObject[data.consumer.id] = {
@@ -373,6 +373,28 @@ export function digestOrchestrationBackupListData(orchestrationData) {
       tmp.push(value)
     })
     v.consumedServices = tmp
+    digested.push(v)
+  })
+
+  return digested
+}
+
+export function groupInterCloudDataByClouds(interCloudData) {
+  const helperObject = {}
+  for (const data of interCloudData) {
+    const service = { ...data.service, interCloudEntryId: data.id }
+    if (!helperObject[data.cloud.id]) {
+      helperObject[data.cloud.id] = {
+        cloud: data.cloud,
+        services: [service]
+      }
+    } else {
+      helperObject[data.cloud.id].services.push(service)
+    }
+  }
+
+  const digested = []
+  _.forEach(helperObject, (v, k) => {
     digested.push(v)
   })
 

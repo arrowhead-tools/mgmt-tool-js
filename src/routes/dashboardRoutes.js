@@ -10,6 +10,7 @@ import EventNote from '@material-ui/icons/EventNote'
 import Store from '@material-ui/icons/Store'
 import StorageIcon from '@material-ui/icons/Storage'
 import CloudOff from '@material-ui/icons/CloudOff'
+import Security from '@material-ui/icons/Security'
 // core components/views
 import RelayPage from '../containers/relay/Relay'
 import GatekeeperPage from '../containers/gatekeeper/Gatekeeper'
@@ -17,7 +18,8 @@ import OrchestratorStatus from '../containers/orchestrator/OrchestratorStatus'
 import OrchestratorStore from '../containers/orchestrator/OrchestratorStore'
 import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
 import DashboardPage from '../components/Dashboard/Dashboard'
-import AuthPage from '../containers/auth/Intracloud/Auth'
+import IntraCloudPage from '../containers/auth/Intracloud/IntraCloud'
+import InterCloudPage from '../containers/auth/Intercloud/InterCloud'
 
 const dashboardRoutes = [
   {
@@ -64,14 +66,14 @@ const dashboardRoutes = [
         sidebarName: 'Intracloud',
         navbarName: 'Intracloud',
         icon: CloudOff,
-        component: AuthPage
+        component: IntraCloudPage
       },
       {
         path: '/authorization/intercloud',
         sidebarName: 'Intercloud',
         navbarName: 'Intercloud',
         icon: CloudQueue,
-        component: DashboardPage
+        component: InterCloudPage
       }
     ]
   },
@@ -79,7 +81,7 @@ const dashboardRoutes = [
     path: '/gatekeeper',
     sidebarName: 'Gatekeeper',
     navbarName: 'Gatekeeper',
-    icon: CloudQueue,
+    icon: Security,
     component: GatekeeperPage
   },
   {

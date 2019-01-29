@@ -14,7 +14,7 @@ const store = configureStore({})
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <MuiThemeProvider muiTheme={muiTheme}>
+      <MuiThemeProvider theme={muiTheme}>
         <App />
       </MuiThemeProvider>
     </Router>

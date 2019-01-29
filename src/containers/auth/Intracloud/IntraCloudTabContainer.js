@@ -11,7 +11,7 @@ import ServiceTab from './Service/ServiceTab'
 
 const styles = theme => ({})
 
-class AuthTabContainer extends Component {
+class IntraCloudTabContainer extends Component {
   state = {
     value: 0
   }
@@ -50,7 +50,7 @@ class AuthTabContainer extends Component {
   }
 }
 
-AuthTabContainer.propTypes = {
+IntraCloudTabContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   consumerData: PropTypes.array.isRequired,
@@ -59,4 +59,4 @@ AuthTabContainer.propTypes = {
   deleteAuthEntry: PropTypes.func.isRequired
 }
 
-export default withStyles(styles, { withTheme: true })(AuthTabContainer)
+export default withStyles(styles, { withTheme: true })(IntraCloudTabContainer)

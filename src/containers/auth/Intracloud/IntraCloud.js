@@ -7,7 +7,7 @@ import ModalContainer from '../../../components/Modals/ModalContainer/ModalConta
 import { hideModal, showModal } from '../../../actions/modal'
 import AddIcon from '@material-ui/icons/Add'
 import { deleteAuthEntry, getIntraCloudAuthData } from '../../../actions/auth'
-import AuthTabContainer from './AuthTabContainer'
+import IntraCloudTabContainer from './IntraCloudTabContainer'
 
 const styles = theme => ({
   root: {},
@@ -23,9 +23,9 @@ const styles = theme => ({
   }
 })
 
-class Auth extends Component {
+class IntraCloud extends Component {
   componentDidMount() {
-    this.props.getAuthData()
+    this.props.getIntraCloudAuthData()
   }
 
   handleAddClick = () => {
@@ -48,15 +48,15 @@ class Auth extends Component {
             <AddIcon />Add
           </Button>
         </div>
-        <AuthTabContainer consumerData={auth.groupByConsumer} providerData={auth.groupByProvider} serviceData={auth.groupByService} deleteAuthEntry={this.deleteAuthEntry} />
+        <IntraCloudTabContainer consumerData={auth.groupByConsumer} providerData={auth.groupByProvider} serviceData={auth.groupByService} deleteAuthEntry={this.deleteAuthEntry} />
         <ModalContainer />
       </div>
     )
   }
 }
 
-Auth.propTypes = {
-  getAuthData: PropTypes.func.isRequired,
+IntraCloud.propTypes = {
+  getIntraCloudAuthData: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   hideModal: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired,
@@ -71,7 +71,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAuthData: () => {
+    getIntraCloudAuthData: () => {
       dispatch(getIntraCloudAuthData())
     },
     hideModal: () => {
@@ -86,4 +86,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Auth))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(IntraCloud))
