@@ -12,7 +12,7 @@ import Grid from '@material-ui/core/Grid'
 import Switch from '@material-ui/core/Switch'
 import GridItem from '../../components/Grid/GridItem'
 import Table from '../../components/Table/TableSR'
-import { getFilteredServices, getServices } from '../../actions/serviceRegistry'
+import { getFilteredServices, getServices, deleteServiceById } from '../../actions/serviceRegistry'
 import Button from '../../components/CustomButtons/Button'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
 import { hideModal, showModal } from '../../actions/modal'
@@ -21,6 +21,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import AddIcon from '@material-ui/icons/Add'
 import _ from 'lodash'
 import { red } from '@material-ui/core/colors'
+import ServiceRegistryTabContainer from './ServiceRegistryTabContainer'
 
 const styles = theme => ({
   root: {
@@ -101,91 +102,45 @@ class ServiceRegistry extends Component {
     this.props.getServices()
   }
 
+  handleServiceDelete = (serviceId) => () => {
+    this.props.deleteServiceById(serviceId)
+  }
+
+  handleServiceEdit = (serviceId) => () => {
+    this.props.showModal({
+      open: true,
+      isEdit: true,
+      serviceId,
+      closeModal: this.closeModal
+    }, 'addSREntry')
+  }
+
   handleClose = () => {
     this.setState({ open: false })
   }
 
+
   render() {
     const { classes, services } = this.props
-    const serviceColumnData = [
-      { id: 'serviceDefinition', disablePadding: false, label: 'Service Definition' },
-      { id: 'interfaces', disablePadding: false, label: 'Interface' },
-      { id: 'serviceURI', disablePadding: false, label: 'Service URI' },
-      { id: 'udp', disablePadding: false, label: 'UDP' },
-      { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
-    ]
-
-    const systemColumnData = [
-      { id: 'systemName', disablePadding: false, label: 'System Name' },
-      { id: 'address', disablePadding: false, label: 'Address' },
-      { id: 'port', disablePadding: false, label: 'Port' },
-      { id: 'interface', disablePadding: false, label: 'Interface' },
-      { id: 'serviceURI', disablePadding: false, label: 'Service URI' },
-      { id: 'udp', disablePadding: false, label: 'UDP' },
-      { id: 'version', disablePadding: false, label: 'Service Version' },
-      { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
-    ]
     return (
       <div className={classes.root}>
-        <Grid
-          container direction='row' spacing={16} justify='space-between' alignItems='baseline'
-          className={classes.grid}>
-          <GridItem style={{display: 'flex'}}>
-            <Typography className={classes.title}><b>Group
-              by:</b>&nbsp;Service</Typography>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={this.state.switchState}
-                  onChange={this.handleSwitchChange()}
-                  value={false}
-                  color='primary'
-                />
-              }
-              label='System' />
-          </GridItem>
-          <GridItem>
-            <div className={classes.buttonContainer}>
-              {!_.isEmpty(services.queryData) &&
-              <Button color='primary' className={classes.removeButton} onClick={this.handleServiceSearchClearClick}>
-                <ClearIcon />Clear Filter
-              </Button>
-              }
-              <Button
-                color='primary'
-                onClick={this.handleServiceSearchClick}
-                className={classes.buttonMargin}>
-                <SearchIcon />Search
-              </Button>
-              <Button color='primary' onClick={this.handleAddClick}>
-                <AddIcon />Add
-              </Button>
-            </div>
-          </GridItem>
-        </Grid>
-        {this.state.switchState && services && services.groupBySystems && services.groupBySystems.map((serviceData, index) => (
-          <ExpansionPanel key={serviceData.id}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>{serviceData.systemName}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.child}>
-              <Typography><b>Address:</b> {serviceData.address}</Typography>
-              <Typography><b>Port:</b> {serviceData.port}</Typography>
-              <Typography><b>Authentication Info:</b> {serviceData.authenticationInfo || '-'}</Typography>
-              <Table data={serviceData.services} columnData={serviceColumnData} system />
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        ))}
-        {!this.state.switchState && services && services.groupByServices && services.groupByServices.map((serviceData, index) => (
-          <ExpansionPanel key={index + serviceData.serviceId}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>{serviceData.serviceDefinition}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.child}>
-              <Table data={serviceData.provider} columnData={systemColumnData} system={false} />
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        ))}
+        <div className={classes.buttonContainer}>
+          {!_.isEmpty(services.queryData) &&
+          <Button color='primary' className={classes.removeButton} onClick={this.handleServiceSearchClearClick}>
+            <ClearIcon />Clear Filter
+          </Button>
+          }
+          <Button
+            color='primary'
+            onClick={this.handleServiceSearchClick}
+            className={classes.buttonMargin}>
+            <SearchIcon />Search
+          </Button>
+          <Button color='primary' onClick={this.handleAddClick}>
+            <AddIcon />Add
+          </Button>
+        </div>
+        <ServiceRegistryTabContainer systemData={services.groupBySystems} serviceData={services.groupByServices} handleServiceDelete={this.handleServiceDelete} handleServiceEdit={this.handleServiceEdit} />
         <ModalContainer />
       </div>
     )
@@ -197,7 +152,8 @@ ServiceRegistry.propTypes = {
   getServices: PropTypes.func.isRequired,
   services: PropTypes.object.isRequired,
   hideModal: PropTypes.func.isRequired,
-  showModal: PropTypes.func.isRequired
+  showModal: PropTypes.func.isRequired,
+  deleteServiceById: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -218,6 +174,9 @@ function mapDispatchToProps(dispatch) {
     },
     showModal: (modalProps, modalType) => {
       dispatch(showModal({ modalProps, modalType }))
+    },
+    deleteServiceById: (serviceId) => {
+      dispatch(deleteServiceById(serviceId))
     }
   }
 }
