@@ -18,7 +18,8 @@ const muiTheme = createMuiTheme({
     textColor: 'rgba(255, 255, 255, 0.87)'
   },
   typography: {
-    align: 'center'
+    align: 'center',
+    useNextVariants: true
   },
   button: {
     primaryColor

@@ -209,7 +209,7 @@ class AddSREntry extends Component {
     return (
       <div>
         <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', width: '440px' }}>
-          <Typography variant='headline' align='center' style={{ paddingTop: '10px' }}>System Details</Typography>
+          <Typography variant='h5' align='center' style={{ paddingTop: '10px' }}>System Details</Typography>
           <AutoComplete
             defaultValue={this.state.systemName || ''}
             suggestions={system}
@@ -253,7 +253,7 @@ class AddSREntry extends Component {
             onChange={this.handleAuthenticationInfoOnChange} />
         </Card>
         <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', width: '440px' }}>
-          <Typography variant='headline' align='center' style={{ paddingTop: '10px' }}>Service Details</Typography>
+          <Typography variant='h5' align='center' style={{ paddingTop: '10px' }}>Service Details</Typography>
           <TextField
             required
             id='serviceDefinition'

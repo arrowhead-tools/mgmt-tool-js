@@ -51,7 +51,7 @@ class Login extends Component {
             <Button type='submit' label='Login' primary />
           </Grid>
           <Grid item>
-            <Typography variant='subheading' color='inherit'>
+            <Typography variant='subtitle1' color='inherit'>
               If you are unable to sign in, please contact your local cloud administrator: {this.adminEmail}
             </Typography>
           </Grid>

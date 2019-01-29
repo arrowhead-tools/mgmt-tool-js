@@ -119,7 +119,7 @@ class AddAuthEntry extends Component {
     return (
       <div>
         <Card raised className={classes.card}>
-          <Typography variant='headline' align='center' className={classes.title}>Consumer System</Typography>
+          <Typography variant='h5' align='center' className={classes.title}>Consumer System</Typography>
           <AutoCompleteSingle
             classes={{
               inputRoot: { flexWrap: 'wrap' },
@@ -139,7 +139,7 @@ class AddAuthEntry extends Component {
           </Typography>
         </Card>
         <Card raised className={classes.card}>
-          <Typography variant='headline' align='center' className={classes.title}>Consumed Service</Typography>
+          <Typography variant='h5' align='center' className={classes.title}>Consumed Service</Typography>
           <AutoCompleteSingle
             classes={{
               inputRoot: { flexWrap: 'wrap' },
@@ -164,7 +164,7 @@ class AddAuthEntry extends Component {
             onDelete={(chip, index) => this.handleDeleteChip(chip, index)} />
         </Card>
         <Card raised className={classes.card}>
-          <Typography variant='headline' align='center' className={classes.title}>Provider Systems</Typography>
+          <Typography variant='h5' align='center' className={classes.title}>Provider Systems</Typography>
           <AutoCompleteMulti
             handleOnChange={this.handleProviderSystemOnChange}
             disabled={this.state.interface === []}
