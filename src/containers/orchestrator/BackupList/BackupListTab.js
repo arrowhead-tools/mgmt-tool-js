@@ -27,7 +27,7 @@ const styles = theme => ({
 
 class BackupListTab extends React.Component {
   render() {
-    const { data, classes } = this.props
+    const { data, classes, savePriorities } = this.props
     return (
       <div className={classes.root}>
         {
@@ -38,7 +38,7 @@ class BackupListTab extends React.Component {
                   <Typography className={classes.heading}>{entry.consumerData.systemName}</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails className={classes.child}>
-                  <BackupServiceList services={entry.consumedServices} />
+                  <BackupServiceList services={entry.consumedServices} savePriorities={savePriorities} />
                 </ExpansionPanelDetails>
               </ExpansionPanel>
             )
@@ -51,7 +51,8 @@ class BackupListTab extends React.Component {
 
 BackupListTab.propTypes = {
   data: PropTypes.array.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  savePriorities: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(BackupListTab)

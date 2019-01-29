@@ -9,6 +9,7 @@ import SdCard from '@material-ui/icons/SdCard'
 import EventNote from '@material-ui/icons/EventNote'
 import Store from '@material-ui/icons/Store'
 import StorageIcon from '@material-ui/icons/Storage'
+import CloudOff from '@material-ui/icons/CloudOff'
 // core components/views
 import RelayPage from '../containers/relay/Relay'
 import GatekeeperPage from '../containers/gatekeeper/Gatekeeper'
@@ -16,7 +17,7 @@ import OrchestratorStatus from '../containers/orchestrator/OrchestratorStatus'
 import OrchestratorStore from '../containers/orchestrator/OrchestratorStore'
 import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
 import DashboardPage from '../components/Dashboard/Dashboard'
-import AuthPage from '../containers/auth/Auth'
+import AuthPage from '../containers/auth/Intracloud/Auth'
 
 const dashboardRoutes = [
   {
@@ -51,11 +52,28 @@ const dashboardRoutes = [
     ]
   },
   {
+    collapse: true,
     path: '/authorization',
     sidebarName: 'Authorization',
     navbarName: 'Authorization',
     icon: Fingerprint,
-    component: AuthPage
+    state: 'authorization',
+    views: [
+      {
+        path: '/authorization/intracloud',
+        sidebarName: 'Intracloud',
+        navbarName: 'Intracloud',
+        icon: CloudOff,
+        component: AuthPage
+      },
+      {
+        path: '/authorization/intercloud',
+        sidebarName: 'Intercloud',
+        navbarName: 'Intercloud',
+        icon: CloudQueue,
+        component: DashboardPage
+      }
+    ]
   },
   {
     path: '/gatekeeper',

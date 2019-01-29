@@ -30,11 +30,22 @@ function receiveAuthServices(services) {
   }
 }
 
-export function getAuthData() {
+export function getIntraCloudAuthData() {
   return (dispatch, getState) => {
     networkService.get('/authorization/mgmt/intracloud')
       .then(response => {
         dispatch(receiveAuthData(groupAuthDataByConsumer(response.data), groupAuthDataByProvider(response.data), groupAuthDataByService(response.data)))
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+}
+
+export function getInterCloudAuthData() {
+  return (dispatch) => {
+    networkService.get('/authorozation/mgmt/intercloud')
+      .then(response =>{
       })
       .catch(error => {
         console.log(error)
@@ -74,10 +85,10 @@ export function addAuthData(consumer, providerList, service, interfaces) {
     serviceList: [service]
   }
   return dispatch => {
-    networkService.post('/authorization/mgmt/intracloud', authData)
+    networkService.post('/authorization/mgmt/Intracloud', authData)
       .then(response => {
         console.log(response.data)
-        dispatch(getAuthData())
+        dispatch(getIntraCloudAuthData())
         dispatch(hideModal())
         dispatch(
           showNotification(
@@ -115,7 +126,7 @@ export function deleteAuthEntry(authEntryId) {
     networkService.delete(`/authorization/mgmt/intracloud/${authEntryId}`)
       .then(response => {
         console.log(response.data)
-        dispatch(getAuthData())
+        dispatch(getIntraCloudAuthData())
         dispatch(hideModal())
         dispatch(
           showNotification(

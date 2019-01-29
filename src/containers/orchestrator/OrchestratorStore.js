@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
 import OrchestrationStoreTabContainer from './OrchestrationStoreTabContainer'
-import { getOrchestrationStoreData } from '../../actions/orchestrator'
+import { getOrchestrationStoreData, savePriorities } from '../../actions/orchestrator'
 import { connect } from 'react-redux'
 
 class OrchestratorStore extends React.Component {
@@ -11,10 +11,10 @@ class OrchestratorStore extends React.Component {
   }
 
   render() {
-    const { orchestrator } = this.props
+    const { orchestrator, savePriorities } = this.props
 
     return <div>
-      <OrchestrationStoreTabContainer backupList={orchestrator.backup} />
+      <OrchestrationStoreTabContainer backupList={orchestrator.backup} savePriorities={savePriorities} />
       <ModalContainer />
     </div>
   }
@@ -22,7 +22,8 @@ class OrchestratorStore extends React.Component {
 
 OrchestratorStore.propTypes = {
   getOrchestrationStoreData: PropTypes.func.isRequired,
-  orchestrator: PropTypes.object.isRequired
+  orchestrator: PropTypes.object.isRequired,
+  savePriorities: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -35,6 +36,9 @@ function mapDispatchToProps(dispatch) {
   return {
     getOrchestrationStoreData: () => {
       dispatch(getOrchestrationStoreData())
+    },
+    savePriorities: (priorityData) => {
+      dispatch(savePriorities(priorityData))
     }
   }
 }

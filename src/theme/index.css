@@ -52,4 +52,5 @@
   cursor: row-resize; }
 
 .SortableDrag {
-  cursor: row-resize; }
+  cursor: row-resize;
+  margin-right: 10px; }

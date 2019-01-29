@@ -346,7 +346,7 @@ export function groupAuthDataByService(authData) {
 export function digestOrchestrationBackupListData(orchestrationData) {
   const helperObject = {}
   for(const data of orchestrationData) {
-    const providerSystem = { ...data.providerSystem, priority: data.priority }
+    const providerSystem = { ...data.providerSystem, priority: data.priority, storeEntryId: data.id }
     if (!helperObject[data.consumer.id]) {
       helperObject[data.consumer.id] = {
         consumerData: { ...data.consumer },

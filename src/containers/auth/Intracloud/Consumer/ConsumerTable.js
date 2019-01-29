@@ -9,8 +9,8 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
 import ClearIcon from '@material-ui/icons/Clear'
-import EnhancedTableHead from '../../../components/Table/EnhancedTableHead'
-import { getSorting } from '../../../utils/utils'
+import EnhancedTableHead from '../../../../components/Table/EnhancedTableHead'
+import { getSorting } from '../../../../utils/utils'
 
 const styles = theme => ({
   root: {
@@ -28,7 +28,7 @@ const styles = theme => ({
   }
 })
 
-class ServiceTable extends React.Component {
+class ConsumerTable extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -80,9 +80,9 @@ class ServiceTable extends React.Component {
                     <TableRow
                       hover
                       key={n.authEntryId}>
-                      <TableCell>{n.provider.systemName}</TableCell>
+                      <TableCell>{n.service.serviceDefinition}</TableCell>
                       <TableCell>{n.service.interfaces.join(',')}</TableCell>
-                      <TableCell>{n.consumer.systemName}</TableCell>
+                      <TableCell>{n.provider.systemName}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton color='secondary' aria-label='Delete Entry' onClick={deleteAuthEntryById(n.authEntryId)}>
                           <ClearIcon />
@@ -115,11 +115,11 @@ class ServiceTable extends React.Component {
   }
 }
 
-ServiceTable.propTypes = {
+ConsumerTable.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
   columnData: PropTypes.array.isRequired,
   deleteAuthEntryById: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(ServiceTable)
+export default withStyles(styles)(ConsumerTable)

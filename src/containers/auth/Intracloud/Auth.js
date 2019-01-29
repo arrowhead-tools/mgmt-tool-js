@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
-import Button from '../../components/CustomButtons/Button'
-import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
-import { hideModal, showModal } from '../../actions/modal'
+import Button from '../../../components/CustomButtons/Button'
+import ModalContainer from '../../../components/Modals/ModalContainer/ModalContainer'
+import { hideModal, showModal } from '../../../actions/modal'
 import AddIcon from '@material-ui/icons/Add'
-import { deleteAuthEntry, getAuthData } from '../../actions/auth'
+import { deleteAuthEntry, getIntraCloudAuthData } from '../../../actions/auth'
 import AuthTabContainer from './AuthTabContainer'
 
 const styles = theme => ({
@@ -72,7 +72,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getAuthData: () => {
-      dispatch(getAuthData())
+      dispatch(getIntraCloudAuthData())
     },
     hideModal: () => {
       dispatch(hideModal())

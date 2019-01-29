@@ -9,8 +9,8 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
 import ClearIcon from '@material-ui/icons/Clear'
-import EnhancedTableHead from '../../../components/Table/EnhancedTableHead'
-import { getSorting } from '../../../utils/utils'
+import EnhancedTableHead from '../../../../components/Table/EnhancedTableHead'
+import { getSorting } from '../../../../utils/utils'
 
 const styles = theme => ({
   root: {

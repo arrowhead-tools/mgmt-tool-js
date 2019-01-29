@@ -8,12 +8,13 @@ import arrayMove from 'array-move'
 import ReorderIcon from '@material-ui/icons/Reorder'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
+import _ from 'lodash'
 
 const DragHandle = sortableHandle(() => <ReorderIcon className='SortableDrag' />)
 
 const SortableItem = sortableElement(({ value }) => (
   <li className='SortableItem'>
-    <DragHandle />
+    <DragHandle/>
     <Typography>{value}</Typography>
   </li>
 ))
@@ -31,10 +32,17 @@ class BackupSortableList extends React.Component {
     this.setState({ items: this.props.list })
   }
 
-  onSortEnd = ({ oldIndex, newIndex }) => {
-    this.setState(({ items }) => ({
+  onSortEnd = async ({ oldIndex, newIndex }) => {
+    await this.setState(({ items }) => ({
       items: arrayMove(items, oldIndex, newIndex)
     }))
+
+    const disabled = _.isEqual(this.state.items, this.props.list)
+    this.props.onItemsOrderChanged(this.props.serviceId, disabled, this.state.items)
+  }
+
+  onItemsOrderChanged = (newArray) => {
+    return _.isEqual(newArray, this.props.list)
   }
 
   render() {
@@ -51,7 +59,9 @@ class BackupSortableList extends React.Component {
 }
 
 BackupSortableList.propTypes = {
-  list: PropTypes.array.isRequired
+  list: PropTypes.array.isRequired,
+  onItemsOrderChanged: PropTypes.func.isRequired,
+  serviceId: PropTypes.number.isRequired
 }
 
 export default BackupSortableList

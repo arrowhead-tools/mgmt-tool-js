@@ -28,7 +28,7 @@ class OrchestrationStoreTabContainer extends Component {
   }
 
   render() {
-    const { theme, backupList } = this.props
+    const { theme, backupList, savePriorities } = this.props
     const { value } = this.state
     return (
       <div>
@@ -43,7 +43,7 @@ class OrchestrationStoreTabContainer extends Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}>
           <DefaultConfigTab dir={theme.direction} />
-          <BackupListTab dir={theme.direction} data={backupList} />
+          <BackupListTab dir={theme.direction} data={backupList} savePriorities={savePriorities} />
         </SwipeableViews>
       </div>
     )
@@ -52,7 +52,8 @@ class OrchestrationStoreTabContainer extends Component {
 
 OrchestrationStoreTabContainer.propTypes = {
   theme: PropTypes.object.isRequired,
-  backupList: PropTypes.array.isRequired
+  backupList: PropTypes.array.isRequired,
+  savePriorities: PropTypes.func.isRequired
 }
 
 export default withStyles(styles, { withTheme: true })(OrchestrationStoreTabContainer)
