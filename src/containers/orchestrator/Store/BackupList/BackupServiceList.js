@@ -9,7 +9,7 @@ import Divider from '@material-ui/core/Divider'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
 import BackupSortableList from './BackupSortableList'
-import Button from '../../../components/CustomButtons/Button'
+import Button from '../../../../components/CustomButtons/Button'
 
 const styles = theme => ({
   root: {

@@ -1,5 +1,6 @@
 import networkService from '../services/networkServiceOrch'
 import { digestOrchestrationBackupListData } from '../utils/utils'
+import { showNotification } from './global'
 
 export const RECEIVE_ORCHESTRATOR_STORE_DATA = 'RECEIVE_ORCHESTRATOR_STORE_DATA'
 
@@ -27,10 +28,34 @@ export function savePriorities(priorityData) {
   return (dispatch) => {
     networkService.put('/orchestrator/mgmt/store/priorities', { priorities: priorityData })
       .then(response => {
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
         dispatch(getOrchestrationStoreData())
       })
       .catch(error => {
         console.log(error)
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 10
+            },
+            'error'
+          )
+        )
       })
   }
 }

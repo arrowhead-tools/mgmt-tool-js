@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
+import ModalContainer from '../../../components/Modals/ModalContainer/ModalContainer'
 import OrchestrationStoreTabContainer from './OrchestrationStoreTabContainer'
-import { getOrchestrationStoreData, savePriorities } from '../../actions/orchestrator'
+import { getOrchestrationStoreData, savePriorities } from '../../../actions/orchestrator'
 import { connect } from 'react-redux'
 
 class OrchestratorStore extends React.Component {
