@@ -7,10 +7,8 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions'
 import Divider from '@material-ui/core/Divider'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import AddIcon from '@material-ui/icons/Add'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import CustomButton from '../../../components/CustomButtons/Button'
 
 const styles = theme => ({
   root: {
@@ -26,48 +24,34 @@ const styles = theme => ({
   child: {
     display: 'flex',
     flexDirection: 'column'
-  },
-  buttonContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    paddingBottom: '10px'
   }
 })
 
-class RelayTab extends Component {
+class EventHandlerTab extends Component {
   render() {
-    const { data, classes, handlers } = this.props
+    const { events, classes, deleteEventHandler } = this.props
     return (
       <div className={classes.root}>
-        <div className={classes.buttonContainer}>
-          <CustomButton color='primary' onClick={handlers.onAddRelayClick}>
-            <AddIcon />Add
-          </CustomButton>
-        </div>
         {
-          data.map(entry => {
+          events.map(event => {
             return (
-              <ExpansionPanel key={entry.id}>
+              <ExpansionPanel key={event.id}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>{`${entry.address}:${entry.port}`}</Typography>
+                  <Typography className={classes.heading}>{event.eventType}</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails className={classes.child}>
-                  <Typography><b>Secure:</b> {entry.secure ? '✓' : '✗'}</Typography>
+                  <Typography><b>Consumer Name:</b> {event.consumer.systemName}</Typography>
+                  <Typography><b>Consumer Address:</b> {event.consumer.address}</Typography>
+                  <Typography><b>Consumer Port:</b> {event.consumer.port}</Typography>
+                  <Typography><b>Notify URI:</b> {event.notifyUri}</Typography>
+                  <Typography><b>Match Metadata:</b> {event.matchMetadata ? '✓' : '✗'}</Typography>
                 </ExpansionPanelDetails>
                 <Divider />
                 <ExpansionPanelActions>
                   <Button
                     size='small'
-                    onClick={handlers.onDeleteRelayClick(entry.id)}>
+                    onClick={deleteEventHandler(event.eventType, event.consumer.systemName)}>
                     Delete
-                  </Button>
-                  <Button
-                    size='small'
-                    color='primary'
-                    onClick={handlers.onModifyRelayClick(entry)}
-                  >
-                    Edit
                   </Button>
                 </ExpansionPanelActions>
               </ExpansionPanel>
@@ -79,10 +63,10 @@ class RelayTab extends Component {
   }
 }
 
-RelayTab.propTypes = {
-  data: PropTypes.array.isRequired,
+EventHandlerTab.propTypes = {
+  events: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
-  handlers: PropTypes.object.isRequired
+  deleteEventHandler: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(RelayTab)
+export default withStyles(styles)(EventHandlerTab)

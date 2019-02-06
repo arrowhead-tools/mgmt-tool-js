@@ -2,17 +2,13 @@
 import Description from '@material-ui/icons/Description'
 import CloudQueue from '@material-ui/icons/CloudQueue'
 import DeviceHub from '@material-ui/icons/DeviceHub'
-import Backup from '@material-ui/icons/Backup'
-import List from '@material-ui/icons/List'
 import Fingerprint from '@material-ui/icons/Fingerprint'
-import SdCard from '@material-ui/icons/SdCard'
 import EventNote from '@material-ui/icons/EventNote'
 import Store from '@material-ui/icons/Store'
 import StorageIcon from '@material-ui/icons/Storage'
 import CloudOff from '@material-ui/icons/CloudOff'
 import Security from '@material-ui/icons/Security'
 // core components/views
-import RelayPage from '../containers/relay/Relay'
 import GatekeeperPage from '../containers/gatekeeper/Gatekeeper'
 import OrchestratorStatus from '../containers/orchestrator/Status/OrchestratorStatus'
 import OrchestratorStore from '../containers/orchestrator/Store/OrchestratorStore'
@@ -20,6 +16,7 @@ import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
 import DashboardPage from '../components/Dashboard/Dashboard'
 import IntraCloudPage from '../containers/auth/Intracloud/IntraCloud'
 import InterCloudPage from '../containers/auth/Intercloud/InterCloud'
+import EventHandlerPage from '../containers/eventhandler/EventHandler'
 
 const dashboardRoutes = [
   {
@@ -85,18 +82,11 @@ const dashboardRoutes = [
     component: GatekeeperPage
   },
   {
-    path: '/relay',
-    sidebarName: 'Relay',
-    navbarName: 'Relay',
-    icon: Backup,
-    component: RelayPage
-  },
-  {
     path: '/eventhandler',
     sidebarName: 'Event Handler',
     navbarName: 'Event Handler',
     icon: EventNote,
-    component: DashboardPage
+    component: EventHandlerPage
   },
   {
     redirect: true,

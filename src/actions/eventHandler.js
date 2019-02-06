@@ -1,20 +1,20 @@
-import networkService from '../services/networkServiceGK'
+import networkService from '../services/networkServiceEH'
 import { showNotification } from './global'
 
-export const RECEIVE_CLOUDS = 'RECEIVE_CLOUDS'
+export const RECEIVE_EVENTS = 'RECEIVE_EVENTS'
 
-function receiveClouds(data) {
+function receiveEventHandlerData(data) {
   return {
-    type: RECEIVE_CLOUDS,
+    type: RECEIVE_EVENTS,
     data
   }
 }
 
-export function getClouds() {
+export function getEventHandlerData() {
   return (dispatch, getState) => {
-    networkService.get('/gatekeeper/mgmt/neighborhood')
+    networkService.get('/eventhandler/mgmt/subscriptions')
       .then(response => {
-        dispatch(receiveClouds(response.data))
+        dispatch(receiveEventHandlerData(response.data))
       })
       .catch(error => {
         console.log(error)
@@ -22,11 +22,11 @@ export function getClouds() {
   }
 }
 
-export function addCloud(newCloud) {
+export function createSubscription(subscriptionData) {
   return (dispatch, getState) => {
-    networkService.post('/gatekeeper/mgmt/neighborhood', newCloud)
+    networkService.post('/eventhandler/subscription', subscriptionData)
       .then(response => {
-        dispatch(getClouds())
+        dispatch(getEventHandlerData())
         dispatch(
           showNotification(
             {
@@ -58,11 +58,11 @@ export function addCloud(newCloud) {
   }
 }
 
-export function deleteCloud(operator, cloudName) {
-  return (dispatch, getState) => {
-    networkService.delete(`/gatekeeper/mgmt/neighborhood/operator/${operator}/cloudname/${cloudName}`)
+export function deleteSubscription(eventType, consumerName) {
+  return (dispatch) => {
+    networkService.delete(`/eventhandler/subscription/type/${eventType}/consumer/${consumerName}`)
       .then(response => {
-        dispatch(getClouds())
+        dispatch(getEventHandlerData())
         dispatch(
           showNotification(
             {
@@ -86,42 +86,6 @@ export function deleteCloud(operator, cloudName) {
               position: 'tc',
               dismissible: true,
               autoDismiss: 5
-            },
-            'error'
-          )
-        )
-      })
-  }
-}
-
-export function updateCloud(updatedCloud) {
-  return (dispatch, getState) => {
-    networkService.put(`/mgmt/clouds/${updatedCloud.id}`, updatedCloud)
-      .then(response => {
-        dispatch(getClouds())
-        dispatch(
-          showNotification(
-            {
-              title: 'Saving was successful',
-              message: '',
-              position: 'tc',
-              dismissible: true,
-              autoDismiss: 5
-            },
-            'success'
-          )
-        )
-      })
-      .catch(error => {
-        console.log(error)
-        dispatch(
-          showNotification(
-            {
-              title: 'Saving was unsuccessful',
-              message: '',
-              position: 'tc',
-              dismissible: true,
-              autoDismiss: 10
             },
             'error'
           )

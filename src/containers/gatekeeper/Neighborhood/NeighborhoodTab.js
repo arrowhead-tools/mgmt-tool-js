@@ -31,7 +31,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingBottom: '10pxw'
+    paddingBottom: '10px'
   }
 })
 

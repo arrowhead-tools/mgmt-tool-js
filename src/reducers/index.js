@@ -10,6 +10,7 @@ import system from './system'
 import { reducer as formReducer } from 'redux-form'
 import { reducer as notifications } from 'react-notification-system-redux'
 import auth from './auth'
+import eventHandler from './eventHandler'
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   gatekeeper,
   relay,
   orchestrator,
-  modal
+  modal,
+  eventHandler
 })
 
 export default rootReducer

@@ -77,7 +77,7 @@ class AddNeighborhood extends Component {
   }
 
   render() {
-    const { classes, isEdit }  = this.props
+    const { classes, isEdit } = this.props
     return (
       <div>
         <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', width: '440px' }}>
@@ -161,10 +161,10 @@ class AddNeighborhood extends Component {
 AddNeighborhood.propTypes = {
   data: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  updateCloud: PropTypes.func.isRequired,
-  addCloud: PropTypes.func.isRequired,
+  updateCloud: PropTypes.func,
+  addCloud: PropTypes.func,
+  closeModal: PropTypes.func.isRequired,
   isEdit: PropTypes.bool
 }
-
 
 export default withStyles(styles)(AddNeighborhood)

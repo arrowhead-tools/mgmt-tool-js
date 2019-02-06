@@ -2,7 +2,7 @@ import {
   RECEIVE_CLOUDS
 } from '../actions/gatekeeper'
 
-export const initialState = {
+const initialState = {
   data: []
 }
 
