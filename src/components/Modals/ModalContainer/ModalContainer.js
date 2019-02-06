@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Modal from '@material-ui/core/Modal'
+import withMobileDialog from '@material-ui/core/withMobileDialog'
+import Dialog from '@material-ui/core/Dialog'
+import DialogContent from '@material-ui/core/DialogContent'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import AddModal from '../ModalTypes/AddModal'
@@ -52,30 +54,29 @@ class ModalContainer extends Component {
       return null
     }
     const SpecifiedModal = MODAL_TYPES[this.props.modalType]
-    return (<Modal
-      open={this.state.modalIsOpen}
-      onClose={this.closeModal}>
-      <div style={{
-        top: '50%',
-        left: '50%',
-        maxHeight: '100%',
-        transform: 'translate(-50%, -50%)',
-        overflowX: 'auto'
-      }} className={this.props.classes.paper}>
-        <SpecifiedModal closeModal={this.closeModal} {...this.props.modalProps} />
-      </div>
-    </Modal>)
+    return (
+      <Dialog
+        open={this.state.modalIsOpen}
+        fullScreen={this.props.fullScreen}
+        scroll='paper'
+        onClose={this.closeModal}>
+        <DialogContent>
+          <SpecifiedModal closeModal={this.closeModal} {...this.props.modalProps} />
+        </DialogContent>
+      </Dialog>
+    )
   }
 }
 
 ModalContainer.propTypes = {
   modalType: PropTypes.string,
   modalProps: PropTypes.object,
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  fullScreen: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
   ...state.modal
 })
 
-export default connect(mapStateToProps, null)(withStyles(styles)(ModalContainer))
+export default connect(mapStateToProps, null)(withMobileDialog(styles)(ModalContainer))

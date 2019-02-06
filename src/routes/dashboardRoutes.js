@@ -99,21 +99,11 @@ const dashboardRoutes = [
     component: DashboardPage
   },
   {
-    path: '/sysregistry',
-    sidebarName: 'System Registry',
-    navbarName: 'System Registry',
-    icon: List,
-    component: DashboardPage
-  },
-  {
-    path: '/devregistry',
-    sidebarName: 'Device Registry',
-    navbarName: 'Device Registry',
-    icon: SdCard,
-    component: DashboardPage
-  },
-
-  { redirect: true, path: '/', to: '/registry', navbarName: 'Redirect' }
+    redirect: true,
+    path: '/',
+    to: '/registry',
+    navbarName: 'Redirect'
+  }
 ]
 
 export default dashboardRoutes

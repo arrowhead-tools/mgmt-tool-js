@@ -6,31 +6,31 @@ export const ADD_RELAY = 'ADD_RELAY'
 export const DELETE_RELAY = 'DELETE_RELAY'
 export const UPDATE_RELAY = 'UPDATE_RELAY'
 
-function receiveRelays(items, page) {
+function receiveRelays(data) {
   return {
     type: RECEIVE_RELAYS,
-    data: { items, page }
+    data
   }
 }
 
-function newRelayAdded(items, page) {
+function newRelayAdded(data) {
   return {
     type: ADD_RELAY,
-    data: { items, page }
+    data
   }
 }
 
-function relayDeleted(items, page) {
+function relayDeleted(data) {
   return {
     type: DELETE_RELAY,
-    data: { items, page }
+    data
   }
 }
 
-function relayUpdated(items, page) {
+function relayUpdated(data) {
   return {
     type: UPDATE_RELAY,
-    data: { items, page }
+    data
   }
 }
 
@@ -38,49 +38,49 @@ export function getRelays() {
   return (dispatch, getState) => {
     networkService.get('/gatekeeper/mgmt/brokers')
       .then(response => {
-        dispatch(receiveRelays(digestRelays(response.data)))
+        dispatch(receiveRelays(response.data))
       })
       .catch(error => {
         console.log(error)
       })
-    }
   }
-  
-  export function addRelay(newRelay) {
-    return (dispatch, getState) => {
-      networkService.post('/gatekeeper/mgmt/brokers', newRelay)
+}
+
+export function addRelay(newRelay) {
+  return (dispatch, getState) => {
+    networkService.post('/gatekeeper/mgmt/brokers', newRelay)
       .then(response => {
+        console.log('relay add', response.data)
         dispatch(newRelayAdded())
-        window.location.reload()
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
+}
 
-  export function deleteRelay(id) {
-    return (dispatch, getState) => {
-      networkService.delete('/gatekeeper/mgmt/brokers/' + id)
+export function deleteRelay(id) {
+  return (dispatch, getState) => {
+    networkService.delete(`/gatekeeper/mgmt/brokers/${id}`)
       .then(response => {
+        console.log('relay delete', response.data)
         dispatch(relayDeleted())
-        window.location.reload()
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
+}
 
-  export function updateRelay(updatedRelay) {
-    return (dispatch, getState) => {
-      networkService.put('/gatekeeper/mgmt/brokers', updatedRelay)
+export function updateRelay(updatedRelay) {
+  return (dispatch, getState) => {
+    networkService.put('/gatekeeper/mgmt/brokers', updatedRelay)
       .then(response => {
+        console.log('relay update', response.data)
         dispatch(relayUpdated())
-        window.location.reload()
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
+}

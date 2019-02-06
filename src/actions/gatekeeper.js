@@ -6,31 +6,31 @@ export const ADD_CLOUD = 'ADD_CLOUD'
 export const DELETE_CLOUD = 'DELETE_CLOUD'
 export const UPDATE_CLOUD = 'UPDATE_CLOUD'
 
-function receiveClouds(items, page) {
+function receiveClouds(data) {
   return {
     type: RECEIVE_CLOUDS,
-    data: { items, page }
+    data
   }
 }
 
-function newCloudAdded(items, page) {
+function newCloudAdded(data) {
   return {
     type: ADD_CLOUD,
-    data: { items, page }
+    data
   }
 }
 
-function cloudDeleted(items, page) {
+function cloudDeleted(data) {
   return {
     type: DELETE_CLOUD,
-    data: { items, page }
+    data
   }
 }
 
-function cloudUpdated(items, page) {
+function cloudUpdated(data) {
   return {
     type: UPDATE_CLOUD,
-    data: { items, page }
+    data
   }
 }
 
@@ -38,7 +38,7 @@ export function getClouds() {
   return (dispatch, getState) => {
     networkService.get('/gatekeeper/mgmt/neighborhood')
       .then(response => {
-        dispatch(receiveClouds(digestClouds(response.data)))
+        dispatch(receiveClouds(response.data))
       })
       .catch(error => {
         console.log(error)
@@ -49,9 +49,9 @@ export function getClouds() {
 export function addCloud(newCloud) {
   return (dispatch, getState) => {
     networkService.post('/gatekeeper/mgmt/neighborhood', newCloud)
-    .then(response => {
-      dispatch(newCloudAdded())
-      window.location.reload()
+      .then(response => {
+        console.log('cloud add', response.data)
+        dispatch(newCloudAdded())
       })
       .catch(error => {
         console.log(error)
@@ -61,11 +61,10 @@ export function addCloud(newCloud) {
 
 export function deleteCloud(operator, cloudName) {
   return (dispatch, getState) => {
-    networkService.delete('/gatekeeper/mgmt/neighborhood/operator/'  + 
-                          operator + '/cloudname/' + cloudName )
-    .then(response => {
-      dispatch(cloudDeleted())
-      window.location.reload()
+    networkService.delete(`/gatekeeper/mgmt/neighborhood/operator/${operator}/cloudname/${cloudName}`)
+      .then(response => {
+        console.log('cloud deleted', response.data)
+        dispatch(cloudDeleted())
       })
       .catch(error => {
         console.log(error)
@@ -75,10 +74,10 @@ export function deleteCloud(operator, cloudName) {
 
 export function updateCloud(updatedCloud) {
   return (dispatch, getState) => {
-    networkService.put('/mgmt/clouds/' + updatedCloud.id, updatedCloud )
-    .then(response => {
-      dispatch(cloudUpdated())
-      window.location.reload()
+    networkService.put(`/mgmt/clouds/${updatedCloud.id}`, updatedCloud)
+      .then(response => {
+        console.log('cloud updated', response.data)
+        dispatch(cloudUpdated())
       })
       .catch(error => {
         console.log(error)

@@ -43,7 +43,7 @@ Running this project has 2 options:
     ```
     REACT_APP_ARROWHEAD_SR_URL=URL:port of your Service Registry Core System
     REACT_APP_ARROWHEAD_ORCH_URL=URL:port of your Orchestrator Core System
-    REACT_APP_ARROWHEAD_GK_URL=URL:port or your Gatekeeper Core System
+    REACT_APP_ARROWHEAD_GK_URL=URL:port or your Gatekeeper_old Core System
     ```
 Example environment variables, for the BME public test beds
 
