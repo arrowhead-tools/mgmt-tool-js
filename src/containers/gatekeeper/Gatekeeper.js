@@ -14,26 +14,8 @@ const styles = theme => ({
   buttonMargin: {
     marginLeft: '10px',
     marginRight: '10px'
-  },
-  buttonContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
   }
 })
-
-const handlers = {
-  relay: {
-    addRelay,
-    deleteRelay,
-    updateRelay
-  },
-  neighborhood: {
-    addCloud,
-    deleteCloud,
-    updateCloud
-  }
-}
 
 class Gatekeeper extends Component {
   componentDidMount() {
@@ -44,19 +26,63 @@ class Gatekeeper extends Component {
   onAddRelayClick = () => {
     this.props.showModal({
       open: true,
-      closeModal: this.closeModal
+      closeModal: this.props.hideModal,
+      data: {},
+      addRelay: this.props.addRelay
     }, 'addRelay')
   }
 
-  onAddNeighborhoodClick = () =>{
+  onDeleteRelayClick = (id) => () => {
+    this.props.deleteRelay(id)
+  }
+
+  onModifyRelayClick = (data) => () => {
     this.props.showModal({
       open: true,
-      closeModal: this.closeModal
+      closeModal: this.props.hideModal,
+      isEdit: true,
+      data: data,
+      updateRelay: this.props.updateRelay
+    }, 'addRelay')
+  }
+
+  onAddNeighborhoodClick = () => {
+    this.props.showModal({
+      open: true,
+      closeModal: this.props.hideModal,
+      data: {},
+      addCloud: this.props.addCloud
+    }, 'addNeighborhood')
+  }
+
+  onDeleteNeighborhoodClick = (operator, cloudName) => () => {
+    this.props.deleteCloud(operator, cloudName)
+  }
+
+  onModifyNeighborhoodClick = (data) => () => {
+    this.props.showModal({
+      open: true,
+      closeModal: this.props.hideModal,
+      isEdit: true,
+      data: data.cloud,
+      updateCloud: this.props.updateCloud
     }, 'addNeighborhood')
   }
 
   render() {
     const { classes, gatekeeper, relay } = this.props
+    const handlers = {
+      relay: {
+        onAddRelayClick: this.onAddRelayClick,
+        onDeleteRelayClick: this.onDeleteRelayClick,
+        onModifyRelayClick: this.onModifyRelayClick
+      },
+      neighborhood: {
+        onAddNeighborhoodClick: this.onAddNeighborhoodClick,
+        onDeleteNeighborhoodClick: this.onDeleteNeighborhoodClick,
+        onModifyNeighborhoodClick: this.onModifyNeighborhoodClick
+      }
+    }
     return (
       <div className={classes.root}>
         <GatekeeperTabContainer relayData={relay.data} neighborhoodData={gatekeeper.data} handlers={handlers} />

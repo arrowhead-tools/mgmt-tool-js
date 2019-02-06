@@ -1,8 +1,5 @@
 import {
-  RECEIVE_CLOUDS,
-  ADD_CLOUD,
-  DELETE_CLOUD,
-  UPDATE_CLOUD
+  RECEIVE_CLOUDS
 } from '../actions/gatekeeper'
 
 export const initialState = {
@@ -10,23 +7,8 @@ export const initialState = {
 }
 
 export default function services(state = initialState, action = {}) {
-  switch (action.type) {
+  switch(action.type) {
     case RECEIVE_CLOUDS:
-      return {
-        ...state,
-        data: action.data
-      }
-    case ADD_CLOUD:
-      return {
-        ...state,
-        data: action.data
-      }
-    case DELETE_CLOUD:
-      return {
-        ...state,
-        data: action.data
-      }
-    case UPDATE_CLOUD:
       return {
         ...state,
         data: action.data

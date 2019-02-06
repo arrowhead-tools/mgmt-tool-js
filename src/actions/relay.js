@@ -1,35 +1,12 @@
 import networkService from '../services/networkServiceGK'
 import { digestRelays } from '../utils/utils'
+import { showNotification } from './global'
 
 export const RECEIVE_RELAYS = 'RECEIVE_RELAYS'
-export const ADD_RELAY = 'ADD_RELAY'
-export const DELETE_RELAY = 'DELETE_RELAY'
-export const UPDATE_RELAY = 'UPDATE_RELAY'
 
 function receiveRelays(data) {
   return {
     type: RECEIVE_RELAYS,
-    data
-  }
-}
-
-function newRelayAdded(data) {
-  return {
-    type: ADD_RELAY,
-    data
-  }
-}
-
-function relayDeleted(data) {
-  return {
-    type: DELETE_RELAY,
-    data
-  }
-}
-
-function relayUpdated(data) {
-  return {
-    type: UPDATE_RELAY,
     data
   }
 }
@@ -50,11 +27,34 @@ export function addRelay(newRelay) {
   return (dispatch, getState) => {
     networkService.post('/gatekeeper/mgmt/brokers', newRelay)
       .then(response => {
-        console.log('relay add', response.data)
-        dispatch(newRelayAdded())
+        dispatch(getRelays())
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
       })
       .catch(error => {
         console.log(error)
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 10
+            },
+            'error'
+          )
+        )
       })
   }
 }
@@ -63,24 +63,70 @@ export function deleteRelay(id) {
   return (dispatch, getState) => {
     networkService.delete(`/gatekeeper/mgmt/brokers/${id}`)
       .then(response => {
-        console.log('relay delete', response.data)
-        dispatch(relayDeleted())
+        dispatch(getRelays())
+        dispatch(
+          showNotification(
+            {
+              title: 'Deletion was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
       })
       .catch(error => {
         console.log(error)
+        dispatch(
+          showNotification(
+            {
+              title: 'Deletion was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'error'
+          )
+        )
       })
   }
 }
 
 export function updateRelay(updatedRelay) {
   return (dispatch, getState) => {
-    networkService.put('/gatekeeper/mgmt/brokers', updatedRelay)
+    networkService.put(`/gatekeeper/mgmt/brokers/${updatedRelay.id}`, updatedRelay)
       .then(response => {
-        console.log('relay update', response.data)
-        dispatch(relayUpdated())
+        dispatch(getRelays())
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
       })
       .catch(error => {
         console.log(error)
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 10
+            },
+            'error'
+          )
+        )
       })
   }
 }

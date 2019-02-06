@@ -9,12 +9,17 @@ import AddModal from '../ModalTypes/AddModal'
 import ServiceSearchModal from '../ModalTypes/ServiceSearch'
 import AddSREntry from '../ModalTypes/AddSREntry'
 import AddAuthEntry from '../ModalTypes/AddAuthEntry'
+import AddNeighborhood from '../ModalTypes/AddNeighborhood'
+import AddRelay from '../ModalTypes/AddRelay'
+
 
 const MODAL_TYPES = {
   'add': AddModal,
   'serviceSearch': ServiceSearchModal,
   'addSREntry': AddSREntry,
-  'addAuthEntry': AddAuthEntry
+  'addAuthEntry': AddAuthEntry,
+  'addNeighborhood': AddNeighborhood,
+  'addRelay': AddRelay
 }
 
 const styles = theme => ({
