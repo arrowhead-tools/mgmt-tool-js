@@ -23,7 +23,8 @@ export function getRelays() {
   }
 }
 
-export function addRelay(newRelay) {
+export function addRelay(relayData) {
+  const newRelay = [relayData]
   return (dispatch, getState) => {
     networkService.post('/gatekeeper/mgmt/brokers', newRelay)
       .then(response => {

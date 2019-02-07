@@ -22,7 +22,10 @@ export function getClouds() {
   }
 }
 
-export function addCloud(newCloud) {
+export function addCloud(cloudData) {
+  const newCloud = [
+    { cloud: cloudData }
+  ]
   return (dispatch, getState) => {
     networkService.post('/gatekeeper/mgmt/neighborhood', newCloud)
       .then(response => {
