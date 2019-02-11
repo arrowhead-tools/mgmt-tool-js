@@ -1,7 +1,7 @@
 import React from 'react'
 
 class OrchestratorStatus extends React.Component {
-  render () {
+  render() {
     return <div>Status</div>
   }
 }

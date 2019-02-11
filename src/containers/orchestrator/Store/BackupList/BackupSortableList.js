@@ -10,17 +10,19 @@ import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import _ from 'lodash'
 
-const DragHandle = sortableHandle(() => <ReorderIcon className='SortableDrag' />)
+const DragHandle = sortableHandle(() => (
+  <ReorderIcon className="SortableDrag" />
+))
 
 const SortableItem = sortableElement(({ value }) => (
-  <li className='SortableItem'>
-    <DragHandle/>
+  <li className="SortableItem">
+    <DragHandle />
     <Typography>{value}</Typography>
   </li>
 ))
 
 const SortableContainer = sortableContainer(({ children }) => {
-  return <ul className='SortableList'>{children}</ul>
+  return <ul className="SortableList">{children}</ul>
 })
 
 class BackupSortableList extends React.Component {
@@ -38,10 +40,14 @@ class BackupSortableList extends React.Component {
     }))
 
     const disabled = _.isEqual(this.state.items, this.props.list)
-    this.props.onItemsOrderChanged(this.props.serviceId, disabled, this.state.items)
+    this.props.onItemsOrderChanged(
+      this.props.serviceId,
+      disabled,
+      this.state.items
+    )
   }
 
-  onItemsOrderChanged = (newArray) => {
+  onItemsOrderChanged = newArray => {
     return _.isEqual(newArray, this.props.list)
   }
 
@@ -51,7 +57,12 @@ class BackupSortableList extends React.Component {
     return (
       <SortableContainer onSortEnd={this.onSortEnd} useDragHandle>
         {items.map((provider, index) => (
-          <SortableItem key={index} index={index} value={provider.systemName} helperClass='SortableHelper' />
+          <SortableItem
+            key={index}
+            index={index}
+            value={provider.systemName}
+            helperClass="SortableHelper"
+          />
         ))}
       </SortableContainer>
     )

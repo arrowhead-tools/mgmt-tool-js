@@ -25,4 +25,7 @@ function mapDispatchToProps(dispatch) {
   return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddModal)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddModal)

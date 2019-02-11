@@ -1,6 +1,4 @@
-import {
-  RECEIVE_RELAYS
-} from '../actions/relay'
+import { RECEIVE_RELAYS } from '../actions/relay'
 
 export const initialState = {
   data: []

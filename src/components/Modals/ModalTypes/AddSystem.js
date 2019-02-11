@@ -42,7 +42,10 @@ class AddSystem extends Component {
   }
 
   handlePortOnChange = event => {
-    if (event.target.value === '' || (event.target.value > 0 && event.target.value <= 65536)) {
+    if (
+      event.target.value === '' ||
+      (event.target.value > 0 && event.target.value <= 65536)
+    ) {
       this.setState({ port: event.target.value })
     }
   }
@@ -52,59 +55,79 @@ class AddSystem extends Component {
   }
 
   handleAddSystemButtonClick = () => {
-    this.props.addSystem(this.state.systemName, this.state.address, this.state.port, this.state.authenticationInfo)
+    this.props.addSystem(
+      this.state.systemName,
+      this.state.address,
+      this.state.port,
+      this.state.authenticationInfo
+    )
   }
 
   render() {
     const { classes } = this.props
     return (
-      <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', width: '440px' }}>
+      <Card
+        raised
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          margin: '10px',
+          width: '440px'
+        }}
+      >
         <TextField
-          id='system_name'
+          id="system_name"
           required
           onChange={this.handleSystemNameOnChange}
-          label='System Name'
+          label="System Name"
           className={classes.input}
         />
         <TextField
-          id='system_address'
+          id="system_address"
           required
           onChange={this.handleAddressOnChange}
-          label='Address'
+          label="Address"
           className={classes.input}
         />
         <TextField
           value={this.state.port}
-          id='port'
+          id="port"
           required
           onChange={this.handlePortOnChange}
-          label='Port'
+          label="Port"
           className={classes.input}
-          type='number'
+          type="number"
           inputProps={{
             min: '1',
             max: '65535'
           }}
         />
         <TextField
-          id='authentication_info'
+          id="authentication_info"
           onChange={this.handleAuthenticationInfoOnChange}
-          label='Authentication Info'
+          label="Authentication Info"
           className={classes.input}
           inputProps={{
             'aria-label': 'Description'
           }}
         />
         <Button
-          disabled={this.state.systemName === '' || this.state.address === '' || this.state.port === ''}
-          color='primary'
+          disabled={
+            this.state.systemName === '' ||
+            this.state.address === '' ||
+            this.state.port === ''
+          }
+          color="primary"
           onClick={this.handleAddSystemButtonClick}
           style={{
             width: '400px',
             marginLeft: '20px',
             marginRight: '20px',
             marginBottom: '20px'
-          }}>Add System</Button>
+          }}
+        >
+          Add System
+        </Button>
       </Card>
     )
   }
@@ -115,9 +138,7 @@ AddSystem.propTypes = {
   addSystem: PropTypes.func.isRequired
 }
 
-function mapStateToProps(dispatch) {
-
-}
+function mapStateToProps(dispatch) {}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -127,4 +148,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddSystem))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(AddSystem))

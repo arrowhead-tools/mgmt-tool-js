@@ -26,34 +26,44 @@ const styles = theme => ({
 })
 
 const columnData = [
-  { id: 'systemName', disablePadding: false, label: 'System Name'},
-  { id: 'address', disablePadding: false, label: 'Address'},
-  { id: 'port', disablePadding: false, label: 'Port'},
-  { id: 'notifyUri', disablePadding: false, label: 'Notify URI'},
-  { id: 'sources', disablePadding: false, label: 'Sources'},
-  { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true}
+  { id: 'systemName', disablePadding: false, label: 'System Name' },
+  { id: 'address', disablePadding: false, label: 'Address' },
+  { id: 'port', disablePadding: false, label: 'Port' },
+  { id: 'notifyUri', disablePadding: false, label: 'Notify URI' },
+  { id: 'sources', disablePadding: false, label: 'Sources' },
+  { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
 ]
 
 class EventHandlerTab extends Component {
   render() {
-    const { events, classes, deleteEventHandler, modifyEventHandler } = this.props
+    const {
+      events,
+      classes,
+      deleteEventHandler,
+      modifyEventHandler
+    } = this.props
     console.log(events)
     return (
       <div className={classes.root}>
-        {
-          events.map(event => {
-            return (
-              <ExpansionPanel key={event.eventType}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>{event.eventType}</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails className={classes.child}>
-                  <EventHandlerTable data={event.consumers} columnData={columnData} deleteEventHandler={deleteEventHandler} modifyEventHandler={modifyEventHandler}/>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            )
-          })
-        }
+        {events.map(event => {
+          return (
+            <ExpansionPanel key={event.eventType}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>
+                  {event.eventType}
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.child}>
+                <EventHandlerTable
+                  data={event.consumers}
+                  columnData={columnData}
+                  deleteEventHandler={deleteEventHandler}
+                  modifyEventHandler={modifyEventHandler}
+                />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          )
+        })}
       </div>
     )
   }

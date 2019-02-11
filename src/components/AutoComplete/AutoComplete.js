@@ -11,7 +11,19 @@ class AutoComplete extends Component {
   }
 
   render() {
-    const { classes, handleOnChange, keyValue, suggestions, label, placeholder, defaultValue, handleTextChange, required, disabled, isEdit } = this.props
+    const {
+      classes,
+      handleOnChange,
+      keyValue,
+      suggestions,
+      label,
+      placeholder,
+      defaultValue,
+      handleTextChange,
+      required,
+      disabled,
+      isEdit
+    } = this.props
     return (
       <Downshift
         onChange={selection => {
@@ -32,15 +44,15 @@ class AutoComplete extends Component {
         }}
       >
         {({
-            getInputProps,
-            getItemProps,
-            getLabelProps,
-            getMenuProps,
-            isOpen,
-            inputValue,
-            highlightedIndex,
-            selectedItem
-          }) => (
+          getInputProps,
+          getItemProps,
+          getLabelProps,
+          getMenuProps,
+          isOpen,
+          inputValue,
+          highlightedIndex,
+          selectedItem
+        }) => (
           <div>
             <TextField
               defaultValue={this.state.inputValue || defaultValue}
@@ -49,16 +61,20 @@ class AutoComplete extends Component {
               placeholder={placeholder}
               {...getInputProps()}
               style={classes.textField}
-              required={required} />
+              required={required}
+            />
             <div {...getMenuProps()}>
-              {isOpen ?
-                <Paper className={classes.paper} square>{
-                  suggestions.filter(item => !inputValue || item[keyValue].includes(inputValue))
+              {isOpen ? (
+                <Paper className={classes.paper} square>
+                  {suggestions
+                    .filter(
+                      item => !inputValue || item[keyValue].includes(inputValue)
+                    )
                     .map((item, index) => (
                       <MenuItem
                         {...getItemProps({ key: item.id, index, item })}
                         key={item.id}
-                        component='div'
+                        component="div"
                         selected={highlightedIndex === index}
                         style={{
                           fontWeight: selectedItem === item ? 500 : 400
@@ -66,8 +82,9 @@ class AutoComplete extends Component {
                       >
                         {item[keyValue]}
                       </MenuItem>
-                    ))
-                }</Paper> : null}
+                    ))}
+                </Paper>
+              ) : null}
             </div>
           </div>
         )}

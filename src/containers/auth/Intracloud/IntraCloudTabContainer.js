@@ -25,15 +25,21 @@ class IntraCloudTabContainer extends Component {
   }
 
   render() {
-    const { theme, consumerData, providerData, serviceData, deleteAuthEntry } = this.props
+    const {
+      theme,
+      consumerData,
+      providerData,
+      serviceData,
+      deleteAuthEntry
+    } = this.props
     const { value } = this.state
     return (
       <div>
-        <AppBar position='static' style={{ background: '#004676' }}>
-          <Tabs value={value} onChange={this.handleChange} variant='fullWidth'>
-            <Tab label='Consumer' />
-            <Tab label='Provider' />
-            <Tab label='Service' />
+        <AppBar position="static" style={{ background: '#004676' }}>
+          <Tabs value={value} onChange={this.handleChange} variant="fullWidth">
+            <Tab label="Consumer" />
+            <Tab label="Provider" />
+            <Tab label="Service" />
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -41,9 +47,21 @@ class IntraCloudTabContainer extends Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <ConsumerTab dir={theme.direction} consumerData={consumerData} deleteAuthEntry={deleteAuthEntry} />
-          <ProviderTab dir={theme.direction} providerData={providerData} deleteAuthEntry={deleteAuthEntry} />
-          <ServiceTab dir={theme.direction} serviceData={serviceData} deleteAuthEntry={deleteAuthEntry} />
+          <ConsumerTab
+            dir={theme.direction}
+            consumerData={consumerData}
+            deleteAuthEntry={deleteAuthEntry}
+          />
+          <ProviderTab
+            dir={theme.direction}
+            providerData={providerData}
+            deleteAuthEntry={deleteAuthEntry}
+          />
+          <ServiceTab
+            dir={theme.direction}
+            serviceData={serviceData}
+            deleteAuthEntry={deleteAuthEntry}
+          />
         </SwipeableViews>
       </div>
     )

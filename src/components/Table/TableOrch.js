@@ -23,8 +23,8 @@ class OrchTableHead extends React.Component {
   }
 
   render() {
-    const { order, orderBy, columnData} = this.props
-   
+    const { order, orderBy, columnData } = this.props
+
     return (
       <TableHead>
         <TableRow>
@@ -32,12 +32,12 @@ class OrchTableHead extends React.Component {
             return (
               <TableCell
                 key={column.id}
-                numeric={column.numeric}  
+                numeric={column.numeric}
                 sortDirection={orderBy === column.id ? order : false}
-                style={{padding: "1px 1px 1px 1px", textAlign: "center"}}
+                style={{ padding: '1px 1px 1px 1px', textAlign: 'center' }}
               >
                 <Tooltip
-                  title='Sort'
+                  title="Sort"
                   placement={column.numeric ? 'bottom-end' : 'bottom-start'}
                   enterDelay={300}
                 >
@@ -63,7 +63,7 @@ OrchTableHead.propTypes = {
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
   columnData: PropTypes.array.isRequired
- }
+}
 
 const styles = theme => ({
   root: {
@@ -71,10 +71,10 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3
   },
   tableCell: {
-    lineHeight: "1.42857143",
-    padding: "1px 1px 1px 1px" ,
-    verticalAlign: "middle",
-    textAlign: "center"
+    lineHeight: '1.42857143',
+    padding: '1px 1px 1px 1px',
+    verticalAlign: 'middle',
+    textAlign: 'center'
   },
   tableWrapper: {
     overflowX: 'auto'
@@ -115,40 +115,51 @@ class OrchTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value })
   }
 
-
   render() {
-    const { classes, columnData, data, checkedSystemName, checkedServiceDef, filterService, checkedFiltered} = this.props
-    const { order, orderBy, rowsPerPage, page} = this.state
+    const {
+      classes,
+      columnData,
+      data,
+      checkedSystemName,
+      checkedServiceDef,
+      filterService,
+      checkedFiltered
+    } = this.props
+    const { order, orderBy, rowsPerPage, page } = this.state
 
-    
     let filteredTableData = this.props.data
-      if (checkedSystemName && filterService.length > 0) {
-        filteredTableData = data.filter(s  => (s.systemName.toUpperCase()).startsWith(filterService.toUpperCase()));
-      }
-  
-      if (checkedServiceDef && filterService.length > 0) {
-        filteredTableData = data.filter(s  => (s.serviceDef.toUpperCase()).startsWith(filterService.toUpperCase()));
-      }    
-     
-    
+    if (checkedSystemName && filterService.length > 0) {
+      filteredTableData = data.filter(s =>
+        s.systemName.toUpperCase().startsWith(filterService.toUpperCase())
+      )
+    }
+
+    if (checkedServiceDef && filterService.length > 0) {
+      filteredTableData = data.filter(s =>
+        s.serviceDef.toUpperCase().startsWith(filterService.toUpperCase())
+      )
+    }
+
     if (checkedFiltered) {
       let toRemove = []
       filteredTableData.forEach(function(element) {
-        if (element.systemName.toUpperCase() === `Orchestrator`.toUpperCase() ||
-        element.systemName.toUpperCase() === `Authorizator`.toUpperCase() ||
-        element.systemName.toUpperCase() === `Gatekeeper`.toUpperCase()
+        if (
+          element.systemName.toUpperCase() === `Orchestrator`.toUpperCase() ||
+          element.systemName.toUpperCase() === `Authorizator`.toUpperCase() ||
+          element.systemName.toUpperCase() === `Gatekeeper`.toUpperCase()
         ) {
           toRemove.push(element)
         }
       })
-      filteredTableData = filteredTableData.filter( ( el ) => !toRemove.includes( el ) );
-
+      filteredTableData = filteredTableData.filter(el => !toRemove.includes(el))
     }
-   const emptyRows = rowsPerPage - Math.min(rowsPerPage, filteredTableData.length - page * rowsPerPage);
+    const emptyRows =
+      rowsPerPage -
+      Math.min(rowsPerPage, filteredTableData.length - page * rowsPerPage)
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby='tableTitle' >
+          <Table className={classes.table} aria-labelledby="tableTitle">
             <OrchTableHead
               columnData={columnData}
               order={order}
@@ -162,28 +173,35 @@ class OrchTable extends React.Component {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
                   return (
-                    <TableRow
-                      hover
-                      key={n.serviceId + n.systemId}
-                    >
-                      <TableCell className={classes.tableCell} >{n.serviceId}</TableCell>
-                      <TableCell className={classes.tableCell}>{n.serviceDef}</TableCell>
-                      <TableCell className={classes.tableCell}>{n.systemId}</TableCell>
-                      <TableCell className={classes.tableCell}>{n.systemName}</TableCell>
-                      <TableCell className={classes.tableCell}>{n.localCloud}</TableCell>
+                    <TableRow hover key={n.serviceId + n.systemId}>
+                      <TableCell className={classes.tableCell}>
+                        {n.serviceId}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {n.serviceDef}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {n.systemId}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {n.systemName}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {n.localCloud}
+                      </TableCell>
                     </TableRow>
                   )
                 })}
-                {emptyRows > 0 && (
+              {emptyRows > 0 && (
                 <TableRow style={{ height: 49 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
           </Table>
-          </div>
+        </div>
         <TablePagination
-          component='div'
+          component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -195,9 +213,7 @@ class OrchTable extends React.Component {
           }}
           onChangePage={this.handleChangePage}
         />
-    </Paper>
-
-        
+      </Paper>
     )
   }
 }

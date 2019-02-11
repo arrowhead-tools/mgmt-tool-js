@@ -13,11 +13,23 @@ import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
 import { filterItems } from '../../utils/utils'
 
 function renderInput(inputProps) {
-  const { InputProps, classes, disabled, deleteAll, getToggleButtonProps, selectedItem, required, ref, ...other } = inputProps
+  const {
+    InputProps,
+    classes,
+    disabled,
+    deleteAll,
+    getToggleButtonProps,
+    selectedItem,
+    required,
+    ref,
+    ...other
+  } = inputProps
   console.log('selectedItem', selectedItem)
   console.log('gtb', getToggleButtonProps)
   return (
-    <div style={{ marginLeft: '20px', display: 'flex', alignItems: 'baseline' }}>
+    <div
+      style={{ marginLeft: '20px', display: 'flex', alignItems: 'baseline' }}
+    >
       <TextField
         required={required}
         disabled={disabled}
@@ -32,15 +44,16 @@ function renderInput(inputProps) {
         {...other}
       />
       {selectedItem.length > 0 ? (
-        <Button
-          justIcon
-          color='transparent'
-          onClick={deleteAll}
-        >
+        <Button justIcon color="transparent" onClick={deleteAll}>
           <ClearIcon />
         </Button>
       ) : (
-        <Button disabled={disabled} color='transparent' justIcon {...getToggleButtonProps()}>
+        <Button
+          disabled={disabled}
+          color="transparent"
+          justIcon
+          {...getToggleButtonProps()}
+        >
           <KeyboardArrowDown />
         </Button>
       )}
@@ -56,7 +69,11 @@ class AutoCompleteMulti extends React.Component {
 
   handleKeyDown = event => {
     const { inputValue, selectedItem } = this.state
-    if (selectedItem.length && !inputValue.length && keycode(event) === 'backspace') {
+    if (
+      selectedItem.length &&
+      !inputValue.length &&
+      keycode(event) === 'backspace'
+    ) {
       this.setState({
         selectedItem: selectedItem.slice(0, selectedItem.length - 1)
       })
@@ -99,7 +116,15 @@ class AutoCompleteMulti extends React.Component {
   }
 
   render() {
-    const { classes, disabled, label, placeholder, suggestions, keyValue, required } = this.props
+    const {
+      classes,
+      disabled,
+      label,
+      placeholder,
+      suggestions,
+      keyValue,
+      required
+    } = this.props
     const { inputValue, selectedItem } = this.state
 
     return (
@@ -109,15 +134,15 @@ class AutoCompleteMulti extends React.Component {
         selectedItem={selectedItem}
       >
         {({
-            getInputProps,
-            getItemProps,
-            getMenuProps,
-            isOpen,
-            getToggleButtonProps,
-            inputValue: inputValue2,
-            selectedItem: selectedItem2,
-            highlightedIndex
-          }) => (
+          getInputProps,
+          getItemProps,
+          getMenuProps,
+          isOpen,
+          getToggleButtonProps,
+          inputValue: inputValue2,
+          selectedItem: selectedItem2,
+          highlightedIndex
+        }) => (
           <div>
             {renderInput({
               fullWidth: true,
@@ -147,16 +172,18 @@ class AutoCompleteMulti extends React.Component {
               <MenuList {...getMenuProps({ open: isOpen })}>
                 {isOpen
                   ? filterItems(suggestions, inputValue2, keyValue).map(
-                    (item, index) => (
-                      <MenuItem
-                        {...getItemProps({ key: item.id, index, item })}
-                        key={item.id}
-                        component='div'
-                        selected={highlightedIndex === index}>
-                        {item[keyValue]}
-                      </MenuItem>
+                      (item, index) => (
+                        <MenuItem
+                          {...getItemProps({ key: item.id, index, item })}
+                          key={item.id}
+                          component="div"
+                          selected={highlightedIndex === index}
+                        >
+                          {item[keyValue]}
+                        </MenuItem>
+                      )
                     )
-                  ) : null}
+                  : null}
               </MenuList>
             </div>
           </div>

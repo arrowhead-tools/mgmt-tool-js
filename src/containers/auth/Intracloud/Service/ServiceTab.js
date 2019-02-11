@@ -26,22 +26,32 @@ const styles = theme => ({
 })
 
 const columnData = [
-  { id: 'provider.systemName', disablePadding: false, label: 'Provider System Name' },
+  {
+    id: 'provider.systemName',
+    disablePadding: false,
+    label: 'Provider System Name'
+  },
   { id: 'service.interfaces', disablePadding: false, label: 'Interface' },
-  { id: 'consumer.systemName', disablePadding: false, label: 'Consumer System Name' },
+  {
+    id: 'consumer.systemName',
+    disablePadding: false,
+    label: 'Consumer System Name'
+  },
   { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
 ]
 
 class ServiceTab extends Component {
   render() {
     const { serviceData, classes, deleteAuthEntry } = this.props
-    return (<div className={classes.root}>
-      {
-        serviceData.map(serviceEntry => {
+    return (
+      <div className={classes.root}>
+        {serviceData.map(serviceEntry => {
           return (
             <ExpansionPanel key={serviceEntry.service.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>{serviceEntry.service.serviceDefinition}</Typography>
+                <Typography className={classes.heading}>
+                  {serviceEntry.service.serviceDefinition}
+                </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
                 <ServiceTable
@@ -52,9 +62,9 @@ class ServiceTab extends Component {
               </ExpansionPanelDetails>
             </ExpansionPanel>
           )
-        })
-      }
-    </div>)
+        })}
+      </div>
+    )
   }
 }
 

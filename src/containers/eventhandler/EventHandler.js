@@ -4,7 +4,11 @@ import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
 import { hideModal, showModal } from '../../actions/modal'
-import { getEventHandlerData, createSubscription, deleteSubscription } from '../../actions/eventHandler'
+import {
+  getEventHandlerData,
+  createSubscription,
+  deleteSubscription
+} from '../../actions/eventHandler'
 import CustomButton from '../../components/CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
 import EventHandlerTab from './EventHandler/EventHandlerTab'
@@ -30,11 +34,14 @@ class EventHandler extends Component {
   }
 
   onEventHandlerAddClick = () => {
-    this.props.showModal({
-      open: true,
-      closeModal: this.props.hideModal,
-      createSubscription: this.props.createSubscription
-    }, 'eventHandlerDialog')
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.props.hideModal,
+        createSubscription: this.props.createSubscription
+      },
+      'eventHandlerDialog'
+    )
   }
 
   onEventHandlerDeleteClick = (eventType, consumerName) => () => {
@@ -50,11 +57,16 @@ class EventHandler extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.buttonContainer}>
-          <CustomButton color='primary' onClick={this.onEventHandlerAddClick}>
-            <AddIcon />Add
+          <CustomButton color="primary" onClick={this.onEventHandlerAddClick}>
+            <AddIcon />
+            Add
           </CustomButton>
         </div>
-        <EventHandlerTab events={eventHandler.data} deleteEventHandler={this.onEventHandlerDeleteClick} modifyEventHandler={this.onEventHandlerModifyClick}/>
+        <EventHandlerTab
+          events={eventHandler.data}
+          deleteEventHandler={this.onEventHandlerDeleteClick}
+          modifyEventHandler={this.onEventHandlerModifyClick}
+        />
         <ModalContainer />
       </div>
     )
@@ -81,7 +93,7 @@ function mapDispatchToProps(dispatch) {
     getEventHandlerData: () => {
       dispatch(getEventHandlerData())
     },
-    createSubscription: (subscriptionData) => {
+    createSubscription: subscriptionData => {
       dispatch(createSubscription(subscriptionData))
     },
     deleteSubscription: (eventType, consumerName) => {
@@ -96,4 +108,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EventHandler))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(EventHandler))

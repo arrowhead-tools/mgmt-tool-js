@@ -87,7 +87,11 @@ class ServiceSearch extends Component {
     }
     if (this.state.interfaceSearch) {
       queryDataObject.interfaces = this.state.interfaceSearch
-      queryData.push({ regularExpression: this.state.interfaceSearch, fieldName: 'interfaces', partialMath: true })
+      queryData.push({
+        regularExpression: this.state.interfaceSearch,
+        fieldName: 'interfaces',
+        partialMath: true
+      })
     }
 
     this.props.getFilteredServices(queryData, queryDataObject)
@@ -97,51 +101,80 @@ class ServiceSearch extends Component {
     const { services } = this.props
     console.log('services', services)
     return (
-      <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', marginTop: '20px' }}>
+      <Card
+        raised
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          margin: '10px',
+          marginTop: '20px'
+        }}
+      >
         <AutoComplete
           handleOnChange={this.handleSystemSearchOnChange}
           handleTextChange={this.handleSystemSearchTextOnChange}
           suggestions={services.systemList}
-          keyValue='systemName'
+          keyValue="systemName"
           defaultValue={services.queryData.systemName || ''}
-          placeholder='System Name' id='system_search'
-          label='System Name'
+          placeholder="System Name"
+          id="system_search"
+          label="System Name"
           classes={{
             inputRoot: { flexWrap: 'wrap' },
-            textField: { width: '400px', marginTop: '20px', marginLeft: '20px', marginRight: '20px' }
-          }} />
+            textField: {
+              width: '400px',
+              marginTop: '20px',
+              marginLeft: '20px',
+              marginRight: '20px'
+            }
+          }}
+        />
         <AutoComplete
           handleOnChange={this.handleServiceSearchOnChange}
           suggestions={services.serviceList}
-          keyValue='value'
+          keyValue="value"
           handleTextChange={this.handleServiceSearchTextOnChange}
           defaultValue={services.queryData.serviceDefinition || ''}
-          placeholder='Service Definition' id='service_definition_search'
-          label='Service Definition'
-          classes={{ inputRoot: { flexWrap: 'wrap' }, textField: { width: '400px', margin: '20px' } }} />
+          placeholder="Service Definition"
+          id="service_definition_search"
+          label="Service Definition"
+          classes={{
+            inputRoot: { flexWrap: 'wrap' },
+            textField: { width: '400px', margin: '20px' }
+          }}
+        />
         <AutoComplete
           handleOnChange={this.handleInterfaceSearchOnChange}
           suggestions={services.interfaceList}
-          keyValue='value'
+          keyValue="value"
           handleTextChange={this.handleInterfaceSearchTextOnChange}
           defaultValue={services.queryData.interfaces || ''}
-          placeholder='Interface' id='interface_search'
-          label='Interface'
+          placeholder="Interface"
+          id="interface_search"
+          label="Interface"
           classes={{
             inputRoot: { flexWrap: 'wrap' },
-            textField: { width: '400px', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }
-          }} />
+            textField: {
+              width: '400px',
+              marginBottom: '20px',
+              marginLeft: '20px',
+              marginRight: '20px'
+            }
+          }}
+        />
 
         <Button
-          color='primary'
+          color="primary"
           onClick={this.handleSearchClick}
           style={{
             width: '400px',
             marginLeft: '20px',
             marginRight: '20px',
             marginBottom: '20px'
-          }}><SearchIcon /> Search</Button>
-
+          }}
+        >
+          <SearchIcon /> Search
+        </Button>
       </Card>
     )
   }
@@ -165,4 +198,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ServiceSearch)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ServiceSearch)

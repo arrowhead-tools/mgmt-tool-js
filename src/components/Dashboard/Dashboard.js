@@ -1,13 +1,10 @@
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 class Dashboard extends Component {
   render() {
-    return (
-      <div style={{padding: '20px'}}/>
-    )
+    return <div style={{ padding: '20px' }} />
   }
 }
 

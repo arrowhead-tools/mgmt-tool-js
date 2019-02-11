@@ -4,7 +4,11 @@ import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles'
-import { addAuthData, getAuthServices, getAuthSystems } from '../../../actions/auth'
+import {
+  addAuthData,
+  getAuthServices,
+  getAuthSystems
+} from '../../../actions/auth'
 import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
 import Button from '../../CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
@@ -103,7 +107,12 @@ class AddAuthEntry extends Component {
   }
 
   handleAddButtonClick = () => {
-    this.props.addAuthData(this.state.consumerSystem, this.state.providerSystems, this.state.providedService, this.state.interface)
+    this.props.addAuthData(
+      this.state.consumerSystem,
+      this.state.providerSystems,
+      this.state.providedService,
+      this.state.interface
+    )
   }
 
   handleChipAdd = chip => {
@@ -111,7 +120,9 @@ class AddAuthEntry extends Component {
   }
 
   handleDeleteChip = (deletedChip, index) => {
-    this.setState({ interface: this.state.interface.filter((c) => c !== deletedChip) })
+    this.setState({
+      interface: this.state.interface.filter(c => c !== deletedChip)
+    })
   }
 
   render() {
@@ -119,67 +130,92 @@ class AddAuthEntry extends Component {
     return (
       <div>
         <Card raised className={classes.card}>
-          <Typography variant='h5' align='center' className={classes.title}>Consumer System</Typography>
+          <Typography variant="h5" align="center" className={classes.title}>
+            Consumer System
+          </Typography>
           <AutoCompleteSingle
             classes={{
               inputRoot: { flexWrap: 'wrap' },
-              textField: { width: '400px', marginTop: '20px', marginLeft: '20px' }
+              textField: {
+                width: '400px',
+                marginTop: '20px',
+                marginLeft: '20px'
+              }
             }}
             suggestions={systems}
             handleOnChange={this.handleConsumerSystemOnChange}
-            keyValue='systemName'
+            keyValue="systemName"
             required
-            placeholder='Consumer System'
-            label='Consumer System' />
-          <Typography
-            className={classes.text}><b>Address:</b> {this.state.consumerSystem ? this.state.consumerSystem.address : ''}
+            placeholder="Consumer System"
+            label="Consumer System"
+          />
+          <Typography className={classes.text}>
+            <b>Address:</b>{' '}
+            {this.state.consumerSystem ? this.state.consumerSystem.address : ''}
           </Typography>
-          <Typography
-            className={classes.textBottom}><b>Port:</b> {this.state.consumerSystem ? this.state.consumerSystem.port : ''}
+          <Typography className={classes.textBottom}>
+            <b>Port:</b>{' '}
+            {this.state.consumerSystem ? this.state.consumerSystem.port : ''}
           </Typography>
         </Card>
         <Card raised className={classes.card}>
-          <Typography variant='h5' align='center' className={classes.title}>Consumed Service</Typography>
+          <Typography variant="h5" align="center" className={classes.title}>
+            Consumed Service
+          </Typography>
           <AutoCompleteSingle
             classes={{
               inputRoot: { flexWrap: 'wrap' },
-              textField: { width: '400px', marginTop: '20px', marginLeft: '20px' }
+              textField: {
+                width: '400px',
+                marginTop: '20px',
+                marginLeft: '20px'
+              }
             }}
             suggestions={services}
-            keyValue='serviceDefinition'
-            label='Consumed Service'
-            placeholder='Consumed Service'
+            keyValue="serviceDefinition"
+            label="Consumed Service"
+            placeholder="Consumed Service"
             handleTextChange={null}
             required
             handleOnChange={this.handleProvidedServiceOnChange}
-            disabled={this.state.consumerSystem === null} />
+            disabled={this.state.consumerSystem === null}
+          />
           <ChipInput
             disabled={this.state.providedService === null}
             required
             value={this.state.interface}
-            id='interface'
+            id="interface"
             className={classes.input}
-            label='Interface'
-            onAdd={(chip) => this.handleChipAdd(chip)}
-            onDelete={(chip, index) => this.handleDeleteChip(chip, index)} />
+            label="Interface"
+            onAdd={chip => this.handleChipAdd(chip)}
+            onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
+          />
         </Card>
         <Card raised className={classes.card}>
-          <Typography variant='h5' align='center' className={classes.title}>Provider Systems</Typography>
+          <Typography variant="h5" align="center" className={classes.title}>
+            Provider Systems
+          </Typography>
           <AutoCompleteMulti
             handleOnChange={this.handleProviderSystemOnChange}
             disabled={this.state.interface === []}
-            label='Provider Systems'
-            placeholder='Provider Systems'
-            keyValue='systemName'
+            label="Provider Systems"
+            placeholder="Provider Systems"
+            keyValue="systemName"
             required
             suggestions={systems}
           />
         </Card>
         <Button
-          disabled={this.state.consumerSystem === null || this.state.providedService === null || this.state.providerSystems === [] || this.state.interface === []}
-          color='primary'
+          disabled={
+            this.state.consumerSystem === null ||
+            this.state.providedService === null ||
+            this.state.providerSystems === [] ||
+            this.state.interface === []
+          }
+          color="primary"
           onClick={this.handleAddButtonClick}
-          className={classes.buttonStyle}>
+          className={classes.buttonStyle}
+        >
           <AddIcon /> Add
         </Button>
       </div>
@@ -209,10 +245,25 @@ function mapDispatchToProps(dispatch) {
     getAuthServices: () => {
       dispatch(getAuthServices())
     },
-    addAuthData: (consumerSystem, providerSystems, providedService, interfaces) => {
-      dispatch(addAuthData(consumerSystem, providerSystems, providedService, interfaces))
+    addAuthData: (
+      consumerSystem,
+      providerSystems,
+      providedService,
+      interfaces
+    ) => {
+      dispatch(
+        addAuthData(
+          consumerSystem,
+          providerSystems,
+          providedService,
+          interfaces
+        )
+      )
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddAuthEntry))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(AddAuthEntry))

@@ -1,4 +1,9 @@
-import { RECEIVE_AUTH_DATA, RECEIVE_AUTH_SERVICES, RECEIVE_AUTH_SYSTEMS, RECEIVE_INTERCLOUD_DATA } from '../actions/auth'
+import {
+  RECEIVE_AUTH_DATA,
+  RECEIVE_AUTH_SERVICES,
+  RECEIVE_AUTH_SYSTEMS,
+  RECEIVE_INTERCLOUD_DATA
+} from '../actions/auth'
 
 export const initialState = {
   groupByConsumer: [],

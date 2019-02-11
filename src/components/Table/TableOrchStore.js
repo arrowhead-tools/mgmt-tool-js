@@ -35,10 +35,10 @@ class EnhancedTableHead extends React.Component {
                 numeric={column.numeric}
                 padding={column.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === column.id ? order : false}
-                style={{padding: "5px 5px 5px 5px"}}
+                style={{ padding: '5px 5px 5px 5px' }}
               >
                 <Tooltip
-                  title='Sort'
+                  title="Sort"
                   placement={column.numeric ? 'bottom-end' : 'bottom-start'}
                   enterDelay={300}
                 >
@@ -75,20 +75,19 @@ const styles = theme => ({
     overflowX: 'auto'
   },
   tableCell: {
-    lineHeight: "1.42857143",
-    padding: "5px 5px 5px 5px",
-    verticalAlign: "middle",
-    textAlign: "center",
-    maxWidth: "0px"  
+    lineHeight: '1.42857143',
+    padding: '5px 5px 5px 5px',
+    verticalAlign: 'middle',
+    textAlign: 'center',
+    maxWidth: '0px'
   },
   tableCellAuthInfo: {
-    lineHeight: "1.42857143",
-    verticalAlign: "middle",
-    padding: "5px 5px 5px 5px",
-    textAlign: "center",
-    maxWidth: "0px",
-  },
-
+    lineHeight: '1.42857143',
+    verticalAlign: 'middle',
+    padding: '5px 5px 5px 5px',
+    textAlign: 'center',
+    maxWidth: '0px'
+  }
 })
 
 class EnhancedTable extends React.Component {
@@ -132,7 +131,7 @@ class EnhancedTable extends React.Component {
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
-          <Table aria-labelledby='tableTitle'>
+          <Table aria-labelledby="tableTitle">
             <EnhancedTableHead
               order={order}
               orderBy={orderBy}
@@ -146,20 +145,34 @@ class EnhancedTable extends React.Component {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
                   return (
-                    <TableRow
-                      hover
-                      key={n.service.id + n.priority}
-                    >
-                      <TableCell className={classes.tableCell}>{n.priority}</TableCell>
-                      <TableCell className={classes.tableCell}>{n.id}</TableCell>
-                      <TableCell className={classes.tableCell}>{n.systemName}</TableCell>
-                      <TableCell className={classes.tableCell}>{n.address}</TableCell>
-                      <TableCell className={classes.tableCell}>{n.port}</TableCell>
-                      <TableCell className={classes.tableCell}>{n.service.id}</TableCell>
-                      <TableCell className={classes.tableCellAuthInfo}>{n.service.serviceDefinition}</TableCell>
-                      <TableCell className={classes.tableCell}>{n.service.interfaces.join(', ')}</TableCell>
-                      <TableCell className={classes.tableCellAuthInfo}>{n.authenticationInfo}</TableCell>
-
+                    <TableRow hover key={n.service.id + n.priority}>
+                      <TableCell className={classes.tableCell}>
+                        {n.priority}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {n.id}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {n.systemName}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {n.address}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {n.port}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {n.service.id}
+                      </TableCell>
+                      <TableCell className={classes.tableCellAuthInfo}>
+                        {n.service.serviceDefinition}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {n.service.interfaces.join(', ')}
+                      </TableCell>
+                      <TableCell className={classes.tableCellAuthInfo}>
+                        {n.authenticationInfo}
+                      </TableCell>
                     </TableRow>
                   )
                 })}
@@ -167,7 +180,7 @@ class EnhancedTable extends React.Component {
           </Table>
         </div>
         <TablePagination
-          component='div'
+          component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}

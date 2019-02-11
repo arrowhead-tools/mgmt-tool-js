@@ -54,7 +54,9 @@ export function groupServicesByServices(serviceData) {
           version: data.version
         }
       } else {
-        helperObject[data.providedService.serviceDefinition].provider.push(providerData)
+        helperObject[data.providedService.serviceDefinition].provider.push(
+          providerData
+        )
       }
     }
   }
@@ -75,7 +77,9 @@ export function getAutoCompleteData(serviceData) {
 
   for (const data of serviceData.serviceQueryData) {
     if (!serviceListHelper[data.providedService.serviceDefinition]) {
-      serviceListHelper[data.providedService.serviceDefinition] = { value: data.providedService.serviceDefinition }
+      serviceListHelper[data.providedService.serviceDefinition] = {
+        value: data.providedService.serviceDefinition
+      }
     }
 
     for (const iface of data.providedService.interfaces) {
@@ -88,16 +92,16 @@ export function getAutoCompleteData(serviceData) {
       systemListHelper[data.provider.systemName] = data.provider
     }
   }
-  _.forEach(interfaceListHelper, (v) => {
+  _.forEach(interfaceListHelper, v => {
     v.id = interfaceList.length
     interfaceList.push(v)
   })
 
-  _.forEach(systemListHelper, (v) => {
+  _.forEach(systemListHelper, v => {
     systemList.push(v)
   })
 
-  _.forEach(serviceListHelper, (v) => {
+  _.forEach(serviceListHelper, v => {
     v.id = serviceList.length
     serviceList.push(v)
   })
@@ -158,7 +162,13 @@ export function digestOrchStatuses() {
     {
       providerId: '11',
       services: [
-        { serviceId: '1', serviceDef: 'Billing', systemId: '20', systemName: 'Gatekeeper', localCloud: 'Dummy7' },
+        {
+          serviceId: '1',
+          serviceDef: 'Billing',
+          systemId: '20',
+          systemName: 'Gatekeeper',
+          localCloud: 'Dummy7'
+        },
         {
           serviceId: '2',
           serviceDef: 'IndoorHumidity5',
@@ -173,7 +183,13 @@ export function digestOrchStatuses() {
           systemName: 'ChargingReserv',
           localCloud: 'Dummy5'
         },
-        { serviceId: '4', serviceDef: 'TestDef2', systemId: '4', systemName: 'SomeSystem', localCloud: 'Dummy4' },
+        {
+          serviceId: '4',
+          serviceDef: 'TestDef2',
+          systemId: '4',
+          systemName: 'SomeSystem',
+          localCloud: 'Dummy4'
+        },
         {
           serviceId: '5',
           serviceDef: 'IndoorHumidity26',
@@ -181,26 +197,86 @@ export function digestOrchStatuses() {
           systemName: 'ChargingReserv22',
           localCloud: 'Dummy1'
         },
-        { serviceId: '6', serviceDef: 'TestDef27', systemId: '18', systemName: 'SomeSystem76', localCloud: 'Dummy32' }
+        {
+          serviceId: '6',
+          serviceDef: 'TestDef27',
+          systemId: '18',
+          systemName: 'SomeSystem76',
+          localCloud: 'Dummy32'
+        }
       ]
     },
     {
       providerId: '4',
       services: [
-        { serviceId: '1', serviceDef: 'Dummy', systemId: '20', systemName: 'SmartGridSystem2', localCloud: 'Dummy7' },
-        { serviceId: '2', serviceDef: 'Dummy2', systemId: '10', systemName: 'ChargingReserv', localCloud: 'Dummy6' },
-        { serviceId: '3', serviceDef: 'Dummy3', systemId: '15', systemName: 'Orchestrator', localCloud: 'Dummy5' },
-        { serviceId: '4', serviceDef: '4', systemId: '4', systemName: 'SomeSystem', localCloud: 'Dummy4' },
-        { serviceId: '5', serviceDef: 'Dummy5', systemId: '2', systemName: 'SmartGridSystem28', localCloud: 'Dummy3' },
-        { serviceId: '6', serviceDef: 'Dummy6', systemId: '100', systemName: 'ChargingReserv7', localCloud: 'Dummy2' },
-        { serviceId: '7', serviceDef: 'Dummy7', systemId: '19', systemName: 'ChargingReserv22', localCloud: 'Dummy1' },
-        { serviceId: '8', serviceDef: 'Dummy8', systemId: '18', systemName: 'SomeSystem76', localCloud: 'Dummy32' }
+        {
+          serviceId: '1',
+          serviceDef: 'Dummy',
+          systemId: '20',
+          systemName: 'SmartGridSystem2',
+          localCloud: 'Dummy7'
+        },
+        {
+          serviceId: '2',
+          serviceDef: 'Dummy2',
+          systemId: '10',
+          systemName: 'ChargingReserv',
+          localCloud: 'Dummy6'
+        },
+        {
+          serviceId: '3',
+          serviceDef: 'Dummy3',
+          systemId: '15',
+          systemName: 'Orchestrator',
+          localCloud: 'Dummy5'
+        },
+        {
+          serviceId: '4',
+          serviceDef: '4',
+          systemId: '4',
+          systemName: 'SomeSystem',
+          localCloud: 'Dummy4'
+        },
+        {
+          serviceId: '5',
+          serviceDef: 'Dummy5',
+          systemId: '2',
+          systemName: 'SmartGridSystem28',
+          localCloud: 'Dummy3'
+        },
+        {
+          serviceId: '6',
+          serviceDef: 'Dummy6',
+          systemId: '100',
+          systemName: 'ChargingReserv7',
+          localCloud: 'Dummy2'
+        },
+        {
+          serviceId: '7',
+          serviceDef: 'Dummy7',
+          systemId: '19',
+          systemName: 'ChargingReserv22',
+          localCloud: 'Dummy1'
+        },
+        {
+          serviceId: '8',
+          serviceDef: 'Dummy8',
+          systemId: '18',
+          systemName: 'SomeSystem76',
+          localCloud: 'Dummy32'
+        }
       ]
     },
     {
       providerId: '1',
       services: [
-        { serviceId: '1', serviceDef: 'Billing', systemId: '20', systemName: 'SmartGridSystem2', localCloud: 'Dummy7' },
+        {
+          serviceId: '1',
+          serviceDef: 'Billing',
+          systemId: '20',
+          systemName: 'SmartGridSystem2',
+          localCloud: 'Dummy7'
+        },
         {
           serviceId: '2',
           serviceDef: 'IndoorHumidity5',
@@ -215,7 +291,13 @@ export function digestOrchStatuses() {
           systemName: 'ChargingReserv',
           localCloud: 'Dummy5'
         },
-        { serviceId: '5', serviceDef: 'Billing2', systemId: '2', systemName: 'Orchestrator', localCloud: 'Dummy3' },
+        {
+          serviceId: '5',
+          serviceDef: 'Billing2',
+          systemId: '2',
+          systemName: 'Orchestrator',
+          localCloud: 'Dummy3'
+        },
         {
           serviceId: '67',
           serviceDef: 'IndoorHumidity2',
@@ -223,20 +305,37 @@ export function digestOrchStatuses() {
           systemName: 'ChargingReserv7',
           localCloud: 'Dummy2'
         },
-        { serviceId: '100', serviceDef: 'TestDef27', systemId: '18', systemName: 'SomeSystem76', localCloud: 'Dummy32' }
+        {
+          serviceId: '100',
+          serviceDef: 'TestDef27',
+          systemId: '18',
+          systemName: 'SomeSystem76',
+          localCloud: 'Dummy32'
+        }
       ]
     },
     {
       providerId: '3',
       services: [
-        { serviceId: '1', serviceDef: 'Billing', systemId: '20', systemName: 'SmartGridSystem2', localCloud: 'Dummy7' }
-
+        {
+          serviceId: '1',
+          serviceDef: 'Billing',
+          systemId: '20',
+          systemName: 'SmartGridSystem2',
+          localCloud: 'Dummy7'
+        }
       ]
     },
     {
       providerId: '2',
       services: [
-        { serviceId: '3', serviceDef: 'Billing', systemId: '20', systemName: 'SmartGridSystem2', localCloud: 'Dummy7' },
+        {
+          serviceId: '3',
+          serviceDef: 'Billing',
+          systemId: '20',
+          systemName: 'SmartGridSystem2',
+          localCloud: 'Dummy7'
+        },
         {
           serviceId: '12',
           serviceDef: 'Billing2',
@@ -250,9 +349,11 @@ export function digestOrchStatuses() {
 }
 
 export function filterItems(data, filter, key) {
-  return filter ? matchSorter(data, filter, {
-    keys: [key]
-  }) : data
+  return filter
+    ? matchSorter(data, filter, {
+        keys: [key]
+      })
+    : data
 }
 
 export function getSorting(order, orderBy) {
@@ -346,12 +447,19 @@ export function groupAuthDataByService(authData) {
 export function digestOrchestrationBackupListData(orchestrationData) {
   const helperObject = {}
   for (const data of orchestrationData) {
-    const providerSystem = { ...data.providerSystem, priority: data.priority, storeEntryId: data.id }
+    const providerSystem = {
+      ...data.providerSystem,
+      priority: data.priority,
+      storeEntryId: data.id
+    }
     if (!helperObject[data.consumer.id]) {
       helperObject[data.consumer.id] = {
         consumerData: { ...data.consumer },
         consumedServices: {
-          [data.service.id]: { service: data.service, providers: [providerSystem] }
+          [data.service.id]: {
+            service: data.service,
+            providers: [providerSystem]
+          }
         }
       }
     } else {
@@ -361,7 +469,9 @@ export function digestOrchestrationBackupListData(orchestrationData) {
           providers: [providerSystem]
         }
       } else {
-        helperObject[data.consumer.id].consumedServices[data.service.id].providers.push(providerSystem)
+        helperObject[data.consumer.id].consumedServices[
+          data.service.id
+        ].providers.push(providerSystem)
       }
     }
   }

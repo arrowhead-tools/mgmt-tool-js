@@ -52,4 +52,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(InterCloud))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(InterCloud))

@@ -11,27 +11,34 @@ import { filterItems } from '../../utils/utils'
 
 class AutoCompleteSingle extends Component {
   render() {
-    const { classes, keyValue, suggestions, label, placeholder, required, disabled, handleOnChange } = this.props
+    const {
+      classes,
+      keyValue,
+      suggestions,
+      label,
+      placeholder,
+      required,
+      disabled,
+      handleOnChange
+    } = this.props
     return (
       <div>
         <Downshift
-          onChange={selection =>
-            handleOnChange(selection)
-          }
-          itemToString={item => item ? item[keyValue] : ''}
+          onChange={selection => handleOnChange(selection)}
+          itemToString={item => (item ? item[keyValue] : '')}
         >
           {({
-              getLabelProps,
-              getInputProps,
-              getToggleButtonProps,
-              getMenuProps,
-              getItemProps,
-              isOpen,
-              clearSelection,
-              selectedItem,
-              inputValue,
-              highlightedIndex
-            }) => (
+            getLabelProps,
+            getInputProps,
+            getToggleButtonProps,
+            getMenuProps,
+            getItemProps,
+            isOpen,
+            clearSelection,
+            selectedItem,
+            inputValue,
+            highlightedIndex
+          }) => (
             <div>
               <div style={{ display: 'flex', alignItems: 'baseline' }}>
                 <TextField
@@ -40,17 +47,19 @@ class AutoCompleteSingle extends Component {
                   placeholder={placeholder}
                   style={classes.textField}
                   required={required}
-                  {...getInputProps()} />
+                  {...getInputProps()}
+                />
                 {selectedItem ? (
-                  <Button
-                    justIcon
-                    color='transparent'
-                    onClick={clearSelection}
-                  >
+                  <Button justIcon color="transparent" onClick={clearSelection}>
                     <ClearIcon />
                   </Button>
                 ) : (
-                  <Button disabled={disabled} color='transparent' justIcon {...getToggleButtonProps()}>
+                  <Button
+                    disabled={disabled}
+                    color="transparent"
+                    justIcon
+                    {...getToggleButtonProps()}
+                  >
                     <KeyboardArrowDown />
                   </Button>
                 )}
@@ -59,17 +68,20 @@ class AutoCompleteSingle extends Component {
                 <MenuList {...getMenuProps({ open: isOpen })}>
                   {isOpen
                     ? filterItems(suggestions, inputValue, keyValue).map(
-                      (item, index) => (
-                        <MenuItem
-                          {...getItemProps({ key: item.id, index, item })}
-                          key={item.id}
-                          component='div'
-                          selected={highlightedIndex === index}
-                          style={{ fontWeight: selectedItem === item ? 500 : 400 }}>
-                          {item[keyValue]}
-                        </MenuItem>
+                        (item, index) => (
+                          <MenuItem
+                            {...getItemProps({ key: item.id, index, item })}
+                            key={item.id}
+                            component="div"
+                            selected={highlightedIndex === index}
+                            style={{
+                              fontWeight: selectedItem === item ? 500 : 400
+                            }}
+                          >
+                            {item[keyValue]}
+                          </MenuItem>
+                        )
                       )
-                    )
                     : null}
                 </MenuList>
               </div>

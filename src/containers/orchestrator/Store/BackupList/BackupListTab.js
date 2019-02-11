@@ -30,20 +30,23 @@ class BackupListTab extends React.Component {
     const { data, classes, savePriorities } = this.props
     return (
       <div className={classes.root}>
-        {
-          data.map(entry => {
-            return (
-              <ExpansionPanel key={entry.consumerData.id}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>{entry.consumerData.systemName}</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails className={classes.child}>
-                  <BackupServiceList services={entry.consumedServices} savePriorities={savePriorities} />
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            )
-          })
-        }
+        {data.map(entry => {
+          return (
+            <ExpansionPanel key={entry.consumerData.id}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>
+                  {entry.consumerData.systemName}
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.child}>
+                <BackupServiceList
+                  services={entry.consumedServices}
+                  savePriorities={savePriorities}
+                />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          )
+        })}
       </div>
     )
   }

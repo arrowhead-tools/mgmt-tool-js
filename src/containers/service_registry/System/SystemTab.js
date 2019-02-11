@@ -26,7 +26,11 @@ const styles = theme => ({
 })
 
 const columnData = [
-  { id: 'serviceDefinition', disablePadding: false, label: 'Service Definition' },
+  {
+    id: 'serviceDefinition',
+    disablePadding: false,
+    label: 'Service Definition'
+  },
   { id: 'interfaces', disablePadding: false, label: 'Interface' },
   { id: 'serviceURI', disablePadding: false, label: 'Service URI' },
   { id: 'udp', disablePadding: false, label: 'UDP' },
@@ -35,30 +39,43 @@ const columnData = [
 
 class SystemTab extends Component {
   render() {
-    const { systemData, classes, handleServiceDelete, handleServiceEdit } = this.props
+    const {
+      systemData,
+      classes,
+      handleServiceDelete,
+      handleServiceEdit
+    } = this.props
     return (
       <div className={classes.root}>
-        {
-          systemData.map(systemEntry => {
-            return (
-              <ExpansionPanel key={systemEntry.id}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>{systemEntry.systemName}</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails className={classes.child}>
-                  <Typography><b>Address:</b> {systemEntry.address}</Typography>
-                  <Typography><b>Port:</b> {systemEntry.port}</Typography>
-                  <Typography><b>Authentication Info:</b> {systemEntry.authenticationInfo || '-'}</Typography>
-                  <SystemTable
-                    data={systemEntry.services}
-                    columnData={columnData}
-                    handleServiceEdit={handleServiceEdit}
-                    handleServiceDelete={handleServiceDelete} />
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            )
-          })
-        }
+        {systemData.map(systemEntry => {
+          return (
+            <ExpansionPanel key={systemEntry.id}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>
+                  {systemEntry.systemName}
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.child}>
+                <Typography>
+                  <b>Address:</b> {systemEntry.address}
+                </Typography>
+                <Typography>
+                  <b>Port:</b> {systemEntry.port}
+                </Typography>
+                <Typography>
+                  <b>Authentication Info:</b>{' '}
+                  {systemEntry.authenticationInfo || '-'}
+                </Typography>
+                <SystemTable
+                  data={systemEntry.services}
+                  columnData={columnData}
+                  handleServiceEdit={handleServiceEdit}
+                  handleServiceDelete={handleServiceDelete}
+                />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          )
+        })}
       </div>
     )
   }

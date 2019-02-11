@@ -29,13 +29,16 @@ class IntraCloud extends Component {
   }
 
   handleAddClick = () => {
-    this.props.showModal({
-      open: true,
-      closeModal: this.closeModal
-    }, 'addAuthEntry')
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.closeModal
+      },
+      'addAuthEntry'
+    )
   }
 
-  deleteAuthEntry = (authEntryId) => () => {
+  deleteAuthEntry = authEntryId => () => {
     this.props.deleteAuthEntry(authEntryId)
   }
 
@@ -44,11 +47,17 @@ class IntraCloud extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.buttonContainer}>
-          <Button color='primary' onClick={this.handleAddClick}>
-            <AddIcon />Add
+          <Button color="primary" onClick={this.handleAddClick}>
+            <AddIcon />
+            Add
           </Button>
         </div>
-        <IntraCloudTabContainer consumerData={auth.groupByConsumer} providerData={auth.groupByProvider} serviceData={auth.groupByService} deleteAuthEntry={this.deleteAuthEntry} />
+        <IntraCloudTabContainer
+          consumerData={auth.groupByConsumer}
+          providerData={auth.groupByProvider}
+          serviceData={auth.groupByService}
+          deleteAuthEntry={this.deleteAuthEntry}
+        />
         <ModalContainer />
       </div>
     )
@@ -80,10 +89,13 @@ function mapDispatchToProps(dispatch) {
     showModal: (modalProps, modalType) => {
       dispatch(showModal({ modalProps, modalType }))
     },
-    deleteAuthEntry: (authEntryId) => {
+    deleteAuthEntry: authEntryId => {
       dispatch(deleteAuthEntry(authEntryId))
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(IntraCloud))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(IntraCloud))

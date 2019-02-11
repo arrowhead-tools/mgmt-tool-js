@@ -1,6 +1,6 @@
 import networkService from '../services/networkServiceEH'
 import { showNotification } from './global'
-import { groupEventHandlersByEventType } from "../utils/eventHandlerUtils"
+import { groupEventHandlersByEventType } from '../utils/eventHandlerUtils'
 
 export const RECEIVE_EVENTS = 'RECEIVE_EVENTS'
 
@@ -13,9 +13,12 @@ function receiveEventHandlerData(data) {
 
 export function getEventHandlerData() {
   return (dispatch, getState) => {
-    networkService.get('/eventhandler/mgmt/subscriptions')
+    networkService
+      .get('/eventhandler/mgmt/subscriptions')
       .then(response => {
-        dispatch(receiveEventHandlerData(groupEventHandlersByEventType(response.data)))
+        dispatch(
+          receiveEventHandlerData(groupEventHandlersByEventType(response.data))
+        )
       })
       .catch(error => {
         console.log(error)
@@ -25,7 +28,8 @@ export function getEventHandlerData() {
 
 export function createSubscription(subscriptionData) {
   return (dispatch, getState) => {
-    networkService.post('/eventhandler/subscription', subscriptionData)
+    networkService
+      .post('/eventhandler/subscription', subscriptionData)
       .then(response => {
         dispatch(getEventHandlerData())
         dispatch(
@@ -60,8 +64,11 @@ export function createSubscription(subscriptionData) {
 }
 
 export function deleteSubscription(eventType, consumerName) {
-  return (dispatch) => {
-    networkService.delete(`/eventhandler/subscription/type/${eventType}/consumer/${consumerName}`)
+  return dispatch => {
+    networkService
+      .delete(
+        `/eventhandler/subscription/type/${eventType}/consumer/${consumerName}`
+      )
       .then(response => {
         dispatch(getEventHandlerData())
         dispatch(

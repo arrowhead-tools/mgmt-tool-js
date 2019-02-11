@@ -41,39 +41,43 @@ class RelayTab extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.buttonContainer}>
-          <CustomButton color='primary' onClick={handlers.onAddRelayClick}>
-            <AddIcon />Add
+          <CustomButton color="primary" onClick={handlers.onAddRelayClick}>
+            <AddIcon />
+            Add
           </CustomButton>
         </div>
-        {
-          data.map(entry => {
-            return (
-              <ExpansionPanel key={entry.id}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>{`${entry.address}:${entry.port}`}</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails className={classes.child}>
-                  <Typography><b>Secure:</b> {entry.secure ? '✓' : '✗'}</Typography>
-                </ExpansionPanelDetails>
-                <Divider />
-                <ExpansionPanelActions>
-                  <Button
-                    size='small'
-                    onClick={handlers.onDeleteRelayClick(entry.id)}>
-                    Delete
-                  </Button>
-                  <Button
-                    size='small'
-                    color='primary'
-                    onClick={handlers.onModifyRelayClick(entry)}
-                  >
-                    Edit
-                  </Button>
-                </ExpansionPanelActions>
-              </ExpansionPanel>
-            )
-          })
-        }
+        {data.map(entry => {
+          return (
+            <ExpansionPanel key={entry.id}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>{`${entry.address}:${
+                  entry.port
+                }`}</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.child}>
+                <Typography>
+                  <b>Secure:</b> {entry.secure ? '✓' : '✗'}
+                </Typography>
+              </ExpansionPanelDetails>
+              <Divider />
+              <ExpansionPanelActions>
+                <Button
+                  size="small"
+                  onClick={handlers.onDeleteRelayClick(entry.id)}
+                >
+                  Delete
+                </Button>
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={handlers.onModifyRelayClick(entry)}
+                >
+                  Edit
+                </Button>
+              </ExpansionPanelActions>
+            </ExpansionPanel>
+          )
+        })}
       </div>
     )
   }

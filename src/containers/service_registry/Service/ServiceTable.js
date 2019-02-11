@@ -25,7 +25,8 @@ const styles = theme => ({
     overflowX: 'auto'
   },
   actionCell: {
-    display: 'flex', flexDirection: 'row'
+    display: 'flex',
+    flexDirection: 'row'
   }
 })
 
@@ -61,7 +62,13 @@ class ServiceTable extends React.Component {
   }
 
   render() {
-    const { data, classes, columnData, handleServiceDelete, handleServiceEdit } = this.props
+    const {
+      data,
+      classes,
+      columnData,
+      handleServiceDelete,
+      handleServiceEdit
+    } = this.props
     const { order, orderBy, rowsPerPage, page } = this.state
 
     return (
@@ -73,16 +80,15 @@ class ServiceTable extends React.Component {
               order={order}
               orderBy={orderBy}
               rowCount={data.length}
-              columnData={columnData} />
+              columnData={columnData}
+            />
             <TableBody>
               {data
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, index) => {
                   return (
-                    <TableRow
-                      hover
-                      key={n.systemName + index}>
+                    <TableRow hover key={n.systemName + index}>
                       <TableCell>{n.systemName}</TableCell>
                       <TableCell>{n.address}</TableCell>
                       <TableCell>{n.port}</TableCell>
@@ -92,15 +98,15 @@ class ServiceTable extends React.Component {
                       <TableCell>{n.version}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton
-                          color='secondary'
-                          aria-label='Edit Entry'
+                          color="secondary"
+                          aria-label="Edit Entry"
                           onClick={handleServiceEdit(n.serviceId)}
                         >
                           <EditIcon />
                         </IconButton>
                         <IconButton
-                          color='secondary'
-                          aria-label='Delete Entry'
+                          color="secondary"
+                          aria-label="Delete Entry"
                           onClick={handleServiceDelete(n.serviceId)}
                         >
                           <ClearIcon />
@@ -108,13 +114,12 @@ class ServiceTable extends React.Component {
                       </TableCell>
                     </TableRow>
                   )
-                })
-              }
+                })}
             </TableBody>
           </Table>
         </div>
         <TablePagination
-          component='div'
+          component="div"
           count={data.length}
           backIconButtonProps={{
             'aria-label': 'Previous Page'

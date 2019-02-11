@@ -28,7 +28,8 @@ const styles = theme => ({
     overflowX: 'auto'
   },
   actionCell: {
-    display: 'flex', flexDirection: 'row'
+    display: 'flex',
+    flexDirection: 'row'
   }
 })
 
@@ -66,17 +67,20 @@ class EnhancedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value })
   }
 
-  handleServiceDelete = (serviceId) => () => {
+  handleServiceDelete = serviceId => () => {
     this.props.deleteServiceById(serviceId)
   }
 
-  handleServiceEdit = (serviceId) => () => {
-    this.props.showModal({
-      open: true,
-      isEdit: true,
-      serviceId,
-      closeModal: this.closeModal
-    }, 'addSREntry')
+  handleServiceEdit = serviceId => () => {
+    this.props.showModal(
+      {
+        open: true,
+        isEdit: true,
+        serviceId,
+        closeModal: this.closeModal
+      },
+      'addSREntry'
+    )
   }
 
   render() {
@@ -86,7 +90,7 @@ class EnhancedTable extends React.Component {
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby='tableTitle'>
+          <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
               order={order}
               orderBy={orderBy}
@@ -99,69 +103,62 @@ class EnhancedTable extends React.Component {
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, index) => {
-                  return (
-                    system ? (
-                      <TableRow
-                        hover
-                        key={n.serviceDefinition}
-                      >
-                        <TableCell>{n.serviceDefinition}</TableCell>
-                        <TableCell>{n.interfaces.join(',')}</TableCell>
-                        <TableCell>{n.serviceURI}</TableCell>
-                        <TableCell>{n.udp.toString()}</TableCell>
-                        <TableCell className={classes.actionCell}>
-                          <IconButton
-                            color='secondary'
-                            aria-label='Edit Entry'
-                            onClick={this.handleServiceEdit(n.serviceId)}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            color='secondary'
-                            aria-label='Delete Entry'
-                            onClick={this.handleServiceDelete(n.serviceId)}
-                          >
-                            <ClearIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      <TableRow
-                        hover
-                        key={n.systemName + index}
-                      >
-                        <TableCell>{n.systemName}</TableCell>
-                        <TableCell>{n.address}</TableCell>
-                        <TableCell>{n.port}</TableCell>
-                        <TableCell>{n.interface}</TableCell>
-                        <TableCell>{n.serviceURI}</TableCell>
-                        <TableCell>{n.udp.toString()}</TableCell>
-                        <TableCell>{n.version}</TableCell>
-                        <TableCell className={classes.actionCell}>
-                          <IconButton
-                            color='secondary'
-                            aria-label='Edit Entry'
-                            onClick={this.handleServiceEdit(n.serviceId)}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            color='secondary'
-                            aria-label='Delete Entry'
-                            onClick={this.handleServiceDelete(n.serviceId)}
-                          >
-                            <ClearIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>)
+                  return system ? (
+                    <TableRow hover key={n.serviceDefinition}>
+                      <TableCell>{n.serviceDefinition}</TableCell>
+                      <TableCell>{n.interfaces.join(',')}</TableCell>
+                      <TableCell>{n.serviceURI}</TableCell>
+                      <TableCell>{n.udp.toString()}</TableCell>
+                      <TableCell className={classes.actionCell}>
+                        <IconButton
+                          color="secondary"
+                          aria-label="Edit Entry"
+                          onClick={this.handleServiceEdit(n.serviceId)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          color="secondary"
+                          aria-label="Delete Entry"
+                          onClick={this.handleServiceDelete(n.serviceId)}
+                        >
+                          <ClearIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    <TableRow hover key={n.systemName + index}>
+                      <TableCell>{n.systemName}</TableCell>
+                      <TableCell>{n.address}</TableCell>
+                      <TableCell>{n.port}</TableCell>
+                      <TableCell>{n.interface}</TableCell>
+                      <TableCell>{n.serviceURI}</TableCell>
+                      <TableCell>{n.udp.toString()}</TableCell>
+                      <TableCell>{n.version}</TableCell>
+                      <TableCell className={classes.actionCell}>
+                        <IconButton
+                          color="secondary"
+                          aria-label="Edit Entry"
+                          onClick={this.handleServiceEdit(n.serviceId)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          color="secondary"
+                          aria-label="Delete Entry"
+                          onClick={this.handleServiceDelete(n.serviceId)}
+                        >
+                          <ClearIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
                   )
                 })}
             </TableBody>
           </Table>
         </div>
         <TablePagination
-          component='div'
+          component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -190,7 +187,7 @@ EnhancedTable.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    deleteServiceById: (serviceId) => {
+    deleteServiceById: serviceId => {
       dispatch(deleteServiceById(serviceId))
     },
     showModal: (modalProps, modalType) => {
@@ -199,4 +196,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(EnhancedTable))
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(styles)(EnhancedTable))

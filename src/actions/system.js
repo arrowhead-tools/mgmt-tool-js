@@ -11,7 +11,8 @@ function receiveSystems(systems) {
 
 export function getSystems() {
   return dispatch => {
-    networkService.get('/mgmt/systems')
+    networkService
+      .get('/mgmt/systems')
       .then(response => {
         dispatch(receiveSystems(response.data))
       })

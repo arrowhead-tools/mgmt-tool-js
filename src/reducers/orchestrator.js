@@ -1,6 +1,4 @@
-import {
-  RECEIVE_ORCHESTRATOR_STORE_DATA
-} from '../actions/orchestrator'
+import { RECEIVE_ORCHESTRATOR_STORE_DATA } from '../actions/orchestrator'
 
 export const initialState = {
   backup: []

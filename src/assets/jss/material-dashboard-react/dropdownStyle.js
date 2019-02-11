@@ -1,4 +1,8 @@
-import { defaultFont, primaryBoxShadow, primaryColor } from '../material-dashboard-react'
+import {
+  defaultFont,
+  primaryBoxShadow,
+  primaryColor
+} from '../material-dashboard-react'
 
 const dropdownStyle = theme => ({
   buttonLink: {

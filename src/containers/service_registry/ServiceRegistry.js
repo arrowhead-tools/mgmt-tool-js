@@ -12,7 +12,11 @@ import Grid from '@material-ui/core/Grid'
 import Switch from '@material-ui/core/Switch'
 import GridItem from '../../components/Grid/GridItem'
 import Table from '../../components/Table/TableSR'
-import { getFilteredServices, getServices, deleteServiceById } from '../../actions/serviceRegistry'
+import {
+  getFilteredServices,
+  getServices,
+  deleteServiceById
+} from '../../actions/serviceRegistry'
 import Button from '../../components/CustomButtons/Button'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
 import { hideModal, showModal } from '../../actions/modal'
@@ -85,62 +89,83 @@ class ServiceRegistry extends Component {
   }
 
   handleAddClick = () => {
-    this.props.showModal({
-      open: true,
-      closeModal: this.closeModal
-    }, 'addSREntry')
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.closeModal
+      },
+      'addSREntry'
+    )
   }
 
   handleServiceSearchClick = () => {
-    this.props.showModal({
-      open: true,
-      closeModal: this.closeModal
-    }, 'serviceSearch')
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.closeModal
+      },
+      'serviceSearch'
+    )
   }
 
   handleServiceSearchClearClick = () => {
     this.props.getServices()
   }
 
-  handleServiceDelete = (serviceId) => () => {
+  handleServiceDelete = serviceId => () => {
     this.props.deleteServiceById(serviceId)
   }
 
-  handleServiceEdit = (serviceId) => () => {
-    this.props.showModal({
-      open: true,
-      isEdit: true,
-      serviceId,
-      closeModal: this.closeModal
-    }, 'addSREntry')
+  handleServiceEdit = serviceId => () => {
+    this.props.showModal(
+      {
+        open: true,
+        isEdit: true,
+        serviceId,
+        closeModal: this.closeModal
+      },
+      'addSREntry'
+    )
   }
 
   handleClose = () => {
     this.setState({ open: false })
   }
 
-
   render() {
     const { classes, services } = this.props
     return (
       <div className={classes.root}>
         <div className={classes.buttonContainer}>
-          {!_.isEmpty(services.queryData) &&
-          <Button color='primary' className={classes.removeButton} onClick={this.handleServiceSearchClearClick}>
-            <ClearIcon />Clear Filter
-          </Button>
-          }
+          {!_.isEmpty(services.queryData) && (
+            <Button
+              color="primary"
+              className={classes.removeButton}
+              onClick={this.handleServiceSearchClearClick}
+            >
+              <ClearIcon />
+              Clear Filter
+            </Button>
+          )}
           <Button
-            color='primary'
+            color="primary"
             onClick={this.handleServiceSearchClick}
-            className={classes.buttonMargin}>
-            <SearchIcon />Search
+            className={classes.buttonMargin}
+          >
+            <SearchIcon />
+            Search
           </Button>
-          <Button color='primary' onClick={this.handleAddClick}>
-            <AddIcon />Add
+          <Button color="primary" onClick={this.handleAddClick}>
+            <AddIcon />
+            Add
           </Button>
         </div>
-        <ServiceRegistryTabContainer systemData={services.groupBySystems} serviceData={services.groupByServices} handleServiceDelete={this.handleServiceDelete} handleServiceEdit={this.handleServiceEdit} />
+        <ServiceRegistryTabContainer
+          systemData={services.groupBySystems}
+          serviceData={services.groupByServices}
+          handleServiceDelete={this.handleServiceDelete}
+          handleServiceEdit={this.handleServiceEdit}
+        />
         <ModalContainer />
       </div>
     )
@@ -166,7 +191,7 @@ function mapDispatchToProps(dispatch) {
     getServices: () => {
       dispatch(getServices())
     },
-    getFilteredServices: (queryData) => {
+    getFilteredServices: queryData => {
       dispatch(getFilteredServices(queryData))
     },
     hideModal: () => {
@@ -175,10 +200,13 @@ function mapDispatchToProps(dispatch) {
     showModal: (modalProps, modalType) => {
       dispatch(showModal({ modalProps, modalType }))
     },
-    deleteServiceById: (serviceId) => {
+    deleteServiceById: serviceId => {
       dispatch(deleteServiceById(serviceId))
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ServiceRegistry))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(ServiceRegistry))

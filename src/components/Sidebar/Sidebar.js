@@ -20,11 +20,11 @@ class Sidebar extends React.Component {
   state = {}
 
   // verifies if routeName is the one active (in browser input)
-  activeRoute = (routeName) => {
+  activeRoute = routeName => {
     return this.props.location.pathname.indexOf(routeName) > -1
   }
 
-  handleClick = (item) => () => {
+  handleClick = item => () => {
     if (this.state[item] === undefined) {
       this.setState({ [item]: true })
     } else {
@@ -44,49 +44,69 @@ class Sidebar extends React.Component {
             })
             return (
               <div key={key}>
-                <ListItem button onClick={this.handleClick(prop.state)} className={classes.itemLink}>
+                <ListItem
+                  button
+                  onClick={this.handleClick(prop.state)}
+                  className={classes.itemLink}
+                >
                   <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
                     <prop.icon />
                   </ListItemIcon>
                   <ListItemText
                     primary={prop.sidebarName}
                     className={classes.itemText + whiteFontClasses}
-                    disableTypography />
-                  {this.state[prop.state] ? <ArrowDropUp className={classes.white} /> :
-                    <ArrowDropDown className={classes.white} />}
+                    disableTypography
+                  />
+                  {this.state[prop.state] ? (
+                    <ArrowDropUp className={classes.white} />
+                  ) : (
+                    <ArrowDropDown className={classes.white} />
+                  )}
                 </ListItem>
-                <Collapse in={this.state[prop.state]} timeout='auto' unmountOnExit>
+                <Collapse
+                  in={this.state[prop.state]}
+                  timeout="auto"
+                  unmountOnExit
+                >
                   <List className={classes.list}>
-                    {
-                      prop.views.map((view, index) => {
-                        let activePro = ' '
-                        const listItemClasses = classNames({
-                          [' ' + classes[color]]: this.activeRoute(view.path)
-                        })
-                        const whiteFontClasses = classNames({
-                          [' ' + classes.whiteFont]: this.activeRoute(view.path)
-                        })
-                        return (
-                          <NavLink
-                            to={view.path}
-                            className={activePro + classes.item}
-                            activeClassName='active'
-                            key={key + '-' + index}
-                          >
-                            <ListItem button className={classes.nested + ' ' + classes.itemLink + listItemClasses}>
-                              <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
-                                <view.icon />
-                              </ListItemIcon>
-                              <ListItemText
-                                primary={view.sidebarName}
-                                className={classes.itemText + whiteFontClasses}
-                                disableTypography
-                              />
-                            </ListItem>
-                          </NavLink>
-                        )
+                    {prop.views.map((view, index) => {
+                      let activePro = ' '
+                      const listItemClasses = classNames({
+                        [' ' + classes[color]]: this.activeRoute(view.path)
                       })
-                    }
+                      const whiteFontClasses = classNames({
+                        [' ' + classes.whiteFont]: this.activeRoute(view.path)
+                      })
+                      return (
+                        <NavLink
+                          to={view.path}
+                          className={activePro + classes.item}
+                          activeClassName="active"
+                          key={key + '-' + index}
+                        >
+                          <ListItem
+                            button
+                            className={
+                              classes.nested +
+                              ' ' +
+                              classes.itemLink +
+                              listItemClasses
+                            }
+                          >
+                            <ListItemIcon
+                              className={classes.itemIcon + whiteFontClasses}
+                            >
+                              <view.icon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={view.sidebarName}
+                              className={classes.itemText + whiteFontClasses}
+                              disableTypography
+                            />
+                          </ListItem>
+                        </NavLink>
+                      )
+                    })}
                   </List>
                 </Collapse>
               </div>
@@ -103,7 +123,7 @@ class Sidebar extends React.Component {
               <NavLink
                 to={prop.path}
                 className={activePro + classes.item}
-                activeClassName='active'
+                activeClassName="active"
                 key={key}
               >
                 <ListItem button className={classes.itemLink + listItemClasses}>
@@ -124,9 +144,9 @@ class Sidebar extends React.Component {
     )
     const brand = (
       <div className={classes.logo}>
-        <a href='http://www.arrowhead.eu' className={classes.logoLink}>
+        <a href="http://www.arrowhead.eu" className={classes.logoLink}>
           <div className={classes.logoImage}>
-            <img src={logo} alt='logo' className={classes.img} />
+            <img src={logo} alt="logo" className={classes.img} />
           </div>
           {logoText}
         </a>
@@ -136,8 +156,8 @@ class Sidebar extends React.Component {
       <div>
         <Hidden mdUp>
           <Drawer
-            variant='temporary'
-            anchor='right'
+            variant="temporary"
+            anchor="right"
             open={this.props.open}
             classes={{
               paper: classes.drawerPaper
@@ -148,9 +168,7 @@ class Sidebar extends React.Component {
             }}
           >
             {brand}
-            <div className={classes.sidebarWrapper}>
-              {links}
-            </div>
+            <div className={classes.sidebarWrapper}>{links}</div>
             {image !== undefined ? (
               <div
                 className={classes.background}
@@ -161,8 +179,8 @@ class Sidebar extends React.Component {
         </Hidden>
         <Hidden smDown>
           <Drawer
-            anchor='left'
-            variant='permanent'
+            anchor="left"
+            variant="permanent"
             open
             classes={{
               paper: classes.drawerPaper

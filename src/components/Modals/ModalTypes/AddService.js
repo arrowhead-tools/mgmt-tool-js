@@ -41,34 +41,45 @@ class AddService extends Component {
     this.setState({ interfaces: chips })
   }
 
-  handleAddServiceButtonClick = () => {
-
-  }
+  handleAddServiceButtonClick = () => {}
 
   render() {
     const { classes } = this.props
     return (
-      <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', width: '440px' }}>
+      <Card
+        raised
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          margin: '10px',
+          width: '440px'
+        }}
+      >
         <TextField
-          id='servicedefinition'
+          id="servicedefinition"
           required
           onChange={this.handleServiceDefinitionOnChange}
-          label='ServiceDefinition'
-          className={classes.input} />
+          label="ServiceDefinition"
+          className={classes.input}
+        />
         <ChipInput
           onChange={this.handleInterfaceChipsOnChange}
           className={classes.input}
-          label='Interfaces' />
+          label="Interfaces"
+        />
         <Button
           disabled
-          color='primary'
+          color="primary"
           onClick={this.handleAddServiceButtonClick}
           style={{
             width: '400px',
             marginLeft: '20px',
             marginRight: '20px',
             marginBottom: '20px'
-          }}>Add Service</Button>
+          }}
+        >
+          Add Service
+        </Button>
       </Card>
     )
   }
@@ -79,9 +90,7 @@ AddService.propTypes = {
   addService: PropTypes.func.isRequired
 }
 
-function mapStateToProps(dispatch) {
-
-}
+function mapStateToProps(dispatch) {}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -91,4 +100,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddService))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(AddService))

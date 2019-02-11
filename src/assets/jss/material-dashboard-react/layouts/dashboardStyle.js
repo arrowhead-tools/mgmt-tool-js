@@ -1,4 +1,8 @@
-import { container, drawerWidth, transition } from '../../material-dashboard-react'
+import {
+  container,
+  drawerWidth,
+  transition
+} from '../../material-dashboard-react'
 
 const dashboardStyle = theme => ({
   wrapper: {

@@ -12,7 +12,8 @@ function receiveClouds(data) {
 
 export function getClouds() {
   return (dispatch, getState) => {
-    networkService.get('/gatekeeper/mgmt/neighborhood')
+    networkService
+      .get('/gatekeeper/mgmt/neighborhood')
       .then(response => {
         dispatch(receiveClouds(response.data))
       })
@@ -23,11 +24,10 @@ export function getClouds() {
 }
 
 export function addCloud(cloudData) {
-  const newCloud = [
-    { cloud: cloudData }
-  ]
+  const newCloud = [{ cloud: cloudData }]
   return (dispatch, getState) => {
-    networkService.post('/gatekeeper/mgmt/neighborhood', newCloud)
+    networkService
+      .post('/gatekeeper/mgmt/neighborhood', newCloud)
       .then(response => {
         dispatch(getClouds())
         dispatch(
@@ -63,7 +63,10 @@ export function addCloud(cloudData) {
 
 export function deleteCloud(operator, cloudName) {
   return (dispatch, getState) => {
-    networkService.delete(`/gatekeeper/mgmt/neighborhood/operator/${operator}/cloudname/${cloudName}`)
+    networkService
+      .delete(
+        `/gatekeeper/mgmt/neighborhood/operator/${operator}/cloudname/${cloudName}`
+      )
       .then(response => {
         dispatch(getClouds())
         dispatch(
@@ -99,7 +102,8 @@ export function deleteCloud(operator, cloudName) {
 
 export function updateCloud(updatedCloud) {
   return (dispatch, getState) => {
-    networkService.put(`/mgmt/clouds/${updatedCloud.id}`, updatedCloud)
+    networkService
+      .put(`/mgmt/clouds/${updatedCloud.id}`, updatedCloud)
       .then(response => {
         dispatch(getClouds())
         dispatch(

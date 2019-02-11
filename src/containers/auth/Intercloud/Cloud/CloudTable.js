@@ -22,7 +22,8 @@ const styles = theme => ({
     overflowX: 'auto'
   },
   actionCell: {
-    display: 'flex', flexDirection: 'row'
+    display: 'flex',
+    flexDirection: 'row'
   }
 })
 
@@ -68,28 +69,25 @@ class CloudTable extends React.Component {
               order={order}
               orderBy={orderBy}
               rowCount={data.length}
-              columnData={columnData} />
+              columnData={columnData}
+            />
             <TableBody>
               {data
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, index) => {
                   return (
-                    <TableRow
-                      hover
-                      key={n.interCloudEntryId}>
+                    <TableRow hover key={n.interCloudEntryId}>
                       <TableCell>{n.serviceDefinition}</TableCell>
                       <TableCell>{n.interfaces.join(',')}</TableCell>
                     </TableRow>
                   )
-                })
-
-              }
+                })}
             </TableBody>
           </Table>
         </div>
         <TablePagination
-          component='div'
+          component="div"
           count={data.length}
           backIconButtonProps={{
             'aria-label': 'Previous Page'

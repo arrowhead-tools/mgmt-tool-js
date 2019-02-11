@@ -26,26 +26,40 @@ const styles = theme => ({
 })
 
 const columnData = [
-  { id: 'service.serviceDefinition', disablePadding: false, label: 'Service Definition' },
+  {
+    id: 'service.serviceDefinition',
+    disablePadding: false,
+    label: 'Service Definition'
+  },
   { id: 'service.interfaces', disablePadding: false, label: 'Interface' },
-  { id: 'provider.systemName', disablePadding: false, label: 'Providing System Name' },
+  {
+    id: 'provider.systemName',
+    disablePadding: false,
+    label: 'Providing System Name'
+  },
   { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
 ]
 
 class ConsumerTab extends Component {
   render() {
     const { consumerData, classes, deleteAuthEntry } = this.props
-    return (<div className={classes.root}>
-      {
-        consumerData.map(consumerEntry => {
+    return (
+      <div className={classes.root}>
+        {consumerData.map(consumerEntry => {
           return (
             <ExpansionPanel key={consumerEntry.consumer.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>{consumerEntry.consumer.systemName}</Typography>
+                <Typography className={classes.heading}>
+                  {consumerEntry.consumer.systemName}
+                </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
-                <Typography><b>Address:</b> {consumerEntry.consumer.address}</Typography>
-                <Typography><b>Port:</b> {consumerEntry.consumer.port}</Typography>
+                <Typography>
+                  <b>Address:</b> {consumerEntry.consumer.address}
+                </Typography>
+                <Typography>
+                  <b>Port:</b> {consumerEntry.consumer.port}
+                </Typography>
                 <ConsumerTable
                   data={consumerEntry.relation}
                   deleteAuthEntryById={deleteAuthEntry}
@@ -54,9 +68,9 @@ class ConsumerTab extends Component {
               </ExpansionPanelDetails>
             </ExpansionPanel>
           )
-        })
-      }
-    </div>)
+        })}
+      </div>
+    )
   }
 }
 

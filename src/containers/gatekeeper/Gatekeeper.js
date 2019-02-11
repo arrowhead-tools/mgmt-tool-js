@@ -5,8 +5,18 @@ import { connect } from 'react-redux'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
 import { hideModal, showModal } from '../../actions/modal'
 import GatekeeperTabContainer from './GatekeeperTabContainer'
-import { getClouds, addCloud, deleteCloud, updateCloud } from '../../actions/gatekeeper'
-import { addRelay, deleteRelay, getRelays, updateRelay } from '../../actions/relay'
+import {
+  getClouds,
+  addCloud,
+  deleteCloud,
+  updateCloud
+} from '../../actions/gatekeeper'
+import {
+  addRelay,
+  deleteRelay,
+  getRelays,
+  updateRelay
+} from '../../actions/relay'
 
 const styles = theme => ({
   root: {},
@@ -24,49 +34,61 @@ class Gatekeeper extends Component {
   }
 
   onAddRelayClick = () => {
-    this.props.showModal({
-      open: true,
-      closeModal: this.props.hideModal,
-      data: {},
-      addRelay: this.props.addRelay
-    }, 'addRelay')
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.props.hideModal,
+        data: {},
+        addRelay: this.props.addRelay
+      },
+      'addRelay'
+    )
   }
 
-  onDeleteRelayClick = (id) => () => {
+  onDeleteRelayClick = id => () => {
     this.props.deleteRelay(id)
   }
 
-  onModifyRelayClick = (data) => () => {
-    this.props.showModal({
-      open: true,
-      closeModal: this.props.hideModal,
-      isEdit: true,
-      data: data,
-      updateRelay: this.props.updateRelay
-    }, 'addRelay')
+  onModifyRelayClick = data => () => {
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.props.hideModal,
+        isEdit: true,
+        data: data,
+        updateRelay: this.props.updateRelay
+      },
+      'addRelay'
+    )
   }
 
   onAddNeighborhoodClick = () => {
-    this.props.showModal({
-      open: true,
-      closeModal: this.props.hideModal,
-      data: {},
-      addCloud: this.props.addCloud
-    }, 'addNeighborhood')
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.props.hideModal,
+        data: {},
+        addCloud: this.props.addCloud
+      },
+      'addNeighborhood'
+    )
   }
 
   onDeleteNeighborhoodClick = (operator, cloudName) => () => {
     this.props.deleteCloud(operator, cloudName)
   }
 
-  onModifyNeighborhoodClick = (data) => () => {
-    this.props.showModal({
-      open: true,
-      closeModal: this.props.hideModal,
-      isEdit: true,
-      data: data.cloud,
-      updateCloud: this.props.updateCloud
-    }, 'addNeighborhood')
+  onModifyNeighborhoodClick = data => () => {
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.props.hideModal,
+        isEdit: true,
+        data: data.cloud,
+        updateCloud: this.props.updateCloud
+      },
+      'addNeighborhood'
+    )
   }
 
   render() {
@@ -85,7 +107,11 @@ class Gatekeeper extends Component {
     }
     return (
       <div className={classes.root}>
-        <GatekeeperTabContainer relayData={relay.data} neighborhoodData={gatekeeper.data} handlers={handlers} />
+        <GatekeeperTabContainer
+          relayData={relay.data}
+          neighborhoodData={gatekeeper.data}
+          handlers={handlers}
+        />
         <ModalContainer />
       </div>
     )
@@ -118,25 +144,25 @@ function mapDispatchToProps(dispatch) {
     getClouds: () => {
       dispatch(getClouds())
     },
-    addCloud: (newCloud) => {
+    addCloud: newCloud => {
       dispatch(addCloud(newCloud))
     },
     deleteCloud: (operator, cloudName) => {
       dispatch(deleteCloud(operator, cloudName))
     },
-    updateCloud: (updatedCloud) => {
+    updateCloud: updatedCloud => {
       dispatch(updateCloud(updatedCloud))
     },
     getRelays: () => {
       dispatch(getRelays())
     },
-    addRelay: (newRelay) => {
+    addRelay: newRelay => {
       dispatch(addRelay(newRelay))
     },
-    deleteRelay: (id) => {
+    deleteRelay: id => {
       dispatch(deleteRelay(id))
     },
-    updateRelay: (updatedRelay) => {
+    updateRelay: updatedRelay => {
       dispatch(updateRelay(updatedRelay))
     },
     hideModal: () => {
@@ -148,4 +174,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Gatekeeper))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Gatekeeper))

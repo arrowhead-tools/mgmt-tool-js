@@ -32,7 +32,6 @@ class AddNeighborhood extends Component {
       gatekeeperServiceURI: props.data.gatekeeperServiceURI || '',
       authenticationInfo: props.data.authenticationInfo || '',
       secure: props.data.secure || false
-
     }
   }
 
@@ -65,7 +64,6 @@ class AddNeighborhood extends Component {
   }
 
   onSubmit = () => {
-
     if (this.props.isEdit) {
       this.props.updateCloud(this.state)
     } else {
@@ -80,39 +78,47 @@ class AddNeighborhood extends Component {
     const { classes, isEdit } = this.props
     return (
       <div>
-        <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', width: '440px' }}>
+        <Card
+          raised
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            margin: '10px',
+            width: '440px'
+          }}
+        >
           <TextField
             value={this.state.operator}
             className={classes.input}
-            id='operator'
+            id="operator"
             required
-            label='Operator'
+            label="Operator"
             onChange={this.onOperatorChange}
           />
           <TextField
             value={this.state.cloudName}
             className={classes.input}
-            id='cloudName'
+            id="cloudName"
             required
-            label='CloudName'
+            label="CloudName"
             onChange={this.onCloudNameChange}
           />
           <TextField
             value={this.state.address}
             className={classes.input}
-            id='address'
+            id="address"
             required
-            label='Address'
+            label="Address"
             onChange={this.onAddressChange}
           />
           <TextField
             value={this.state.port}
             className={classes.input}
-            id='port'
+            id="port"
             required
-            label='Port'
+            label="Port"
             onChange={this.onPortChange}
-            type='number'
+            type="number"
             inputProps={{
               min: '1',
               max: '65535'
@@ -121,38 +127,58 @@ class AddNeighborhood extends Component {
           <TextField
             value={this.state.gatekeeperServiceURI}
             className={classes.input}
-            id='gatekeeperServiceURI'
+            id="gatekeeperServiceURI"
             required
-            label='Gatekeeper Service URI'
+            label="Gatekeeper Service URI"
             onChange={this.onGatekeeperServiceURIChange}
           />
           <TextField
             value={this.state.authenticationInfo}
             className={classes.input}
-            id='authenticationInfo'
-            label='Authentication Info'
+            id="authenticationInfo"
+            label="Authentication Info"
             onChange={this.onAuthenticationInfoChange}
           />
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <Typography variant='subtitle2' style={{ margin: '20px' }}>Is secure?</Typography>
+            <Typography variant="subtitle2" style={{ margin: '20px' }}>
+              Is secure?
+            </Typography>
             <Checkbox
               checked={this.state.secure}
-              id='secure'
-              label='Secure'
+              id="secure"
+              label="Secure"
               onChange={this.onSecureChange}
             />
           </div>
         </Card>
         <Button
-          disabled={this.state.operator === '' || this.state.cloudName === '' || this.state.address === '' ||
-          this.state.port === '' || this.state.gatekeeperServiceURI === ''}
-          color='primary'
+          disabled={
+            this.state.operator === '' ||
+            this.state.cloudName === '' ||
+            this.state.address === '' ||
+            this.state.port === '' ||
+            this.state.gatekeeperServiceURI === ''
+          }
+          color="primary"
           onClick={this.onSubmit}
           style={{
             width: '440px',
             marginLeft: '10px',
             padding: '0px'
-          }}>{isEdit ? (<p><EditIcon />Edit</p>) : (<p><AddIcon />Add</p>)}</Button>
+          }}
+        >
+          {isEdit ? (
+            <p>
+              <EditIcon />
+              Edit
+            </p>
+          ) : (
+            <p>
+              <AddIcon />
+              Add
+            </p>
+          )}
+        </Button>
       </div>
     )
   }

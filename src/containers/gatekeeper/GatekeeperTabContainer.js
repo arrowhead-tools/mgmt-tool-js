@@ -28,10 +28,10 @@ class GatekeeperTabContainer extends Component {
     const { value } = this.state
     return (
       <div>
-        <AppBar position='static' style={{ background: '#004676' }}>
-          <Tabs value={value} onChange={this.handleChange} variant='fullWidth'>
-            <Tab label='Neighborhood' />
-            <Tab label='Relay' />
+        <AppBar position="static" style={{ background: '#004676' }}>
+          <Tabs value={value} onChange={this.handleChange} variant="fullWidth">
+            <Tab label="Neighborhood" />
+            <Tab label="Relay" />
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -39,8 +39,16 @@ class GatekeeperTabContainer extends Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <NeighborhoodTab dir={theme.direction} data={neighborhoodData} handlers={handlers.neighborhood} />
-          <RelayTab dir={theme.direction} data={relayData} handlers={handlers.relay} />
+          <NeighborhoodTab
+            dir={theme.direction}
+            data={neighborhoodData}
+            handlers={handlers.neighborhood}
+          />
+          <RelayTab
+            dir={theme.direction}
+            data={relayData}
+            handlers={handlers.relay}
+          />
         </SwipeableViews>
       </div>
     )

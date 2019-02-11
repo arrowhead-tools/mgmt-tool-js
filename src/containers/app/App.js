@@ -27,7 +27,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className='app full-height'>
+      <div className="app full-height">
         <Switch>
           {dashboardRoutes.map((route, i) => (
             <Route key={i} {...route} />

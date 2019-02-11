@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton'
 import ClearIcon from '@material-ui/icons/Clear'
 import EnhancedTableHead from '../../../components/Table/EnhancedTableHead'
 import { getSorting } from '../../../utils/utils'
-import EditIcon from "@material-ui/icons/Edit"
+import EditIcon from '@material-ui/icons/Edit'
 
 const styles = theme => ({
   root: {
@@ -25,7 +25,8 @@ const styles = theme => ({
     overflowX: 'auto'
   },
   actionCell: {
-    display: 'flex', flexDirection: 'row'
+    display: 'flex',
+    flexDirection: 'row'
   }
 })
 
@@ -60,7 +61,13 @@ class EventHandlerTable extends React.Component {
   }
 
   render() {
-    const { data, classes, columnData, deleteEventHandler, modifyEventHandler } = this.props
+    const {
+      data,
+      classes,
+      columnData,
+      deleteEventHandler,
+      modifyEventHandler
+    } = this.props
     const { order, orderBy, rowsPerPage, page } = this.state
     return (
       <Paper className={classes.root}>
@@ -71,16 +78,15 @@ class EventHandlerTable extends React.Component {
               order={order}
               orderBy={orderBy}
               rowCount={data.length}
-              columnData={columnData} />
+              columnData={columnData}
+            />
             <TableBody>
               {data
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, index) => {
                   return (
-                    <TableRow
-                      hover
-                      key={n.eventId}>
+                    <TableRow hover key={n.eventId}>
                       <TableCell>{n.systemName}</TableCell>
                       <TableCell>{n.address}</TableCell>
                       <TableCell>{n.port}</TableCell>
@@ -88,26 +94,31 @@ class EventHandlerTable extends React.Component {
                       <TableCell>{n.sources}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton
-                          color='secondary'
-                          aria-label='Edit Entry'
+                          color="secondary"
+                          aria-label="Edit Entry"
                           onClick={modifyEventHandler(n)}
                         >
                           <EditIcon />
                         </IconButton>
-                        <IconButton color='secondary' aria-label='Delete Entry' onClick={deleteEventHandler(n.eventType, n.systemName)}>
+                        <IconButton
+                          color="secondary"
+                          aria-label="Delete Entry"
+                          onClick={deleteEventHandler(
+                            n.eventType,
+                            n.systemName
+                          )}
+                        >
                           <ClearIcon />
                         </IconButton>
                       </TableCell>
                     </TableRow>
                   )
-                })
-
-              }
+                })}
             </TableBody>
           </Table>
         </div>
         <TablePagination
-          component='div'
+          component="div"
           count={data.length}
           backIconButtonProps={{
             'aria-label': 'Previous Page'

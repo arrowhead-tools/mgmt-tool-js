@@ -8,9 +8,7 @@ export function configureStore(initialState) {
   store = createStore(
     rootReducer,
     initialState || {},
-    compose(
-      applyMiddleware(thunkMiddleware)
-    )
+    compose(applyMiddleware(thunkMiddleware))
   )
   return store
 }

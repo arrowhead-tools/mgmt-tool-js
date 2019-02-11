@@ -13,9 +13,14 @@ function receiveOrchestratorStoreData(backup) {
 
 export function getOrchestrationStoreData() {
   return (dispatch, getState) => {
-    networkService.get('/orchestrator/mgmt/store/all')
+    networkService
+      .get('/orchestrator/mgmt/store/all')
       .then(response => {
-        dispatch(receiveOrchestratorStoreData(digestOrchestrationBackupListData(response.data)))
+        dispatch(
+          receiveOrchestratorStoreData(
+            digestOrchestrationBackupListData(response.data)
+          )
+        )
       })
       .catch(error => {
         console.log(error)
@@ -25,8 +30,9 @@ export function getOrchestrationStoreData() {
 
 export function savePriorities(priorityData) {
   console.log('prio', priorityData)
-  return (dispatch) => {
-    networkService.put('/orchestrator/mgmt/store/priorities', { priorities: priorityData })
+  return dispatch => {
+    networkService
+      .put('/orchestrator/mgmt/store/priorities', { priorities: priorityData })
       .then(response => {
         dispatch(
           showNotification(

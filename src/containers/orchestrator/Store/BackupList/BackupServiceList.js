@@ -47,7 +47,7 @@ class BackupServiceList extends React.Component {
     this.setState({ [serviceId]: { disabled: newValue, array } })
   }
 
-  onButtonClick = (serviceId) => () => {
+  onButtonClick = serviceId => () => {
     const helperObject = {}
     this.state[serviceId].array.map((item, index) => {
       helperObject[item.storeEntryId] = index + 1
@@ -60,34 +60,39 @@ class BackupServiceList extends React.Component {
     const { classes, services } = this.props
     return (
       <div className={classes.root}>
-        {
-          services.map(service => {
-            return (
-              <ExpansionPanel key={service.service.id}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>{service.service.serviceDefinition}</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails className={classes.child}>
-                  <BackupSortableList
-                    list={service.providers}
-                    serviceId={service.service.id}
-                    onItemsOrderChanged={this.onItemsOrderChanged} />
-                </ExpansionPanelDetails>
-                <Divider />
-                <ExpansionPanelActions>
-                  <Button
-                    color='success'
-                    className={classes.marginRight20}
-                    disabled={this.state[service.service.id] === undefined ? true : this.state[service.service.id].disabled}
-                    onClick={this.onButtonClick(service.service.id)}
-                  >
-                    Save
-                  </Button>
-                </ExpansionPanelActions>
-              </ExpansionPanel>
-            )
-          })
-        }
+        {services.map(service => {
+          return (
+            <ExpansionPanel key={service.service.id}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>
+                  {service.service.serviceDefinition}
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.child}>
+                <BackupSortableList
+                  list={service.providers}
+                  serviceId={service.service.id}
+                  onItemsOrderChanged={this.onItemsOrderChanged}
+                />
+              </ExpansionPanelDetails>
+              <Divider />
+              <ExpansionPanelActions>
+                <Button
+                  color="success"
+                  className={classes.marginRight20}
+                  disabled={
+                    this.state[service.service.id] === undefined
+                      ? true
+                      : this.state[service.service.id].disabled
+                  }
+                  onClick={this.onButtonClick(service.service.id)}
+                >
+                  Save
+                </Button>
+              </ExpansionPanelActions>
+            </ExpansionPanel>
+          )
+        })}
       </div>
     )
   }

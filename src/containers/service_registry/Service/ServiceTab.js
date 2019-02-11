@@ -38,27 +38,33 @@ const columnData = [
 
 class ServiceTab extends Component {
   render() {
-    const { serviceData, classes, handleServiceDelete, handleServiceEdit } = this.props
+    const {
+      serviceData,
+      classes,
+      handleServiceDelete,
+      handleServiceEdit
+    } = this.props
     return (
       <div className={classes.root}>
-        {
-          serviceData.map(serviceEntry => {
-            return (
-              <ExpansionPanel key={serviceEntry.serviceId}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>{serviceEntry.serviceDefinition}</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails className={classes.child}>
-                  <ServiceTable
-                    data={serviceEntry.provider}
-                    columnData={columnData}
-                    handleServiceEdit={handleServiceEdit}
-                    handleServiceDelete={handleServiceDelete} />
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            )
-          })
-        }
+        {serviceData.map(serviceEntry => {
+          return (
+            <ExpansionPanel key={serviceEntry.serviceId}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>
+                  {serviceEntry.serviceDefinition}
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.child}>
+                <ServiceTable
+                  data={serviceEntry.provider}
+                  columnData={columnData}
+                  handleServiceEdit={handleServiceEdit}
+                  handleServiceDelete={handleServiceDelete}
+                />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          )
+        })}
       </div>
     )
   }

@@ -1,13 +1,11 @@
-import {
-  RECEIVE_CLOUDS
-} from '../actions/gatekeeper'
+import { RECEIVE_CLOUDS } from '../actions/gatekeeper'
 
 const initialState = {
   data: []
 }
 
 export default function services(state = initialState, action = {}) {
-  switch(action.type) {
+  switch (action.type) {
     case RECEIVE_CLOUDS:
       return {
         ...state,

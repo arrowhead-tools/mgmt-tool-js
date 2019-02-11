@@ -2,7 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ModalContainer from '../../../components/Modals/ModalContainer/ModalContainer'
 import OrchestrationStoreTabContainer from './OrchestrationStoreTabContainer'
-import { getOrchestrationStoreData, savePriorities } from '../../../actions/orchestrator'
+import {
+  getOrchestrationStoreData,
+  savePriorities
+} from '../../../actions/orchestrator'
 import { connect } from 'react-redux'
 
 class OrchestratorStore extends React.Component {
@@ -13,10 +16,15 @@ class OrchestratorStore extends React.Component {
   render() {
     const { orchestrator, savePriorities } = this.props
 
-    return <div>
-      <OrchestrationStoreTabContainer backupList={orchestrator.backup} savePriorities={savePriorities} />
-      <ModalContainer />
-    </div>
+    return (
+      <div>
+        <OrchestrationStoreTabContainer
+          backupList={orchestrator.backup}
+          savePriorities={savePriorities}
+        />
+        <ModalContainer />
+      </div>
+    )
   }
 }
 
@@ -37,10 +45,13 @@ function mapDispatchToProps(dispatch) {
     getOrchestrationStoreData: () => {
       dispatch(getOrchestrationStoreData())
     },
-    savePriorities: (priorityData) => {
+    savePriorities: priorityData => {
       dispatch(savePriorities(priorityData))
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrchestratorStore)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OrchestratorStore)

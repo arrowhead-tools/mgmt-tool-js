@@ -32,18 +32,23 @@ class OrchestrationStoreTabContainer extends Component {
     const { value } = this.state
     return (
       <div>
-        <AppBar position='static' style={{ background: '#004676' }}>
-          <Tabs value={value} onChange={this.handleChange} variant='fullWidth'>
-            <Tab label='Default Config' />
-            <Tab label='Backup List' />
+        <AppBar position="static" style={{ background: '#004676' }}>
+          <Tabs value={value} onChange={this.handleChange} variant="fullWidth">
+            <Tab label="Default Config" />
+            <Tab label="Backup List" />
           </Tabs>
         </AppBar>
         <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={this.state.value}
-          onChangeIndex={this.handleChangeIndex}>
+          onChangeIndex={this.handleChangeIndex}
+        >
           <DefaultConfigTab dir={theme.direction} />
-          <BackupListTab dir={theme.direction} data={backupList} savePriorities={savePriorities} />
+          <BackupListTab
+            dir={theme.direction}
+            data={backupList}
+            savePriorities={savePriorities}
+          />
         </SwipeableViews>
       </div>
     )
@@ -56,4 +61,6 @@ OrchestrationStoreTabContainer.propTypes = {
   savePriorities: PropTypes.func.isRequired
 }
 
-export default withStyles(styles, { withTheme: true })(OrchestrationStoreTabContainer)
+export default withStyles(styles, { withTheme: true })(
+  OrchestrationStoreTabContainer
+)

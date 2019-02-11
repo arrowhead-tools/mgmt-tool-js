@@ -1,7 +1,12 @@
 import networkService from '../services/networkServiceAuth'
 import { showNotification } from './global'
 import { hideModal } from './modal'
-import { groupAuthDataByConsumer, groupAuthDataByProvider, groupAuthDataByService, groupInterCloudDataByClouds } from '../utils/utils'
+import {
+  groupAuthDataByConsumer,
+  groupAuthDataByProvider,
+  groupAuthDataByService,
+  groupInterCloudDataByClouds
+} from '../utils/utils'
 
 export const RECEIVE_AUTH_DATA = 'RECEIVE_AUTH_DATA'
 export const RECEIVE_AUTH_SYSTEMS = 'RECEIVE_AUTH_SYSTEMS'
@@ -40,9 +45,16 @@ function receiveInterCloudAuthData(cloud) {
 
 export function getIntraCloudAuthData() {
   return (dispatch, getState) => {
-    networkService.get('/authorization/mgmt/intracloud')
+    networkService
+      .get('/authorization/mgmt/intracloud')
       .then(response => {
-        dispatch(receiveAuthData(groupAuthDataByConsumer(response.data), groupAuthDataByProvider(response.data), groupAuthDataByService(response.data)))
+        dispatch(
+          receiveAuthData(
+            groupAuthDataByConsumer(response.data),
+            groupAuthDataByProvider(response.data),
+            groupAuthDataByService(response.data)
+          )
+        )
       })
       .catch(error => {
         console.log(error)
@@ -51,10 +63,13 @@ export function getIntraCloudAuthData() {
 }
 
 export function getInterCloudAuthData() {
-  return (dispatch) => {
-    networkService.get('/authorization/mgmt/intercloud')
+  return dispatch => {
+    networkService
+      .get('/authorization/mgmt/intercloud')
       .then(response => {
-        dispatch(receiveInterCloudAuthData(groupInterCloudDataByClouds(response.data)))
+        dispatch(
+          receiveInterCloudAuthData(groupInterCloudDataByClouds(response.data))
+        )
       })
       .catch(error => {
         console.log(error)
@@ -64,7 +79,8 @@ export function getInterCloudAuthData() {
 
 export function getAuthSystems() {
   return dispatch => {
-    networkService.get('/mgmt/systems')
+    networkService
+      .get('/mgmt/systems')
       .then(response => {
         dispatch(receiveAuthSystems(response.data))
       })
@@ -76,7 +92,8 @@ export function getAuthSystems() {
 
 export function getAuthServices() {
   return dispatch => {
-    networkService.get('/mgmt/services')
+    networkService
+      .get('/mgmt/services')
       .then(response => {
         dispatch(receiveAuthServices(response.data))
       })
@@ -94,7 +111,8 @@ export function addAuthData(consumer, providerList, service, interfaces) {
     serviceList: [service]
   }
   return dispatch => {
-    networkService.post('/authorization/mgmt/Intracloud', authData)
+    networkService
+      .post('/authorization/mgmt/Intracloud', authData)
       .then(response => {
         console.log(response.data)
         dispatch(getIntraCloudAuthData())
@@ -132,7 +150,8 @@ export function addAuthData(consumer, providerList, service, interfaces) {
 
 export function deleteAuthEntry(authEntryId) {
   return dispatch => {
-    networkService.delete(`/authorization/mgmt/intracloud/${authEntryId}`)
+    networkService
+      .delete(`/authorization/mgmt/intracloud/${authEntryId}`)
       .then(response => {
         console.log(response.data)
         dispatch(getIntraCloudAuthData())

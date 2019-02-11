@@ -14,7 +14,7 @@ import TextField from '@material-ui/core/TextField'
 import { getClouds } from '../../actions/gatekeeper'
 import { addCloud } from '../../actions/gatekeeper'
 
-import Button from "../../components/CustomButtons/Button.js"
+import Button from '../../components/CustomButtons/Button.js'
 
 const styles = theme => ({
   root: {
@@ -44,38 +44,40 @@ class NewCloudDialog extends React.Component {
 
     this.state = {
       open: false,
-      checkedIsSecure: false,
+      checkedIsSecure: false
     }
   }
   handleClickOpen = () => {
-    this.setState({ open: true });
+    this.setState({ open: true })
   }
 
   handleChange = name => event => {
-      this.setState({ [name]: event.target.checked })
+    this.setState({ [name]: event.target.checked })
   }
 
-  
   handleDelete = (operator, cloudName) => {
     this.props.deleteCloud(operator, cloudName)
     window.location.reload()
-
   }
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false })
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    var newCloud = [{cloud: {
-      operator: event.target.elements.operator.value,
-      cloudName: event.target.elements.cloudName.value,
-      address: event.target.elements.address.value,
-      port: event.target.elements.port.value,
-      gatekeeperServiceURI: event.target.elements.gkServiceURI.value,
-      secure: this.state.checkedIsSecure,
-    }}]
+  handleSubmit = event => {
+    event.preventDefault()
+    var newCloud = [
+      {
+        cloud: {
+          operator: event.target.elements.operator.value,
+          cloudName: event.target.elements.cloudName.value,
+          address: event.target.elements.address.value,
+          port: event.target.elements.port.value,
+          gatekeeperServiceURI: event.target.elements.gkServiceURI.value,
+          secure: this.state.checkedIsSecure
+        }
+      }
+    ]
     if (this.state.checkedIsSecure == false) {
       newCloud.authenticationInfo = null
     } else {
@@ -90,88 +92,87 @@ class NewCloudDialog extends React.Component {
     const { classes, gatekeeper } = this.props
     const { open, checkedIsSecure } = this.state
 
-    return ( 
+    return (
       <Dialog
         open={this.state.open}
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
       >
         <form onSubmit={this.handleSubmit}>
-
-        <DialogTitle id="form-dialog-title">Add new neighboring cloud to NeighborCloud Table</DialogTitle>
-        <DialogContent>
-        <TextField
-            autoFocus
-            id="cloudName"
-            label="Cloud name"
-            type="text"
-            margin="dense"
-            required
-            className={classes.textField}
-          />
-          <TextField
-            id="address"
-            label="Address"
-            type="text"
-            margin="dense"
-            required
-            className={classes.textField}
-          />
-          <TextField
-            id="operator"
-            label="Operator"
-            type="text"
-            margin="dense"
-            required
-            className={classes.textField}
-          />
-          <TextField
-            id="gkServiceURI"
-            label="Gatekeeper Service URI"
-            type="text"
-            margin="dense"
-            required
-            className={classes.textField}
-
-          />
-          <TextField
-            id="port"
-            label="Port"
-            type="number"
-            margin="dense"
-            className={classes.textFieldPort}
-            required
-          />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={this.state.checkedIsSecure}
-                onChange={this.handleChange('checkedIsSecure')}
-                value="checkedIsSecure"
-                color="primary"
-        />
-      }
-      label="Secure"
-      />
-      { this.state.checkedIsSecure ? 
-           <TextField
-            id="auth_info"
-            label="Authentication Info"
-            type="string"
-            margin="dense"
-            className={classes.textField}
-      /> : null 
-    }
-    
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this.handleClose} color="primary" block>
-            Cancel
-          </Button>
-          <Button color="primary" type='submit' block>
-            Save
-          </Button>
-        </DialogActions>
+          <DialogTitle id="form-dialog-title">
+            Add new neighboring cloud to NeighborCloud Table
+          </DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              id="cloudName"
+              label="Cloud name"
+              type="text"
+              margin="dense"
+              required
+              className={classes.textField}
+            />
+            <TextField
+              id="address"
+              label="Address"
+              type="text"
+              margin="dense"
+              required
+              className={classes.textField}
+            />
+            <TextField
+              id="operator"
+              label="Operator"
+              type="text"
+              margin="dense"
+              required
+              className={classes.textField}
+            />
+            <TextField
+              id="gkServiceURI"
+              label="Gatekeeper Service URI"
+              type="text"
+              margin="dense"
+              required
+              className={classes.textField}
+            />
+            <TextField
+              id="port"
+              label="Port"
+              type="number"
+              margin="dense"
+              className={classes.textFieldPort}
+              required
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={this.state.checkedIsSecure}
+                  onChange={this.handleChange('checkedIsSecure')}
+                  value="checkedIsSecure"
+                  color="primary"
+                />
+              }
+              label="Secure"
+            />
+            {this.state.checkedIsSecure ? (
+              <TextField
+                id="auth_info"
+                label="Authentication Info"
+                type="string"
+                margin="dense"
+                className={classes.textField}
+              />
+            ) : null}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary" block>
+              Cancel
+            </Button>
+            <Button color="primary" type="submit" block>
+              Save
+            </Button>
+          </DialogActions>
         </form>
       </Dialog>
     )
@@ -179,7 +180,7 @@ class NewCloudDialog extends React.Component {
 }
 
 NewCloudDialog.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
@@ -192,12 +193,13 @@ function mapDispatchToProps(dispatch) {
     getClouds: () => {
       dispatch(getClouds())
     },
-    addCloud: (newCloud) => {
+    addCloud: newCloud => {
       dispatch(addCloud(newCloud))
     }
   }
 }
 
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NewCloudDialog))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(NewCloudDialog))

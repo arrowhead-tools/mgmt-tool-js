@@ -142,7 +142,7 @@ const title = {
   marginTop: '30px',
   marginBottom: '25px',
   minHeight: '32px',
-  fontFamily: '\'Roboto\', \'Helvetica\', \'Arial\', sans-serif',
+  fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
   '& small': {
     color: '#777',
     fontSize: '65%',
@@ -156,7 +156,7 @@ const cardTitle = {
   marginTop: '0',
   marginBottom: '3px',
   minHeight: 'auto',
-  fontFamily: '\'Roboto\', \'Helvetica\', \'Arial\', sans-serif',
+  fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
   '& a': {
     ...title,
     marginTop: '.625rem',

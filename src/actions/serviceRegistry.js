@@ -1,12 +1,21 @@
 import networkService from '../services/networkServiceSR'
-import { getAutoCompleteData, groupServicesByServices, groupServicesBySystems } from '../utils/utils'
+import {
+  getAutoCompleteData,
+  groupServicesByServices,
+  groupServicesBySystems
+} from '../utils/utils'
 import { hideModal } from './modal'
 import { showNotification } from './global'
 
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
 export const RECEIVE_SERVICE = 'RECEIVE_SERVICE'
 
-function receiveServices(groupBySystems, groupByServices, autoCompleteData, queryDataObject = {}) {
+function receiveServices(
+  groupBySystems,
+  groupByServices,
+  autoCompleteData,
+  queryDataObject = {}
+) {
   const serviceObject = {
     type: RECEIVE_SERVICES,
     groupByServices,
@@ -36,9 +45,16 @@ function receiveServiceDataById(serviceId, serviceData) {
 
 export function getServices() {
   return (dispatch, getState) => {
-    networkService.get('/serviceregistry/mgmt/all')
+    networkService
+      .get('/serviceregistry/mgmt/all')
       .then(response => {
-        dispatch(receiveServices(groupServicesBySystems(response.data), groupServicesByServices(response.data), getAutoCompleteData(response.data)))
+        dispatch(
+          receiveServices(
+            groupServicesBySystems(response.data),
+            groupServicesByServices(response.data),
+            getAutoCompleteData(response.data)
+          )
+        )
       })
       .catch(error => {
         console.log(error)
@@ -48,9 +64,17 @@ export function getServices() {
 
 export function getFilteredServices(queryData, queryDataObject) {
   return (dispatch, getState) => {
-    networkService.put('/serviceregistry/mgmt/query', queryData)
+    networkService
+      .put('/serviceregistry/mgmt/query', queryData)
       .then(response => {
-        dispatch(receiveServices(groupServicesBySystems({ serviceQueryData: response.data }), groupServicesByServices({ serviceQueryData: response.data }), undefined, queryDataObject))
+        dispatch(
+          receiveServices(
+            groupServicesBySystems({ serviceQueryData: response.data }),
+            groupServicesByServices({ serviceQueryData: response.data }),
+            undefined,
+            queryDataObject
+          )
+        )
         dispatch(hideModal())
       })
       .catch(error => {
@@ -61,7 +85,8 @@ export function getFilteredServices(queryData, queryDataObject) {
 
 export function addService(serviceData) {
   return (dispatch, getState) => {
-    networkService.post('/mgmt/services', [serviceData])
+    networkService
+      .post('/mgmt/services', [serviceData])
       .then(response => {
         console.log(response)
         dispatch(getServices())
@@ -78,11 +103,15 @@ export function addSystem(systemName, address, port, authenticationInfo) {
   }
 
   const systemData = {
-    systemName, address, port, authenticationInfo
+    systemName,
+    address,
+    port,
+    authenticationInfo
   }
 
   return (dispatch, getState) => {
-    networkService.post('/mgmt/systems', [systemData])
+    networkService
+      .post('/mgmt/systems', [systemData])
       .then(response => {
         console.log(response)
         dispatch(getServices())
@@ -94,9 +123,19 @@ export function addSystem(systemName, address, port, authenticationInfo) {
 }
 
 export function addSREntry(
-  systemId, systemName, address, port, authenticationInfo,
-  serviceDefinition, serviceMetadata = [], interfaces = [], serviceURI,
-  udp, endOfValidity, version) {
+  systemId,
+  systemName,
+  address,
+  port,
+  authenticationInfo,
+  serviceDefinition,
+  serviceMetadata = [],
+  interfaces = [],
+  serviceURI,
+  udp,
+  endOfValidity,
+  version
+) {
   const serviceMetadataHelper = {}
   for (const item of serviceMetadata) {
     if (item.name !== '' || item.value !== '') {
@@ -127,7 +166,8 @@ export function addSREntry(
   }
 
   return (dispatch, getState) => {
-    networkService.post('/serviceregistry/register', SREObject)
+    networkService
+      .post('/serviceregistry/register', SREObject)
       .then(response => {
         dispatch(
           showNotification(
@@ -164,7 +204,8 @@ export function addSREntry(
 
 export function deleteServiceById(serviceId) {
   return (dispatch, getState) => {
-    networkService.delete(`/serviceregistry/mgmt/${serviceId}`)
+    networkService
+      .delete(`/serviceregistry/mgmt/${serviceId}`)
       .then(response => {
         dispatch(
           showNotification(
@@ -199,9 +240,19 @@ export function deleteServiceById(serviceId) {
 }
 
 export function editSREntry(
-  systemId, systemName, address, port, authenticationInfo,
-  serviceDefinition, serviceMetadata = [], interfaces = [], serviceURI,
-  udp, endOfValidity, version) {
+  systemId,
+  systemName,
+  address,
+  port,
+  authenticationInfo,
+  serviceDefinition,
+  serviceMetadata = [],
+  interfaces = [],
+  serviceURI,
+  udp,
+  endOfValidity,
+  version
+) {
   const serviceMetadataHelper = {}
   for (const item of serviceMetadata) {
     if (item.name !== '' || item.value !== '') {
@@ -233,7 +284,8 @@ export function editSREntry(
 
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-      networkService.put('/serviceregistry/mgmt/update', SREObject)
+      networkService
+        .put('/serviceregistry/mgmt/update', SREObject)
         .then(response => {
           dispatch(
             showNotification(
@@ -273,7 +325,8 @@ export function editSREntry(
 
 export function getServiceById(serviceId) {
   return dispatch => {
-    networkService.get(`/serviceregistry/mgmt/id/${serviceId}`)
+    networkService
+      .get(`/serviceregistry/mgmt/id/${serviceId}`)
       .then(response => {
         dispatch(receiveServiceDataById(serviceId, response.data))
       })
@@ -283,7 +336,12 @@ export function getServiceById(serviceId) {
   }
 }
 
-export function editService(serviceId, serviceDefinition, interfaces, serviceMetadata) {
+export function editService(
+  serviceId,
+  serviceDefinition,
+  interfaces,
+  serviceMetadata
+) {
   const serviceMetadataHelper = {}
   for (const item of serviceMetadata) {
     if (item.name !== '' || item.value !== '') {
@@ -298,7 +356,8 @@ export function editService(serviceId, serviceDefinition, interfaces, serviceMet
   }
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-      networkService.put(`/mgmt/services/${serviceId}`, serviceData)
+      networkService
+        .put(`/mgmt/services/${serviceId}`, serviceData)
         .then(response => {
           resolve(response.data)
         })
@@ -310,7 +369,13 @@ export function editService(serviceId, serviceDefinition, interfaces, serviceMet
   }
 }
 
-export function editSystem(systemId, systemName, address, port, authenticationId) {
+export function editSystem(
+  systemId,
+  systemName,
+  address,
+  port,
+  authenticationId
+) {
   const systemData = {
     id: systemId,
     systemName,
@@ -320,7 +385,8 @@ export function editSystem(systemId, systemName, address, port, authenticationId
   }
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-      networkService.put(`/mgmt/systems/${systemId}`, systemData)
+      networkService
+        .put(`/mgmt/systems/${systemId}`, systemData)
         .then(response => {
           resolve(response.data)
         })
@@ -333,13 +399,46 @@ export function editSystem(systemId, systemName, address, port, authenticationId
 }
 
 export function editSREntryCollection(
-  systemId, systemName, address, port, authenticationInfo,
-  serviceDefinition, serviceMetadata = [], interfaces = [], serviceURI,
-  udp, endOfValidity, version, serviceId) {
+  systemId,
+  systemName,
+  address,
+  port,
+  authenticationInfo,
+  serviceDefinition,
+  serviceMetadata = [],
+  interfaces = [],
+  serviceURI,
+  udp,
+  endOfValidity,
+  version,
+  serviceId
+) {
   return (dispatch, getState) => {
-    dispatch(editSystem(systemId, systemName, address, port, authenticationInfo))
-      .then(dispatch(editService(serviceId, serviceDefinition, interfaces, serviceMetadata)))
-      .then(dispatch(editSREntry(systemId, systemName, address, port, authenticationInfo,
-        serviceDefinition, serviceMetadata, interfaces, serviceURI, udp, endOfValidity, version)))
+    dispatch(
+      editSystem(systemId, systemName, address, port, authenticationInfo)
+    )
+      .then(
+        dispatch(
+          editService(serviceId, serviceDefinition, interfaces, serviceMetadata)
+        )
+      )
+      .then(
+        dispatch(
+          editSREntry(
+            systemId,
+            systemName,
+            address,
+            port,
+            authenticationInfo,
+            serviceDefinition,
+            serviceMetadata,
+            interfaces,
+            serviceURI,
+            udp,
+            endOfValidity,
+            version
+          )
+        )
+      )
   }
 }

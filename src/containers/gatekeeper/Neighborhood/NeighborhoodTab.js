@@ -41,46 +41,66 @@ class NeighborhoodTab extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.buttonContainer}>
-          <CustomButton color='primary' onClick={handlers.onAddNeighborhoodClick}>
-            <AddIcon />Add
+          <CustomButton
+            color="primary"
+            onClick={handlers.onAddNeighborhoodClick}
+          >
+            <AddIcon />
+            Add
           </CustomButton>
         </div>
-        {
-          data.map(entry => {
-            return (
-              <ExpansionPanel key={entry.cloud.id}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>{entry.cloud.cloudName}</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails className={classes.child}>
-                  <Typography><b>Operator:</b> {entry.cloud.operator}</Typography>
-                  <Typography><b>Address:</b> {entry.cloud.address}</Typography>
-                  <Typography><b>Port:</b> {entry.cloud.port}</Typography>
-                  <Typography><b>Gatekeeper Service URI</b> {entry.cloud.gatekeeperServiceURI}</Typography>
-                  <Typography noWrap>
-                    <b>Authentication Info:</b> {entry.cloud.authenticationInfo || '-'}
-                  </Typography>
-                  <Typography><b>Secure:</b> {entry.cloud.secure ? '✓' : '✗'}</Typography>
-                </ExpansionPanelDetails>
-                <Divider />
-                <ExpansionPanelActions>
-                  <Button
-                    size='small'
-                    onClick={handlers.onDeleteNeighborhoodClick(entry.cloud.operator, entry.cloud.cloudName)}>
-                    Delete
-                  </Button>
-                  <Button
-                    size='small'
-                    color='primary'
-                    onClick={handlers.onModifyNeighborhoodClick(entry)}
-                  >
-                    Edit
-                  </Button>
-                </ExpansionPanelActions>
-              </ExpansionPanel>
-            )
-          })
-        }
+        {data.map(entry => {
+          return (
+            <ExpansionPanel key={entry.cloud.id}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>
+                  {entry.cloud.cloudName}
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.child}>
+                <Typography>
+                  <b>Operator:</b> {entry.cloud.operator}
+                </Typography>
+                <Typography>
+                  <b>Address:</b> {entry.cloud.address}
+                </Typography>
+                <Typography>
+                  <b>Port:</b> {entry.cloud.port}
+                </Typography>
+                <Typography>
+                  <b>Gatekeeper Service URI</b>{' '}
+                  {entry.cloud.gatekeeperServiceURI}
+                </Typography>
+                <Typography noWrap>
+                  <b>Authentication Info:</b>{' '}
+                  {entry.cloud.authenticationInfo || '-'}
+                </Typography>
+                <Typography>
+                  <b>Secure:</b> {entry.cloud.secure ? '✓' : '✗'}
+                </Typography>
+              </ExpansionPanelDetails>
+              <Divider />
+              <ExpansionPanelActions>
+                <Button
+                  size="small"
+                  onClick={handlers.onDeleteNeighborhoodClick(
+                    entry.cloud.operator,
+                    entry.cloud.cloudName
+                  )}
+                >
+                  Delete
+                </Button>
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={handlers.onModifyNeighborhoodClick(entry)}
+                >
+                  Edit
+                </Button>
+              </ExpansionPanelActions>
+            </ExpansionPanel>
+          )
+        })}
       </div>
     )
   }

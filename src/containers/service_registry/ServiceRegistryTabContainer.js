@@ -24,14 +24,20 @@ class ServiceRegistryTabContainer extends Component {
   }
 
   render() {
-    const { theme, serviceData, systemData, handleServiceDelete, handleServiceEdit } = this.props
+    const {
+      theme,
+      serviceData,
+      systemData,
+      handleServiceDelete,
+      handleServiceEdit
+    } = this.props
     const { value } = this.state
     return (
       <div>
-        <AppBar position='static' style={{ background: '#004676' }}>
-          <Tabs value={value} onChange={this.handleChange} variant='fullWidth'>
-            <Tab label='Service' />
-            <Tab label='System' />
+        <AppBar position="static" style={{ background: '#004676' }}>
+          <Tabs value={value} onChange={this.handleChange} variant="fullWidth">
+            <Tab label="Service" />
+            <Tab label="System" />
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -43,12 +49,14 @@ class ServiceRegistryTabContainer extends Component {
             dir={theme.direction}
             serviceData={serviceData}
             handleServiceEdit={handleServiceEdit}
-            handleServiceDelete={handleServiceDelete} />
+            handleServiceDelete={handleServiceDelete}
+          />
           <SystemTab
             dir={theme.direction}
             systemData={systemData}
             handleServiceEdit={handleServiceEdit}
-            handleServiceDelete={handleServiceDelete} />
+            handleServiceDelete={handleServiceDelete}
+          />
         </SwipeableViews>
       </div>
     )
@@ -66,4 +74,6 @@ ServiceRegistryTabContainer.propTypes = {
   handleServiceDelete: PropTypes.func.isRequired
 }
 
-export default withStyles(styles, { withTheme: true })(ServiceRegistryTabContainer)
+export default withStyles(styles, { withTheme: true })(
+  ServiceRegistryTabContainer
+)

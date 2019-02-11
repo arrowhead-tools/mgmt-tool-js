@@ -12,14 +12,13 @@ import AddAuthEntry from '../ModalTypes/AddAuthEntry'
 import AddNeighborhood from '../ModalTypes/AddNeighborhood'
 import AddRelay from '../ModalTypes/AddRelay'
 
-
 const MODAL_TYPES = {
-  'add': AddModal,
-  'serviceSearch': ServiceSearchModal,
-  'addSREntry': AddSREntry,
-  'addAuthEntry': AddAuthEntry,
-  'addNeighborhood': AddNeighborhood,
-  'addRelay': AddRelay
+  add: AddModal,
+  serviceSearch: ServiceSearchModal,
+  addSREntry: AddSREntry,
+  addAuthEntry: AddAuthEntry,
+  addNeighborhood: AddNeighborhood,
+  addRelay: AddRelay
 }
 
 const styles = theme => ({
@@ -63,10 +62,14 @@ class ModalContainer extends Component {
       <Dialog
         open={this.state.modalIsOpen}
         fullScreen={this.props.fullScreen}
-        scroll='paper'
-        onClose={this.closeModal}>
+        scroll="paper"
+        onClose={this.closeModal}
+      >
         <DialogContent>
-          <SpecifiedModal closeModal={this.closeModal} {...this.props.modalProps} />
+          <SpecifiedModal
+            closeModal={this.closeModal}
+            {...this.props.modalProps}
+          />
         </DialogContent>
       </Dialog>
     )
@@ -84,4 +87,7 @@ const mapStateToProps = state => ({
   ...state.modal
 })
 
-export default connect(mapStateToProps, null)(withMobileDialog(styles)(ModalContainer))
+export default connect(
+  mapStateToProps,
+  null
+)(withMobileDialog(styles)(ModalContainer))

@@ -7,7 +7,7 @@ export const initialState = {
 export default function system(state = initialState, action = {}) {
   switch (action.type) {
     case RECEIVE_SYSTEMS:
-      return {system: action.systems}
+      return { system: action.systems }
     default:
       return state
   }

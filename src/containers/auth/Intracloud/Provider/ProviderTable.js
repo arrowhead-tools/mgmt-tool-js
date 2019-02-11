@@ -24,7 +24,8 @@ const styles = theme => ({
     overflowX: 'auto'
   },
   actionCell: {
-    display: 'flex', flexDirection: 'row'
+    display: 'flex',
+    flexDirection: 'row'
   }
 })
 
@@ -70,34 +71,35 @@ class ConsumerTable extends React.Component {
               order={order}
               orderBy={orderBy}
               rowCount={data.length}
-              columnData={columnData} />
+              columnData={columnData}
+            />
             <TableBody>
               {data
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, index) => {
                   return (
-                    <TableRow
-                      hover
-                      key={n.authEntryId}>
+                    <TableRow hover key={n.authEntryId}>
                       <TableCell>{n.service.serviceDefinition}</TableCell>
                       <TableCell>{n.service.interfaces.join(',')}</TableCell>
                       <TableCell>{n.consumer.systemName}</TableCell>
                       <TableCell className={classes.actionCell}>
-                        <IconButton color='secondary' aria-label='Delete Entry' onClick={deleteAuthEntryById(n.authEntryId)}>
+                        <IconButton
+                          color="secondary"
+                          aria-label="Delete Entry"
+                          onClick={deleteAuthEntryById(n.authEntryId)}
+                        >
                           <ClearIcon />
                         </IconButton>
                       </TableCell>
                     </TableRow>
                   )
-                })
-
-              }
+                })}
             </TableBody>
           </Table>
         </div>
         <TablePagination
-          component='div'
+          component="div"
           count={data.length}
           backIconButtonProps={{
             'aria-label': 'Previous Page'

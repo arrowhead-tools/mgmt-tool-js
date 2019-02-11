@@ -27,7 +27,6 @@ class AddRelay extends Component {
       address: props.data.address || '',
       port: props.data.port || '',
       secure: props.data.secure || false
-
     }
   }
 
@@ -44,7 +43,6 @@ class AddRelay extends Component {
   }
 
   onSubmit = () => {
-
     if (this.props.isEdit) {
       this.props.updateRelay(this.state)
     } else {
@@ -59,51 +57,73 @@ class AddRelay extends Component {
     const { classes, isEdit } = this.props
     return (
       <div>
-        <Card raised style={{ display: 'flex', flexDirection: 'column', margin: '10px', width: '440px' }}>
+        <Card
+          raised
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            margin: '10px',
+            width: '440px'
+          }}
+        >
           <TextField
             value={this.state.address}
             className={classes.input}
-            id='address'
+            id="address"
             required
-            label='Address'
+            label="Address"
             onChange={this.onAddressChange}
           />
           <TextField
             value={this.state.port}
             className={classes.input}
-            id='port'
+            id="port"
             required
-            label='Port'
+            label="Port"
             onChange={this.onPortChange}
-            type='number'
+            type="number"
             inputProps={{
               min: '1',
               max: '65535'
             }}
           />
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <Typography variant='subtitle2' style={{ margin: '20px' }}>Is secure?</Typography>
+            <Typography variant="subtitle2" style={{ margin: '20px' }}>
+              Is secure?
+            </Typography>
             <Checkbox
               checked={this.state.secure}
-              id='secure'
-              label='Secure'
+              id="secure"
+              label="Secure"
               onChange={this.onSecureChange}
             />
           </div>
         </Card>
         <Button
           disabled={this.state.address === '' || this.state.port === ''}
-          color='primary'
+          color="primary"
           onClick={this.onSubmit}
           style={{
             width: '440px',
             marginLeft: '10px',
             padding: '0px'
-          }}>{isEdit ? (<p><EditIcon />Edit</p>) : (<p><AddIcon />Add</p>)}</Button>
+          }}
+        >
+          {isEdit ? (
+            <p>
+              <EditIcon />
+              Edit
+            </p>
+          ) : (
+            <p>
+              <AddIcon />
+              Add
+            </p>
+          )}
+        </Button>
       </div>
     )
   }
 }
-
 
 export default withStyles(styles)(AddRelay)

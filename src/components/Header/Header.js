@@ -19,7 +19,7 @@ function Header({ ...props }) {
     let name
     props.routes.map((prop, key) => {
       if (prop.collapse) {
-        prop.views.map((view) => {
+        prop.views.map(view => {
           if (view.path === props.location.pathname) {
             name = view.navbarName
           }
@@ -43,15 +43,15 @@ function Header({ ...props }) {
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
-          <Button color='transparent' href='#' className={classes.title}>
+          <Button color="transparent" href="#" className={classes.title}>
             {makeBrand()}
           </Button>
         </div>
         <Hidden mdUp>
           <IconButton
             className={classes.appResponsive}
-            color='inherit'
-            aria-label='open drawer'
+            color="inherit"
+            aria-label="open drawer"
             onClick={props.handleDrawerToggle}
           >
             <Menu />

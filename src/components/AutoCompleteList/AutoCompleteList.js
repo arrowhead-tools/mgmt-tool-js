@@ -66,7 +66,7 @@ const styles = theme => ({
 function NoOptionsMessage(props) {
   return (
     <Typography
-      color='textSecondary'
+      color="textSecondary"
       className={props.selectProps.classes.noOptionsMessage}
       {...props.innerProps}
     >
@@ -108,7 +108,7 @@ function Option(props) {
     <MenuItem
       buttonRef={props.innerRef}
       selected={props.isFocused}
-      component='div'
+      component="div"
       style={{
         fontWeight: props.isSelected ? 500 : 400
       }}
@@ -122,7 +122,7 @@ function Option(props) {
 function Placeholder(props) {
   return (
     <Typography
-      color='textSecondary'
+      color="textSecondary"
       className={props.selectProps.classes.placeholder}
       {...props.innerProps}
     >
@@ -201,7 +201,15 @@ class AutoCompleteList extends Component {
   }
 
   render() {
-    const { classes, theme, suggestions, label, placeholder, keyValue, disabled } = this.props
+    const {
+      classes,
+      theme,
+      suggestions,
+      label,
+      placeholder,
+      keyValue,
+      disabled
+    } = this.props
 
     const selectStyles = {
       input: base => ({
@@ -226,10 +234,10 @@ class AutoCompleteList extends Component {
           }}
           isDisabled={disabled}
           options={suggestions}
-          getOptionLabel={(data) => {
+          getOptionLabel={data => {
             return data[keyValue]
           }}
-          getOptionValue={(data) => {
+          getOptionValue={data => {
             return data[keyValue]
           }}
           components={components}

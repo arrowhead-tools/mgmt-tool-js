@@ -32,7 +32,7 @@ export default function services(state = initialState, action = {}) {
       }
       return servicesObject
     case RECEIVE_SERVICE:
-      const sData = {...state.serviceData}
+      const sData = { ...state.serviceData }
       sData[action.serviceId] = action.serviceData
       return {
         ...state,

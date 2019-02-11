@@ -1,7 +1,4 @@
-import {
-  SHOW_LOADING_LAYER,
-  HIDE_LOADING_LAYER
-} from '../actions/global'
+import { SHOW_LOADING_LAYER, HIDE_LOADING_LAYER } from '../actions/global'
 
 const initialState = {
   isLoadingLayerVisible: false,

@@ -26,26 +26,40 @@ const styles = theme => ({
 })
 
 const columnData = [
-  { id: 'service.serviceDefinition', disablePadding: false, label: 'Service Definition' },
+  {
+    id: 'service.serviceDefinition',
+    disablePadding: false,
+    label: 'Service Definition'
+  },
   { id: 'service.interfaces', disablePadding: false, label: 'Interface' },
-  { id: 'consumer.systemName', disablePadding: false, label: 'Consumer System Name' },
+  {
+    id: 'consumer.systemName',
+    disablePadding: false,
+    label: 'Consumer System Name'
+  },
   { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
 ]
 
 class ProviderTab extends Component {
   render() {
     const { providerData, classes, deleteAuthEntry } = this.props
-    return (<div className={classes.root}>
-      {
-        providerData.map(providerEntry => {
+    return (
+      <div className={classes.root}>
+        {providerData.map(providerEntry => {
           return (
             <ExpansionPanel key={providerEntry.provider.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>{providerEntry.provider.systemName}</Typography>
+                <Typography className={classes.heading}>
+                  {providerEntry.provider.systemName}
+                </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
-                <Typography><b>Address:</b> {providerEntry.provider.address}</Typography>
-                <Typography><b>Port:</b> {providerEntry.provider.port}</Typography>
+                <Typography>
+                  <b>Address:</b> {providerEntry.provider.address}
+                </Typography>
+                <Typography>
+                  <b>Port:</b> {providerEntry.provider.port}
+                </Typography>
                 <ProviderTable
                   data={providerEntry.relation}
                   deleteAuthEntryById={deleteAuthEntry}
@@ -54,9 +68,9 @@ class ProviderTab extends Component {
               </ExpansionPanelDetails>
             </ExpansionPanel>
           )
-        })
-      }
-    </div>)
+        })}
+      </div>
+    )
   }
 }
 

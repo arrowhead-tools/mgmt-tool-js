@@ -26,7 +26,11 @@ const styles = theme => ({
 })
 
 const columnData = [
-  { id: 'serviceDefinition', disablePadding: false, label: 'Service Definition' },
+  {
+    id: 'serviceDefinition',
+    disablePadding: false,
+    label: 'Service Definition'
+  },
   { id: 'service.interfaces', disablePadding: false, label: 'Interface' }
 ]
 
@@ -36,26 +40,29 @@ class CloudTab extends Component {
     console.log(clouds)
     return (
       <div className={classes.root}>
-        {
-          clouds.map(entry => {
-            return (
-              <ExpansionPanel key={entry.cloud.id}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>{entry.cloud.cloudName}</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails className={classes.child}>
-                  <Typography><b>Operator:</b> {entry.cloud.operator}</Typography>
-                  <Typography><b>Address:</b> {entry.cloud.address}</Typography>
-                  <Typography><b>Port:</b> {entry.cloud.port}</Typography>
-                  <CloudTable
-                    data={entry.services}
-                    columnData={columnData}
-                  />
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            )
-          })
-        }
+        {clouds.map(entry => {
+          return (
+            <ExpansionPanel key={entry.cloud.id}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>
+                  {entry.cloud.cloudName}
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.child}>
+                <Typography>
+                  <b>Operator:</b> {entry.cloud.operator}
+                </Typography>
+                <Typography>
+                  <b>Address:</b> {entry.cloud.address}
+                </Typography>
+                <Typography>
+                  <b>Port:</b> {entry.cloud.port}
+                </Typography>
+                <CloudTable data={entry.services} columnData={columnData} />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          )
+        })}
       </div>
     )
   }

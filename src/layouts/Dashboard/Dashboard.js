@@ -23,7 +23,13 @@ const switchRoutes = (
       }
       if (prop.collapse) {
         return prop.views.map((view, index) => {
-          return <Route path={view.path} component={view.component} key={key + '-' + index} />
+          return (
+            <Route
+              path={view.path}
+              component={view.component}
+              key={key + '-' + index}
+            />
+          )
         })
       } else {
         return <Route path={prop.path} component={prop.component} key={key} />
@@ -66,10 +72,10 @@ class Dashboard extends Component {
           image={image}
           handleDrawerToggle={this.handleDrawerToggle}
           open={this.state.mobileOpen}
-          color='blue'
+          color="blue"
           {...rest}
         />
-        <div className={classes.mainPanel} ref='mainPanel'>
+        <div className={classes.mainPanel} ref="mainPanel">
           <Header
             routes={dashboardRoutes}
             handleDrawerToggle={this.handleDrawerToggle}
