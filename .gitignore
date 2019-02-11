@@ -97,6 +97,9 @@ Icon
 
 # Thumbnails
 ._*
+.idea/*
+package-lock.json
+yarn.lock
 
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
