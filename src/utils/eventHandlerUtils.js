@@ -5,6 +5,7 @@ export function groupEventHandlersByEventType(eventHandlerData) {
   for (const data of eventHandlerData) {
     const consumerData = {
       ...data.consumer,
+      eventType: data.eventType,
       eventId: data.id,
       sources: data.sources,
       filterMetadata: data.filterMetadata,

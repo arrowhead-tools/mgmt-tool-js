@@ -41,6 +41,10 @@ class EventHandler extends Component {
     this.props.deleteSubscription(eventType, consumerName)
   }
 
+  onEventHandlerModifyClick = () => () => {
+    //  TODO
+  }
+
   render() {
     const { eventHandler, classes } = this.props
     return (
@@ -50,7 +54,7 @@ class EventHandler extends Component {
             <AddIcon />Add
           </CustomButton>
         </div>
-        <EventHandlerTab events={eventHandler.data} deleteEventHandler={this.onEventHandlerDeleteClick} />
+        <EventHandlerTab events={eventHandler.data} deleteEventHandler={this.onEventHandlerDeleteClick} modifyEventHandler={this.onEventHandlerModifyClick}/>
         <ModalContainer />
       </div>
     )

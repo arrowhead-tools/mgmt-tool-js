@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions'
-import Divider from '@material-ui/core/Divider'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
+import EventHandlerTable from './EventHandlerTable'
 
 const styles = theme => ({
   root: {
@@ -27,33 +25,31 @@ const styles = theme => ({
   }
 })
 
+const columnData = [
+  { id: 'systemName', disablePadding: false, label: 'System Name'},
+  { id: 'address', disablePadding: false, label: 'Address'},
+  { id: 'port', disablePadding: false, label: 'Port'},
+  { id: 'notifyUri', disablePadding: false, label: 'Notify URI'},
+  { id: 'sources', disablePadding: false, label: 'Sources'},
+  { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true}
+]
+
 class EventHandlerTab extends Component {
   render() {
-    const { events, classes, deleteEventHandler } = this.props
+    const { events, classes, deleteEventHandler, modifyEventHandler } = this.props
+    console.log(events)
     return (
       <div className={classes.root}>
         {
           events.map(event => {
             return (
-              <ExpansionPanel key={event.id}>
+              <ExpansionPanel key={event.eventType}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography className={classes.heading}>{event.eventType}</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails className={classes.child}>
-                  <Typography><b>Consumer Name:</b> {event.consumer.systemName}</Typography>
-                  <Typography><b>Consumer Address:</b> {event.consumer.address}</Typography>
-                  <Typography><b>Consumer Port:</b> {event.consumer.port}</Typography>
-                  <Typography><b>Notify URI:</b> {event.notifyUri}</Typography>
-                  <Typography><b>Match Metadata:</b> {event.matchMetadata ? '✓' : '✗'}</Typography>
+                  <EventHandlerTable data={event.consumers} columnData={columnData} deleteEventHandler={deleteEventHandler} modifyEventHandler={modifyEventHandler}/>
                 </ExpansionPanelDetails>
-                <Divider />
-                <ExpansionPanelActions>
-                  <Button
-                    size='small'
-                    onClick={deleteEventHandler(event.eventType, event.consumer.systemName)}>
-                    Delete
-                  </Button>
-                </ExpansionPanelActions>
               </ExpansionPanel>
             )
           })
@@ -66,7 +62,8 @@ class EventHandlerTab extends Component {
 EventHandlerTab.propTypes = {
   events: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
-  deleteEventHandler: PropTypes.func.isRequired
+  deleteEventHandler: PropTypes.func.isRequired,
+  modifyEventHandler: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(EventHandlerTab)
