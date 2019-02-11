@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import dashboardRoutes from '../../routes/routes'
 import { connect } from 'react-redux'
-import PrivateRoute from '../misc/PrivateRoute'
-import { loginSuccess, loginFailure } from '../../actions/pageAuth'
 import Notifications from 'react-notification-system-redux'
 
 class App extends Component {
@@ -16,13 +14,6 @@ class App extends Component {
       pathname: this.props.location.pathname
     }
     this.unlistenHistoryChange = null
-  }
-
-  componentDidMount() {
-    const userData = JSON.parse(window.localStorage.getItem('user'))
-    if (userData) {
-      this.props.dispatch(loginSuccess(userData))
-    }
   }
 
   render() {
@@ -42,17 +33,15 @@ class App extends Component {
 App.propTypes = {
   global: PropTypes.object,
   dispatch: PropTypes.func,
-  user: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,
   notifications: PropTypes.array
 }
 
 function mapStateToProps(state) {
-  const { pageAuth, global, notifications } = state
+  const { global, notifications } = state
   return {
     notifications,
-    user: pageAuth ? pageAuth.user : null,
     global: global || null
   }
 }
