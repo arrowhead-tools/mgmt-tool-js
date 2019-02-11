@@ -1,5 +1,6 @@
 import networkService from '../services/networkServiceEH'
 import { showNotification } from './global'
+import { groupEventHandlersByEventType } from "../utils/eventHandlerUtils"
 
 export const RECEIVE_EVENTS = 'RECEIVE_EVENTS'
 
@@ -14,7 +15,7 @@ export function getEventHandlerData() {
   return (dispatch, getState) => {
     networkService.get('/eventhandler/mgmt/subscriptions')
       .then(response => {
-        dispatch(receiveEventHandlerData(response.data))
+        dispatch(receiveEventHandlerData(groupEventHandlersByEventType(response.data)))
       })
       .catch(error => {
         console.log(error)
