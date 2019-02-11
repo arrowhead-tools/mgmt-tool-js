@@ -44,8 +44,8 @@ class EventHandler extends Component {
     )
   }
 
-  onEventHandlerDeleteClick = (eventType, consumerName) => () => {
-    this.props.deleteSubscription(eventType, consumerName)
+  onEventHandlerDeleteClick = eventHandlerId => () => {
+    this.props.deleteSubscription(eventHandlerId)
   }
 
   onEventHandlerModifyClick = () => () => {
@@ -96,8 +96,8 @@ function mapDispatchToProps(dispatch) {
     createSubscription: subscriptionData => {
       dispatch(createSubscription(subscriptionData))
     },
-    deleteSubscription: (eventType, consumerName) => {
-      dispatch(deleteSubscription(eventType, consumerName))
+    deleteSubscription: eventHandlerId => {
+      dispatch(deleteSubscription(eventHandlerId))
     },
     hideModal: () => {
       dispatch(hideModal())

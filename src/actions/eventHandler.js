@@ -63,12 +63,10 @@ export function createSubscription(subscriptionData) {
   }
 }
 
-export function deleteSubscription(eventType, consumerName) {
+export function deleteSubscription(eventHandlerId) {
   return dispatch => {
     networkService
-      .delete(
-        `/eventhandler/subscription/type/${eventType}/consumer/${consumerName}`
-      )
+      .delete(`/eventhandler/subscription/${eventHandlerId}`)
       .then(response => {
         dispatch(getEventHandlerData())
         dispatch(

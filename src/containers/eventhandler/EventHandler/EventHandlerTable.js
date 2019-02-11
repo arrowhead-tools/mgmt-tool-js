@@ -103,10 +103,7 @@ class EventHandlerTable extends React.Component {
                         <IconButton
                           color="secondary"
                           aria-label="Delete Entry"
-                          onClick={deleteEventHandler(
-                            n.eventType,
-                            n.systemName
-                          )}
+                          onClick={deleteEventHandler(n.eventId)}
                         >
                           <ClearIcon />
                         </IconButton>
