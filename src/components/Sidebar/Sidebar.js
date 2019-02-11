@@ -13,8 +13,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Collapse from '@material-ui/core/Collapse'
-// core components
-import HeaderLinks from '../Header/HeaderLinks'
 
 import sidebarStyle from '../../assets/jss/material-dashboard-react/components/sidebarStyle'
 
@@ -151,7 +149,6 @@ class Sidebar extends React.Component {
           >
             {brand}
             <div className={classes.sidebarWrapper}>
-              <HeaderLinks />
               {links}
             </div>
             {image !== undefined ? (

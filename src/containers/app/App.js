@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import { clientPublicRoutes, clientPrivateRoutes } from '../../routes/routes'
+import dashboardRoutes from '../../routes/routes'
 import { connect } from 'react-redux'
 import PrivateRoute from '../misc/PrivateRoute'
 import { loginSuccess, loginFailure } from '../../actions/pageAuth'
@@ -29,12 +29,8 @@ class App extends Component {
     return (
       <div className='app full-height'>
         <Switch>
-          <Redirect from='/' to='/home' exact />
-          {clientPublicRoutes.map((route, i) => (
+          {dashboardRoutes.map((route, i) => (
             <Route key={i} {...route} />
-          ))}
-          {clientPrivateRoutes.map((route, i) => (
-            <PrivateRoute key={i} {...route} />
           ))}
         </Switch>
         <Notifications notifications={this.props.notifications} />

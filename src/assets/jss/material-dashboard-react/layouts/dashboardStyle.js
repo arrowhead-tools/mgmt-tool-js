@@ -24,7 +24,7 @@ const dashboardStyle = theme => ({
   },
   container,
   map: {
-    marginTop: '150px'
+    marginTop: '75px'
   }
 })
 

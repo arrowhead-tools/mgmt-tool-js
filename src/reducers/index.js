@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import pageAuth from './pageAuth'
 import global from './global'
 import services from './services'
 import gatekeeper from './gatekeeper'
@@ -17,7 +16,6 @@ const rootReducer = combineReducers({
   notifications,
   global,
   auth,
-  pageAuth,
   system,
   services,
   gatekeeper,
