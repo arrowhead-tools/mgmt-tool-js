@@ -12,7 +12,6 @@ import {
 import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
 import Button from '../../CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
-import AutoCompleteList from '../../AutoCompleteList/AutoCompleteList'
 import ChipInput from 'material-ui-chip-input'
 import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
 
@@ -102,7 +101,6 @@ class AddAuthEntry extends Component {
   }
 
   handleProviderSystemOnChange = providerSystems => {
-    console.log(providerSystems)
     this.setState({ providerSystems })
   }
 

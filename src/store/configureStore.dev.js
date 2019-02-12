@@ -4,14 +4,13 @@ import rootReducer from '../reducers'
 
 export let store
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
 export function configureStore(initialState) {
   store = createStore(
     rootReducer,
     initialState || {},
-    compose(
-      applyMiddleware(thunkMiddleware),
-      window.devToolsExtension ? window.devToolsExtension() : f => f
-    )
+    composeEnhancers(applyMiddleware(thunkMiddleware))
   )
 
   return store

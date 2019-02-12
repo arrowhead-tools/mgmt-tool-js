@@ -3,11 +3,19 @@ import { showNotification } from './global'
 import { groupEventHandlersByEventType } from '../utils/eventHandlerUtils'
 
 export const RECEIVE_EVENTS = 'RECEIVE_EVENTS'
+export const RECEIVE_EH_SYSTEMS = 'RECEIVE_EH_SYSTEMS'
 
 function receiveEventHandlerData(data) {
   return {
     type: RECEIVE_EVENTS,
-    data
+    payload: data
+  }
+}
+
+function receiveEventHandlerSystems(data) {
+  return {
+    type: RECEIVE_EH_SYSTEMS,
+    payload: data
   }
 }
 
@@ -96,6 +104,19 @@ export function deleteSubscription(eventHandlerId) {
             'error'
           )
         )
+      })
+  }
+}
+
+export function getEventHandlerSystems() {
+  return dispatch => {
+    networkService
+      .get('/mgmt/systems')
+      .then(response => {
+        dispatch(receiveEventHandlerSystems(response.data))
+      })
+      .catch(error => {
+        console.log(error)
       })
   }
 }

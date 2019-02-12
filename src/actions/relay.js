@@ -1,5 +1,4 @@
 import networkService from '../services/networkServiceGK'
-import { digestRelays } from '../utils/utils'
 import { showNotification } from './global'
 
 export const RECEIVE_RELAYS = 'RECEIVE_RELAYS'

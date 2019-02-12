@@ -11,6 +11,7 @@ import AddSREntry from '../ModalTypes/AddSREntry'
 import AddAuthEntry from '../ModalTypes/AddAuthEntry'
 import AddNeighborhood from '../ModalTypes/AddNeighborhood'
 import AddRelay from '../ModalTypes/AddRelay'
+import EventHandlerDialog from '../ModalTypes/EventHandler'
 
 const MODAL_TYPES = {
   add: AddModal,
@@ -18,7 +19,8 @@ const MODAL_TYPES = {
   addSREntry: AddSREntry,
   addAuthEntry: AddAuthEntry,
   addNeighborhood: AddNeighborhood,
-  addRelay: AddRelay
+  addRelay: AddRelay,
+  eventHandlerDialog: EventHandlerDialog
 }
 
 const styles = theme => ({
