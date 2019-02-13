@@ -7,7 +7,8 @@ import { hideModal, showModal } from '../../actions/modal'
 import {
   getEventHandlerData,
   createSubscription,
-  deleteSubscription
+  deleteSubscription,
+  modifySubscription
 } from '../../actions/eventHandler'
 import CustomButton from '../../components/CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
@@ -48,8 +49,18 @@ class EventHandler extends Component {
     this.props.deleteSubscription(eventHandlerId)
   }
 
-  onEventHandlerModifyClick = () => () => {
-    //  TODO
+  onEventHandlerModifyClick = event => () => {
+    console.log(event)
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.props.hideModal,
+        isEdit: true,
+        event,
+        modifySubscription: this.props.modifySubscription
+      },
+      'eventHandlerDialog'
+    )
   }
 
   render() {
@@ -77,6 +88,7 @@ EventHandler.propTypes = {
   getEventHandlerData: PropTypes.func.isRequired,
   createSubscription: PropTypes.func.isRequired,
   deleteSubscription: PropTypes.func.isRequired,
+  modifySubscription: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   hideModal: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired,
@@ -98,6 +110,9 @@ function mapDispatchToProps(dispatch) {
     },
     deleteSubscription: eventHandlerId => {
       dispatch(deleteSubscription(eventHandlerId))
+    },
+    modifySubscription: subscriptionData => {
+      dispatch(modifySubscription(subscriptionData))
     },
     hideModal: () => {
       dispatch(hideModal())

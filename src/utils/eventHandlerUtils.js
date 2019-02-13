@@ -9,7 +9,8 @@ export function groupEventHandlersByEventType(eventHandlerData) {
       sources: data.sources,
       filterMetadata: data.filterMetadata,
       notifyUri: data.notifyUri,
-      matchMetadata: data.matchMetadata
+      matchMetadata: data.matchMetadata,
+      event: data
     }
 
     if (!helperObject[data.eventType]) {

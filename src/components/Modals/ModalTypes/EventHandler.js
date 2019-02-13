@@ -15,6 +15,7 @@ import { getEventHandlerSystems } from '../../../actions/eventHandler'
 import { connect } from 'react-redux'
 import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
 import Checkbox from '@material-ui/core/Checkbox'
+import _ from 'lodash'
 
 const styles = theme => ({
   input: {
@@ -63,20 +64,36 @@ class EventHandler extends Component {
   constructor(props) {
     super(props)
 
+    const { event = {} } = props
+
+    console.log('consumer', event.consumer)
+    const filterMetadataHelper = []
+    if (event.filterMetadata) {
+      _.forEach(event.filterMetadata, (value, name) => {
+        filterMetadataHelper.push({ name, value })
+      })
+    }
+
+    if (filterMetadataHelper.length === 0) {
+      filterMetadataHelper.push({ name: '', value: '' })
+    }
+
     this.state = {
-      id: props.id || null,
-      eventType: props.eventType || '',
-      consumerSystemId: props.consumer ? props.consumer.id : null,
-      consumerSystemName: props.consumer ? props.consumer.systemName : '',
-      consumerSystemAddress: props.consumer ? props.consumer.address : '',
-      consumerSystemPort: props.consumer ? props.consumer.port : '',
-      consumerSystemAuthentication: props.consumer
-        ? props.consumer.authenticationInfo
+      id: event ? event.id : null,
+      eventType: event ? event.eventType : '',
+      consumerSystemId: event && event.consumer ? event.consumer.id : null,
+      consumerSystemName:
+        event && event.consumer ? event.consumer.systemName : '',
+      consumerSystemAddress:
+        event && event.consumer ? event.consumer.address : '',
+      consumerSystemPort: event && event.consumer ? event.consumer.port : '',
+      consumerSystemAuthentication: event.consumer
+        ? event.consumer.authenticationInfo
         : '',
-      sources: props.sources || [],
-      filterMetadata: props.filterMetadata || [{ name: '', value: '' }],
-      notifyUri: '',
-      matchMetadata: true
+      sources: event.sources || [],
+      filterMetadata: filterMetadataHelper,
+      notifyUri: event.notifyUri || '',
+      matchMetadata: event.matchMetadata
     }
   }
 
@@ -153,8 +170,36 @@ class EventHandler extends Component {
     this.setState({ matchMetadata: event.target.checked })
   }
 
+  onSubmit = () => {
+    const filterMetadataHelper = {}
+    for (const item of this.state.filterMetadata) {
+      if (item.name !== '' || item.value !== '') {
+        filterMetadataHelper[item.name] = item.value
+      }
+    }
+    const subscriptionData = {
+      eventType: this.state.eventType,
+      consumer: {
+        systemName: this.state.consumerSystemName,
+        address: this.state.consumerSystemAddress,
+        port: this.state.consumerSystemPort,
+        authenticationInfo: this.state.consumerSystemAuthentication
+      },
+      sources: this.state.sources,
+      filterMetadata: filterMetadataHelper,
+      notifyUri: this.state.notifyUri,
+      matchMetadata: this.state.matchMetadata
+    }
+    if (this.props.isEdit) {
+      subscriptionData.id = this.state.id
+      this.props.modifySubscription(subscriptionData)
+    } else {
+      this.props.createSubscription(subscriptionData)
+    }
+  }
+
   render() {
-    const { systems, classes } = this.props
+    const { systems, classes, isEdit } = this.props
     return (
       <div>
         <Card raised className={classes.card}>
@@ -172,6 +217,8 @@ class EventHandler extends Component {
             handleOnChange={this.onConsumerSystemChange}
             handleTextChange={this.onConsumerSystemNameChange}
             suggestions={systems}
+            defaultValue={this.state.consumerSystemName}
+            isEdit
             keyValue="systemName"
             label="Consumer System"
             placeholder="Consumer System"
@@ -210,7 +257,6 @@ class EventHandler extends Component {
             value={this.state.consumerSystemAuthentication}
             className={classes.input}
             id="authentication_info"
-            required
             label="Authentication Info"
             onChange={this.onConsumerSystemAuthChange}
           />
@@ -224,7 +270,6 @@ class EventHandler extends Component {
             label="Sources"
             placeholder="Sources"
             keyValue="systemName"
-            required
             suggestions={systems}
           />
         </Card>
@@ -279,7 +324,7 @@ class EventHandler extends Component {
               Match metadata?
             </Typography>
             <Checkbox
-              checked={this.state.secure}
+              checked={this.state.matchMetadata}
               id="matchMetadata"
               label="Match Metadata?"
               onChange={this.onMatchMetadataChange}
@@ -287,12 +332,28 @@ class EventHandler extends Component {
           </div>
         </Card>
         <Button
-          disabled
+          onClick={this.onSubmit}
+          disabled={
+            !this.state.eventType ||
+            !this.state.consumerSystemName ||
+            !this.state.consumerSystemAddress ||
+            !this.state.consumerSystemPort ||
+            !this.state.notifyUri
+          }
           color="primary"
-          onClick={this.onButtonClick}
           className={classes.buttonStyle}
         >
-          <AddIcon /> Add{' '}
+          {isEdit ? (
+            <p>
+              <EditIcon />
+              Edit
+            </p>
+          ) : (
+            <p>
+              <AddIcon />
+              Add
+            </p>
+          )}
         </Button>
       </div>
     )
@@ -301,7 +362,12 @@ class EventHandler extends Component {
 
 EventHandler.propTypes = {
   systems: PropTypes.array.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  isEdit: PropTypes.bool,
+  getEventHandlerSystems: PropTypes.func.isRequired,
+  createSubscription: PropTypes.func,
+  modifySubscription: PropTypes.func,
+  event: PropTypes.object
 }
 
 function mapStateToProps(state) {

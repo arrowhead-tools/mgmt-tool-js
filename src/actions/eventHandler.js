@@ -71,6 +71,43 @@ export function createSubscription(subscriptionData) {
   }
 }
 
+export function modifySubscription(subscriptionData) {
+  return (dispatch, getState) => {
+    networkService
+      .put('/eventhandler/subscription', subscriptionData)
+      .then(response => {
+        dispatch(getEventHandlerData())
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
+      })
+      .catch(error => {
+        console.log(error)
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 10
+            },
+            'error'
+          )
+        )
+      })
+  }
+}
+
 export function deleteSubscription(eventHandlerId) {
   return dispatch => {
     networkService

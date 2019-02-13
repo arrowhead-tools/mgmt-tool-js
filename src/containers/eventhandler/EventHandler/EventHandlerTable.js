@@ -96,7 +96,7 @@ class EventHandlerTable extends React.Component {
                         <IconButton
                           color="secondary"
                           aria-label="Edit Entry"
-                          onClick={modifyEventHandler(n)}
+                          onClick={modifyEventHandler(n.event)}
                         >
                           <EditIcon />
                         </IconButton>
