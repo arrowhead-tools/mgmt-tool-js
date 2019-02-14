@@ -50,7 +50,6 @@ class EventHandler extends Component {
   }
 
   onEventHandlerModifyClick = event => () => {
-    console.log(event)
     this.props.showModal(
       {
         open: true,
@@ -111,8 +110,8 @@ function mapDispatchToProps(dispatch) {
     deleteSubscription: eventHandlerId => {
       dispatch(deleteSubscription(eventHandlerId))
     },
-    modifySubscription: subscriptionData => {
-      dispatch(modifySubscription(subscriptionData))
+    modifySubscription: (subscriptionData, id) => {
+      dispatch(modifySubscription(subscriptionData, id))
     },
     hideModal: () => {
       dispatch(hideModal())

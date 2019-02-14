@@ -108,6 +108,7 @@ class EventHandler extends Component {
   onConsumerSystemChange = consumerSystem => {
     if (consumerSystem !== undefined) {
       this.setState({
+        consumerSystemId: consumerSystem.id,
         consumerSystemName: consumerSystem.systemName,
         consumerSystemAddress: consumerSystem.address,
         consumerSystemPort: consumerSystem.port,
@@ -180,6 +181,7 @@ class EventHandler extends Component {
     const subscriptionData = {
       eventType: this.state.eventType,
       consumer: {
+        id: this.state.consumerSystemId,
         systemName: this.state.consumerSystemName,
         address: this.state.consumerSystemAddress,
         port: this.state.consumerSystemPort,
@@ -192,8 +194,9 @@ class EventHandler extends Component {
     }
     if (this.props.isEdit) {
       subscriptionData.id = this.state.id
-      this.props.modifySubscription(subscriptionData)
+      this.props.modifySubscription(subscriptionData, this.props.event.id)
     } else {
+      delete subscriptionData.consumer.id
       this.props.createSubscription(subscriptionData)
     }
   }
