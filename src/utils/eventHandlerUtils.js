@@ -4,7 +4,7 @@ export function groupEventHandlersByEventType(eventHandlerData) {
   const helperObject = {}
   for (const data of eventHandlerData) {
     const sourceSystemNames = []
-    for(const source of data.sources){
+    for (const source of data.sources) {
       sourceSystemNames.push(source.systemName)
     }
     const consumerData = {

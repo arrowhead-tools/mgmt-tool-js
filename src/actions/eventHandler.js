@@ -74,7 +74,10 @@ export function createSubscription(subscriptionData) {
 export function modifySubscription(subscriptionData, subscriptionId) {
   return (dispatch, getState) => {
     networkService
-      .put(`/eventhandler/mgmt/subscriptions/${subscriptionId}`, subscriptionData)
+      .put(
+        `/eventhandler/mgmt/subscriptions/${subscriptionId}`,
+        subscriptionData
+      )
       .then(response => {
         dispatch(getEventHandlerData())
         dispatch(

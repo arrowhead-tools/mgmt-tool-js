@@ -1,24 +1,67 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import ModalContainer from '../../../components/Modals/ModalContainer/ModalContainer'
 import { hideModal, showModal } from '../../../actions/modal'
-import { getInterCloudAuthData } from '../../../actions/auth'
-import CloudTab from './Cloud/CloudTab'
+import {
+  getInterCloudAuthData,
+  deleteInterCloudEntry,
+  addInterCloudEntry
+} from '../../../actions/auth'
+import InterCloudTabContainer from './InterCloudTabContainer'
+import Button from '../../../components/CustomButtons/Button'
+import AddIcon from '@material-ui/icons/Add'
 
-const styles = theme => ({})
+const styles = theme => ({
+  root: {},
+  grid: {},
+  buttonMargin: {
+    marginLeft: '10px',
+    marginRight: '10px'
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  }
+})
 
 class InterCloud extends Component {
   componentDidMount() {
     this.props.getInterCloudAuthData()
   }
 
+  onAddClick = () => {
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.closeModal,
+        addInterCloudEntry: this.props.addInterCloudEntry
+      },
+      'InterCloudDialog'
+    )
+  }
+
+  onDeleteClick = entryId => () => {
+    this.props.deleteInterCloudEntry(entryId)
+  }
+
   render() {
-    const { auth } = this.props
+    const { auth, classes } = this.props
     return (
-      <div>
-        <CloudTab clouds={auth.cloud} />
+      <div className={classes.root}>
+        <div className={classes.buttonContainer}>
+          <Button color="primary" onClick={this.onAddClick}>
+            <AddIcon />
+            Add
+          </Button>
+        </div>
+        <InterCloudTabContainer
+          cloudData={auth.interCloudCloudData}
+          serviceData={auth.interCloudServiceData}
+          deleteInterCloudEntry={this.onDeleteClick}
+        />
         <ModalContainer />
       </div>
     )
@@ -48,6 +91,12 @@ function mapDispatchToProps(dispatch) {
     },
     showModal: (modalProps, modalType) => {
       dispatch(showModal({ modalProps, modalType }))
+    },
+    deleteInterCloudEntry: entryId => {
+      dispatch(deleteInterCloudEntry(entryId))
+    },
+    addInterCloudEntry: interCloudEntry => {
+      dispatch(addInterCloudEntry(interCloudEntry))
     }
   }
 }

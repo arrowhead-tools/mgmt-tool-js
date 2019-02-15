@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
-import CloudTable from './CloudTable'
+import ServiceTable from './ServiceTable'
 
 const styles = theme => ({
   root: {
@@ -26,15 +26,36 @@ const styles = theme => ({
 })
 
 const columnData = [
+  { id: 'operator', disablePadding: false, label: 'Operator' },
   {
-    id: 'serviceDefinition',
+    id: 'cloudName',
     disablePadding: false,
-    label: 'Service Definition'
+    label: 'Cloud Name'
   },
   {
-    id: 'service.interfaces',
+    id: 'address',
     disablePadding: false,
-    label: 'Interface'
+    label: 'Address'
+  },
+  {
+    id: 'port',
+    disablePadding: false,
+    label: 'Port'
+  },
+  {
+    id: 'gatekeeperServiceURI',
+    disablePadding: false,
+    label: 'Gatekeeper Service URI'
+  },
+  {
+    id: 'authenticationInfo',
+    disablePadding: false,
+    label: 'Authentication Info'
+  },
+  {
+    id: 'secure',
+    disablePadding: false,
+    label: 'Secure'
   },
   {
     id: 'actions',
@@ -44,31 +65,25 @@ const columnData = [
   }
 ]
 
-class CloudTab extends Component {
+class ServiceTab extends Component {
   render() {
-    const { clouds, classes, deleteInterCloudEntry } = this.props
+    const { services, classes, deleteInterCloudEntry } = this.props
     return (
       <div className={classes.root}>
-        {clouds.map(entry => {
+        {services.map(entry => {
           return (
-            <ExpansionPanel key={entry.cloud.id}>
+            <ExpansionPanel key={entry.service.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
-                  {entry.cloud.cloudName}
+                  {entry.service.serviceDefinition}
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
                 <Typography>
-                  <b>Operator:</b> {entry.cloud.operator}
+                  <b>Interfaces:</b> {entry.service.interfaces.join(', ')}
                 </Typography>
-                <Typography>
-                  <b>Address:</b> {entry.cloud.address}
-                </Typography>
-                <Typography>
-                  <b>Port:</b> {entry.cloud.port}
-                </Typography>
-                <CloudTable
-                  data={entry.services}
+                <ServiceTable
+                  data={entry.clouds}
                   columnData={columnData}
                   deleteInterCloudEntry={deleteInterCloudEntry}
                 />
@@ -81,10 +96,10 @@ class CloudTab extends Component {
   }
 }
 
-CloudTab.propTypes = {
+ServiceTab.propTypes = {
   classes: PropTypes.object.isRequired,
-  clouds: PropTypes.array.isRequired,
+  services: PropTypes.array.isRequired,
   deleteInterCloudEntry: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(CloudTab)
+export default withStyles(styles)(ServiceTab)

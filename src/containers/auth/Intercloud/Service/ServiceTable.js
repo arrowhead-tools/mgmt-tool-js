@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -26,10 +26,14 @@ const styles = theme => ({
   actionCell: {
     display: 'flex',
     flexDirection: 'row'
+  },
+  scroll: {
+    maxWidth: '0px',
+    overflowX: 'scroll'
   }
 })
 
-class CloudTable extends React.Component {
+class ServiceTable extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -80,8 +84,15 @@ class CloudTable extends React.Component {
                 .map(n => {
                   return (
                     <TableRow hover key={n.interCloudEntryId}>
-                      <TableCell>{n.serviceDefinition}</TableCell>
-                      <TableCell>{n.interfaces.join(',')}</TableCell>
+                      <TableCell>{n.operator}</TableCell>
+                      <TableCell>{n.cloudName}</TableCell>
+                      <TableCell>{n.address}</TableCell>
+                      <TableCell>{n.port}</TableCell>
+                      <TableCell>{n.gatekeeperServiceURI}</TableCell>
+                      <TableCell className={classes.scroll}>
+                        {n.authenticationInfo}
+                      </TableCell>
+                      <TableCell>{n.secure ? '✓' : '✗'}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton
                           color="secondary"
@@ -116,11 +127,11 @@ class CloudTable extends React.Component {
   }
 }
 
-CloudTable.propTypes = {
+ServiceTable.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
   columnData: PropTypes.array.isRequired,
   deleteInterCloudEntry: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(CloudTable)
+export default withStyles(styles)(ServiceTable)
