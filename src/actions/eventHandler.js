@@ -111,7 +111,7 @@ export function modifySubscription(subscriptionData, subscriptionId) {
 export function deleteSubscription(eventHandlerId) {
   return dispatch => {
     networkService
-      .delete(`/eventhandler/subscription/${eventHandlerId}`)
+      .delete(`/eventhandler/mgmt/subscriptions/${eventHandlerId}`)
       .then(response => {
         dispatch(getEventHandlerData())
         dispatch(

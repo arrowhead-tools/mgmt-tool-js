@@ -91,7 +91,7 @@ class EventHandlerTable extends React.Component {
                       <TableCell>{n.address}</TableCell>
                       <TableCell>{n.port}</TableCell>
                       <TableCell>{n.notifyUri}</TableCell>
-                      <TableCell>{n.sources}</TableCell>
+                      <TableCell>{n.sources.join(', ')}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton
                           color="secondary"

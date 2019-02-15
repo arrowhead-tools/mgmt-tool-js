@@ -3,10 +3,14 @@ import _ from 'lodash'
 export function groupEventHandlersByEventType(eventHandlerData) {
   const helperObject = {}
   for (const data of eventHandlerData) {
+    const sourceSystemNames = []
+    for(const source of data.sources){
+      sourceSystemNames.push(source.systemName)
+    }
     const consumerData = {
       ...data.consumer,
       eventId: data.id,
-      sources: data.sources,
+      sources: sourceSystemNames,
       filterMetadata: data.filterMetadata,
       notifyUri: data.notifyUri,
       matchMetadata: data.matchMetadata,
