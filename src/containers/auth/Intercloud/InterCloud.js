@@ -36,7 +36,7 @@ class InterCloud extends Component {
     this.props.showModal(
       {
         open: true,
-        closeModal: this.closeModal,
+        closeModal: this.props.hideModal,
         addInterCloudEntry: this.props.addInterCloudEntry
       },
       'InterCloudDialog'

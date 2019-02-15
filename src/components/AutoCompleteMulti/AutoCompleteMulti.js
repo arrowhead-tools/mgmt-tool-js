@@ -24,8 +24,6 @@ function renderInput(inputProps) {
     ref,
     ...other
   } = inputProps
-  console.log('selectedItem', selectedItem)
-  console.log('gtb', getToggleButtonProps)
   return (
     <div
       style={{ marginLeft: '20px', display: 'flex', alignItems: 'baseline' }}

@@ -2,7 +2,8 @@ import {
   RECEIVE_AUTH_DATA,
   RECEIVE_AUTH_SERVICES,
   RECEIVE_AUTH_SYSTEMS,
-  RECEIVE_INTERCLOUD_DATA
+  RECEIVE_INTERCLOUD_DATA,
+  RECEIVE_CLOUD_DATA
 } from '../actions/auth'
 
 export const initialState = {
@@ -12,7 +13,8 @@ export const initialState = {
   systems: [],
   services: [],
   interCloudCloudData: [],
-  interCloudServiceData: []
+  interCloudServiceData: [],
+  clouds: []
 }
 
 export default function auth(state = initialState, action = {}) {
@@ -39,6 +41,11 @@ export default function auth(state = initialState, action = {}) {
         ...state,
         interCloudCloudData: action.cloud,
         interCloudServiceData: action.service
+      }
+    case RECEIVE_CLOUD_DATA:
+      return {
+        ...state,
+        clouds: action.clouds
       }
     default:
       return state

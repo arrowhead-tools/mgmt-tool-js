@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
 import ClearIcon from '@material-ui/icons/Clear'
@@ -66,7 +66,6 @@ class EventHandler extends Component {
 
     const { event = {} } = props
 
-    console.log('consumer', event.consumer)
     const filterMetadataHelper = []
     if (event.filterMetadata) {
       _.forEach(event.filterMetadata, (value, name) => {
@@ -199,6 +198,7 @@ class EventHandler extends Component {
       delete subscriptionData.consumer.id
       this.props.createSubscription(subscriptionData)
     }
+    this.props.closeModal()
   }
 
   render() {
@@ -370,7 +370,8 @@ EventHandler.propTypes = {
   getEventHandlerSystems: PropTypes.func.isRequired,
   createSubscription: PropTypes.func,
   modifySubscription: PropTypes.func,
-  event: PropTypes.object
+  event: PropTypes.object,
+  closeModal: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {

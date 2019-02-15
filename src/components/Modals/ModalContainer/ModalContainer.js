@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import withMobileDialog from '@material-ui/core/withMobileDialog'
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
-import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import AddModal from '../ModalTypes/AddModal'
 import ServiceSearchModal from '../ModalTypes/ServiceSearch'
@@ -12,6 +11,7 @@ import AddAuthEntry from '../ModalTypes/AddAuthEntry'
 import AddNeighborhood from '../ModalTypes/AddNeighborhood'
 import AddRelay from '../ModalTypes/AddRelay'
 import EventHandlerDialog from '../ModalTypes/EventHandler'
+import InterCloudDialog from '../ModalTypes/InterCloudDialog'
 
 const MODAL_TYPES = {
   add: AddModal,
@@ -20,7 +20,8 @@ const MODAL_TYPES = {
   addAuthEntry: AddAuthEntry,
   addNeighborhood: AddNeighborhood,
   addRelay: AddRelay,
-  eventHandlerDialog: EventHandlerDialog
+  eventHandlerDialog: EventHandlerDialog,
+  InterCloudDialog: InterCloudDialog
 }
 
 const styles = theme => ({
