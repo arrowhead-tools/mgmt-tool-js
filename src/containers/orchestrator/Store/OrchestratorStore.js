@@ -1,7 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import ModalContainer from '../../../components/Modals/ModalContainer/ModalContainer'
-import OrchestrationStoreTabContainer from './OrchestrationStoreTabContainer'
+import BackupListTab from './BackupList/BackupListTab'
 import {
   getOrchestrationStoreData,
   savePriorities
@@ -18,8 +18,8 @@ class OrchestratorStore extends React.Component {
 
     return (
       <div>
-        <OrchestrationStoreTabContainer
-          backupList={orchestrator.backup}
+        <BackupListTab
+          data={orchestrator.backup}
           savePriorities={savePriorities}
         />
         <ModalContainer />
