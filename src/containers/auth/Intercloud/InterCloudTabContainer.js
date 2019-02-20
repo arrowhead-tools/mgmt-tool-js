@@ -56,9 +56,8 @@ class InterCloudTabContainer extends Component {
 }
 
 InterCloudTabContainer.propTypes = {
-  classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  consumerData: PropTypes.array.isRequired,
+  cloudData: PropTypes.array.isRequired,
   serviceData: PropTypes.array.isRequired,
   deleteInterCloudEntry: PropTypes.func.isRequired
 }
