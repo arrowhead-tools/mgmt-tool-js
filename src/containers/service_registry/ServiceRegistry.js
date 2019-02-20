@@ -1,17 +1,7 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import Typography from '@material-ui/core/Typography'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Grid from '@material-ui/core/Grid'
-import Switch from '@material-ui/core/Switch'
-import GridItem from '../../components/Grid/GridItem'
-import Table from '../../components/Table/TableSR'
 import {
   getFilteredServices,
   getServices,

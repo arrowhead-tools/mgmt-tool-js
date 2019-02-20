@@ -12,7 +12,7 @@ import {
 } from '../../actions/eventHandler'
 import CustomButton from '../../components/CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
-import EventHandlerTab from './EventHandler/EventHandlerTab'
+import EventHandlerTabContainer from './EventHandlerTabContainer'
 
 const styles = theme => ({
   root: {
@@ -72,7 +72,7 @@ class EventHandler extends Component {
             Add
           </CustomButton>
         </div>
-        <EventHandlerTab
+        <EventHandlerTabContainer
           events={eventHandler.data}
           deleteEventHandler={this.onEventHandlerDeleteClick}
           modifyEventHandler={this.onEventHandlerModifyClick}

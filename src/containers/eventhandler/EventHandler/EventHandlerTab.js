@@ -26,9 +26,9 @@ const styles = theme => ({
 })
 
 const columnData = [
-  { id: 'systemName', disablePadding: false, label: 'System Name' },
-  { id: 'address', disablePadding: false, label: 'Address' },
-  { id: 'port', disablePadding: false, label: 'Port' },
+  { id: 'systemName', disablePadding: false, label: 'Consumer System Name' },
+  { id: 'address', disablePadding: false, label: 'Consumer Address' },
+  { id: 'port', disablePadding: false, label: 'Consumer Port' },
   { id: 'notifyUri', disablePadding: false, label: 'Notify URI' },
   { id: 'sources', disablePadding: false, label: 'Sources' },
   { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
@@ -50,7 +50,7 @@ class EventHandlerTab extends Component {
             <ExpansionPanel key={event.eventType}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
-                  {event.eventType}
+                  Event Type: {event.eventType}
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
