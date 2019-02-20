@@ -49,6 +49,9 @@ const styles = theme => ({
     margin: '10px',
     width: '440px'
   },
+  title: {
+    paddingTop: '10px'
+  },
   buttonStyle: {
     width: '440px',
     marginLeft: '10px'
@@ -152,11 +155,15 @@ class InterCloudDialog extends Component {
     const { clouds, classes, services } = this.props
     return (
       <div>
-        <Card raised={classes.card}>
+        <Card raised className={classes.card}>
+          <Typography variant="h5" align="center" className={classes.title}>
+            Cloud
+          </Typography>
           <AutoComplete
             handleOnChange={this.onCloudChange}
             handleTextChange={this.onCloudNameChange}
             suggestions={clouds}
+            defaultValue={this.state.cloudName}
             keyValue="cloudName"
             label="Cloud Name"
             required
@@ -260,8 +267,11 @@ class InterCloudDialog extends Component {
 
 InterCloudDialog.propTypes = {
   clouds: PropTypes.array.isRequired,
+  services: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
   addInterCloudEntry: PropTypes.func,
+  getClouds: PropTypes.func.isRequired,
+  getAuthServices: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired
 }
 
