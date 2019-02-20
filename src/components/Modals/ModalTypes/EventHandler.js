@@ -100,8 +100,16 @@ class EventHandler extends Component {
     this.props.getEventHandlerSystems()
   }
 
-  onEventTypeChange = event => {
-    this.setState({ eventType: event.target.value })
+  onEventTypeTextChange = eventType => {
+    this.setState({ eventType })
+  }
+
+  onEventTypeChange = eventType => {
+    if (eventType !== undefined) {
+      this.setState({
+        eventType
+      })
+    }
   }
 
   onConsumerSystemChange = consumerSystem => {
@@ -202,17 +210,29 @@ class EventHandler extends Component {
   }
 
   render() {
-    const { systems, classes, isEdit } = this.props
+    const { systems, classes, isEdit, eventNames } = this.props
+    console.log('isEdit', isEdit)
     return (
       <div>
         <Card raised className={classes.card}>
-          <TextField
-            value={this.state.eventType}
-            className={classes.input}
+          <AutoComplete
+            suggestions={eventNames}
+            defaultValue={this.state.eventType}
             id="eventType"
             required
+            isEdit={isEdit}
+            placeholder='Event Type'
+            keyValue='eventType'
             label="Event Type"
-            onChange={this.onEventTypeChange}
+            handleOnChange={this.onEventTypeChange}
+            handleTextChange={this.onEventTypeTextChange}
+            classes={{
+              inputRoot: { flexWrap: 'wrap' },
+              textField: {
+                width: '400px',
+                margin: '20px'
+              }
+            }}
           />
         </Card>
         <Card raised className={classes.card}>
@@ -221,7 +241,7 @@ class EventHandler extends Component {
             handleTextChange={this.onConsumerSystemNameChange}
             suggestions={systems}
             defaultValue={this.state.consumerSystemName}
-            isEdit
+            isEdit={isEdit}
             keyValue="systemName"
             label="Consumer System"
             placeholder="Consumer System"
@@ -371,12 +391,13 @@ EventHandler.propTypes = {
   createSubscription: PropTypes.func,
   modifySubscription: PropTypes.func,
   event: PropTypes.object,
+  eventNames: PropTypes.array.isRequired,
   closeModal: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   const { eventHandler } = state
-  return { systems: eventHandler.systems }
+  return { systems: eventHandler.systems, eventNames: eventHandler.eventNames }
 }
 
 export default connect(

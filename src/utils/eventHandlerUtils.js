@@ -34,3 +34,19 @@ export function groupEventHandlersByEventType(eventHandlerData) {
 
   return digested
 }
+
+export function getEventNames(eventHandlerData) {
+  const helperObject = {}
+  for (const data of eventHandlerData) {
+    if (!helperObject[data.eventType]) {
+      helperObject[data.eventType] = data.eventType
+    }
+  }
+
+  const digested = []
+  _.forEach(helperObject, (v, k) => {
+    digested.push({eventType: v})
+  })
+
+  return digested
+}
