@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -27,7 +27,7 @@ const styles = theme => ({
 
 class BackupListTab extends React.Component {
   render() {
-    const { data, classes, savePriorities } = this.props
+    const { data, classes, savePriorities, deleteService } = this.props
     return (
       <div className={classes.root}>
         {data.map(entry => {
@@ -42,6 +42,7 @@ class BackupListTab extends React.Component {
                 <BackupServiceList
                   services={entry.consumedServices}
                   savePriorities={savePriorities}
+                  deleteService={deleteService}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -55,7 +56,8 @@ class BackupListTab extends React.Component {
 BackupListTab.propTypes = {
   data: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
-  savePriorities: PropTypes.func.isRequired
+  savePriorities: PropTypes.func.isRequired,
+  deleteService: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(BackupListTab)

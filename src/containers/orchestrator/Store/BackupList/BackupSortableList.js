@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-  sortableContainer,
-  sortableElement
-} from 'react-sortable-hoc'
+import { sortableContainer, sortableElement } from 'react-sortable-hoc'
 import arrayMove from 'array-move'
 import * as PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'

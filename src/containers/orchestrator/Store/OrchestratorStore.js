@@ -4,7 +4,8 @@ import ModalContainer from '../../../components/Modals/ModalContainer/ModalConta
 import BackupListTab from './BackupList/BackupListTab'
 import {
   getOrchestrationStoreData,
-  savePriorities
+  savePriorities,
+  deleteService
 } from '../../../actions/orchestrator'
 import { connect } from 'react-redux'
 
@@ -14,13 +15,14 @@ class OrchestratorStore extends React.Component {
   }
 
   render() {
-    const { orchestrator, savePriorities } = this.props
+    const { orchestrator, savePriorities, deleteService } = this.props
 
     return (
       <div>
         <BackupListTab
           data={orchestrator.backup}
           savePriorities={savePriorities}
+          deleteService={deleteService}
         />
         <ModalContainer />
       </div>
@@ -31,7 +33,8 @@ class OrchestratorStore extends React.Component {
 OrchestratorStore.propTypes = {
   getOrchestrationStoreData: PropTypes.func.isRequired,
   orchestrator: PropTypes.object.isRequired,
-  savePriorities: PropTypes.func.isRequired
+  savePriorities: PropTypes.func.isRequired,
+  deleteService: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -47,6 +50,9 @@ function mapDispatchToProps(dispatch) {
     },
     savePriorities: priorityData => {
       dispatch(savePriorities(priorityData))
+    },
+    deleteService: serviceId => {
+      dispatch(deleteService(serviceId))
     }
   }
 }

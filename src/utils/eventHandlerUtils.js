@@ -45,7 +45,7 @@ export function getEventNames(eventHandlerData) {
 
   const digested = []
   _.forEach(helperObject, (v, k) => {
-    digested.push({eventType: v})
+    digested.push({ eventType: v })
   })
 
   return digested

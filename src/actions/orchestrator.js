@@ -29,7 +29,6 @@ export function getOrchestrationStoreData() {
 }
 
 export function savePriorities(priorityData) {
-  console.log('prio', priorityData)
   return dispatch => {
     networkService
       .put('/orchestrator/mgmt/store/priorities', { priorities: priorityData })
@@ -58,6 +57,43 @@ export function savePriorities(priorityData) {
               position: 'tc',
               dismissible: true,
               autoDismiss: 10
+            },
+            'error'
+          )
+        )
+      })
+  }
+}
+
+export function deleteService(serviceId) {
+  return dispatch => {
+    networkService
+      .delete(`/mgmt/services/${serviceId}`)
+      .then(() => {
+        dispatch(
+          showNotification(
+            {
+              title: 'Deletion was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
+        dispatch(getOrchestrationStoreData())
+      })
+      .catch(error => {
+        console.log(error)
+        dispatch(
+          showNotification(
+            {
+              title: 'Deletion was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
             },
             'error'
           )

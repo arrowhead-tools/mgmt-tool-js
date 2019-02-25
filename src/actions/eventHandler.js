@@ -1,6 +1,9 @@
 import networkService from '../services/networkServiceEH'
 import { showNotification } from './global'
-import { groupEventHandlersByEventType, getEventNames } from '../utils/eventHandlerUtils'
+import {
+  groupEventHandlersByEventType,
+  getEventNames
+} from '../utils/eventHandlerUtils'
 
 export const RECEIVE_EVENTS = 'RECEIVE_EVENTS'
 export const RECEIVE_EH_SYSTEMS = 'RECEIVE_EH_SYSTEMS'
@@ -8,7 +11,7 @@ export const RECEIVE_EH_SYSTEMS = 'RECEIVE_EH_SYSTEMS'
 function receiveEventHandlerData(data, eventNames) {
   return {
     type: RECEIVE_EVENTS,
-    payload: {data, eventNames}
+    payload: { data, eventNames }
   }
 }
 
@@ -25,7 +28,10 @@ export function getEventHandlerData() {
       .get('/eventhandler/mgmt/subscriptions')
       .then(response => {
         dispatch(
-          receiveEventHandlerData(groupEventHandlersByEventType(response.data), getEventNames(response.data))
+          receiveEventHandlerData(
+            groupEventHandlersByEventType(response.data),
+            getEventNames(response.data)
+          )
         )
       })
       .catch(error => {

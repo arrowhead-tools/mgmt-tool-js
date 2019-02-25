@@ -9,7 +9,7 @@ import Divider from '@material-ui/core/Divider'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
 import BackupSortableList from './BackupSortableList'
-import Button from '../../../../components/CustomButtons/Button'
+import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
   root: {
@@ -77,8 +77,9 @@ class BackupServiceList extends React.Component {
               </ExpansionPanelDetails>
               <Divider />
               <ExpansionPanelActions>
+                <Button onClick={() => {this.props.deleteService(service.service.id)}}>Delete</Button>
                 <Button
-                  color="success"
+                  color="primary"
                   className={classes.marginRight20}
                   disabled={
                     this.state[service.service.id] === undefined
@@ -101,7 +102,8 @@ class BackupServiceList extends React.Component {
 BackupServiceList.propTypes = {
   services: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
-  savePriorities: PropTypes.func.isRequired
+  savePriorities: PropTypes.func.isRequired,
+  deleteService: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(BackupServiceList)

@@ -126,7 +126,7 @@ class InterCloudDialog extends Component {
   }
 
   onSourceSystemChange = serviceList => {
-    this.setState({serviceList})
+    this.setState({ serviceList })
   }
 
   onSubmit = () => {
@@ -139,14 +139,13 @@ class InterCloudDialog extends Component {
         port: this.state.port,
         gatekeeperServiceURI: this.state.gatekeeperServiceURI,
         authenticationInfo: this.state.authenticationInfo,
-        secure: this.state.secure,
+        secure: this.state.secure
       },
       serviceList: this.state.serviceList
     }
     this.props.addInterCloudEntry(interCloudEntry)
     this.props.closeModal()
   }
-
 
   render() {
     const { clouds, classes, services } = this.props

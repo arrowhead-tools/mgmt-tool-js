@@ -221,8 +221,8 @@ class EventHandler extends Component {
             id="eventType"
             required
             isEdit={isEdit}
-            placeholder='Event Type'
-            keyValue='eventType'
+            placeholder="Event Type"
+            keyValue="eventType"
             label="Event Type"
             handleOnChange={this.onEventTypeChange}
             handleTextChange={this.onEventTypeTextChange}
