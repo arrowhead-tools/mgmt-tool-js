@@ -1,22 +1,15 @@
 import React from 'react'
 import {
   sortableContainer,
-  sortableElement,
-  sortableHandle
+  sortableElement
 } from 'react-sortable-hoc'
 import arrayMove from 'array-move'
-import ReorderIcon from '@material-ui/icons/Reorder'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import _ from 'lodash'
 
-const DragHandle = sortableHandle(() => (
-  <ReorderIcon className="SortableDrag" />
-))
-
 const SortableItem = sortableElement(({ value }) => (
   <li className="SortableItem">
-    <DragHandle />
     <Typography>{value}</Typography>
   </li>
 ))
@@ -55,7 +48,7 @@ class BackupSortableList extends React.Component {
     const { items } = this.state
 
     return (
-      <SortableContainer onSortEnd={this.onSortEnd} useDragHandle>
+      <SortableContainer onSortEnd={this.onSortEnd}>
         {items.map((provider, index) => (
           <SortableItem
             key={index}
