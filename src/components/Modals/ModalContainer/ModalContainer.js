@@ -12,6 +12,7 @@ import AddNeighborhood from '../ModalTypes/AddNeighborhood'
 import AddRelay from '../ModalTypes/AddRelay'
 import EventHandlerDialog from '../ModalTypes/EventHandler'
 import InterCloudDialog from '../ModalTypes/InterCloudDialog'
+import OrchStoreDialog from '../ModalTypes/OrchStoreDialog'
 
 const MODAL_TYPES = {
   add: AddModal,
@@ -21,7 +22,8 @@ const MODAL_TYPES = {
   addNeighborhood: AddNeighborhood,
   addRelay: AddRelay,
   eventHandlerDialog: EventHandlerDialog,
-  InterCloudDialog: InterCloudDialog
+  InterCloudDialog: InterCloudDialog,
+  OrchStoreDialog: OrchStoreDialog
 }
 
 const styles = theme => ({

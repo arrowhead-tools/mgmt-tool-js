@@ -151,7 +151,7 @@ class InterCloudDialog extends Component {
     const { clouds, classes, services } = this.props
     return (
       <div>
-        <Card raised={classes.card}>
+        <Card raised className={classes.card}>
           <AutoComplete
             handleOnChange={this.onCloudChange}
             handleTextChange={this.onCloudNameChange}

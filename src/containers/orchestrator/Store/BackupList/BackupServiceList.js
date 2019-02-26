@@ -77,7 +77,13 @@ class BackupServiceList extends React.Component {
               </ExpansionPanelDetails>
               <Divider />
               <ExpansionPanelActions>
-                <Button onClick={() => {this.props.deleteService(service.service.id)}}>Delete</Button>
+                <Button
+                  onClick={() => {
+                    this.props.deleteService(service.service.id)
+                  }}
+                >
+                  Delete
+                </Button>
                 <Button
                   color="primary"
                   className={classes.marginRight20}
@@ -103,7 +109,7 @@ BackupServiceList.propTypes = {
   services: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
   savePriorities: PropTypes.func.isRequired,
-  deleteService: PropTypes.func.isRequired,
+  deleteService: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(BackupServiceList)
