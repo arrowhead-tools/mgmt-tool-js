@@ -127,7 +127,7 @@ export function addAuthData(consumer, providerList, service, interfaces) {
   }
   return dispatch => {
     networkService
-      .post('/authorization/mgmt/Intracloud', authData)
+      .post('/authorization/mgmt/intracloud', authData)
       .then(response => {
         console.log(response.data)
         dispatch(getIntraCloudAuthData())
