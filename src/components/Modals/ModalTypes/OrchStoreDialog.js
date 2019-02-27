@@ -104,7 +104,9 @@ class OrchStoreDialog extends Component {
         serviceDefinition: '',
         interfaces: [],
         serviceMetadata: [{ name: '', value: '' }]
-      }
+      },
+      priority: '',
+      serviceURI: ''
     }
   }
 
@@ -116,17 +118,24 @@ class OrchStoreDialog extends Component {
 
   onConsumerSystemChange = consumer => {
     if (consumer !== undefined) {
-      this.setState({consumer})
+      this.setState({ consumer })
     }
-    console.log(this.state)
   }
 
   onConsumerSystemNameChange = systemName => {
-    this.setState({ consumer: { systemName, id: null } })
+    this.setState({
+      consumer: { ...this.state.consumer, systemName, id: null }
+    })
   }
 
   onAddressChange = event => {
-    this.setState({ consumer: { address: event.target.value, id: null } })
+    this.setState({
+      consumer: {
+        ...this.state.consumer,
+        address: event.target.value,
+        id: null
+      }
+    })
   }
 
   onPortChange = event => {
@@ -134,50 +143,64 @@ class OrchStoreDialog extends Component {
       event.target.value === '' ||
       (event.target.value > 0 && event.target.value <= 65536)
     ) {
-      this.setState({ consumer: { port: event.target.value, id: null } })
+      this.setState({
+        consumer: { ...this.state.consumer, port: event.target.value, id: null }
+      })
     }
   }
 
   onAuthInfoChange = event => {
     this.setState({
-      consumer: { authenticationInfo: event.target.value, id: null }
+      consumer: {
+        ...this.state.consumer,
+        authenticationInfo: event.target.value,
+        id: null
+      }
     })
   }
 
   onChipAdd = chip => {
     this.setState({
-      service: { interfaces: [...this.state.service.interfaces, chip] }
+      service: {
+        ...this.state.service,
+        interfaces: [...this.state.service.interfaces, chip]
+      }
     })
   }
 
   onChipDelete = (deletedChip, index) => {
     this.setState({
       service: {
+        ...this.state.service,
         interfaces: this.state.service.interfaces.filter(c => c !== deletedChip)
       }
     })
   }
 
   onServiceDefinitionChange = service => {
-    console.log(service)
     if (service !== undefined) {
-      this.setState({ service: {...this.state.service, ...service} })
+      this.setState({ service: { ...this.state.service, ...service } })
     }
   }
 
   onServiceDefinitionNameChange = serviceDefinition => {
-    this.setState({ service: { ...this.state.service, serviceDefinition, id: null } })
+    this.setState({
+      service: { ...this.state.service, serviceDefinition, id: null }
+    })
   }
 
   onServiceMetadataChange = (index, key) => event => {
     const metadataArray = [...this.state.service.serviceMetadata]
     metadataArray[index][key] = event.target.value
-    this.setState({ service: { serviceMetadata: metadataArray } })
+    this.setState({
+      service: { ...this.state.service, serviceMetadata: metadataArray }
+    })
   }
 
   removeServiceMetadataProperty = removeIndex => () => {
     this.setState({
       service: {
+        ...this.state.service,
         serviceMetadata: [
           ...this.state.service.serviceMetadata.slice(0, removeIndex),
           ...this.state.service.serviceMetadata.slice(removeIndex + 1)
@@ -189,6 +212,7 @@ class OrchStoreDialog extends Component {
   addServiceMetadataProperty = () => {
     this.setState({
       service: {
+        ...this.state.service,
         serviceMetadata: [
           ...this.state.service.serviceMetadata,
           { name: '', value: '' }
@@ -199,16 +223,24 @@ class OrchStoreDialog extends Component {
 
   onProviderSystemChange = providerSystem => {
     if (providerSystem !== undefined) {
-      this.setState({providerSystem})
+      this.setState({ providerSystem })
     }
   }
 
   onProviderSystemNameChange = systemName => {
-    this.setState({ providerSystem: { systemName, id: null } })
+    this.setState({
+      providerSystem: { ...this.state.providerSystem, systemName, id: null }
+    })
   }
 
   onProviderAddressChange = event => {
-    this.setState({ providerSystem: { address: event.target.value, id: null } })
+    this.setState({
+      providerSystem: {
+        ...this.state.providerSystem,
+        address: event.target.value,
+        id: null
+      }
+    })
   }
 
   onProviderPortChange = event => {
@@ -216,13 +248,23 @@ class OrchStoreDialog extends Component {
       event.target.value === '' ||
       (event.target.value > 0 && event.target.value <= 65536)
     ) {
-      this.setState({ providerSystem: { port: event.target.value, id: null } })
+      this.setState({
+        providerSystem: {
+          ...this.state.providerSystem,
+          port: event.target.value,
+          id: null
+        }
+      })
     }
   }
 
   onProviderAuthInfoChange = event => {
     this.setState({
-      providerSystem: { authenticationInfo: event.target.value, id: null }
+      providerSystem: {
+        ...this.state.providerSystem,
+        authenticationInfo: event.target.value,
+        id: null
+      }
     })
   }
 
@@ -233,15 +275,25 @@ class OrchStoreDialog extends Component {
   }
 
   onProviderCloudNameChange = cloudName => {
-    this.setState({ providerCloud: { cloudName } })
+    this.setState({ providerCloud: { ...this.state.providerCloud, cloudName } })
   }
 
   onProviderCloudOperatorChange = event => {
-    this.setState({ providerCloud: { operator: event.target.value } })
+    this.setState({
+      providerCloud: {
+        ...this.state.providerCloud,
+        operator: event.target.value
+      }
+    })
   }
 
   onProviderCloudAddressChange = event => {
-    this.setState({ providerCloud: { address: event.target.value } })
+    this.setState({
+      providerCloud: {
+        ...this.state.providerCloud,
+        address: event.target.value
+      }
+    })
   }
 
   onProviderCloudPortChange = event => {
@@ -249,29 +301,70 @@ class OrchStoreDialog extends Component {
       event.target.value === '' ||
       (event.target.value > 0 && event.target.value <= 65536)
     ) {
+      this.setState({
+        providerCloud: { ...this.state.providerCloud, port: event.target.value }
+      })
     }
-    this.setState({ providerCloud: { port: event.target.value } })
   }
 
   onProviderCloudGatekeeperServiceURIChange = event => {
     this.setState({
-      providerCloud: { gatekeeperServiceURI: event.target.value }
+      providerCloud: {
+        ...this.state.providerCloud,
+        gatekeeperServiceURI: event.target.value
+      }
     })
   }
 
   onProviderCloudAuthInfoChange = event => {
-    this.setState({ providerCloud: { authenticationInfo: event.target.value } })
+    this.setState({
+      providerCloud: {
+        ...this.state.providerCloud,
+        authenticationInfo: event.target.value
+      }
+    })
   }
 
   onProviderCloudSecureChange = event => {
-    this.setState({ providerCloud: { secure: event.target.checked } })
+    this.setState({
+      providerCloud: {
+        ...this.state.providerCloud,
+        secure: event.target.checked
+      }
+    })
+  }
+
+  onPriorityChange = event => {
+    if (
+      event.target.value === '' ||
+      (event.target.value > 0 && event.target.value <= 999)
+    ) {
+      this.setState({
+        priority: event.target.value
+      })
+    }
+  }
+
+  onServiceURIChange = event => {
+    this.setState({ serviceURI: event.target.value })
   }
 
   onSubmit = () => {
+    const serviceMetadataHelper = {}
+    for (const item of this.state.service.serviceMetadata) {
+      if (item.name !== '' || item.value !== '') {
+        serviceMetadataHelper[item.name] = item.value
+      }
+    }
+
+    const data = {...this.state}
+    data.service.serviceMetadata = serviceMetadataHelper
+
+
     if (this.props.isEdit) {
       //edit
     } else {
-      this.props.addStoreEntry(this.state)
+      this.props.addStoreEntry(data)
     }
     this.props.closeModal()
   }
@@ -535,13 +628,43 @@ class OrchStoreDialog extends Component {
             />
           </div>
         </Card>
+        <Card raised className={classes.card}>
+          <TextField
+            value={this.state.priority}
+            className={classes.input}
+            id="priority"
+            required
+            label="Priority"
+            onChange={this.onPriorityChange}
+            type="number"
+            inputProps={{ min: '1', max: '999' }}
+          />
+          <TextField
+            value={this.state.serviceURI}
+            className={classes.input}
+            id="serviceURI"
+            required
+            label="Service URI"
+            onChange={this.onServiceURIChange}
+          />
+        </Card>
         <Button
           disabled={
-            this.state.operator === '' ||
-            this.state.cloudName === '' ||
-            this.state.address === '' ||
-            this.state.port === '' ||
-            this.state.gatekeeperServiceURI === ''
+            this.state.consumer.systemName === '' ||
+            this.state.consumer.address === '' ||
+            this.state.consumer.port === '' ||
+            this.state.providerSystem.systemName === '' ||
+            this.state.providerSystem.address === '' ||
+            this.state.providerSystem.port === '' ||
+            this.state.providerCloud.operator === '' ||
+            this.state.providerCloud.cloudName === '' ||
+            this.state.providerCloud.address === '' ||
+            this.state.providerCloud.port === '' ||
+            this.state.providerCloud.gatekeeperServiceURI === '' ||
+            this.state.service.serviceDefinition === '' ||
+            this.state.service.interfaces === [] ||
+            this.state.priority === '' ||
+            this.state.serviceURI === ''
           }
           color="primary"
           onClick={this.onSubmit}

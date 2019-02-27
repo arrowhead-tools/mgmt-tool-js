@@ -168,7 +168,7 @@ export function getOrchestrationClouds() {
 export function addStoreEntry(storeData) {
   return dispatch => {
     networkService
-      .post('/orchestrator/mgmt/store', storeData)
+      .post('/orchestrator/mgmt/store', [storeData])
       .then(response => {
         dispatch(
           showNotification(
