@@ -357,9 +357,8 @@ class OrchStoreDialog extends Component {
       }
     }
 
-    const data = {...this.state}
+    const data = { ...this.state }
     data.service.serviceMetadata = serviceMetadataHelper
-
 
     if (this.props.isEdit) {
       //edit

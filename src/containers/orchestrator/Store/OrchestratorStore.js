@@ -6,7 +6,8 @@ import {
   getOrchestrationStoreData,
   savePriorities,
   deleteService,
-  addStoreEntry
+  addStoreEntry,
+  deleteStoreEntry
 } from '../../../actions/orchestrator'
 import { connect } from 'react-redux'
 import Button from '../../../components/CustomButtons/Button'
@@ -39,7 +40,7 @@ class OrchestratorStore extends React.Component {
   }
 
   render() {
-    const { orchestrator, savePriorities, deleteService, classes } = this.props
+    const { orchestrator, savePriorities, deleteService, classes, deleteStoreEntry } = this.props
 
     return (
       <div>
@@ -53,6 +54,7 @@ class OrchestratorStore extends React.Component {
           data={orchestrator.backup}
           savePriorities={savePriorities}
           deleteService={deleteService}
+          deleteStoreEntry={deleteStoreEntry}
         />
         <ModalContainer />
       </div>
@@ -68,7 +70,8 @@ OrchestratorStore.propTypes = {
   orchestrator: PropTypes.object.isRequired,
   savePriorities: PropTypes.func.isRequired,
   deleteService: PropTypes.func.isRequired,
-  addStoreEntry: PropTypes.func.isRequired
+  addStoreEntry: PropTypes.func.isRequired,
+  deleteStoreEntry: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -96,6 +99,9 @@ function mapDispatchToProps(dispatch) {
     },
     addStoreEntry: entry => {
       dispatch(addStoreEntry(entry))
+    },
+    deleteStoreEntry: id => {
+      dispatch(deleteStoreEntry(id))
     }
   }
 }

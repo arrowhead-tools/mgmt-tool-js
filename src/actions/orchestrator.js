@@ -201,3 +201,40 @@ export function addStoreEntry(storeData) {
       })
   }
 }
+
+export function deleteStoreEntry(id) {
+  return dispatch => {
+    networkService
+      .delete(`/orchestrator/mgmt/store/${id}`)
+      .then(response => {
+        dispatch(
+          showNotification(
+            {
+              title: 'Deletion was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
+        dispatch(getOrchestrationStoreData())
+      })
+      .catch(error => {
+        console.log(error)
+        dispatch(
+          showNotification(
+            {
+              title: 'Deletion was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 10
+            },
+            'error'
+          )
+        )
+      })
+  }
+}

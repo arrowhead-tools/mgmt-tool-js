@@ -27,7 +27,7 @@ const styles = theme => ({
 
 class BackupListTab extends React.Component {
   render() {
-    const { data, classes, savePriorities, deleteService } = this.props
+    const { data, classes, savePriorities, deleteService, deleteStoreEntry } = this.props
     return (
       <div className={classes.root}>
         {data.map(entry => {
@@ -35,14 +35,25 @@ class BackupListTab extends React.Component {
             <ExpansionPanel key={entry.consumerData.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
-                  {entry.consumerData.systemName}
+                  Consumer System: {entry.consumerData.systemName}
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
+                <Typography>
+                  <b>Address:</b> {entry.consumerData.address}
+                </Typography>
+                <Typography>
+                  <b>Port:</b> {entry.consumerData.port}
+                </Typography>
+                <Typography noWrap>
+                  <b>Authentication Info:</b>{' '}
+                  {entry.consumerData.authenticationInfo || '-'}
+                </Typography>
                 <BackupServiceList
                   services={entry.consumedServices}
                   savePriorities={savePriorities}
                   deleteService={deleteService}
+                  deleteStoreEntry={deleteStoreEntry}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -57,7 +68,8 @@ BackupListTab.propTypes = {
   data: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
   savePriorities: PropTypes.func.isRequired,
-  deleteService: PropTypes.func.isRequired
+  deleteService: PropTypes.func.isRequired,
+  deleteStoreEntry: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(BackupListTab)
