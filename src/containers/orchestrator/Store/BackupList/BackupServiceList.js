@@ -9,7 +9,7 @@ import Divider from '@material-ui/core/Divider'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
 import BackupSortableList from './BackupSortableList'
-import Button from '../../../../components/CustomButtons/Button'
+import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
   root: {
@@ -57,7 +57,7 @@ class BackupServiceList extends React.Component {
   }
 
   render() {
-    const { classes, services } = this.props
+    const { classes, services, deleteStoreEntry } = this.props
     return (
       <div className={classes.root}>
         {services.map(service => {
@@ -65,11 +65,16 @@ class BackupServiceList extends React.Component {
             <ExpansionPanel key={service.service.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
-                  {service.service.serviceDefinition}
+                  Consumed Service: {service.service.serviceDefinition}
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
+                <Typography>
+                  <b>Interfaces:</b> {service.service.interfaces.join(',')}
+                </Typography>
+                <Typography>Provider System order:</Typography>
                 <BackupSortableList
+                  deleteStoreEntry={deleteStoreEntry}
                   list={service.providers}
                   serviceId={service.service.id}
                   onItemsOrderChanged={this.onItemsOrderChanged}
@@ -78,7 +83,14 @@ class BackupServiceList extends React.Component {
               <Divider />
               <ExpansionPanelActions>
                 <Button
-                  color="success"
+                  onClick={() => {
+                    this.props.deleteService(service.service.id)
+                  }}
+                >
+                  Delete
+                </Button>
+                <Button
+                  color="primary"
                   className={classes.marginRight20}
                   disabled={
                     this.state[service.service.id] === undefined
@@ -101,7 +113,9 @@ class BackupServiceList extends React.Component {
 BackupServiceList.propTypes = {
   services: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
-  savePriorities: PropTypes.func.isRequired
+  savePriorities: PropTypes.func.isRequired,
+  deleteService: PropTypes.func.isRequired,
+  deleteStoreEntry: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(BackupServiceList)

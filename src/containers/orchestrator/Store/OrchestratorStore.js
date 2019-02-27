@@ -4,23 +4,57 @@ import ModalContainer from '../../../components/Modals/ModalContainer/ModalConta
 import BackupListTab from './BackupList/BackupListTab'
 import {
   getOrchestrationStoreData,
-  savePriorities
+  savePriorities,
+  deleteService,
+  addStoreEntry,
+  deleteStoreEntry
 } from '../../../actions/orchestrator'
 import { connect } from 'react-redux'
+import Button from '../../../components/CustomButtons/Button'
+import { withStyles } from '@material-ui/core/styles'
+import AddIcon from '@material-ui/icons/Add'
+import { hideModal, showModal } from '../../../actions/modal'
+
+const styles = theme => ({
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  }
+})
 
 class OrchestratorStore extends React.Component {
   componentDidMount() {
     this.props.getOrchestrationStoreData()
   }
 
+  onAddClick = () => {
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.props.hideModal,
+        addStoreEntry: this.props.addStoreEntry
+      },
+      'OrchStoreDialog'
+    )
+  }
+
   render() {
-    const { orchestrator, savePriorities } = this.props
+    const { orchestrator, savePriorities, deleteService, classes, deleteStoreEntry } = this.props
 
     return (
       <div>
+        <div className={classes.buttonContainer}>
+          <Button color="primary" onClick={this.onAddClick}>
+            <AddIcon />
+            Add
+          </Button>
+        </div>
         <BackupListTab
           data={orchestrator.backup}
           savePriorities={savePriorities}
+          deleteService={deleteService}
+          deleteStoreEntry={deleteStoreEntry}
         />
         <ModalContainer />
       </div>
@@ -29,9 +63,15 @@ class OrchestratorStore extends React.Component {
 }
 
 OrchestratorStore.propTypes = {
+  showModal: PropTypes.func.isRequired,
+  hideModal: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
   getOrchestrationStoreData: PropTypes.func.isRequired,
   orchestrator: PropTypes.object.isRequired,
-  savePriorities: PropTypes.func.isRequired
+  savePriorities: PropTypes.func.isRequired,
+  deleteService: PropTypes.func.isRequired,
+  addStoreEntry: PropTypes.func.isRequired,
+  deleteStoreEntry: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -47,6 +87,21 @@ function mapDispatchToProps(dispatch) {
     },
     savePriorities: priorityData => {
       dispatch(savePriorities(priorityData))
+    },
+    deleteService: serviceId => {
+      dispatch(deleteService(serviceId))
+    },
+    hideModal: () => {
+      dispatch(hideModal())
+    },
+    showModal: (modalProps, modalType) => {
+      dispatch(showModal({ modalProps, modalType }))
+    },
+    addStoreEntry: entry => {
+      dispatch(addStoreEntry(entry))
+    },
+    deleteStoreEntry: id => {
+      dispatch(deleteStoreEntry(id))
     }
   }
 }
@@ -54,4 +109,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(OrchestratorStore)
+)(withStyles(styles)(OrchestratorStore))

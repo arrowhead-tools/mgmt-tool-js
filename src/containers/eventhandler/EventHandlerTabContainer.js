@@ -59,6 +59,4 @@ EventHandlerTabContainer.propTypes = {
   modifyEventHandler: PropTypes.func.isRequired
 }
 
-export default withStyles(styles, { withTheme: true })(
-  EventHandlerTabContainer
-)
+export default withStyles(styles, { withTheme: true })(EventHandlerTabContainer)
