@@ -24,7 +24,7 @@ const styles = theme => ({
   }
 })
 
-const SortableItem = sortableElement(({ value, classes, deleteStoreEntry }) => (
+const SortableItem = sortableElement(({ value, classes, deleteStoreEntry, onEditClick }) => (
   <li className="SortableItem">
     <div className={classes.container}>
       <div className={classes.item}>
@@ -39,7 +39,10 @@ const SortableItem = sortableElement(({ value, classes, deleteStoreEntry }) => (
         </Typography>
       </div>
       <div className={classes.actions}>
-        <EditIcon />
+        <EditIcon onClick={(event) => {
+          onEditClick(value.storeEntry, value.storeEntryId)
+          event.stopPropagation()
+        }}/>
         <ClearIcon color="error" onClick={(event) => {
           deleteStoreEntry(value.storeEntryId)
           event.stopPropagation()
@@ -81,7 +84,7 @@ class BackupSortableList extends React.Component {
 
   render() {
     const { items } = this.state
-    const { classes, deleteStoreEntry } = this.props
+    const { classes, deleteStoreEntry, onEditClick } = this.props
 
     return (
       <SortableContainer onSortEnd={this.onSortEnd} distance={10}>
@@ -93,6 +96,7 @@ class BackupSortableList extends React.Component {
             deleteStoreEntry={deleteStoreEntry}
             helperClass="SortableHelper"
             classes={classes}
+            onEditClick={onEditClick}
           />
         ))}
       </SortableContainer>
@@ -105,7 +109,8 @@ BackupSortableList.propTypes = {
   onItemsOrderChanged: PropTypes.func.isRequired,
   serviceId: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
-  deleteStoreEntry: PropTypes.func.isRequired
+  deleteStoreEntry: PropTypes.func.isRequired,
+  onEditClick: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(BackupSortableList)

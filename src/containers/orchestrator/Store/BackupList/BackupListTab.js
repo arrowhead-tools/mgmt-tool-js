@@ -27,7 +27,7 @@ const styles = theme => ({
 
 class BackupListTab extends React.Component {
   render() {
-    const { data, classes, savePriorities, deleteService, deleteStoreEntry } = this.props
+    const { data, classes, savePriorities, deleteService, deleteStoreEntry, onEditClick } = this.props
     return (
       <div className={classes.root}>
         {data.map(entry => {
@@ -54,6 +54,7 @@ class BackupListTab extends React.Component {
                   savePriorities={savePriorities}
                   deleteService={deleteService}
                   deleteStoreEntry={deleteStoreEntry}
+                  onEditClick={onEditClick}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -69,7 +70,8 @@ BackupListTab.propTypes = {
   classes: PropTypes.object.isRequired,
   savePriorities: PropTypes.func.isRequired,
   deleteService: PropTypes.func.isRequired,
-  deleteStoreEntry: PropTypes.func.isRequired
+  deleteStoreEntry: PropTypes.func.isRequired,
+  onEditClick: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(BackupListTab)

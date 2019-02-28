@@ -74,20 +74,38 @@ class OrchStoreDialog extends Component {
   constructor(props) {
     super(props)
 
+    console.log(props.data)
+    const serviceMetadata = []
+    for (const key in props.data.service.serviceMetadata) {
+      serviceMetadata.push({
+        name: key,
+        value: props.data.service.serviceMetadata[key]
+      })
+    }
+    if (!serviceMetadata.length) {
+      serviceMetadata.push({name: '', value: ''})
+    }
+    const serviceData = {
+      ...props.data.service,
+      serviceMetadata
+    }
+
     this.state = {
       consumer: {
         id: null,
         systemName: '',
         address: '',
         port: '',
-        authenticationInfo: ''
+        authenticationInfo: '',
+        ...props.data.consumer
       },
       providerSystem: {
         id: null,
         systemName: '',
         address: '',
         port: '',
-        authenticationInfo: ''
+        authenticationInfo: '',
+        ...props.data.providerSystem
       },
       providerCloud: {
         id: null,
@@ -97,16 +115,18 @@ class OrchStoreDialog extends Component {
         port: '',
         gatekeeperServiceURI: '',
         authenticationInfo: '',
-        secure: false
+        secure: false,
+        ...props.data.providerCloud
       },
       service: {
         id: null,
         serviceDefinition: '',
         interfaces: [],
-        serviceMetadata: [{ name: '', value: '' }]
+        serviceMetadata: [{ name: '', value: '' }],
+        ...serviceData
       },
-      priority: '',
-      serviceURI: ''
+      priority: '' || props.data.priority,
+      serviceURI: '' || props.data.serviceURI
     }
   }
 
@@ -361,7 +381,7 @@ class OrchStoreDialog extends Component {
     data.service.serviceMetadata = serviceMetadataHelper
 
     if (this.props.isEdit) {
-      //edit
+      this.props.editStoreEntry(data, this.props.id)
     } else {
       this.props.addStoreEntry(data)
     }
@@ -369,7 +389,7 @@ class OrchStoreDialog extends Component {
   }
 
   render() {
-    const { classes, systems, services, clouds, isEdit } = this.props
+    const { classes, systems, services, clouds, isEdit = false } = this.props
 
     return (
       <div>
@@ -378,12 +398,14 @@ class OrchStoreDialog extends Component {
             Consumer System
           </Typography>
           <AutoComplete
+            defaultValue={this.state.consumer.systemName}
             label="Consumer System Name"
             handleOnChange={this.onConsumerSystemChange}
             handleTextChange={this.onConsumerSystemNameChange}
             suggestions={systems}
             keyValue="systemName"
             required
+            isEdit={isEdit}
             placeholder="Consumer System Name"
             classes={{
               inputRoot: { flexWrap: 'wrap' },
@@ -426,7 +448,9 @@ class OrchStoreDialog extends Component {
             Consumed Service
           </Typography>
           <AutoComplete
+            defaultValue={this.state.service.serviceDefinition}
             required
+            isEdit={isEdit}
             id="serviceDefinition"
             className={classes.input}
             value={this.state.service.serviceDefinition}
@@ -509,12 +533,14 @@ class OrchStoreDialog extends Component {
             Provider System
           </Typography>
           <AutoComplete
+            defaultValue={this.state.providerSystem.systemName}
             label="Provider System Name"
             handleOnChange={this.onProviderSystemChange}
             handleTextChange={this.onProviderSystemNameChange}
             suggestions={systems}
             keyValue="systemName"
             required
+            isEdit={isEdit}
             placeholder="Provider System Name"
             classes={{
               inputRoot: { flexWrap: 'wrap' },
@@ -557,6 +583,7 @@ class OrchStoreDialog extends Component {
             Provider Cloud
           </Typography>
           <AutoComplete
+            defaultValue={this.state.providerCloud.cloudName}
             classes={{
               inputRoot: { flexWrap: 'wrap' },
               textField: {
@@ -566,6 +593,7 @@ class OrchStoreDialog extends Component {
                 marginRight: '20px'
               }
             }}
+            isEdit={isEdit}
             suggestions={clouds}
             handleOnChange={this.onProviderCloudChange}
             handleTextChange={this.onProviderCloudNameChange}
@@ -697,7 +725,13 @@ OrchStoreDialog.propTypes = {
   systems: PropTypes.array.isRequired,
   services: PropTypes.array.isRequired,
   clouds: PropTypes.array.isRequired,
-  addStoreEntry: PropTypes.func
+  addStoreEntry: PropTypes.func,
+  editStoreEntry: PropTypes.func,
+  data: PropTypes.object,
+  id: PropTypes.number,
+  getOrchestratorSystems: PropTypes.func.isRequired,
+  getOrchestratorServices: PropTypes.func.isRequired,
+  getOrchestrationClouds: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {

@@ -7,7 +7,8 @@ import {
   savePriorities,
   deleteService,
   addStoreEntry,
-  deleteStoreEntry
+  deleteStoreEntry,
+  editStoreEntry
 } from '../../../actions/orchestrator'
 import { connect } from 'react-redux'
 import Button from '../../../components/CustomButtons/Button'
@@ -39,6 +40,21 @@ class OrchestratorStore extends React.Component {
     )
   }
 
+  onEditClick = (storeEntry, storeEntryId) => {
+    console.log('clicked!!')
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.props.hideModal,
+        editStoreEntry: this.props.editStoreEntry,
+        isEdit: true,
+        data: storeEntry,
+        id: storeEntryId
+      },
+      'OrchStoreDialog'
+    )
+  }
+
   render() {
     const { orchestrator, savePriorities, deleteService, classes, deleteStoreEntry } = this.props
 
@@ -55,6 +71,7 @@ class OrchestratorStore extends React.Component {
           savePriorities={savePriorities}
           deleteService={deleteService}
           deleteStoreEntry={deleteStoreEntry}
+          onEditClick={this.onEditClick}
         />
         <ModalContainer />
       </div>
@@ -71,7 +88,8 @@ OrchestratorStore.propTypes = {
   savePriorities: PropTypes.func.isRequired,
   deleteService: PropTypes.func.isRequired,
   addStoreEntry: PropTypes.func.isRequired,
-  deleteStoreEntry: PropTypes.func.isRequired
+  deleteStoreEntry: PropTypes.func.isRequired,
+  editStoreEntry: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -102,6 +120,9 @@ function mapDispatchToProps(dispatch) {
     },
     deleteStoreEntry: id => {
       dispatch(deleteStoreEntry(id))
+    },
+    editStoreEntry: (storeEntry, id) => {
+      dispatch(editStoreEntry(storeEntry, id))
     }
   }
 }

@@ -210,7 +210,8 @@ export function digestOrchestrationBackupListData(orchestrationData) {
     const providerSystem = {
       ...data.providerSystem,
       priority: data.priority,
-      storeEntryId: data.id
+      storeEntryId: data.id,
+      storeEntry: data
     }
     if (!helperObject[data.consumer.id]) {
       helperObject[data.consumer.id] = {

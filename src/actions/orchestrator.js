@@ -238,3 +238,40 @@ export function deleteStoreEntry(id) {
       })
   }
 }
+
+export function editStoreEntry(storeEntry, id) {
+  return dispatch => {
+    networkService
+      .put(`/orchestrator/mgmt/store/update/${id}`, storeEntry)
+      .then(response => {
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was successful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 5
+            },
+            'success'
+          )
+        )
+        dispatch(getOrchestrationStoreData())
+      })
+      .catch(error => {
+        console.log(error)
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 10
+            },
+            'error'
+          )
+        )
+      })
+  }
+}

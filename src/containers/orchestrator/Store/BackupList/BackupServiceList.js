@@ -57,7 +57,7 @@ class BackupServiceList extends React.Component {
   }
 
   render() {
-    const { classes, services, deleteStoreEntry } = this.props
+    const { classes, services, deleteStoreEntry, onEditClick } = this.props
     return (
       <div className={classes.root}>
         {services.map(service => {
@@ -78,6 +78,7 @@ class BackupServiceList extends React.Component {
                   list={service.providers}
                   serviceId={service.service.id}
                   onItemsOrderChanged={this.onItemsOrderChanged}
+                  onEditClick={onEditClick}
                 />
               </ExpansionPanelDetails>
               <Divider />
@@ -115,7 +116,8 @@ BackupServiceList.propTypes = {
   classes: PropTypes.object.isRequired,
   savePriorities: PropTypes.func.isRequired,
   deleteService: PropTypes.func.isRequired,
-  deleteStoreEntry: PropTypes.func.isRequired
+  deleteStoreEntry: PropTypes.func.isRequired,
+  onEditClick: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(BackupServiceList)
