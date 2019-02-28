@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import { Redirect, Route, Switch } from 'react-router-dom'
-
-import PerfectScrollbar from 'perfect-scrollbar'
-import 'perfect-scrollbar/css/perfect-scrollbar.css'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Header from '../../components/Header/Header'
 import Sidebar from '../../components/Sidebar/Sidebar'
@@ -46,28 +43,13 @@ class Dashboard extends Component {
     this.setState({ mobileOpen: !this.state.mobileOpen })
   }
 
-  componentDidMount() {
-    if (navigator.platform.indexOf('Win') > -1) {
-      const ps = new PerfectScrollbar(this.refs.mainPanel)
-    }
-  }
-
-  componentDidUpdate(e) {
-    if (e.history.location.pathname !== e.location.pathname) {
-      this.refs.mainPanel.scrollTop = 0
-      if (this.state.mobileOpen) {
-        this.setState({ mobileOpen: false })
-      }
-    }
-  }
-
   render() {
     const { classes, ...rest } = this.props
     return (
       <div className={classes.wrapper}>
         <Sidebar
           routes={dashboardRoutes}
-          logoText={'Arrowhead'}
+          logoText="Arrowhead"
           logo={logo}
           image={image}
           handleDrawerToggle={this.handleDrawerToggle}
@@ -75,7 +57,7 @@ class Dashboard extends Component {
           color="blue"
           {...rest}
         />
-        <div className={classes.mainPanel} ref="mainPanel">
+        <div className={classes.mainPanel}>
           <Header
             routes={dashboardRoutes}
             handleDrawerToggle={this.handleDrawerToggle}

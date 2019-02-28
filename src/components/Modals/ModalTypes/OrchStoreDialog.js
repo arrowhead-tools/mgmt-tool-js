@@ -75,17 +75,20 @@ class OrchStoreDialog extends Component {
     super(props)
 
     const serviceMetadata = []
-    for (const key in props.data.service.serviceMetadata) {
-      serviceMetadata.push({
-        name: key,
-        value: props.data.service.serviceMetadata[key]
-      })
+    if (props.data) {
+      for (const key in props.data.service.serviceMetadata) {
+        serviceMetadata.push({
+          name: key,
+          value: props.data.service.serviceMetadata[key]
+        })
+      }
     }
     if (!serviceMetadata.length) {
       serviceMetadata.push({name: '', value: ''})
     }
+
     const serviceData = {
-      ...props.data.service,
+      ...props.data?.service,
       serviceMetadata
     }
 
