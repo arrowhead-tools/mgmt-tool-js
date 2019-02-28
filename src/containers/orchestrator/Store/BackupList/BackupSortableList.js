@@ -17,7 +17,7 @@ const styles = theme => ({
   item: {
     width: '100%'
   },
-  deleteItem: {
+  actions: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
@@ -28,7 +28,6 @@ const SortableItem = sortableElement(({ value, classes, deleteStoreEntry }) => (
   <li className="SortableItem">
     <div className={classes.container}>
       <div className={classes.item}>
-        {console.log(value)}
         <Typography>
           <b>System Name: </b> {value.systemName}
         </Typography>
@@ -39,9 +38,12 @@ const SortableItem = sortableElement(({ value, classes, deleteStoreEntry }) => (
           <b>Port: </b> {value.port}
         </Typography>
       </div>
-      <div className={classes.deleteItem}>
+      <div className={classes.actions}>
         <EditIcon />
-        <ClearIcon color="error" onClick={(e) => {e.preventDefault();deleteStoreEntry(value.storeEntryId)}} />
+        <ClearIcon color="error" onClick={(event) => {
+          deleteStoreEntry(value.storeEntryId)
+          event.stopPropagation()
+        }} />
       </div>
     </div>
   </li>
@@ -82,7 +84,7 @@ class BackupSortableList extends React.Component {
     const { classes, deleteStoreEntry } = this.props
 
     return (
-      <SortableContainer onSortEnd={this.onSortEnd}>
+      <SortableContainer onSortEnd={this.onSortEnd} distance={10}>
         {items.map((provider, index) => (
           <SortableItem
             key={index}
