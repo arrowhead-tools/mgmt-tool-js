@@ -88,7 +88,7 @@ class OrchStoreDialog extends Component {
     }
 
     const serviceData = {
-      ...props.data?.service,
+      ...(props.data && props.data.service),
       serviceMetadata
     }
 
@@ -99,7 +99,7 @@ class OrchStoreDialog extends Component {
         address: '',
         port: '',
         authenticationInfo: '',
-        ...props.data.consumer
+        ...(props.data && props.data.consumer)
       },
       providerSystem: {
         id: null,
@@ -107,7 +107,7 @@ class OrchStoreDialog extends Component {
         address: '',
         port: '',
         authenticationInfo: '',
-        ...props.data.providerSystem
+        ...(props.data && props.data.providerSystem)
       },
       providerCloud: {
         id: null,
@@ -118,7 +118,7 @@ class OrchStoreDialog extends Component {
         gatekeeperServiceURI: '',
         authenticationInfo: '',
         secure: false,
-        ...props.data.providerCloud
+        ...(props.data && props.data.providerCloud)
       },
       service: {
         id: null,
@@ -127,8 +127,8 @@ class OrchStoreDialog extends Component {
         serviceMetadata: [{ name: '', value: '' }],
         ...serviceData
       },
-      priority: '' || props.data.priority,
-      serviceURI: '' || props.data.serviceURI
+      priority: (props.data && props.data.priority) || '',
+      serviceURI: (props.data && props.data.serviceURI) || ''
     }
   }
 

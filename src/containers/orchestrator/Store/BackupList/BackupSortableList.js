@@ -7,6 +7,7 @@ import _ from 'lodash'
 import { withStyles } from '@material-ui/core/styles'
 import ClearIcon from '@material-ui/icons/Clear'
 import EditIcon from '@material-ui/icons/Edit'
+import {IconButton} from '@material-ui/core'
 
 const styles = theme => ({
   container: {
@@ -39,14 +40,18 @@ const SortableItem = sortableElement(({ value, classes, deleteStoreEntry, onEdit
         </Typography>
       </div>
       <div className={classes.actions}>
-        <EditIcon onClick={(event) => {
+        <IconButton aria-label="Edit Entry" onClick={(event) => {
           onEditClick(value.storeEntry, value.storeEntryId)
           event.stopPropagation()
-        }}/>
-        <ClearIcon color="error" onClick={(event) => {
+        }}>
+          <EditIcon />
+        </IconButton>
+        <IconButton color="secondary" onClick={(event) => {
           deleteStoreEntry(value.storeEntryId)
           event.stopPropagation()
-        }} />
+        }} >
+          <ClearIcon />
+        </IconButton>
       </div>
     </div>
   </li>
