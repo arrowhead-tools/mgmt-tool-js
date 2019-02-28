@@ -249,7 +249,8 @@ export function editSREntry(
   serviceURI,
   udp,
   endOfValidity,
-  version
+  version,
+  SREntryId
 ) {
   const serviceMetadataHelper = {}
   for (const item of serviceMetadata) {
@@ -259,6 +260,7 @@ export function editSREntry(
   }
 
   const SREObject = {
+    id: SREntryId,
     providedService: {
       serviceDefinition,
       interfaces,
@@ -283,7 +285,7 @@ export function editSREntry(
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       networkService
-        .put('/serviceregistry/mgmt/update', SREObject)
+        .put(`/serviceregistry/mgmt/update/${SREntryId}`, SREObject)
         .then(response => {
           dispatch(
             showNotification(
@@ -409,7 +411,9 @@ export function editSREntryCollection(
   udp,
   endOfValidity,
   version,
-  serviceId
+  providedServiceId,
+  serviceId,
+  SREntryId
 ) {
   return (dispatch, getState) => {
     dispatch(
@@ -417,7 +421,7 @@ export function editSREntryCollection(
     )
       .then(
         dispatch(
-          editService(serviceId, serviceDefinition, interfaces, serviceMetadata)
+          editService(providedServiceId, serviceDefinition, interfaces, serviceMetadata)
         )
       )
       .then(
@@ -434,7 +438,8 @@ export function editSREntryCollection(
             serviceURI,
             udp,
             endOfValidity,
-            version
+            version,
+            SREntryId
           )
         )
       )

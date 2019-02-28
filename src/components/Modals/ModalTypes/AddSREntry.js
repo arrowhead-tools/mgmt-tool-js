@@ -220,7 +220,9 @@ class AddSREntry extends Component {
         this.state.udp,
         endOfValidity,
         this.state.version,
-        this.state.providedServiceId
+        this.state.providedServiceId,
+        this.state.serviceId,
+        this.state.SREntryId
       )
     } else {
       this.props.addSREntry(
@@ -569,7 +571,9 @@ function mapDispatchToProps(dispatch) {
       udp,
       endOfValidity,
       version,
-      serviceId
+      providedServiceId,
+      serviceId,
+      SREntryId
     ) => {
       dispatch(
         editSREntryCollection(
@@ -585,7 +589,9 @@ function mapDispatchToProps(dispatch) {
           udp,
           endOfValidity,
           version,
-          serviceId
+          providedServiceId,
+          serviceId,
+          SREntryId
         )
       )
     }
