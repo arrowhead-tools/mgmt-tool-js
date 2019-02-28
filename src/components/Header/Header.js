@@ -17,20 +17,19 @@ import headerStyle from '../../assets/jss/material-dashboard-react/components/he
 function Header({ ...props }) {
   function makeBrand() {
     let name
-    props.routes.map((prop, key) => {
+    for (const prop of props.routes) {
       if (prop.collapse) {
-        prop.views.map(view => {
+        for (const view of prop.views) {
           if (view.path === props.location.pathname) {
             name = view.navbarName
           }
-        })
+        }
       } else {
         if (prop.path === props.location.pathname) {
           name = prop.navbarName
         }
       }
-      return null
-    })
+    }
     return name
   }
 
@@ -64,7 +63,9 @@ function Header({ ...props }) {
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
-  color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'danger'])
+  color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'danger']),
+  routes: PropTypes.array.isRequired,
+  location: PropTypes.object.isRequired
 }
 
 export default withStyles(headerStyle)(Header)
