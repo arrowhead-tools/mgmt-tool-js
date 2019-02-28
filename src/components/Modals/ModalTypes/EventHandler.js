@@ -211,7 +211,6 @@ class EventHandler extends Component {
 
   render() {
     const { systems, classes, isEdit, eventNames } = this.props
-    console.log('isEdit', isEdit)
     return (
       <div>
         <Card raised className={classes.card}>

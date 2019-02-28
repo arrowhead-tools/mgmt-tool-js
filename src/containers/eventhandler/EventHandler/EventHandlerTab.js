@@ -42,7 +42,6 @@ class EventHandlerTab extends Component {
       deleteEventHandler,
       modifyEventHandler
     } = this.props
-    console.log(events)
     return (
       <div className={classes.root}>
         {events.map(event => {

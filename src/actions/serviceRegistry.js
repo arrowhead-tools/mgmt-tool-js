@@ -88,7 +88,6 @@ export function addService(serviceData) {
     networkService
       .post('/mgmt/services', [serviceData])
       .then(response => {
-        console.log(response)
         dispatch(getServices())
       })
       .catch(error => {
@@ -113,7 +112,6 @@ export function addSystem(systemName, address, port, authenticationInfo) {
     networkService
       .post('/mgmt/systems', [systemData])
       .then(response => {
-        console.log(response)
         dispatch(getServices())
       })
       .catch(error => {

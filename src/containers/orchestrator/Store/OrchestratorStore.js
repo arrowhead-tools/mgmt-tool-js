@@ -41,7 +41,6 @@ class OrchestratorStore extends React.Component {
   }
 
   onEditClick = (storeEntry, storeEntryId) => {
-    console.log('clicked!!')
     this.props.showModal(
       {
         open: true,

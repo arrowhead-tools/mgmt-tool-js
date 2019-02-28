@@ -99,7 +99,6 @@ class ServiceSearch extends Component {
 
   render() {
     const { services } = this.props
-    console.log('services', services)
     return (
       <Card
         raised

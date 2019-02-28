@@ -74,7 +74,6 @@ class OrchStoreDialog extends Component {
   constructor(props) {
     super(props)
 
-    console.log(props.data)
     const serviceMetadata = []
     for (const key in props.data.service.serviceMetadata) {
       serviceMetadata.push({
@@ -483,7 +482,6 @@ class OrchStoreDialog extends Component {
             Service Metadata
           </Typography>
           <div>
-            {console.log('render', this.state)}
             {this.state.service.serviceMetadata.map(
               ({ name, value }, index) => (
                 <div key={index} className={classes.prop}>
