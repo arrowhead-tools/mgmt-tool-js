@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles'
 import AppBar from '@material-ui/core/AppBar'
@@ -65,7 +65,8 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired,
   color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'danger']),
   routes: PropTypes.array.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  handleDrawerToggle: PropTypes.func.isRequired
 }
 
 export default withStyles(headerStyle)(Header)
