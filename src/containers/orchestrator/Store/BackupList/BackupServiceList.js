@@ -49,7 +49,7 @@ class BackupServiceList extends React.Component {
 
   onButtonClick = serviceId => () => {
     const helperObject = {}
-    this.state[serviceId].array.map((item, index) => {
+    this.state[serviceId].array.forEach((item, index) => {
       helperObject[item.storeEntryId] = index + 1
     })
 
