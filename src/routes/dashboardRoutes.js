@@ -33,13 +33,13 @@ const dashboardRoutes = [
     icon: DeviceHub,
     state: 'orchestration',
     views: [
-      {
+      /*  {
         path: '/orchestrator/status',
         navbarName: 'Status',
         sidebarName: 'Status',
         icon: StorageIcon,
         component: OrchestratorStatus
-      },
+      },  */
       {
         path: '/orchestrator/store',
         sidebarName: 'Store',
