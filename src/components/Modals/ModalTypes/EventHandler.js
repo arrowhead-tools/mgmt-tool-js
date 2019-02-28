@@ -107,7 +107,7 @@ class EventHandler extends Component {
   onEventTypeChange = eventType => {
     if (eventType !== undefined) {
       this.setState({
-        eventType
+        eventType: eventType.eventType
       })
     }
   }
@@ -201,6 +201,7 @@ class EventHandler extends Component {
     }
     if (this.props.isEdit) {
       subscriptionData.id = this.state.id
+      console.log('sub', subscriptionData)
       this.props.modifySubscription(subscriptionData, this.props.event.id)
     } else {
       delete subscriptionData.consumer.id
