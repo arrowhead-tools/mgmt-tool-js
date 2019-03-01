@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import {
   getFilteredServices,
   getServices,
-  deleteServiceById
+  deleteServiceById,
+  editSREntry
 } from '../../actions/serviceRegistry'
 import Button from '../../components/CustomButtons/Button'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
@@ -106,13 +107,14 @@ class ServiceRegistry extends Component {
     this.props.deleteServiceById(serviceId)
   }
 
-  handleServiceEdit = serviceId => () => {
+  handleServiceEdit = serviceData => () => {
     this.props.showModal(
       {
         open: true,
         isEdit: true,
-        serviceId,
-        closeModal: this.closeModal
+        data: serviceData,
+        editSREntry: this.props.editSREntry,
+        closeModal: this.props.hideModal
       },
       'addSREntry'
     )
@@ -168,6 +170,7 @@ ServiceRegistry.propTypes = {
   services: PropTypes.object.isRequired,
   hideModal: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired,
+  editSREntry: PropTypes.func.isRequired,
   deleteServiceById: PropTypes.func.isRequired
 }
 
@@ -192,6 +195,9 @@ function mapDispatchToProps(dispatch) {
     },
     deleteServiceById: serviceId => {
       dispatch(deleteServiceById(serviceId))
+    },
+    editSREntry: entry => {
+      dispatch(editSREntry(entry))
     }
   }
 }

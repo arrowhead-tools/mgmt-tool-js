@@ -22,7 +22,6 @@ import {
   editSREntryCollection,
   getServiceById
 } from '../../../actions/serviceRegistry'
-import _ from 'lodash'
 import MomentUtils from '@date-io/moment'
 
 moment.locale('hu')
@@ -64,109 +63,75 @@ class AddSREntry extends Component {
   constructor(props) {
     super(props)
 
+    const serviceMetadata = []
+    if(props.data){
+      for ( const key in props.data.providedService.serviceMetadata) {
+        serviceMetadata.push({
+          name: key,
+          value: props.data.providedService.serviceMetadata[key]
+        })
+      }
+    }
+    if(!serviceMetadata.length){
+      serviceMetadata.push({name: '', value: ''})
+    }
+
+    const serviceData = {
+      ...(props.data && props.data.providedService),
+      serviceMetadata
+    }
+
     this.state = {
-      SREntryId: null,
-      providedServiceId: null,
-      systemId: null,
-      systemName: '',
-      address: '',
-      port: '',
-      authenticationInfo: '',
-      serviceDefinition: '',
-      serviceMetadata: [{ name: '', value: '' }],
-      interface: [],
-      serviceURI: '',
-      UDP: '',
-      endOfValidity: moment(),
-      version: ''
+      id: props.data ? props.data.id : null,
+      providedService: {
+        id: '',
+        interfaces: [],
+        serviceDefinition: '',
+        ...serviceData
+      },
+      provider: {
+        id: '',
+        address: '',
+        port: '',
+        systemName: '',
+        ...(props.data && props.data.provider)
+      },
+      serviceURI: props.data ? props.data.serviceURI : '',
+      udp: props.data ? props.data.udp : '',
+      version: props.data ? props.data.version : '',
+      endOfValidity: props.data ? props.data.endOfValidity : ''
     }
   }
 
   componentDidMount() {
     this.props.getSystems()
-    if (this.props.isEdit && this.props.serviceId) {
-      this.props.getServiceById(this.props.serviceId)
-    }
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (
-      nextProps.isEdit &&
-      nextProps.serviceId &&
-      !_.isEmpty(nextProps.serviceData) &&
-      nextProps.serviceData[nextProps.serviceId] &&
-      nextProps.serviceData[nextProps.serviceId].id !== prevState.SREntryId
-    ) {
-      const serviceMetadata = []
-      if (
-        nextProps.serviceData[nextProps.serviceId].providedService
-          .serviceMetadata === undefined ||
-        nextProps.serviceData[nextProps.serviceId].providedService
-          .serviceMetadata === {}
-      ) {
-        serviceMetadata.push({ name: '', value: '' })
-      } else {
-        for (const key in nextProps.serviceData[nextProps.serviceId]
-          .providedService.serviceMetadata) {
-          serviceMetadata.push({
-            name: key,
-            value:
-              nextProps.serviceData[nextProps.serviceId].providedService
-                .serviceMetadata[key]
-          })
-        }
-      }
-      return {
-        SREntryId: nextProps.serviceData[nextProps.serviceId].id,
-        providedServiceId:
-          nextProps.serviceData[nextProps.serviceId].providedService.id,
-        serviceDefinition:
-          nextProps.serviceData[nextProps.serviceId].providedService
-            .serviceDefinition,
-        interface:
-          nextProps.serviceData[nextProps.serviceId].providedService.interfaces,
-        systemId: nextProps.serviceData[nextProps.serviceId].provider.id,
-        systemName:
-          nextProps.serviceData[nextProps.serviceId].provider.systemName,
-        address: nextProps.serviceData[nextProps.serviceId].provider.address,
-        port: nextProps.serviceData[nextProps.serviceId].provider.port,
-        authenticationInfo:
-          nextProps.serviceData[nextProps.serviceId].provider
-            .authenticationInfo,
-        serviceMetadata,
-        serviceURI: nextProps.serviceData[nextProps.serviceId].serviceURI,
-        UDP: !!nextProps.serviceData[nextProps.serviceId].udp,
-        endOfValidity: moment(
-          nextProps.serviceData[nextProps.serviceId].endOfValidity
-        ),
-        version: nextProps.serviceData[nextProps.serviceId].version
-      }
-    } else {
-      return null
-    }
   }
 
   handleSystemSearchOnChange = value => {
     if (value !== undefined) {
       this.setState({
-        systemId: value.id,
-        systemName: value.systemName,
-        address: value.address,
-        port: value.port,
-        authenticationInfo: value.authenticationInfo
+        provider: value
       })
     }
   }
 
   handleSystemNameOnChange = value => {
     this.setState({
-      systemName: value,
-      systemId: this.state.SREntryId ? this.state.systemId : null
+      provider: {
+        ...this.state.provider,
+        systemName: value,
+        id: null
+      }
     })
   }
 
   handleAddressOnChange = event => {
-    this.setState({ address: event.target.value })
+    this.setState({
+    provider: {
+      ...this.state.provider,
+      address: event.target.value
+      }
+    })
   }
 
   handlePortOnChange = event => {
@@ -174,24 +139,42 @@ class AddSREntry extends Component {
       event.target.value === '' ||
       (event.target.value > 0 && event.target.value <= 65536)
     ) {
-      this.setState({ port: event.target.value })
+      this.setState({
+        provider: {
+          ...this.state.provider,
+          port: event.target.value
+        }
+      })
     }
   }
 
   handleAuthenticationInfoOnChange = event => {
-    this.setState({ authenticationInfo: event.target.value })
+    this.setState({ provider: {
+        ...this.state.provider,
+        authenticationInfo: event.target.value
+      }
+    })
   }
 
   handleServiceDefinitionOnChange = event => {
-    this.setState({ serviceDefinition: event.target.value })
+    this.setState({ providedService: {
+      ...this.state.providedService,
+      serviceDefinition: event.target.value
+      } })
   }
 
   handleServiceURIOnChange = event => {
-    this.setState({ serviceURI: event.target.value })
+    this.setState({
+      serviceURI: event.target.value
+    })
   }
 
   handleUDPOnChange = event => {
-    this.setState({ UDP: event.target.checked })
+    this.setState({ providedService: {
+      ...this.state.providedService,
+      udp: event.target.checked
+      }
+    })
   }
 
   handleEndOfValidityOnChange = date => {
@@ -206,70 +189,77 @@ class AddSREntry extends Component {
     const endOfValidity = moment(this.state.endOfValidity).format(
       'YYYY-MM-DDTHH:mm:ss'
     )
-    if (this.props.isEdit) {
-      this.props.editSREntryCollection(
-        this.state.systemId,
-        this.state.systemName,
-        this.state.address,
-        this.state.port,
-        this.state.authenticationInfo,
-        this.state.serviceDefinition,
-        this.state.serviceMetadata,
-        this.state.interface,
-        this.state.serviceURI,
-        this.state.udp,
-        endOfValidity,
-        this.state.version,
-        this.state.providedServiceId,
-        this.state.serviceId,
-        this.state.SREntryId
-      )
-    } else {
-      this.props.addSREntry(
-        this.state.systemId,
-        this.state.systemName,
-        this.state.address,
-        this.state.port,
-        this.state.authenticationInfo,
-        this.state.serviceDefinition,
-        this.state.serviceMetadata,
-        this.state.interface,
-        this.state.serviceURI,
-        this.state.UDP,
-        endOfValidity,
-        this.state.version
-      )
+
+    const serviceMetadataHelper = {}
+    for (const item of this.state.providedService.serviceMetadata) {
+      if (item.name !== '' || item.value !== '') {
+        serviceMetadataHelper[item.name] = item.value
+      }
     }
+
+    const entry = {
+      ...this.state,
+      endOfValidity,
+      providedService: {
+        ...this.state.providedService,
+        serviceMetadata: serviceMetadataHelper
+      }
+    }
+
+    if (this.props.isEdit) {
+      this.props.editSREntry(entry)
+    } else {
+      //this.props.addSREntry(this.state)
+    }
+    this.props.closeModal()
   }
 
   addServiceMetadataPropertyAdd = () => {
     this.setState({
-      serviceMetadata: [...this.state.serviceMetadata, { name: '', value: '' }]
+      providedService: {
+        ...this.state.providedService,
+        serviceMetadata: [...this.state.providedService.serviceMetadata, {name: '', value: ''}]
+      }
     })
   }
 
   handleChipAdd = chip => {
-    this.setState({ interface: [...this.state.interface, chip] })
+    this.setState({
+      providedService: {
+        ...this.state.providedService,
+        interfaces: [...this.state.providedService.interfaces, chip]
+      }
+    })
   }
 
   handleDeleteChip = (deletedChip, index) => {
     this.setState({
-      interface: this.state.interface.filter(c => c !== deletedChip)
+      providedService: {
+        ...this.state.providedService,
+        interfaces: this.state.providedService.interfaces.filter(c => c !== deletedChip)
+      }
     })
   }
 
   handleServiceMetadataChange = (index, key) => event => {
-    const metadataArray = this.state.serviceMetadata
+    const metadataArray = [...this.state.providedService.serviceMetadata]
     metadataArray[index][key] = event.target.value
-    this.setState({ serviceMetadata: metadataArray })
+    this.setState({ providedService: {
+      ...this.state.providedService,
+      serviceMetadata: metadataArray
+      }
+    })
   }
 
   removeServiceMetadataProperty = removeIndex => () => {
     this.setState({
-      serviceMetadata: [
-        ...this.state.serviceMetadata.slice(0, removeIndex),
-        ...this.state.serviceMetadata.slice(removeIndex + 1)
-      ]
+      providedService: {
+        ...this.state.providedService,
+        serviceMetadata: [
+          ...this.state.providedService.serviceMetadata.slice(0, removeIndex),
+          ...this.state.providedService.serviceMetadata.slice(removeIndex + 1)
+        ]
+      }
     })
   }
 
@@ -294,7 +284,7 @@ class AddSREntry extends Component {
             System Details
           </Typography>
           <AutoComplete
-            defaultValue={this.state.systemName || ''}
+            defaultValue={this.state.provider.systemName}
             suggestions={system}
             required
             isEdit
@@ -315,7 +305,7 @@ class AddSREntry extends Component {
             }}
           />
           <TextField
-            value={this.state.address}
+            value={this.state.provider.address}
             className={classes.input}
             id="address"
             required
@@ -328,7 +318,7 @@ class AddSREntry extends Component {
             label="Port"
             required
             onChange={this.handlePortOnChange}
-            value={this.state.port}
+            value={this.state.provider.port}
             type="number"
             inputProps={{
               min: '1',
@@ -336,6 +326,7 @@ class AddSREntry extends Component {
             }}
           />
           <TextField
+            value={this.state.provider.authenticationInfo}
             className={classes.input}
             id="authenticationInfo"
             label="Authentication Info"
@@ -362,16 +353,16 @@ class AddSREntry extends Component {
             required
             id="serviceDefinition"
             className={classes.input}
-            value={this.state.serviceDefinition}
+            value={this.state.providedService.serviceDefinition}
             label="Service Definition"
             onChange={this.handleServiceDefinitionOnChange}
           />
           <ChipInput
             required
-            value={this.state.interface}
-            id="interface"
+            value={this.state.providedService.interfaces}
+            id="interfaces"
             className={classes.input}
-            label="Interface"
+            label="Interfaces"
             onAdd={chip => this.handleChipAdd(chip)}
             onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
           />
@@ -379,7 +370,7 @@ class AddSREntry extends Component {
             Service Metadata
           </Typography>
           <div>
-            {this.state.serviceMetadata.map(({ name, value }, index) => (
+            {this.state.providedService.serviceMetadata.map(({ name, value }, index) => (
               <div key={index} className={classes.prop}>
                 <TextField
                   label="Name"
@@ -433,7 +424,7 @@ class AddSREntry extends Component {
               is UDP?
             </Typography>
             <Checkbox
-              checked={this.state.UDP}
+              checked={this.state.udp}
               id="udp"
               label="UDP"
               onChange={this.handleUDPOnChange}
@@ -469,14 +460,8 @@ class AddSREntry extends Component {
           />
         </Card>
         <Button
-          disabled={
-            this.state.systemName === '' ||
-            this.state.address === '' ||
-            this.state.port === '' ||
-            this.state.serviceURI === '' ||
-            this.state.serviceDefinition === '' ||
-            this.state.interface === []
-          }
+          disabled={false// TODO
+            }
           color="primary"
           onClick={this.handleAddSREntryButtonClick}
           style={{
@@ -511,7 +496,9 @@ AddSREntry.propTypes = {
   serviceData: PropTypes.object,
   serviceId: PropTypes.number,
   getServiceById: PropTypes.func,
-  editSREntryCollection: PropTypes.func
+  editSREntryCollection: PropTypes.func,
+  editSREntry: PropTypes.func,
+  closeModal: PropTypes.func
 }
 
 function mapStateToProps(state) {

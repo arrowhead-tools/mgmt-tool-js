@@ -237,55 +237,11 @@ export function deleteServiceById(serviceId) {
   }
 }
 
-export function editSREntry(
-  systemId,
-  systemName,
-  address,
-  port,
-  authenticationInfo,
-  serviceDefinition,
-  serviceMetadata = [],
-  interfaces = [],
-  serviceURI,
-  udp,
-  endOfValidity,
-  version,
-  SREntryId
-) {
-  const serviceMetadataHelper = {}
-  for (const item of serviceMetadata) {
-    if (item.name !== '' || item.value !== '') {
-      serviceMetadataHelper[item.name] = item.value
-    }
-  }
-
-  const SREObject = {
-    id: SREntryId,
-    providedService: {
-      serviceDefinition,
-      interfaces,
-      serviceMetadata: serviceMetadataHelper
-    },
-    provider: {
-      systemName,
-      address,
-      port,
-      authenticationInfo
-    },
-    serviceURI,
-    udp,
-    endOfValidity,
-    version
-  }
-
-  if (systemId) {
-    SREObject.provider.id = systemId
-  }
-
+export function editSREntry(entry) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       networkService
-        .put(`/serviceregistry/mgmt/update/${SREntryId}`, SREObject)
+        .put(`/serviceregistry/mgmt/update/${entry.id}`, entry)
         .then(response => {
           dispatch(
             showNotification(
@@ -300,7 +256,6 @@ export function editSREntry(
             )
           )
           dispatch(getServices())
-          dispatch(hideModal())
           resolve()
         })
         .catch(error => {

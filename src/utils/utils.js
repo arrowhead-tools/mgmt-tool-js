@@ -3,24 +3,19 @@ import matchSorter from 'match-sorter'
 
 export function groupServicesBySystems(serviceData) {
   const helperObject = {}
+
   for (const data of serviceData.serviceQueryData) {
-    const providedService = data.providedService
-    providedService.serviceId = data.id
-    if (!helperObject[data.provider.id]) {
-      helperObject[data.provider.id] = data.provider
-      data.providedService.port = data.port
-      data.providedService.serviceURI = data.serviceURI
-      data.providedService.version = data.version
-      data.providedService.udp = data.udp ? data.udp.toString() : ''
-      data.providedService.ttl = data.ttl
-      helperObject[data.provider.id].services = [data.providedService]
+    const providedService = {
+      ...data.providedService,
+      entry: data,
+      udp: data.udp ? '✓' : '✗',
+      serviceURI: data.serviceURI
+    }
+    if(!helperObject[data.provider.id]) {
+      helperObject[data.provider.id] = {...data.provider}
+      helperObject[data.provider.id].services = [providedService]
     } else {
-      data.providedService.port = data.port
-      data.providedService.serviceURI = data.serviceURI
-      data.providedService.version = data.version
-      data.providedService.udp = data.udp ? data.udp.toString() : ''
-      data.providedService.ttl = data.ttl
-      helperObject[data.provider.id].services.push(data.providedService)
+      helperObject[data.provider.id].services.push(providedService)
     }
   }
 
@@ -39,9 +34,10 @@ export function groupServicesByServices(serviceData) {
         ...data.provider,
         interface: iface,
         serviceURI: data.serviceURI,
-        udp: data.udp || '',
+        udp: data.udp ? '✓' : '✗',
         serviceId: data.id,
-        version: data.version
+        version: data.version,
+        entry: data
       }
       if (!helperObject[data.providedService.serviceDefinition]) {
         helperObject[data.providedService.serviceDefinition] = {
@@ -50,8 +46,8 @@ export function groupServicesByServices(serviceData) {
           provider: [providerData],
           serviceURI: data.serviceURI,
           serviceId: data.id,
-          udp: data.udp || '',
-          version: data.version
+          udp: data.udp ? '✓' : '✗',
+          version: data.version,
         }
       } else {
         helperObject[data.providedService.serviceDefinition].provider.push(

@@ -97,7 +97,7 @@ class SystemTable extends React.Component {
                         <IconButton
                           color="secondary"
                           aria-label="Edit Entry"
-                          onClick={handleServiceEdit(n.serviceId)}
+                          onClick={handleServiceEdit(n.entry)}
                         >
                           <EditIcon />
                         </IconButton>
