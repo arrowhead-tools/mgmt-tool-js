@@ -120,52 +120,10 @@ export function addSystem(systemName, address, port, authenticationInfo) {
   }
 }
 
-export function addSREntry(
-  systemId,
-  systemName,
-  address,
-  port,
-  authenticationInfo,
-  serviceDefinition,
-  serviceMetadata = [],
-  interfaces = [],
-  serviceURI,
-  udp,
-  endOfValidity,
-  version
-) {
-  const serviceMetadataHelper = {}
-  for (const item of serviceMetadata) {
-    if (item.name !== '' || item.value !== '') {
-      serviceMetadataHelper[item.name] = item.value
-    }
-  }
-
-  const SREObject = {
-    providedService: {
-      serviceDefinition,
-      interfaces,
-      serviceMetadata: serviceMetadataHelper
-    },
-    provider: {
-      systemName,
-      address,
-      port,
-      authenticationInfo
-    },
-    serviceURI,
-    udp,
-    endOfValidity,
-    version
-  }
-
-  if (systemId) {
-    SREObject.provider.id = systemId
-  }
-
+export function addSREntry(entry){
   return (dispatch, getState) => {
     networkService
-      .post('/serviceregistry/register', SREObject)
+      .post('/serviceregistry/register', entry)
       .then(response => {
         dispatch(
           showNotification(
@@ -180,7 +138,6 @@ export function addSREntry(
           )
         )
         dispatch(getServices())
-        dispatch(hideModal())
       })
       .catch(error => {
         dispatch(

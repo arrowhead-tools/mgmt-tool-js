@@ -6,7 +6,8 @@ import {
   getFilteredServices,
   getServices,
   deleteServiceById,
-  editSREntry
+  editSREntry,
+  addSREntry
 } from '../../actions/serviceRegistry'
 import Button from '../../components/CustomButtons/Button'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
@@ -83,7 +84,8 @@ class ServiceRegistry extends Component {
     this.props.showModal(
       {
         open: true,
-        closeModal: this.closeModal
+        addSREntry: this.props.addSREntry,
+        closeModal: this.props.hideModal,
       },
       'addSREntry'
     )
@@ -93,7 +95,7 @@ class ServiceRegistry extends Component {
     this.props.showModal(
       {
         open: true,
-        closeModal: this.closeModal
+        closeModal: this.props.hideModal
       },
       'serviceSearch'
     )
@@ -198,6 +200,9 @@ function mapDispatchToProps(dispatch) {
     },
     editSREntry: entry => {
       dispatch(editSREntry(entry))
+    },
+    addSREntry: entry => {
+      dispatch(addSREntry(entry))
     }
   }
 }

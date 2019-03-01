@@ -209,7 +209,7 @@ class AddSREntry extends Component {
     if (this.props.isEdit) {
       this.props.editSREntry(entry)
     } else {
-      //this.props.addSREntry(this.state)
+      this.props.addSREntry(entry)
     }
     this.props.closeModal()
   }
@@ -493,94 +493,19 @@ AddSREntry.propTypes = {
   addSREntry: PropTypes.func.isRequired,
   system: PropTypes.array.isRequired,
   isEdit: PropTypes.bool,
-  serviceData: PropTypes.object,
-  serviceId: PropTypes.number,
-  getServiceById: PropTypes.func,
-  editSREntryCollection: PropTypes.func,
   editSREntry: PropTypes.func,
   closeModal: PropTypes.func
 }
 
 function mapStateToProps(state) {
-  const { system, services } = state
-  return { system: system.system, serviceData: services.serviceData }
+  const { system } = state
+  return { system: system.system }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getSystems: () => {
       dispatch(getSystems())
-    },
-    addSREntry: (
-      systemId,
-      systemName,
-      address,
-      port,
-      authenticationInfo,
-      serviceDefinition,
-      serviceMetadata,
-      interfaces,
-      serviceURI,
-      udp,
-      endOfValidity,
-      version
-    ) => {
-      dispatch(
-        addSREntry(
-          systemId,
-          systemName,
-          address,
-          port,
-          authenticationInfo,
-          serviceDefinition,
-          serviceMetadata,
-          interfaces,
-          serviceURI,
-          udp,
-          endOfValidity,
-          version
-        )
-      )
-    },
-    getServiceById: serviceId => {
-      dispatch(getServiceById(serviceId))
-    },
-    editSREntryCollection: (
-      systemId,
-      systemName,
-      address,
-      port,
-      authenticationInfo,
-      serviceDefinition,
-      serviceMetadata,
-      interfaces,
-      serviceURI,
-      udp,
-      endOfValidity,
-      version,
-      providedServiceId,
-      serviceId,
-      SREntryId
-    ) => {
-      dispatch(
-        editSREntryCollection(
-          systemId,
-          systemName,
-          address,
-          port,
-          authenticationInfo,
-          serviceDefinition,
-          serviceMetadata,
-          interfaces,
-          serviceURI,
-          udp,
-          endOfValidity,
-          version,
-          providedServiceId,
-          serviceId,
-          SREntryId
-        )
-      )
     }
   }
 }
