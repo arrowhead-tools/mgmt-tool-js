@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
 import Button from '../../CustomButtons/Button'
 import SearchIcon from '@material-ui/icons/Search'
 import AutoComplete from '../../AutoComplete/AutoComplete'
 import { getFilteredServices } from '../../../actions/serviceRegistry'
+import _ from 'lodash'
 
 class ServiceSearch extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      systemSearch: '',
-      serviceSearch: '',
-      interfaceSearch: ''
+      systemSearch: props.queryData.systemName || '',
+      serviceSearch: props.queryData.serviceDefinition || '',
+      interfaceSearch: props.queryData.interfaces || '',
     }
   }
 
@@ -61,7 +62,7 @@ class ServiceSearch extends Component {
   handleInterfaceSearchTextOnChange = value => {
     if (value !== undefined) {
       this.setState({
-        interfaceSearch: value.value
+        interfaceSearch: value
       })
     }
   }
@@ -93,7 +94,6 @@ class ServiceSearch extends Component {
         partialMath: true
       })
     }
-
     this.props.getFilteredServices(queryData, queryDataObject)
   }
 
@@ -114,9 +114,10 @@ class ServiceSearch extends Component {
           handleTextChange={this.handleSystemSearchTextOnChange}
           suggestions={services.systemList}
           keyValue="systemName"
-          defaultValue={services.queryData.systemName || ''}
+          defaultValue={this.state.systemSearch}
           placeholder="System Name"
           id="system_search"
+          isEdit={!_.isEmpty(this.props.queryData)}
           label="System Name"
           classes={{
             inputRoot: { flexWrap: 'wrap' },
@@ -133,9 +134,10 @@ class ServiceSearch extends Component {
           suggestions={services.serviceList}
           keyValue="value"
           handleTextChange={this.handleServiceSearchTextOnChange}
-          defaultValue={services.queryData.serviceDefinition || ''}
+          defaultValue={this.state.serviceSearch}
           placeholder="Service Definition"
           id="service_definition_search"
+          isEdit={!_.isEmpty(this.props.queryData)}
           label="Service Definition"
           classes={{
             inputRoot: { flexWrap: 'wrap' },
@@ -147,9 +149,10 @@ class ServiceSearch extends Component {
           suggestions={services.interfaceList}
           keyValue="value"
           handleTextChange={this.handleInterfaceSearchTextOnChange}
-          defaultValue={services.queryData.interfaces || ''}
+          defaultValue={this.state.interfaceSearch}
           placeholder="Interface"
           id="interface_search"
+          isEdit={!_.isEmpty(this.props.queryData)}
           label="Interface"
           classes={{
             inputRoot: { flexWrap: 'wrap' },
@@ -181,7 +184,8 @@ class ServiceSearch extends Component {
 
 ServiceSearch.propTypes = {
   services: PropTypes.object.isRequired,
-  getFilteredServices: PropTypes.func.isRequired
+  getFilteredServices: PropTypes.func.isRequired,
+  queryData: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {

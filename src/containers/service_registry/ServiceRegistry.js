@@ -76,10 +76,6 @@ class ServiceRegistry extends Component {
     open: false
   }
 
-  handleSwitchChange = () => event => {
-    this.setState({ switchState: event.target.checked })
-  }
-
   handleAddClick = () => {
     this.props.showModal(
       {
@@ -95,6 +91,7 @@ class ServiceRegistry extends Component {
     this.props.showModal(
       {
         open: true,
+        queryData: this.props.services.queryData,
         closeModal: this.props.hideModal
       },
       'serviceSearch'
