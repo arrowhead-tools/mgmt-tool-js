@@ -53,4 +53,3 @@ Example environment variables, for the BME public test beds
     REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348
     ```    
     
-    
