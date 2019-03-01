@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Arrowhead Core Framework Management Tool 
 
 This is a deployment management UI for the Arrowhead mandatory and supporting core systems. 
@@ -59,6 +58,4 @@ Example environment variables, for the BME public test beds
     REACT_APP_ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340
     REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348
     ```    
-    
-    
->>>>>>> development
+
