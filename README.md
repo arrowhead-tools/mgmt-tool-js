@@ -1,8 +1,16 @@
-# Arrowhead front-end documentation
+# Arrowhead Management Tool
+
+This tool is providing a user interface to manage Arrowhead core systems. Currently the following core systems are supported:
+1. ServiceRegistry (SQL version)
+2. Authorization System (both intra- and inter-cloud authorization schemas)
+3. Orchestration Store
+4. Gatekeeper and Gateway settings
+5. Event Handler
+
 
 Running this project has 2 options:
 1. Running and building the project by source code
-2. Running the prebuilt docker container
+2. Running from prebuilt Docker container
 
 ### Running the project in development mode
 1. The project requires [NodeJS v7 or newer](https://nodejs.org/en/download/)
