@@ -289,7 +289,7 @@ class OrchStoreDialog extends Component {
       }
     })
   }
-
+/*
   onProviderCloudChange = providerCloud => {
     if (providerCloud !== undefined) {
       this.setState({ providerCloud })
@@ -355,6 +355,7 @@ class OrchStoreDialog extends Component {
       }
     })
   }
+  */
 
   onPriorityChange = event => {
     if (
@@ -380,6 +381,10 @@ class OrchStoreDialog extends Component {
     }
 
     const data = { ...this.state }
+    if(!data.providerCloud.operator){
+      //  provider Cloud is optional
+      delete data.providerCloud
+    }
     data.service.serviceMetadata = serviceMetadataHelper
 
     if (this.props.isEdit) {
@@ -580,6 +585,66 @@ class OrchStoreDialog extends Component {
           />
         </Card>
         <Card raised className={classes.card}>
+          <TextField
+            value={this.state.priority}
+            className={classes.input}
+            id="priority"
+            required
+            label="Priority"
+            onChange={this.onPriorityChange}
+            type="number"
+            inputProps={{ min: '1', max: '999' }}
+          />
+          <TextField
+            value={this.state.serviceURI}
+            className={classes.input}
+            id="serviceURI"
+            required
+            label="Service URI"
+            onChange={this.onServiceURIChange}
+          />
+        </Card>
+        <Button
+          disabled={
+            this.state.consumer.systemName === '' ||
+            this.state.consumer.address === '' ||
+            this.state.consumer.port === '' ||
+            this.state.providerSystem.systemName === '' ||
+            this.state.providerSystem.address === '' ||
+            this.state.providerSystem.port === '' ||
+            this.state.service.serviceDefinition === '' ||
+            this.state.service.interfaces === [] ||
+            this.state.priority === '' ||
+            this.state.serviceURI === ''
+          }
+          color="primary"
+          onClick={this.onSubmit}
+          style={{
+            width: '440px',
+            marginLeft: '10px',
+            padding: '0px'
+          }}
+        >
+          {isEdit ? (
+            <p>
+              <EditIcon />
+              Edit
+            </p>
+          ) : (
+            <p>
+              <AddIcon />
+              Add
+            </p>
+          )}
+        </Button>
+      </div>
+    )
+  }
+}
+
+/*
+  Removed Provider Cloud Card
+ <Card raised className={classes.card}>
           <Typography variant="h5" align="center" className={classes.title}>
             Provider Cloud
           </Typography>
@@ -656,68 +721,7 @@ class OrchStoreDialog extends Component {
             />
           </div>
         </Card>
-        <Card raised className={classes.card}>
-          <TextField
-            value={this.state.priority}
-            className={classes.input}
-            id="priority"
-            required
-            label="Priority"
-            onChange={this.onPriorityChange}
-            type="number"
-            inputProps={{ min: '1', max: '999' }}
-          />
-          <TextField
-            value={this.state.serviceURI}
-            className={classes.input}
-            id="serviceURI"
-            required
-            label="Service URI"
-            onChange={this.onServiceURIChange}
-          />
-        </Card>
-        <Button
-          disabled={
-            this.state.consumer.systemName === '' ||
-            this.state.consumer.address === '' ||
-            this.state.consumer.port === '' ||
-            this.state.providerSystem.systemName === '' ||
-            this.state.providerSystem.address === '' ||
-            this.state.providerSystem.port === '' ||
-            this.state.providerCloud.operator === '' ||
-            this.state.providerCloud.cloudName === '' ||
-            this.state.providerCloud.address === '' ||
-            this.state.providerCloud.port === '' ||
-            this.state.providerCloud.gatekeeperServiceURI === '' ||
-            this.state.service.serviceDefinition === '' ||
-            this.state.service.interfaces === [] ||
-            this.state.priority === '' ||
-            this.state.serviceURI === ''
-          }
-          color="primary"
-          onClick={this.onSubmit}
-          style={{
-            width: '440px',
-            marginLeft: '10px',
-            padding: '0px'
-          }}
-        >
-          {isEdit ? (
-            <p>
-              <EditIcon />
-              Edit
-            </p>
-          ) : (
-            <p>
-              <AddIcon />
-              Add
-            </p>
-          )}
-        </Button>
-      </div>
-    )
-  }
-}
+ */
 
 OrchStoreDialog.propTypes = {
   classes: PropTypes.object.isRequired,
