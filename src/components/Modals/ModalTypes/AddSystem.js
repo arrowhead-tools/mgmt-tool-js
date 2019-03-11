@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import Button from '../../../components/CustomButtons/Button'
 import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles/'
-import { addSystem } from '../../../actions/serviceRegistry'
+import { addSystem } from '../../../actions/auth'
 
 const styles = theme => ({
   container: {
@@ -61,6 +61,7 @@ class AddSystem extends Component {
       this.state.port,
       this.state.authenticationInfo
     )
+    this.props.closeModal()
   }
 
   render() {
@@ -135,7 +136,8 @@ class AddSystem extends Component {
 
 AddSystem.propTypes = {
   classes: PropTypes.object.isRequired,
-  addSystem: PropTypes.func.isRequired
+  addSystem: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(dispatch) {}

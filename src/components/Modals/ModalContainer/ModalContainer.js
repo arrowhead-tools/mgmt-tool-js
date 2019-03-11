@@ -13,9 +13,11 @@ import AddRelay from '../ModalTypes/AddRelay'
 import EventHandlerDialog from '../ModalTypes/EventHandler'
 import InterCloudDialog from '../ModalTypes/InterCloudDialog'
 import OrchStoreDialog from '../ModalTypes/OrchStoreDialog'
+import AddSystem from '../ModalTypes/AddSystem'
 
 const MODAL_TYPES = {
   add: AddModal,
+  addSystem: AddSystem,
   serviceSearch: ServiceSearchModal,
   addSREntry: AddSREntry,
   addAuthEntry: AddAuthEntry,

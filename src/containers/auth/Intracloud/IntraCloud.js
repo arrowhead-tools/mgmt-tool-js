@@ -32,9 +32,19 @@ class IntraCloud extends Component {
     this.props.showModal(
       {
         open: true,
-        closeModal: this.closeModal
+        closeModal: this.props.hideModal
       },
       'addAuthEntry'
+    )
+  }
+
+  handleAddSystemClick = () => {
+    this.props.showModal(
+      {
+        open: true,
+        closeModal: this.props.hideModal
+      },
+      'addSystem'
     )
   }
 
@@ -47,6 +57,10 @@ class IntraCloud extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.buttonContainer}>
+          <Button color="primary" onClick={this.handleAddSystemClick}>
+            <AddIcon />
+            Add System
+          </Button>
           <Button color="primary" onClick={this.handleAddClick}>
             <AddIcon />
             Add

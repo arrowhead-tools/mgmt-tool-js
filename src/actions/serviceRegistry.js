@@ -96,30 +96,6 @@ export function addService(serviceData) {
   }
 }
 
-export function addSystem(systemName, address, port, authenticationInfo) {
-  if (!systemName || !address || !port) {
-    return
-  }
-
-  const systemData = {
-    systemName,
-    address,
-    port,
-    authenticationInfo
-  }
-
-  return (dispatch, getState) => {
-    networkService
-      .post('/mgmt/systems', [systemData])
-      .then(response => {
-        dispatch(getServices())
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-}
-
 export function addSREntry(entry){
   return (dispatch, getState) => {
     networkService
