@@ -23,7 +23,7 @@ Running this project has 2 options:
     ```
     npm install
     ```
-4. Create a .env file in the root folder based on .env.example (all environment values are listed in the example)
+4. Create a `.env` file in the root folder based on `.env.example` (all environment values are listed in the example)
 5. Start the development server with the following command
     ```
     npm start
@@ -51,7 +51,9 @@ Running this project has 2 options:
     ```
     REACT_APP_ARROWHEAD_SR_URL=URL:port of your Service Registry Core System
     REACT_APP_ARROWHEAD_ORCH_URL=URL:port of your Orchestrator Core System
-    REACT_APP_ARROWHEAD_GK_URL=URL:port or your Gatekeeper_old Core System
+    REACT_APP_ARROWHEAD_GK_URL=URL:port or your Gatekeeper Core System
+    REACT_APP_ARROWHEAD_AUTH_URL=URL:port of your Authorization Core System
+    REACT_APP_ARROWHEAD_EH_URL=URL:port of your Event Handler Core System
     ```
 Example environment variables, for the BME public test beds
 
@@ -59,5 +61,11 @@ Example environment variables, for the BME public test beds
     REACT_APP_ARROWHEAD_SR_URL=http://arrowhead.tmit.bme.hu:8342
     REACT_APP_ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340
     REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348
+    REACT_APP_ARROWHEAD_AUTH_URL=http://arrowhead.tmit.bme.hu:8344
+    REACT_APP_ARROWHEAD_EH_URL=http://arrowhead.tmit.bme.hu:8354
     ```    
     
+##TROUBLESHOOTING
+
+Q: When I start the Management Tool all pages are blank. :( What should I do?
+A: Either you missed to provide the correct environment variables (.env using Node or -e flag using Docker), or you've made a typo. 
