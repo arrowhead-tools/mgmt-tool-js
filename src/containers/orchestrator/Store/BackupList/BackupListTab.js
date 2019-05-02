@@ -27,7 +27,14 @@ const styles = theme => ({
 
 class BackupListTab extends React.Component {
   render() {
-    const { data, classes, savePriorities, deleteService, deleteStoreEntry, onEditClick } = this.props
+    const {
+      data,
+      classes,
+      savePriorities,
+      deleteService,
+      deleteStoreEntry,
+      onEditClick
+    } = this.props
     return (
       <div className={classes.root}>
         {data.map(entry => {

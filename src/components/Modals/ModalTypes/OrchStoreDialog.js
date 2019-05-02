@@ -84,7 +84,7 @@ class OrchStoreDialog extends Component {
       }
     }
     if (!serviceMetadata.length) {
-      serviceMetadata.push({name: '', value: ''})
+      serviceMetadata.push({ name: '', value: '' })
     }
 
     const serviceData = {
@@ -289,7 +289,7 @@ class OrchStoreDialog extends Component {
       }
     })
   }
-/*
+  /*
   onProviderCloudChange = providerCloud => {
     if (providerCloud !== undefined) {
       this.setState({ providerCloud })
@@ -381,7 +381,7 @@ class OrchStoreDialog extends Component {
     }
 
     const data = { ...this.state }
-    if(!data.providerCloud.operator){
+    if (!data.providerCloud.operator) {
       //  provider Cloud is optional
       delete data.providerCloud
     }

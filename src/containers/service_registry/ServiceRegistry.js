@@ -81,7 +81,7 @@ class ServiceRegistry extends Component {
       {
         open: true,
         addSREntry: this.props.addSREntry,
-        closeModal: this.props.hideModal,
+        closeModal: this.props.hideModal
       },
       'addSREntry'
     )

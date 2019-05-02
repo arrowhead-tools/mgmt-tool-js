@@ -64,16 +64,16 @@ class AddSREntry extends Component {
     super(props)
 
     const serviceMetadata = []
-    if(props.data){
-      for ( const key in props.data.providedService.serviceMetadata) {
+    if (props.data) {
+      for (const key in props.data.providedService.serviceMetadata) {
         serviceMetadata.push({
           name: key,
           value: props.data.providedService.serviceMetadata[key]
         })
       }
     }
-    if(!serviceMetadata.length){
-      serviceMetadata.push({name: '', value: ''})
+    if (!serviceMetadata.length) {
+      serviceMetadata.push({ name: '', value: '' })
     }
 
     const serviceData = {
@@ -127,9 +127,9 @@ class AddSREntry extends Component {
 
   handleAddressOnChange = event => {
     this.setState({
-    provider: {
-      ...this.state.provider,
-      address: event.target.value
+      provider: {
+        ...this.state.provider,
+        address: event.target.value
       }
     })
   }
@@ -149,7 +149,8 @@ class AddSREntry extends Component {
   }
 
   handleAuthenticationInfoOnChange = event => {
-    this.setState({ provider: {
+    this.setState({
+      provider: {
         ...this.state.provider,
         authenticationInfo: event.target.value
       }
@@ -157,10 +158,12 @@ class AddSREntry extends Component {
   }
 
   handleServiceDefinitionOnChange = event => {
-    this.setState({ providedService: {
-      ...this.state.providedService,
-      serviceDefinition: event.target.value
-      } })
+    this.setState({
+      providedService: {
+        ...this.state.providedService,
+        serviceDefinition: event.target.value
+      }
+    })
   }
 
   handleServiceURIOnChange = event => {
@@ -170,9 +173,10 @@ class AddSREntry extends Component {
   }
 
   handleUDPOnChange = event => {
-    this.setState({ providedService: {
-      ...this.state.providedService,
-      udp: event.target.checked
+    this.setState({
+      providedService: {
+        ...this.state.providedService,
+        udp: event.target.checked
       }
     })
   }
@@ -218,7 +222,10 @@ class AddSREntry extends Component {
     this.setState({
       providedService: {
         ...this.state.providedService,
-        serviceMetadata: [...this.state.providedService.serviceMetadata, {name: '', value: ''}]
+        serviceMetadata: [
+          ...this.state.providedService.serviceMetadata,
+          { name: '', value: '' }
+        ]
       }
     })
   }
@@ -236,7 +243,9 @@ class AddSREntry extends Component {
     this.setState({
       providedService: {
         ...this.state.providedService,
-        interfaces: this.state.providedService.interfaces.filter(c => c !== deletedChip)
+        interfaces: this.state.providedService.interfaces.filter(
+          c => c !== deletedChip
+        )
       }
     })
   }
@@ -244,9 +253,10 @@ class AddSREntry extends Component {
   handleServiceMetadataChange = (index, key) => event => {
     const metadataArray = [...this.state.providedService.serviceMetadata]
     metadataArray[index][key] = event.target.value
-    this.setState({ providedService: {
-      ...this.state.providedService,
-      serviceMetadata: metadataArray
+    this.setState({
+      providedService: {
+        ...this.state.providedService,
+        serviceMetadata: metadataArray
       }
     })
   }
@@ -370,37 +380,39 @@ class AddSREntry extends Component {
             Service Metadata
           </Typography>
           <div>
-            {this.state.providedService.serviceMetadata.map(({ name, value }, index) => (
-              <div key={index} className={classes.prop}>
-                <TextField
-                  label="Name"
-                  value={name}
-                  className={classes.propKey}
-                  onChange={this.handleServiceMetadataChange(
-                    index,
-                    'name',
-                    value
-                  )}
-                />
-                <TextField
-                  label="Value"
-                  value={value}
-                  className={classes.propValue}
-                  onChange={this.handleServiceMetadataChange(
-                    index,
-                    'value',
-                    value
-                  )}
-                />
-                <IconButton
-                  color="secondary"
-                  aria-label="Remove Property"
-                  onClick={this.removeServiceMetadataProperty(index)}
-                >
-                  <ClearIcon />
-                </IconButton>
-              </div>
-            ))}
+            {this.state.providedService.serviceMetadata.map(
+              ({ name, value }, index) => (
+                <div key={index} className={classes.prop}>
+                  <TextField
+                    label="Name"
+                    value={name}
+                    className={classes.propKey}
+                    onChange={this.handleServiceMetadataChange(
+                      index,
+                      'name',
+                      value
+                    )}
+                  />
+                  <TextField
+                    label="Value"
+                    value={value}
+                    className={classes.propValue}
+                    onChange={this.handleServiceMetadataChange(
+                      index,
+                      'value',
+                      value
+                    )}
+                  />
+                  <IconButton
+                    color="secondary"
+                    aria-label="Remove Property"
+                    onClick={this.removeServiceMetadataProperty(index)}
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                </div>
+              )
+            )}
           </div>
           <Fab
             className={classes.fabStyle}
@@ -460,8 +472,9 @@ class AddSREntry extends Component {
           />
         </Card>
         <Button
-          disabled={false// TODO
-            }
+          disabled={
+            false // TODO
+          }
           color="primary"
           onClick={this.handleAddSREntryButtonClick}
           style={{

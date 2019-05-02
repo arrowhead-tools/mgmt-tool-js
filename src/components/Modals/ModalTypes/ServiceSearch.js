@@ -15,7 +15,7 @@ class ServiceSearch extends Component {
     this.state = {
       systemSearch: props.queryData.systemName || '',
       serviceSearch: props.queryData.serviceDefinition || '',
-      interfaceSearch: props.queryData.interfaces || '',
+      interfaceSearch: props.queryData.interfaces || ''
     }
   }
 

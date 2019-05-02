@@ -7,7 +7,7 @@ import _ from 'lodash'
 import { withStyles } from '@material-ui/core/styles'
 import ClearIcon from '@material-ui/icons/Clear'
 import EditIcon from '@material-ui/icons/Edit'
-import {IconButton} from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 
 const styles = theme => ({
   container: {
@@ -25,37 +25,45 @@ const styles = theme => ({
   }
 })
 
-const SortableItem = sortableElement(({ value, classes, deleteStoreEntry, onEditClick }) => (
-  <li className="SortableItem">
-    <div className={classes.container}>
-      <div className={classes.item}>
-        <Typography>
-          <b>System Name: </b> {value.systemName}
-        </Typography>
-        <Typography>
-          <b>Address:</b> {value.address}
-        </Typography>
-        <Typography>
-          <b>Port: </b> {value.port}
-        </Typography>
+const SortableItem = sortableElement(
+  ({ value, classes, deleteStoreEntry, onEditClick }) => (
+    <li className="SortableItem">
+      <div className={classes.container}>
+        <div className={classes.item}>
+          <Typography>
+            <b>System Name: </b> {value.systemName}
+          </Typography>
+          <Typography>
+            <b>Address:</b> {value.address}
+          </Typography>
+          <Typography>
+            <b>Port: </b> {value.port}
+          </Typography>
+        </div>
+        <div className={classes.actions}>
+          <IconButton
+            aria-label="Edit Entry"
+            onClick={event => {
+              onEditClick(value.storeEntry, value.storeEntryId)
+              event.stopPropagation()
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            color="secondary"
+            onClick={event => {
+              deleteStoreEntry(value.storeEntryId)
+              event.stopPropagation()
+            }}
+          >
+            <ClearIcon />
+          </IconButton>
+        </div>
       </div>
-      <div className={classes.actions}>
-        <IconButton aria-label="Edit Entry" onClick={(event) => {
-          onEditClick(value.storeEntry, value.storeEntryId)
-          event.stopPropagation()
-        }}>
-          <EditIcon />
-        </IconButton>
-        <IconButton color="secondary" onClick={(event) => {
-          deleteStoreEntry(value.storeEntryId)
-          event.stopPropagation()
-        }} >
-          <ClearIcon />
-        </IconButton>
-      </div>
-    </div>
-  </li>
-))
+    </li>
+  )
+)
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="SortableList">{children}</ul>

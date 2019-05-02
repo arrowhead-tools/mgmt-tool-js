@@ -96,7 +96,7 @@ export function addService(serviceData) {
   }
 }
 
-export function addSREntry(entry){
+export function addSREntry(entry) {
   return (dispatch, getState) => {
     networkService
       .post('/serviceregistry/register', entry)
@@ -309,7 +309,12 @@ export function editSREntryCollection(
     )
       .then(
         dispatch(
-          editService(providedServiceId, serviceDefinition, interfaces, serviceMetadata)
+          editService(
+            providedServiceId,
+            serviceDefinition,
+            interfaces,
+            serviceMetadata
+          )
         )
       )
       .then(

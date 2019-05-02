@@ -137,7 +137,7 @@ class AddSystem extends Component {
 AddSystem.propTypes = {
   classes: PropTypes.object.isRequired,
   addSystem: PropTypes.func.isRequired,
-  closeModal: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired
 }
 
 function mapStateToProps(dispatch) {}

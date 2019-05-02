@@ -55,7 +55,13 @@ class OrchestratorStore extends React.Component {
   }
 
   render() {
-    const { orchestrator, savePriorities, deleteService, classes, deleteStoreEntry } = this.props
+    const {
+      orchestrator,
+      savePriorities,
+      deleteService,
+      classes,
+      deleteStoreEntry
+    } = this.props
 
     return (
       <div>

@@ -11,8 +11,8 @@ export function groupServicesBySystems(serviceData) {
       udp: data.udp ? '✓' : '✗',
       serviceURI: data.serviceURI
     }
-    if(!helperObject[data.provider.id]) {
-      helperObject[data.provider.id] = {...data.provider}
+    if (!helperObject[data.provider.id]) {
+      helperObject[data.provider.id] = { ...data.provider }
       helperObject[data.provider.id].services = [providedService]
     } else {
       helperObject[data.provider.id].services.push(providedService)
@@ -47,7 +47,7 @@ export function groupServicesByServices(serviceData) {
           serviceURI: data.serviceURI,
           serviceId: data.id,
           udp: data.udp ? '✓' : '✗',
-          version: data.version,
+          version: data.version
         }
       } else {
         helperObject[data.providedService.serviceDefinition].provider.push(
