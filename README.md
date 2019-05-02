@@ -54,6 +54,7 @@ Running this project has 2 options:
     REACT_APP_ARROWHEAD_GK_URL=URL:port or your Gatekeeper Core System
     REACT_APP_ARROWHEAD_AUTH_URL=URL:port of your Authorization Core System
     REACT_APP_ARROWHEAD_EH_URL=URL:port of your Event Handler Core System
+    REACT_APP_ARROWHEAD_CHOREOGRAPHER_URL=URL:port of your Choreographer Core System
     ```
 Example environment variables, for the BME public test beds
 
@@ -63,6 +64,7 @@ Example environment variables, for the BME public test beds
     REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348
     REACT_APP_ARROWHEAD_AUTH_URL=http://arrowhead.tmit.bme.hu:8344
     REACT_APP_ARROWHEAD_EH_URL=http://arrowhead.tmit.bme.hu:8354
+    REACT_APP_ARROWHEAD_CHOREOGRAPHER_URL=http://arrowhead.tmit.bme.hu:8356
     ```    
     
 ##TROUBLESHOOTING
