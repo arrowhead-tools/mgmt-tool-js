@@ -5,9 +5,10 @@ import DeviceHub from '@material-ui/icons/DeviceHub'
 import Fingerprint from '@material-ui/icons/Fingerprint'
 import EventNote from '@material-ui/icons/EventNote'
 import Store from '@material-ui/icons/Store'
-import StorageIcon from '@material-ui/icons/Storage'
+import Assignment from '@material-ui/icons/Assignment'
 import CloudOff from '@material-ui/icons/CloudOff'
 import Security from '@material-ui/icons/Security'
+
 // core components/views
 import GatekeeperPage from '../containers/gatekeeper/Gatekeeper'
 import OrchestratorStatus from '../containers/orchestrator/Status/OrchestratorStatus'
@@ -16,6 +17,7 @@ import ServiceRegistryPage from '../containers/service_registry/ServiceRegistry'
 import IntraCloudPage from '../containers/auth/Intracloud/IntraCloud'
 import InterCloudPage from '../containers/auth/Intercloud/InterCloud'
 import EventHandlerPage from '../containers/eventhandler/EventHandler'
+import Choreographer from '../containers/choreographer/Choreographer'
 
 const dashboardRoutes = [
   {
@@ -86,6 +88,13 @@ const dashboardRoutes = [
     navbarName: 'Event Handler',
     icon: EventNote,
     component: EventHandlerPage
+  },
+  {
+    path: '/choreographer',
+    sidebarName: 'Choreographer',
+    navbarName: 'Choreographer',
+    icon: Assignment,
+    component: Choreographer
   },
   {
     redirect: true,
