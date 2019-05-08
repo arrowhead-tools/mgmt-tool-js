@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -39,16 +39,15 @@ class StepsList extends Component {
     return (
       <div className={classes.root}>
         {steps.map(step => {
-          console.log('step', step)
           return (
-            <ExpansionPanel key={step.Name}>
+            <ExpansionPanel key={step.name}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>{step.Name}</Typography>
+                <Typography className={classes.heading}>{step.name}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
                 <Typography>
                   <b>Next Steps:</b>{' '}
-                  {step.NextSteps ? step.NextSteps.join(',') : '-'}
+                  {step.nextSteps ? step.nextSteps.join(',') : '-'}
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>

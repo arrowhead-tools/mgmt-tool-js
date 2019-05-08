@@ -1,5 +1,6 @@
 import networkService from '../services/networkServiceCH'
 import { showNotification } from './global'
+import { hideModal } from "./modal"
 
 export const REVEIVE_ALL_CHOREOGRAPHER_DATA = 'RECEIVE_ALL_CHOREOGRAPHER_DATA'
 export const RECEIVE_SINGLE_CHOREOGRAPHER_DATA =
@@ -86,7 +87,7 @@ export function deletePlan(id) {
 export function createPlan(plan) {
   return dispatch => {
     networkService
-      .post(`/choreographer/plan`)
+      .post(`/choreographer/plan`, plan)
       .then(response => {
         dispatch(
           showNotification(
@@ -101,6 +102,7 @@ export function createPlan(plan) {
           )
         )
         dispatch(getAllChoreographerData())
+        dispatch(hideModal())
       })
       .catch(error => {
         console.log(error)

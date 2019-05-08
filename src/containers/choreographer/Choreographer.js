@@ -40,11 +40,11 @@ class Choreographer extends Component {
         closeModal: this.props.hideModal,
         createPlan: this.props.createPlan
       },
-      'choreographerDialog'
+      'ChoreographerDialog'
     )
   }
 
-  handlePlanDeleteClick = planId => () => {
+  handlePlanDeleteClick = planId => {
     this.props.deletePlan(planId)
   }
 

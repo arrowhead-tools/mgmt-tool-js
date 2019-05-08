@@ -29,27 +29,26 @@ const styles = theme => ({
 })
 
 class ChoreographerTab extends Component {
-  //  TODO entry.id instead of name
   render() {
     const { data, classes, deletePlan } = this.props
     return (
       <div className={classes.root}>
         {data.map(entry => {
           return (
-            <ExpansionPanel key={entry.Name}>
+            <ExpansionPanel key={entry.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
-                  Plan name: {entry.Name}
+                  Plan name: {entry.name}
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
-                <StepsList steps={entry.Steps} />
+                <StepsList steps={entry.steps} />
               </ExpansionPanelDetails>
               <Divider />
               <ExpansionPanelActions>
                 <Button
                   onClick={() => {
-                    this.props.deletePlan(entry.id)
+                    deletePlan(entry.id)
                   }}
                 >
                   Delete
