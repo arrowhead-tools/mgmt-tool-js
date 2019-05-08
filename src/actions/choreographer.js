@@ -1,6 +1,6 @@
 import networkService from '../services/networkServiceCH'
 import { showNotification } from './global'
-import { hideModal } from "./modal"
+import { hideModal } from './modal'
 
 export const REVEIVE_ALL_CHOREOGRAPHER_DATA = 'RECEIVE_ALL_CHOREOGRAPHER_DATA'
 export const RECEIVE_SINGLE_CHOREOGRAPHER_DATA =

@@ -97,27 +97,26 @@ class ChoreographerDialog extends Component {
     const stringArray = value.map(item => item.name)
     const tmpArray = [...this.state.steps]
     tmpArray[index].nextSteps = [...stringArray]
-    this.setState({steps: tmpArray})
+    this.setState({ steps: tmpArray })
   }
 
   handleServicesChange = index => value => {
     const stringArray = value.map(service => service.serviceDefinition)
     const tmpArray = [...this.state.steps]
-    tmpArray[index].services=[...stringArray]
-    this.setState({steps: tmpArray})
+    tmpArray[index].services = [...stringArray]
+    this.setState({ steps: tmpArray })
   }
 
   isServiceProvidedForStep = () => {
     let disabled = true
-    for(const item of this.state.steps){
-      if(item.services.length !== 0){
+    for (const item of this.state.steps) {
+      if (item.services.length !== 0) {
         disabled = false
         break
       }
     }
     return disabled
   }
-
 
   render() {
     const { classes, services } = this.props
