@@ -47,7 +47,11 @@ class StepsList extends Component {
               <ExpansionPanelDetails className={classes.child}>
                 <Typography>
                   <b>Next Steps:</b>{' '}
-                  {step.nextSteps ? step.nextSteps.join(',') : '-'}
+                  {step.nextSteps && step.nextSteps.length ? step.nextSteps.join(', ') : '-'}
+                </Typography>
+                <Typography>
+                  <b>Services:</b>{' '}
+                  {step.services && step.services.length ? step.services.join(', ') : '-'}
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
