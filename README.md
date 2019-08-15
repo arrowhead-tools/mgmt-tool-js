@@ -7,10 +7,31 @@ This tool is providing a user interface to manage Arrowhead core systems. Curren
 4. Gatekeeper and Gateway settings
 5. Event Handler
 
+If you do not have Arrowhead installed, please run the ```install_arrowehad.sh``` script located in the scripts folder (Linux).
+For other operations systems please follow the guide located in the [Arrowhead Core Repository](https://github.com/arrowhead-f/core-java)
 
-Running this project has 2 options:
-1. Running and building the project by source code
-2. Running from prebuilt Docker container
+Running this project has 3 options:
+1. Running from prebuilt Docker container
+2. Running the install script for Linux
+3. Running and building the project by source code
+
+### Docker image
+1. Install [Docker](https://docs.docker.com/install/)
+2. [Pull](https://docs.docker.com/engine/reference/commandline/pull/) the prebuilt docker image:
+    ```
+    docker pull svetlint/arrowhead-react
+    ```
+3. [Run](https://docs.docker.com/engine/reference/commandline/run/) the container with the following example command:
+    ```
+    docker run -it --rm -p 3000:5000 
+    --name arrowhead-react-container 
+    -e REACT_APP_ARROWHEAD_SR_URL=http://arrowhead.tmit.bme.hu:8342 
+    -e REACT_APP_ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340 
+    -e REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348 
+    svetlint/arrowhead-react
+    ```
+###Running the install script for Linux
+1. Run the ```install_arrowhead_mgmt.sh``` script in the scripts folder.
 
 ### Running the project in development mode
 1. The project requires [NodeJS v7 or newer](https://nodejs.org/en/download/)
@@ -29,21 +50,6 @@ Running this project has 2 options:
     npm start
     ```
 
-### Docker image
-1. Install [Docker](https://docs.docker.com/install/)
-2. [Pull](https://docs.docker.com/engine/reference/commandline/pull/) the prebuilt docker image:
-    ```
-    docker pull svetlint/arrowhead-react
-    ```
-3. [Run](https://docs.docker.com/engine/reference/commandline/run/) the container with the following example command:
-    ```
-    docker run -it --rm -p 3000:5000 
-    --name arrowhead-react-container 
-    -e REACT_APP_ARROWHEAD_SR_URL=http://arrowhead.tmit.bme.hu:8342 
-    -e REACT_APP_ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340 
-    -e REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348 
-    svetlint/arrowhead-react
-    ```
 
 ##Available environment variables
    You can use the following environment variables in the `.env` file, or in the docker run command with the `-e` flag.
@@ -70,4 +76,7 @@ Example environment variables, for the BME public test beds
 ##TROUBLESHOOTING
 
 Q: When I start the Management Tool all pages are blank. :( What should I do?
-A: Either you missed to provide the correct environment variables (.env using Node or -e flag using Docker), or you've made a typo. 
+A: Either you missed to provide the correct environment variables (.env using Node or -e flag using Docker), or you've made a typo.
+
+Q: I am facing an issue, which is not listed here :( What should I do?
+A: Open an issue with a detailed description. 
