@@ -2,7 +2,7 @@
 
 ### Disclaimer
 
-The Management Tool does not yet support the [Arrowhead Core Java Spring](https://github.com/arrowhead-f/core-java-spring) version of the Core Systems. To use the Management Tool, please use it with the [Arrowhead Core Repository](https://github.com/arrowhead-f/core-java)
+The Management Tool does not yet support the [Arrowhead Core Java Spring](https://github.com/arrowhead-f/core-java-spring) version of the Core Systems (4.1.3). To use the Management Tool, please use it with the [Arrowhead Core Repository](https://github.com/arrowhead-f/core-java) (4.1.2)
 
 This tool is providing a user interface to manage Arrowhead core systems. Currently the following core systems are supported:
 1. ServiceRegistry (SQL version)
