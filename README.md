@@ -1,5 +1,9 @@
 # Arrowhead Management Tool
 
+### Disclaimer
+
+The Management Tool does not yet support the [Arrowhead Core Java Spring](https://github.com/arrowhead-f/core-java-spring) version of the Core Systems. To use the Management Tool, please use it with the [Arrowhead Core Repository](https://github.com/arrowhead-f/core-java)
+
 This tool is providing a user interface to manage Arrowhead core systems. Currently the following core systems are supported:
 1. ServiceRegistry (SQL version)
 2. Authorization System (both intra- and inter-cloud authorization schemas)
@@ -30,7 +34,7 @@ Running this project has 3 options:
     -e REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348 
     svetlint/arrowhead-react
     ```
-###Running the install script for Linux
+### Running the install script for Linux
 1. Run the ```install_arrowhead_mgmt.sh``` script in the scripts folder.
 
 ### Running the project in development mode
@@ -51,7 +55,7 @@ Running this project has 3 options:
     ```
 
 
-##Available environment variables
+## Available environment variables
    You can use the following environment variables in the `.env` file, or in the docker run command with the `-e` flag.
    
     ```
@@ -73,7 +77,7 @@ Example environment variables, for the BME public test beds
     REACT_APP_ARROWHEAD_CHOREOGRAPHER_URL=http://arrowhead.tmit.bme.hu:8356
     ```    
     
-##TROUBLESHOOTING
+## TROUBLESHOOTING
 
 Q: When I start the Management Tool all pages are blank. :( What should I do?
 A: Either you missed to provide the correct environment variables (.env using Node or -e flag using Docker), or you've made a typo.
