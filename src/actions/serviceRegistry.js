@@ -1,12 +1,8 @@
 import networkService from '../services/networkServiceSR'
-import {
-  getAutoCompleteData,
-  groupServicesByServices,
-  groupServicesBySystems
-} from '../utils/utils'
 import { hideModal } from './modal'
 import { showNotification } from './global'
 
+export const RECEIVE_SR_ENTRIES = 'RECEIVE_SR_ENTRIES'
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
 export const RECEIVE_SERVICE = 'RECEIVE_SERVICE'
 
@@ -43,21 +39,25 @@ function receiveServiceDataById(serviceId, serviceData) {
   }
 }
 
-export function getServices() {
-  return (dispatch, getState) => {
+function receiveServiceRegistryEntries(data) {
+    console.log('data', data)
+  return {
+    type: RECEIVE_SR_ENTRIES,
+    data
+  }
+}
+
+export function getServiceRegistryEntries() {
+  return dispatch => {
     networkService
-      .get('/serviceregistry/mgmt/all')
+      .get('/serviceregistry/mgmt/grouped')
       .then(response => {
         dispatch(
-          receiveServices(
-            groupServicesBySystems(response.data),
-            groupServicesByServices(response.data),
-            getAutoCompleteData(response.data)
-          )
+          receiveServiceRegistryEntries(response.data)
         )
       })
       .catch(error => {
-        console.log(error)
+          console.log(error)
       })
   }
 }
@@ -68,12 +68,14 @@ export function getFilteredServices(queryData, queryDataObject) {
       .put('/serviceregistry/mgmt/query', queryData)
       .then(response => {
         dispatch(
+            /*
           receiveServices(
             groupServicesBySystems({ serviceQueryData: response.data }),
             groupServicesByServices({ serviceQueryData: response.data }),
             undefined,
             queryDataObject
           )
+             */
         )
         dispatch(hideModal())
       })
@@ -83,15 +85,19 @@ export function getFilteredServices(queryData, queryDataObject) {
   }
 }
 
-export function addService(serviceData) {
+export function addService(serviceDefinition) {
   return (dispatch, getState) => {
-    networkService
-      .post('/mgmt/services', [serviceData])
-      .then(response => {
-        dispatch(getServices())
-      })
-      .catch(error => {
-        console.log(error)
+      return new Promise( (resolve, reject) => {
+          networkService
+              .post('/mgmt/services', serviceDefinition)
+              .then(response => {
+                  // dispatch(getServiceRegistryEntries()) // is this necessary?
+                  resolve(response.data)
+              })
+              .catch(error => {
+                  console.log(error)
+                  reject(error)
+              })
       })
   }
 }
@@ -99,7 +105,7 @@ export function addService(serviceData) {
 export function addSREntry(entry) {
   return (dispatch, getState) => {
     networkService
-      .post('/serviceregistry/register', entry)
+      .post('/serviceregistry/mgmt', entry)
       .then(response => {
         dispatch(
           showNotification(
@@ -113,7 +119,7 @@ export function addSREntry(entry) {
             'success'
           )
         )
-        dispatch(getServices())
+        dispatch(getServiceRegistryEntries())
       })
       .catch(error => {
         dispatch(
@@ -150,7 +156,7 @@ export function deleteServiceById(serviceId) {
             'success'
           )
         )
-        dispatch(getServices())
+        dispatch(getServiceRegistryEntries())
       })
       .catch(error => {
         console.log(error)
@@ -174,7 +180,7 @@ export function editSREntry(entry) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       networkService
-        .put(`/serviceregistry/mgmt/update/${entry.id}`, entry)
+        .put(`/serviceregistry/mgmt/${entry.id}`, entry)
         .then(response => {
           dispatch(
             showNotification(
@@ -188,7 +194,7 @@ export function editSREntry(entry) {
               'success'
             )
           )
-          dispatch(getServices())
+          dispatch(getServiceRegistryEntries())
           resolve()
         })
         .catch(error => {
@@ -224,28 +230,11 @@ export function getServiceById(serviceId) {
   }
 }
 
-export function editService(
-  serviceId,
-  serviceDefinition,
-  interfaces,
-  serviceMetadata
-) {
-  const serviceMetadataHelper = {}
-  for (const item of serviceMetadata) {
-    if (item.name !== '' || item.value !== '') {
-      serviceMetadataHelper[item.name] = item.value
-    }
-  }
-  const serviceData = {
-    id: serviceId,
-    serviceDefinition,
-    interfaces,
-    serviceMetadata: serviceMetadataHelper
-  }
+export function editService(serviceId, serviceDefinition) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       networkService
-        .put(`/mgmt/services/${serviceId}`, serviceData)
+        .put(`/mgmt/services/${serviceId}`, { serviceDefinition })
         .then(response => {
           resolve(response.data)
         })
@@ -257,19 +246,12 @@ export function editService(
   }
 }
 
-export function editSystem(
-  systemId,
-  systemName,
-  address,
-  port,
-  authenticationId
-) {
+export function editSystem(systemId, systemName, address, port, authenticationInfo) {
   const systemData = {
-    id: systemId,
     systemName,
     address,
     port,
-    authenticationId
+    authenticationInfo
   }
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
@@ -286,6 +268,7 @@ export function editSystem(
   }
 }
 
+// TODO is this needed?
 export function editSREntryCollection(
   systemId,
   systemName,

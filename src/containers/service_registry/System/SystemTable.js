@@ -88,11 +88,10 @@ class SystemTable extends React.Component {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, index) => {
                   return (
-                    <TableRow hover key={n.serviceDefinition}>
-                      <TableCell>{n.serviceDefinition}</TableCell>
-                      <TableCell>{n.interfaces.join(',')}</TableCell>
-                      <TableCell>{n.serviceURI}</TableCell>
-                      <TableCell>{n.udp.toString()}</TableCell>
+                    <TableRow hover key={n.id}>
+                      <TableCell>{n.serviceDefinition.serviceDefinition}</TableCell>
+                      <TableCell>{n.interfaces.map(e => e.interfaceName).join(' ')}</TableCell>
+                      <TableCell>{n.serviceUri}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton
                           color="secondary"

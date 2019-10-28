@@ -88,13 +88,13 @@ class ServiceTable extends React.Component {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, index) => {
                   return (
-                    <TableRow hover key={n.systemName + index}>
-                      <TableCell>{n.systemName}</TableCell>
-                      <TableCell>{n.address}</TableCell>
-                      <TableCell>{n.port}</TableCell>
-                      <TableCell>{n.interface}</TableCell>
-                      <TableCell>{n.serviceURI}</TableCell>
-                      <TableCell>{n.udp.toString()}</TableCell>
+                    <TableRow hover key={n.id}>
+                      <TableCell>{n.provider.systemName}</TableCell>
+                      <TableCell>{n.provider.address}</TableCell>
+                      <TableCell>{n.provider.port}</TableCell>
+                      <TableCell>{n.interfaces.map(e => e.interfaceName).join(' ')}</TableCell>
+                      <TableCell>{n.secure}</TableCell>
+                      <TableCell>{n.serviceUri}</TableCell>
                       <TableCell>{n.version}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton
@@ -107,7 +107,7 @@ class ServiceTable extends React.Component {
                         <IconButton
                           color="secondary"
                           aria-label="Delete Entry"
-                          onClick={handleServiceDelete(n.serviceId)}
+                          onClick={handleServiceDelete(n.id)}
                         >
                           <ClearIcon />
                         </IconButton>

@@ -32,8 +32,7 @@ const columnData = [
     label: 'Service Definition'
   },
   { id: 'interfaces', disablePadding: false, label: 'Interface' },
-  { id: 'serviceURI', disablePadding: false, label: 'Service URI' },
-  { id: 'udp', disablePadding: false, label: 'UDP' },
+  { id: 'serviceUri', disablePadding: false, label: 'Service URI' },
   { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
 ]
 
@@ -49,7 +48,7 @@ class SystemTab extends Component {
       <div className={classes.root}>
         {systemData.map(systemEntry => {
           return (
-            <ExpansionPanel key={systemEntry.id}>
+            <ExpansionPanel key={systemEntry.systemId}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
                   {systemEntry.systemName}

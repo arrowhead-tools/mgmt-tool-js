@@ -30,8 +30,8 @@ const columnData = [
   { id: 'address', disablePadding: false, label: 'Address' },
   { id: 'port', disablePadding: false, label: 'Port' },
   { id: 'interface', disablePadding: false, label: 'Interface' },
-  { id: 'serviceURI', disablePadding: false, label: 'Service URI' },
-  { id: 'udp', disablePadding: false, label: 'UDP' },
+  { id: 'secure', disablePadding: false, label: 'Security Info' },
+  { id: 'serviceUri', disablePadding: false, label: 'Service URI' },
   { id: 'version', disablePadding: false, label: 'Service Version' },
   { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
 ]
@@ -44,11 +44,13 @@ class ServiceTab extends Component {
       handleServiceDelete,
       handleServiceEdit
     } = this.props
+
     return (
       <div className={classes.root}>
         {serviceData.map(serviceEntry => {
+          console.log('serviceEntry', serviceEntry)
           return (
-            <ExpansionPanel key={serviceEntry.serviceId}>
+            <ExpansionPanel key={serviceEntry.serviceDefinitionId}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
                   {serviceEntry.serviceDefinition}
@@ -56,7 +58,7 @@ class ServiceTab extends Component {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
                 <ServiceTable
-                  data={serviceEntry.provider}
+                  data={serviceEntry.providerServices}
                   columnData={columnData}
                   handleServiceEdit={handleServiceEdit}
                   handleServiceDelete={handleServiceDelete}
