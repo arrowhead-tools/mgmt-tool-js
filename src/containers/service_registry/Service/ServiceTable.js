@@ -87,6 +87,7 @@ class ServiceTable extends React.Component {
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, index) => {
+                  console.log('Service', n)
                   return (
                     <TableRow hover key={n.id}>
                       <TableCell>{n.provider.systemName}</TableCell>
@@ -100,7 +101,7 @@ class ServiceTable extends React.Component {
                         <IconButton
                           color="secondary"
                           aria-label="Edit Entry"
-                          onClick={handleServiceEdit(n.entry)}
+                          onClick={handleServiceEdit(n)}
                         >
                           <EditIcon />
                         </IconButton>

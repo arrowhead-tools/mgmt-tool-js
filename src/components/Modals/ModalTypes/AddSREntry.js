@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
 import ClearIcon from '@material-ui/icons/Clear'
@@ -16,11 +16,6 @@ import AutoComplete from '../../AutoComplete/AutoComplete'
 import { withStyles } from '@material-ui/core/styles'
 import moment from 'moment'
 import { DateTimePicker, MuiPickersUtilsProvider } from 'material-ui-pickers'
-import {
-  addSREntry,
-  editSREntryCollection,
-  getServiceById
-} from '../../../actions/serviceRegistry'
 import MomentUtils from '@date-io/moment'
 
 moment.locale('hu')
@@ -64,10 +59,10 @@ class AddSREntry extends Component {
 
     const serviceMetadata = []
     if (props.data) {
-      for (const key in props.data.providedService.serviceMetadata) {
+      for (const key in props.data.metadata) {
         serviceMetadata.push({
           name: key,
-          value: props.data.providedService.serviceMetadata[key]
+          value: props.data.metadata[key]
         })
       }
     }
@@ -75,15 +70,15 @@ class AddSREntry extends Component {
       serviceMetadata.push({ name: '', value: '' })
     }
 
-    const serviceData = {
-      ...(props.data && props.data.providedService),
-      serviceMetadata
+    let interfaceHelper = []
+    if(props.data) {
+      interfaceHelper = props.data.interfaces.map(iface => iface.interfaceName)
     }
 
     this.state = {
       id: props.data ? props.data.id : undefined,
-      endOfValidity: props.data ? props.data.endOfValidity : moment().add(2, 'days'),
-      interfaces: [],
+      endOfValidity: props.data ? moment(props.data.endOfValidity) : moment().add(2, 'days'),
+      interfaces: interfaceHelper,
       metadata: serviceMetadata,
       providerSystem: {
         id: '',
@@ -91,18 +86,14 @@ class AddSREntry extends Component {
         authenticationInfo: '',
         port: '',
         systemName: '',
-        ...(props.data && props.data.providerSystem)
+        ...(props.data && props.data.provider)
       },
-      secure: 'NOT_SECURE',
-      serviceDefinition: '',
+      secure: props.data.secure ? props.data.secure : 'NOT_SECURE',
+      serviceDefinition: props.data.serviceDefinition && props.data.serviceDefinition.serviceDefinition ? props.data.serviceDefinition.serviceDefinition : '',
       serviceUri: props.data ? props.data.serviceUri : '',
       version: props.data ? props.data.version : '',
 
     }
-  }
-
-  componentDidMount() {
-   // this.props.getSystems()
   }
 
   handleSystemSearchOnChange = value => {
@@ -468,32 +459,17 @@ class AddSREntry extends Component {
 
 AddSREntry.propTypes = {
   classes: PropTypes.object.isRequired,
-  addSREntry: PropTypes.func.isRequired,
+  addSREntry: PropTypes.func,
   isEdit: PropTypes.bool,
   editSREntry: PropTypes.func,
   closeModal: PropTypes.func
 }
 
 function mapStateToProps(state) {
-  /*
-  const { system } = state
-  return { system: system.system }
-   */
   const { services } = state
   return { autoCompleteData: services.autoCompleteData }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    /*
-    getSystems: () => {
-      dispatch(getSystems())
-    }
-    */
-  }
-}
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(withStyles(styles)(AddSREntry))
