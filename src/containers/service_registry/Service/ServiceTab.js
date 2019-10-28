@@ -48,7 +48,6 @@ class ServiceTab extends Component {
     return (
       <div className={classes.root}>
         {serviceData.map(serviceEntry => {
-          console.log('serviceEntry', serviceEntry)
           return (
             <ExpansionPanel key={serviceEntry.serviceDefinitionId}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>

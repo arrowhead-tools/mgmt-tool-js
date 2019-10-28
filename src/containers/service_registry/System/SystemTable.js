@@ -96,14 +96,14 @@ class SystemTable extends React.Component {
                         <IconButton
                           color="secondary"
                           aria-label="Edit Entry"
-                          onClick={handleServiceEdit(n.entry)}
+                          onClick={handleServiceEdit(n)}
                         >
                           <EditIcon />
                         </IconButton>
                         <IconButton
                           color="secondary"
                           aria-label="Delete Entry"
-                          onClick={handleServiceDelete(n.serviceId)}
+                          onClick={handleServiceDelete(n.id)}
                         >
                           <ClearIcon />
                         </IconButton>
