@@ -227,6 +227,17 @@ const sidebarStyle = theme => ({
       width: '100%',
       bottom: '13px'
     }
+  },
+  importExport: {
+    paddingTop: '15px',
+    '&:before': {
+      content: '""',
+      position: 'absolute',
+      height: '1px',
+      right: '15px',
+      width: 'calc(100% - 30px)',
+      backgroundColor: 'rgba(180, 180, 180, 0.3)'
+    }
   }
 })
 
