@@ -1,14 +1,11 @@
-import { RECEIVE_SERVICES, RECEIVE_SERVICE, RECEIVE_SR_ENTRIES } from '../actions/serviceRegistry'
+import { RECEIVE_SERVICES, RECEIVE_SERVICE, RECEIVE_SR_ENTRIES, RECEIVE_SYSTEMS } from '../actions/serviceRegistry'
 
 export const initialState = {
   groupBySystems: [],
   groupByServices: [],
   autoCompleteData: [],
-  systemList: [],
-  serviceList: [],
-  interfaceList: [],
-  serviceData: {},
-  queryData: {}
+  systems: [],
+  services: []
 }
 
 export default function services(state = initialState, action = {}) {
@@ -20,26 +17,16 @@ export default function services(state = initialState, action = {}) {
         groupByServices: action.data.servicesGroupedByServiceDefinitionAndInterface,
         autoCompleteData: action.data.autoCompleteData
       }
-    case RECEIVE_SERVICES:
-      const servicesObject = {
+    case RECEIVE_SYSTEMS:
+      return {
         ...state,
-        groupBySystems: action.groupBySystems,
-        groupByServices: action.groupByServices,
-        autocompleteData: action.autocompleteData
+        systems: action.data
       }
-      if (action.systemList) {
-        servicesObject.systemList = action.systemList
+    case RECEIVE_SERVICES:
+      return {
+        ...state,
+        services: action.data
       }
-      if (action.serviceList) {
-        servicesObject.serviceList = action.serviceList
-      }
-      if (action.interfaceList) {
-        servicesObject.interfaceList = action.interfaceList
-      }
-      if (action.queryData) {
-        servicesObject.queryData = action.queryData
-      }
-      return servicesObject
     case RECEIVE_SERVICE:
       const sData = { ...state.serviceData }
       sData[action.serviceId] = action.serviceData

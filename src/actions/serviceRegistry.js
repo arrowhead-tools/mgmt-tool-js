@@ -5,7 +5,9 @@ import { showNotification } from './global'
 export const RECEIVE_SR_ENTRIES = 'RECEIVE_SR_ENTRIES'
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
 export const RECEIVE_SERVICE = 'RECEIVE_SERVICE'
+export const RECEIVE_SYSTEMS = 'RECEIVE_SYSTEMS'
 
+/*
 function receiveServices(
   groupBySystems,
   groupByServices,
@@ -29,7 +31,7 @@ function receiveServices(
   }
 
   return serviceObject
-}
+}*/
 
 function receiveServiceDataById(serviceId, serviceData) {
   return {
@@ -39,12 +41,52 @@ function receiveServiceDataById(serviceId, serviceData) {
   }
 }
 
+function receiveServices(services) {
+    return {
+        type: RECEIVE_SERVICES,
+        data: services.data
+    }
+}
+
+function receiveSystems(systems) {
+    return {
+        type: RECEIVE_SYSTEMS,
+        data: systems.data
+    }
+}
+
 function receiveServiceRegistryEntries(data) {
     console.log('data', data)
   return {
     type: RECEIVE_SR_ENTRIES,
     data
   }
+}
+
+export function getSystems() {
+    return dispatch => {
+        networkService
+            .get('/serviceregistry/mgmt/systems')
+            .then(response => {
+                dispatch(receiveSystems(response.data))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
+
+export function getServices() {
+    return dispatch => {
+        networkService
+            .get('/serviceregistry/mgmt/services')
+            .then(response => {
+                dispatch(receiveServices(response.data))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
 }
 
 export function getServiceRegistryEntries() {

@@ -11,10 +11,8 @@ import {
   groupInterCloudDataByServices
 } from '../utils/authUtils'
 export const RECEIVE_AUTH_DATA = 'RECEIVE_AUTH_DATA'
-export const RECEIVE_AUTH_SYSTEMS = 'RECEIVE_AUTH_SYSTEMS'
-export const RECEIVE_AUTH_SERVICES = 'RECEIVE_AUTH_SERVICES'
 export const RECEIVE_INTERCLOUD_DATA = 'RECEIVE_INTERCLOUD_DATA'
-export const RECEIVE_CLOUD_DATA = 'RECEIV_CLOUD_DATA'
+export const RECEIVE_CLOUD_DATA = 'RECEIVE_CLOUD_DATA'
 
 function receiveAuthData(consumer, provider, service) {
   return {
@@ -22,20 +20,6 @@ function receiveAuthData(consumer, provider, service) {
     consumer,
     provider,
     service
-  }
-}
-
-function receiveAuthSystems(systems) {
-  return {
-    type: RECEIVE_AUTH_SYSTEMS,
-    systems
-  }
-}
-
-function receiveAuthServices(services) {
-  return {
-    type: RECEIVE_AUTH_SERVICES,
-    services
   }
 }
 
@@ -61,9 +45,9 @@ export function getIntraCloudAuthData() {
       .then(response => {
         dispatch(
           receiveAuthData(
-            groupAuthDataByConsumer(response.data),
-            groupAuthDataByProvider(response.data),
-            groupAuthDataByService(response.data)
+            groupAuthDataByConsumer(response.data.data),
+            groupAuthDataByProvider(response.data.data),
+            groupAuthDataByService(response.data.data)
           )
         )
       })
@@ -84,32 +68,6 @@ export function getInterCloudAuthData() {
             groupInterCloudDataByServices(response.data)
           )
         )
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-}
-
-export function getAuthSystems() {
-  return dispatch => {
-    networkService
-      .get('/mgmt/systems')
-      .then(response => {
-        dispatch(receiveAuthSystems(response.data))
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-}
-
-export function getAuthServices() {
-  return dispatch => {
-    networkService
-      .get('/mgmt/services')
-      .then(response => {
-        dispatch(receiveAuthServices(response.data))
       })
       .catch(error => {
         console.log(error)
@@ -165,11 +123,11 @@ export function addSystem(systemName, address, port, authenticationInfo) {
 }
 
 export function addAuthData(consumer, providerList, service, interfaces) {
-  service.interfaces = interfaces
   const authData = {
-    consumer,
-    providerList: providerList,
-    serviceList: [service]
+    consumerId: consumer.id,
+    providerIds: providerList.map(provider => provider.id),
+    serviceDefinitionIds: [service.id],
+    interfaceIds: interfaces.map(i => i.id)
   }
   return dispatch => {
     networkService

@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles'
-import {
-  addAuthData,
-  getAuthServices,
-  getAuthSystems
-} from '../../../actions/auth'
+import { addAuthData } from '../../../actions/auth'
+import { getServiceRegistryEntries } from '../../../actions/serviceRegistry'
 import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
 import Button from '../../CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
-import ChipInput from 'material-ui-chip-input'
 import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
 
 const styles = theme => ({
@@ -53,14 +49,13 @@ class AddAuthEntry extends Component {
       consumerSystem: null,
       providerSystems: [],
       providedService: null,
-      interface: [],
+      interfaces: null,
       inputValue: ''
     }
   }
 
   componentDidMount() {
-    this.props.getAuthSystems()
-    this.props.getAuthServices()
+    this.props.getServiceRegistryEntries()
   }
 
   handleChange = system => {
@@ -85,19 +80,16 @@ class AddAuthEntry extends Component {
     }))
   }
 
-  handleChangeInput = inputVal => {
-    const t = inputVal.split(',')
-    if (JSON.stringify(t) !== JSON.stringify(this.state.selectedItem)) {
-      this.setState({ inputValue: inputVal })
-    }
-  }
-
   handleConsumerSystemOnChange = consumerSystem => {
     this.setState({ consumerSystem })
   }
 
   handleProvidedServiceOnChange = providedService => {
     this.setState({ providedService })
+  }
+
+  handleInterfacesListOnChange = interfaces => {
+      this.setState({ interfaces })
   }
 
   handleProviderSystemOnChange = providerSystems => {
@@ -109,7 +101,7 @@ class AddAuthEntry extends Component {
       this.state.consumerSystem,
       this.state.providerSystems,
       this.state.providedService,
-      this.state.interface
+      this.state.interfaces
     )
   }
 
@@ -124,7 +116,7 @@ class AddAuthEntry extends Component {
   }
 
   render() {
-    const { systems, classes, services } = this.props
+    const { systems, classes, services, interfaces } = this.props
     return (
       <div>
         <Card raised className={classes.card}>
@@ -170,7 +162,7 @@ class AddAuthEntry extends Component {
               }
             }}
             suggestions={services}
-            keyValue="serviceDefinition"
+            keyValue="value"
             label="Consumed Service"
             placeholder="Consumed Service"
             handleTextChange={null}
@@ -178,15 +170,14 @@ class AddAuthEntry extends Component {
             handleOnChange={this.handleProvidedServiceOnChange}
             disabled={this.state.consumerSystem === null}
           />
-          <ChipInput
+          <AutoCompleteMulti
+            handleOnChange={this.handleInterfacesListOnChange}
             disabled={this.state.providedService === null}
+            label="Interfaces"
+            placeholder="Interfaces"
+            keyValue="value"
             required
-            value={this.state.interface}
-            id="interface"
-            className={classes.input}
-            label="Interface"
-            onAdd={chip => this.handleChipAdd(chip)}
-            onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
+            suggestions={interfaces}
           />
         </Card>
         <Card raised className={classes.card}>
@@ -195,7 +186,7 @@ class AddAuthEntry extends Component {
           </Typography>
           <AutoCompleteMulti
             handleOnChange={this.handleProviderSystemOnChange}
-            disabled={this.state.interface === []}
+            disabled={this.state.interfaces === null}
             label="Provider Systems"
             placeholder="Provider Systems"
             keyValue="systemName"
@@ -222,27 +213,25 @@ class AddAuthEntry extends Component {
 }
 
 AddAuthEntry.propTypes = {
-  getAuthSystems: PropTypes.func.isRequired,
-  getAuthServices: PropTypes.func.isRequired,
+  getServiceRegistryEntries: PropTypes.func.isRequired,
   addAuthData: PropTypes.func.isRequired,
   systems: PropTypes.array,
   services: PropTypes.array,
+  interfaces: PropTypes.array,
   classes: PropTypes.object
 }
 
 function mapStateToProps(state) {
-  const { auth } = state
-  return { systems: auth.systems, services: auth.services }
+  const { services } = state
+  console.log('systems', services.autoCompleteData.systemList)
+  console.log('services', services.autoCompleteData.serviceList)
+  console.log('interfaces', services.autoCompleteData.interfaceList)
+  return { systems: services.autoCompleteData.systemList, services: services.autoCompleteData.serviceList, interfaces: services.autoCompleteData.interfaceList }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAuthSystems: () => {
-      dispatch(getAuthSystems())
-    },
-    getAuthServices: () => {
-      dispatch(getAuthServices())
-    },
+    getServiceRegistryEntries: () => {dispatch(getServiceRegistryEntries())},
     addAuthData: (
       consumerSystem,
       providerSystems,

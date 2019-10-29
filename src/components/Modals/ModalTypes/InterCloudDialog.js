@@ -10,7 +10,8 @@ import AutoComplete from '../../AutoComplete/AutoComplete'
 import { connect } from 'react-redux'
 import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
 import Checkbox from '@material-ui/core/Checkbox'
-import { getClouds, getAuthServices } from '../../../actions/auth'
+import { getClouds } from '../../../actions/auth'
+import { getServices } from '../../../actions/serviceRegistry'
 
 const styles = theme => ({
   input: {
@@ -77,7 +78,7 @@ class InterCloudDialog extends Component {
 
   componentDidMount() {
     this.props.getClouds()
-    this.props.getAuthServices()
+    this.props.getServices()
   }
 
   onCloudChange = cloud => {
@@ -270,16 +271,16 @@ InterCloudDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   addInterCloudEntry: PropTypes.func,
   getClouds: PropTypes.func.isRequired,
-  getAuthServices: PropTypes.func.isRequired,
+  getServices: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  const { auth } = state
-  return { clouds: auth.clouds, services: auth.services }
+  const { auth, services } = state
+  return { clouds: auth.clouds, services: services.services }
 }
 
 export default connect(
   mapStateToProps,
-  { getClouds, getAuthServices }
+  { getClouds, getServices }
 )(withStyles(styles)(InterCloudDialog))

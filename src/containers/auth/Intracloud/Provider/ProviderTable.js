@@ -81,7 +81,7 @@ class ConsumerTable extends React.Component {
                   return (
                     <TableRow hover key={n.authEntryId}>
                       <TableCell>{n.service.serviceDefinition}</TableCell>
-                      <TableCell>{n.service.interfaces.join(',')}</TableCell>
+                      <TableCell>{n.interfaces.map(i => i.interfaceName).join(',')}</TableCell>
                       <TableCell>{n.consumer.systemName}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton

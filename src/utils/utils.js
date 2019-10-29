@@ -123,17 +123,18 @@ export function groupAuthDataByConsumer(authData) {
   for (const data of authData) {
     const relationData = {
       authEntryId: data.id,
-      provider: data.provider,
-      service: data.service
+      provider: data.providerSystem,
+      service: data.serviceDefinition,
+      interfaces: data.interfaces
     }
 
-    if (!helperObject[data.consumer.id]) {
-      helperObject[data.consumer.id] = {
-        consumer: data.consumer,
+    if (!helperObject[data.consumerSystem.id]) {
+      helperObject[data.consumerSystem.id] = {
+        consumer: data.consumerSystem,
         relation: [relationData]
       }
     } else {
-      helperObject[data.consumer.id].relation.push(relationData)
+      helperObject[data.consumerSystem.id].relation.push(relationData)
     }
   }
 
@@ -150,17 +151,18 @@ export function groupAuthDataByProvider(authData) {
   for (const data of authData) {
     const relationData = {
       authEntryId: data.id,
-      consumer: data.consumer,
-      service: data.service
+      consumer: data.consumerSystem,
+      service: data.serviceDefinition,
+      interfaces: data.interfaces
     }
 
-    if (!helperObject[data.provider.id]) {
-      helperObject[data.provider.id] = {
-        provider: data.provider,
+    if (!helperObject[data.providerSystem.id]) {
+      helperObject[data.providerSystem.id] = {
+        provider: data.providerSystem,
         relation: [relationData]
       }
     } else {
-      helperObject[data.provider.id].relation.push(relationData)
+      helperObject[data.providerSystem.id].relation.push(relationData)
     }
   }
 
@@ -177,18 +179,19 @@ export function groupAuthDataByService(authData) {
   for (const data of authData) {
     const relationData = {
       authEntryId: data.id,
-      service: data.service,
-      consumer: data.consumer,
-      provider: data.provider
+      service: data.serviceDefinition,
+      consumer: data.consumerSystem,
+      provider: data.providerSystem,
+      interfaces: data.interfaces
     }
 
-    if (!helperObject[data.service.id]) {
-      helperObject[data.service.id] = {
-        service: data.service,
+    if (!helperObject[data.serviceDefinition.id]) {
+      helperObject[data.serviceDefinition.id] = {
+        service: data.serviceDefinition,
         relation: [relationData]
       }
     } else {
-      helperObject[data.service.id].relation.push(relationData)
+      helperObject[data.serviceDefinition.id].relation.push(relationData)
     }
   }
 

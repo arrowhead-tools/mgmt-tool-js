@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import * as PropTypes from 'prop-types'
 import TextField from '@material-ui/core/TextField'
-import { getAuthServices } from '../../../actions/auth'
+import { getServices } from '../../../actions/serviceRegistry'
 import AddIcon from '@material-ui/icons/Add'
 import Fab from '@material-ui/core/Fab'
 import Button from '../../CustomButtons/Button'
@@ -66,7 +66,7 @@ class ChoreographerDialog extends Component {
   }
 
   componentDidMount() {
-    this.props.getAuthServices()
+    this.props.getServices()
   }
 
   handlePlanNameChange = event => {
@@ -206,12 +206,12 @@ ChoreographerDialog.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { auth } = state
+  const { services } = state
 
-  return { services: auth.services }
+  return { services: services.services }
 }
 
 export default connect(
   mapStateToProps,
-  { getAuthServices }
+  { getServices }
 )(withStyles(styles)(ChoreographerDialog))
