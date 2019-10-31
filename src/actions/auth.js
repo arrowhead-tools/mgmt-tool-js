@@ -14,9 +14,10 @@ export const RECEIVE_AUTH_DATA = 'RECEIVE_AUTH_DATA'
 export const RECEIVE_INTERCLOUD_DATA = 'RECEIVE_INTERCLOUD_DATA'
 export const RECEIVE_CLOUD_DATA = 'RECEIVE_CLOUD_DATA'
 
-function receiveAuthData(consumer, provider, service) {
+function receiveAuthData(authRules, consumer, provider, service) {
   return {
     type: RECEIVE_AUTH_DATA,
+    authRules,
     consumer,
     provider,
     service
@@ -38,18 +39,22 @@ function getCloudData(clouds) {
   }
 }
 
-export function getIntraCloudAuthData() {
+export function getIntraCloudAuthData(cb) {
   return (dispatch, getState) => {
     networkService
       .get('/authorization/mgmt/intracloud')
       .then(response => {
         dispatch(
           receiveAuthData(
+            response.data.data,
             groupAuthDataByConsumer(response.data.data),
             groupAuthDataByProvider(response.data.data),
             groupAuthDataByService(response.data.data)
           )
         )
+        if(cb){
+          cb()
+        }
       })
       .catch(error => {
         console.log(error)
@@ -122,7 +127,7 @@ export function addSystem(systemName, address, port, authenticationInfo) {
   }
 }
 
-export function addAuthData(consumer, providerList, service, interfaces) {
+export function addAuthData(consumer, providerList, service, interfaces, cb) {
   const authData = {
     consumerId: consumer.id,
     providerIds: providerList.map(provider => provider.id),
@@ -147,6 +152,9 @@ export function addAuthData(consumer, providerList, service, interfaces) {
             'success'
           )
         )
+        if(cb){
+          cb()
+        }
       })
       .catch(error => {
         dispatch(

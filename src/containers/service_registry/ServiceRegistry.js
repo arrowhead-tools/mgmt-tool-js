@@ -7,7 +7,7 @@ import {
     deleteServiceById,
     editSREntry,
     addSREntry,
-    getServiceRegistryEntries
+    getServiceRegistryEntriesView
 } from '../../actions/serviceRegistry'
 import Button from '../../components/CustomButtons/Button'
 import ModalContainer from '../../components/Modals/ModalContainer/ModalContainer'
@@ -181,7 +181,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getServiceRegistryEntries: () => {
-            dispatch(getServiceRegistryEntries())
+            dispatch(getServiceRegistryEntriesView())
         },
         getFilteredServices: queryData => {
             dispatch(getFilteredServices(queryData))

@@ -2,6 +2,7 @@ import networkService from '../services/networkServiceSR'
 import { hideModal } from './modal'
 import { showNotification } from './global'
 
+export const RECEIVE_SR_ENTRIES_VIEW = 'RECEIVE_SR_ENTRIES_VIEW'
 export const RECEIVE_SR_ENTRIES = 'RECEIVE_SR_ENTRIES'
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES'
 export const RECEIVE_SERVICE = 'RECEIVE_SERVICE'
@@ -55,20 +56,30 @@ function receiveSystems(systems) {
     }
 }
 
-function receiveServiceRegistryEntries(data) {
+function receiveServiceRegistryEntriesView(data) {
     console.log('data', data)
+  return {
+    type: RECEIVE_SR_ENTRIES_VIEW,
+    data
+  }
+}
+
+function receiveServiceRegistryEntries(data) {
   return {
     type: RECEIVE_SR_ENTRIES,
     data
   }
 }
 
-export function getSystems() {
+export function getSystems(cb) {
     return dispatch => {
         networkService
             .get('/serviceregistry/mgmt/systems')
             .then(response => {
                 dispatch(receiveSystems(response.data))
+                if(cb){
+                  cb()
+                }
             })
             .catch(error => {
                 console.log(error)
@@ -76,12 +87,31 @@ export function getSystems() {
     }
 }
 
-export function getServices() {
+export function createSystem(system, cb){
+  return dispatch => {
+    networkService
+      .post('/serviceregistry/mgmt/systems', system)
+      .then(response => {
+        console.log(response.data)
+        if(cb){
+          cb()
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+}
+
+export function getServices(cb) {
     return dispatch => {
         networkService
             .get('/serviceregistry/mgmt/services')
             .then(response => {
                 dispatch(receiveServices(response.data))
+                if(cb){
+                  cb()
+                }
             })
             .catch(error => {
                 console.log(error)
@@ -89,13 +119,71 @@ export function getServices() {
     }
 }
 
-export function getServiceRegistryEntries() {
+export function deleteService(serviceId, cb) {
+  return dispatch => {
+    networkService
+      .delete(`/serviceregistry/mgmt/services/${serviceId}`)
+      .then(response => {
+        console.log(response.data)
+        if(cb) {
+          cb()
+        }
+      })
+  }
+}
+
+export function deleteServiceRegistryEntry(entryId, cb){
+  return dispatch => {
+    networkService
+      .delete(`/serviceregistry/mgmt/${entryId}`)
+      .then(response => {
+        console.log(response.data)
+        if(cb){
+          cb()
+        }
+      })
+  }
+}
+
+export function deleteSystem(systemId, cb) {
+  return dispatch => {
+    networkService
+      .delete(`/serviceregistry/mgmt/systems/${systemId}`)
+      .then(response => {
+        console.log(response.data)
+        if(cb) {
+          cb()
+        }
+      })
+  }
+}
+
+export function getServiceRegistryEntries(cb){
+  return dispatch => {
+    networkService
+      .get('/serviceregistry/mgmt')
+      .then(response => {
+        dispatch(
+          receiveServiceRegistryEntries(response.data)
+        )
+        if(cb){
+          cb()
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+}
+
+
+export function getServiceRegistryEntriesView() {
   return dispatch => {
     networkService
       .get('/serviceregistry/mgmt/grouped')
       .then(response => {
         dispatch(
-          receiveServiceRegistryEntries(response.data)
+          receiveServiceRegistryEntriesView(response.data)
         )
       })
       .catch(error => {
@@ -133,7 +221,7 @@ export function addService(serviceDefinition) {
           networkService
               .post('/mgmt/services', serviceDefinition)
               .then(response => {
-                  // dispatch(getServiceRegistryEntries()) // is this necessary?
+                  // dispatch(getServiceRegistryEntriesView()) // is this necessary?
                   resolve(response.data)
               })
               .catch(error => {
@@ -144,7 +232,7 @@ export function addService(serviceDefinition) {
   }
 }
 
-export function addSREntry(entry) {
+export function addSREntry(entry, cb) {
   return (dispatch, getState) => {
     networkService
       .post('/serviceregistry/mgmt', entry)
@@ -161,7 +249,10 @@ export function addSREntry(entry) {
             'success'
           )
         )
-        dispatch(getServiceRegistryEntries())
+        dispatch(getServiceRegistryEntriesView())
+        if(cb) {
+          cb()
+        }
       })
       .catch(error => {
         dispatch(
@@ -198,7 +289,7 @@ export function deleteServiceById(serviceId) {
             'success'
           )
         )
-        dispatch(getServiceRegistryEntries())
+        dispatch(getServiceRegistryEntriesView())
       })
       .catch(error => {
         console.log(error)
@@ -236,7 +327,7 @@ export function editSREntry(entry) {
               'success'
             )
           )
-          dispatch(getServiceRegistryEntries())
+          dispatch(getServiceRegistryEntriesView())
           resolve()
         })
         .catch(error => {

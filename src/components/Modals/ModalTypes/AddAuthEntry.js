@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles'
 import { addAuthData } from '../../../actions/auth'
-import { getServiceRegistryEntries } from '../../../actions/serviceRegistry'
+import { getServiceRegistryEntriesView } from '../../../actions/serviceRegistry'
 import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
 import Button from '../../CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
@@ -231,7 +231,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getServiceRegistryEntries: () => {dispatch(getServiceRegistryEntries())},
+    getServiceRegistryEntries: () => {dispatch(getServiceRegistryEntriesView())},
     addAuthData: (
       consumerSystem,
       providerSystems,

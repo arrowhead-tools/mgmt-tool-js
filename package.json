@@ -11,6 +11,7 @@
     "classnames": "^2.2.6",
     "downshift": "^3.1.7",
     "express": "^4.16.3",
+    "js-file-download": "^0.4.8",
     "keycode": "^2.2.0",
     "lodash": "^4.17.10",
     "match-sorter": "^2.3.0",

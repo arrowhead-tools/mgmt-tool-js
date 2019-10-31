@@ -10,7 +10,8 @@ export const initialState = {
   groupByConsumer: [],
   groupByProvider: [],
   groupByService: [],
-   interCloudCloudData: [],
+  authRules: [],
+  interCloudCloudData: [],
   interCloudServiceData: [],
   clouds: []
 }
@@ -20,6 +21,7 @@ export default function auth(state = initialState, action = {}) {
     case RECEIVE_AUTH_DATA:
       return {
         ...state,
+        authRules: action.authRules,
         groupByConsumer: action.consumer,
         groupByProvider: action.provider,
         groupByService: action.service

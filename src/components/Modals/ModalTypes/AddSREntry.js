@@ -88,8 +88,8 @@ class AddSREntry extends Component {
         systemName: '',
         ...(props.data && props.data.provider)
       },
-      secure: props.data.secure ? props.data.secure : 'NOT_SECURE',
-      serviceDefinition: props.data.serviceDefinition && props.data.serviceDefinition.serviceDefinition ? props.data.serviceDefinition.serviceDefinition : '',
+      secure: props.data && props.data.secure ? props.data.secure : 'NOT_SECURE',
+      serviceDefinition: props.data && props.data.serviceDefinition && props.data.serviceDefinition.serviceDefinition ? props.data.serviceDefinition.serviceDefinition : '',
       serviceUri: props.data ? props.data.serviceUri : '',
       version: props.data ? props.data.version : '',
 
