@@ -56,7 +56,13 @@ class RelayTab extends Component {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
                 <Typography>
+                  <b>Type:</b> {entry.type}
+                </Typography>
+                <Typography>
                   <b>Secure:</b> {entry.secure ? '✓' : '✗'}
+                </Typography>
+                <Typography>
+                  <b>Exclusive:</b> {entry.exclusive ? '✓' : '✗'}
                 </Typography>
               </ExpansionPanelDetails>
               <Divider />

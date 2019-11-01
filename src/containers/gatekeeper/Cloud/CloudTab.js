@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -35,7 +35,7 @@ const styles = theme => ({
   }
 })
 
-class NeighborhoodTab extends Component {
+class CloudTab extends Component {
   render() {
     const { data, classes, handlers } = this.props
     return (
@@ -51,32 +51,32 @@ class NeighborhoodTab extends Component {
         </div>
         {data.map(entry => {
           return (
-            <ExpansionPanel key={entry.cloud.id}>
+            <ExpansionPanel key={entry.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
-                  {entry.cloud.cloudName}
+                  {entry.name}
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
                 <Typography>
-                  <b>Operator:</b> {entry.cloud.operator}
+                  <b>Operator:</b> {entry.operator}
                 </Typography>
                 <Typography>
-                  <b>Address:</b> {entry.cloud.address}
+                  <b>Own Cloud:</b> {entry.ownCloud ? '✓' : '✗'}
                 </Typography>
                 <Typography>
-                  <b>Port:</b> {entry.cloud.port}
+                  <b>Neighbor:</b> {entry.neighbor ? '✓' : '✗'}
                 </Typography>
-                <Typography>
+                {/*<Typography>
                   <b>Gatekeeper Service URI</b>{' '}
                   {entry.cloud.gatekeeperServiceURI}
-                </Typography>
+                </Typography>*/}
                 <Typography noWrap>
                   <b>Authentication Info:</b>{' '}
-                  {entry.cloud.authenticationInfo || '-'}
+                  {entry.authenticationInfo || '-'}
                 </Typography>
                 <Typography>
-                  <b>Secure:</b> {entry.cloud.secure ? '✓' : '✗'}
+                  <b>Secure:</b> {entry.secure ? '✓' : '✗'}
                 </Typography>
               </ExpansionPanelDetails>
               <Divider />
@@ -84,8 +84,7 @@ class NeighborhoodTab extends Component {
                 <Button
                   size="small"
                   onClick={handlers.onDeleteNeighborhoodClick(
-                    entry.cloud.operator,
-                    entry.cloud.cloudName
+                    entry.id
                   )}
                 >
                   Delete
@@ -106,10 +105,10 @@ class NeighborhoodTab extends Component {
   }
 }
 
-NeighborhoodTab.propTypes = {
+CloudTab.propTypes = {
   data: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(NeighborhoodTab)
+export default withStyles(styles)(CloudTab)

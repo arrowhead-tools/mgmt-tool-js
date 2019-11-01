@@ -223,9 +223,6 @@ AddAuthEntry.propTypes = {
 
 function mapStateToProps(state) {
   const { services } = state
-  console.log('systems', services.autoCompleteData.systemList)
-  console.log('services', services.autoCompleteData.serviceList)
-  console.log('interfaces', services.autoCompleteData.interfaceList)
   return { systems: services.autoCompleteData.systemList, services: services.autoCompleteData.serviceList, interfaces: services.autoCompleteData.interfaceList }
 }
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import * as PropTypes from 'prop-types'
 import TextField from '@material-ui/core/TextField'
 import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles'
@@ -8,6 +9,9 @@ import Button from '../../CustomButtons/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
+
+import { getRelays } from '../../../actions/relay'
+import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
 
 const styles = theme => ({
   input: {
@@ -19,40 +23,31 @@ const styles = theme => ({
   }
 })
 
-class AddNeighborhood extends Component {
+class AddCloud extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       id: props.data.id || null,
       operator: props.data.operator || '',
-      cloudName: props.data.cloudName || '',
-      address: props.data.address || '',
-      port: props.data.port || '',
-      gatekeeperServiceURI: props.data.gatekeeperServiceURI || '',
+      name: props.data.name || '',
       authenticationInfo: props.data.authenticationInfo || '',
-      secure: props.data.secure || false
+      secure: props.data.secure || false,
+      gatekeeperRelays: props.data.gatekeeperRelays || [],
+      gatewayRelays: props.data.gatewayRelays || []
     }
+  }
+
+  componentDidMount() {
+    this.props.getRelays()
   }
 
   onOperatorChange = e => {
     this.setState({ operator: e.target.value })
   }
 
-  onAddressChange = e => {
-    this.setState({ address: e.target.value })
-  }
-
   onCloudNameChange = e => {
-    this.setState({ cloudName: e.target.value })
-  }
-
-  onPortChange = e => {
-    this.setState({ port: e.target.value })
-  }
-
-  onGatekeeperServiceURIChange = e => {
-    this.setState({ gatekeeperServiceURI: e.target.value })
+    this.setState({ name: e.target.value })
   }
 
   onAuthenticationInfoChange = e => {
@@ -61,6 +56,14 @@ class AddNeighborhood extends Component {
 
   onSecureChange = e => {
     this.setState({ secure: e.target.checked })
+  }
+
+  handleGatekeeperRelaysChange = gatekeeperRelays => {
+    this.setState({ gatekeeperRelays })
+  }
+
+  handleGatewayRelaysChange = gatewayRelays => {
+    this.setState({ gatewayRelays })
   }
 
   onSubmit = () => {
@@ -75,7 +78,7 @@ class AddNeighborhood extends Component {
   }
 
   render() {
-    const { classes, isEdit } = this.props
+    const { classes, isEdit, relays } = this.props
     return (
       <div>
         <Card
@@ -96,41 +99,12 @@ class AddNeighborhood extends Component {
             onChange={this.onOperatorChange}
           />
           <TextField
-            value={this.state.cloudName}
+            value={this.state.name}
             className={classes.input}
-            id="cloudName"
+            id="name"
             required
-            label="CloudName"
+            label="Name"
             onChange={this.onCloudNameChange}
-          />
-          <TextField
-            value={this.state.address}
-            className={classes.input}
-            id="address"
-            required
-            label="Address"
-            onChange={this.onAddressChange}
-          />
-          <TextField
-            value={this.state.port}
-            className={classes.input}
-            id="port"
-            required
-            label="Port"
-            onChange={this.onPortChange}
-            type="number"
-            inputProps={{
-              min: '1',
-              max: '65535'
-            }}
-          />
-          <TextField
-            value={this.state.gatekeeperServiceURI}
-            className={classes.input}
-            id="gatekeeperServiceURI"
-            required
-            label="Gatekeeper Service URI"
-            onChange={this.onGatekeeperServiceURIChange}
           />
           <TextField
             value={this.state.authenticationInfo}
@@ -150,14 +124,31 @@ class AddNeighborhood extends Component {
               onChange={this.onSecureChange}
             />
           </div>
+          <AutoCompleteMulti
+            handleOnChange={this.handleGatekeeperRelaysChange}
+            label="Gatekeeper Relays"
+            placeholder="Gatekeeper Relays"
+            keyValue="address"
+            required
+            defaultItems={this.state.gatekeeperRelays}
+            suggestions={relays}
+          />
+          <AutoCompleteMulti
+            handleOnChange={this.handleGatewayRelaysChange}
+            label="Gateway Relays"
+            placeholder="Gateway Relays"
+            keyValue="address"
+            required
+            defaultItems={this.state.gatewayRelays}
+            suggestions={relays}
+          />
         </Card>
         <Button
           disabled={
             this.state.operator === '' ||
-            this.state.cloudName === '' ||
-            this.state.address === '' ||
-            this.state.port === '' ||
-            this.state.gatekeeperServiceURI === ''
+            this.state.name === '' ||
+            this.state.gatekeeperRelays === [] ||
+            this.state.gatewayRelays === []
           }
           color="primary"
           onClick={this.onSubmit}
@@ -184,7 +175,7 @@ class AddNeighborhood extends Component {
   }
 }
 
-AddNeighborhood.propTypes = {
+AddCloud.propTypes = {
   data: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   updateCloud: PropTypes.func,
@@ -193,4 +184,17 @@ AddNeighborhood.propTypes = {
   isEdit: PropTypes.bool
 }
 
-export default withStyles(styles)(AddNeighborhood)
+function mapStateToProps(state) {
+  const { data } = state.relay
+  return { relays: data}
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getRelays: () => {
+      dispatch(getRelays())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddCloud))

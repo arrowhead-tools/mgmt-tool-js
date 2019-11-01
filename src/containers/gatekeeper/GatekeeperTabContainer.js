@@ -3,9 +3,9 @@ import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import SwipeableViews from 'react-swipeable-views'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import NeighborhoodTab from './Neighborhood/NeighborhoodTab'
+import CloudTab from './Cloud/CloudTab'
 import RelayTab from './Relay/RelayTab'
 
 const styles = theme => ({})
@@ -30,7 +30,7 @@ class GatekeeperTabContainer extends Component {
       <div>
         <AppBar position="static" style={{ background: '#004676' }}>
           <Tabs value={value} onChange={this.handleChange} variant="fullWidth">
-            <Tab label="Neighborhood" />
+            <Tab label="Cloud" />
             <Tab label="Relay" />
           </Tabs>
         </AppBar>
@@ -39,7 +39,7 @@ class GatekeeperTabContainer extends Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <NeighborhoodTab
+          <CloudTab
             dir={theme.direction}
             data={neighborhoodData}
             handlers={handlers.neighborhood}

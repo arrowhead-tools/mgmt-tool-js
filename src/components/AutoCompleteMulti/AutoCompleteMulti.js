@@ -62,7 +62,7 @@ function renderInput(inputProps) {
 class AutoCompleteMulti extends React.Component {
   state = {
     inputValue: '',
-    selectedItem: []
+    selectedItem: this.props.defaultItems || []
   }
 
   handleKeyDown = event => {

@@ -13,9 +13,9 @@ function receiveClouds(data) {
 export function getClouds() {
   return (dispatch, getState) => {
     networkService
-      .get('/gatekeeper/mgmt/neighborhood')
+      .get('/gatekeeper/mgmt/clouds')
       .then(response => {
-        dispatch(receiveClouds(response.data))
+        dispatch(receiveClouds(response.data.data))
       })
       .catch(error => {
         console.log(error)
@@ -24,10 +24,14 @@ export function getClouds() {
 }
 
 export function addCloud(cloudData) {
-  const newCloud = [{ cloud: cloudData }]
+  const newCloud = {...cloudData}
+  newCloud.gatekeeperRelayIds = cloudData.gatekeeperRelays.map(relay => relay.id)
+  newCloud.gatewayRelayIds = cloudData.gatewayRelays.map(relay => relay.id)
+  delete newCloud.gatekeeperRelays
+  delete newCloud.gatewayRelays
   return (dispatch, getState) => {
     networkService
-      .post('/gatekeeper/mgmt/neighborhood', newCloud)
+      .post('/gatekeeper/mgmt/clouds', [newCloud])
       .then(response => {
         dispatch(getClouds())
         dispatch(
@@ -61,11 +65,11 @@ export function addCloud(cloudData) {
   }
 }
 
-export function deleteCloud(operator, cloudName) {
+export function deleteCloud(id) {
   return (dispatch, getState) => {
     networkService
       .delete(
-        `/gatekeeper/mgmt/neighborhood/operator/${operator}/cloudname/${cloudName}`
+        `/gatekeeper/mgmt/clouds/${id}`
       )
       .then(response => {
         dispatch(getClouds())
@@ -101,9 +105,14 @@ export function deleteCloud(operator, cloudName) {
 }
 
 export function updateCloud(updatedCloud) {
+  const newCloud = {...updatedCloud}
+  newCloud.gatekeeperRelayIds = updatedCloud.gatekeeperRelays.map(relay => relay.id)
+  newCloud.gatewayRelayIds = updatedCloud.gatewayRelays.map(relay => relay.id)
+  delete newCloud.gatekeeperRelays
+  delete newCloud.gatewayRelays
   return (dispatch, getState) => {
     networkService
-      .put(`/mgmt/clouds/${updatedCloud.id}`, updatedCloud)
+      .put(`gatekeeper/mgmt/clouds/${updatedCloud.id}`, newCloud)
       .then(response => {
         dispatch(getClouds())
         dispatch(

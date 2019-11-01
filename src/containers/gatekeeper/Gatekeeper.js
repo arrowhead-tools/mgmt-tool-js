@@ -84,7 +84,7 @@ class Gatekeeper extends Component {
         open: true,
         closeModal: this.props.hideModal,
         isEdit: true,
-        data: data.cloud,
+        data: data,
         updateCloud: this.props.updateCloud
       },
       'addNeighborhood'

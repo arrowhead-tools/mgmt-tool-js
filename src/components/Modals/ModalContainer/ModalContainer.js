@@ -8,7 +8,7 @@ import AddModal from '../ModalTypes/AddModal'
 import ServiceSearchModal from '../ModalTypes/ServiceSearch'
 import AddSREntry from '../ModalTypes/AddSREntry'
 import AddAuthEntry from '../ModalTypes/AddAuthEntry'
-import AddNeighborhood from '../ModalTypes/AddNeighborhood'
+import AddCloud from '../ModalTypes/AddCloud'
 import AddRelay from '../ModalTypes/AddRelay'
 import EventHandlerDialog from '../ModalTypes/EventHandler'
 import InterCloudDialog from '../ModalTypes/InterCloudDialog'
@@ -22,7 +22,7 @@ const MODAL_TYPES = {
   serviceSearch: ServiceSearchModal,
   addSREntry: AddSREntry,
   addAuthEntry: AddAuthEntry,
-  addNeighborhood: AddNeighborhood,
+  addNeighborhood: AddCloud,
   addRelay: AddRelay,
   eventHandlerDialog: EventHandlerDialog,
   InterCloudDialog: InterCloudDialog,

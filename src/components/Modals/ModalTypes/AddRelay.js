@@ -7,6 +7,7 @@ import Button from '../../CustomButtons/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
+import RelayTypeDropdown from '../../Dropdown/RelayTypeDropdown'
 
 const styles = theme => ({
   input: {
@@ -26,7 +27,9 @@ class AddRelay extends Component {
       id: props.data.id || null,
       address: props.data.address || '',
       port: props.data.port || '',
-      secure: props.data.secure || false
+      type: props.data.type,
+      secure: props.data.secure || false,
+      exclusive: props.data.exclusive || false
     }
   }
 
@@ -40,6 +43,14 @@ class AddRelay extends Component {
 
   onSecureChange = e => {
     this.setState({ secure: e.target.checked })
+  }
+
+  onExclusiveChange = e => {
+    this.setState({ exclusive: e.target.checked })
+  }
+
+  onTypeChange = e => {
+    this.setState( { type: e.target.value })
   }
 
   onSubmit = () => {
@@ -87,6 +98,7 @@ class AddRelay extends Component {
               max: '65535'
             }}
           />
+          <RelayTypeDropdown  value={this.state.type} handleTypeChange={this.onTypeChange} classes={classes}/>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <Typography variant="subtitle2" style={{ margin: '20px' }}>
               Is secure?
@@ -96,6 +108,17 @@ class AddRelay extends Component {
               id="secure"
               label="Secure"
               onChange={this.onSecureChange}
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <Typography variant="subtitle2" style={{ margin: '20px' }}>
+              Is exclusive?
+            </Typography>
+            <Checkbox
+              checked={this.state.exclusive}
+              id="exclusive"
+              label="Exclusive"
+              onChange={this.onExclusiveChange}
             />
           </div>
         </Card>
