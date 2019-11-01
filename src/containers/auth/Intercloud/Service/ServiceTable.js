@@ -84,15 +84,12 @@ class ServiceTable extends React.Component {
                 .map(n => {
                   return (
                     <TableRow hover key={n.interCloudEntryId}>
-                      <TableCell>{n.operator}</TableCell>
-                      <TableCell>{n.cloudName}</TableCell>
-                      <TableCell>{n.address}</TableCell>
-                      <TableCell>{n.port}</TableCell>
-                      <TableCell>{n.gatekeeperServiceURI}</TableCell>
-                      <TableCell className={classes.scroll}>
-                        {n.authenticationInfo}
-                      </TableCell>
-                      <TableCell>{n.secure ? '✓' : '✗'}</TableCell>
+                      <TableCell>{n.cloud.operator}</TableCell>
+                      <TableCell>{n.cloud.name}</TableCell>
+                      <TableCell>{n.cloud.provider.systemName}</TableCell>
+                      <TableCell>{n.cloud.provider.port}</TableCell>
+                      <TableCell className={classes.scroll}>{n.cloud.provider.authenticationInfo}</TableCell>
+                      <TableCell>{n.cloud.provider.interfaces.map(iface => iface.interfaceName).join(' ')}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton
                           color="secondary"

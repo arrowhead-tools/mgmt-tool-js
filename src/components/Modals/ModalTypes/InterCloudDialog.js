@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
-import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import * as PropTypes from 'prop-types'
 import AddIcon from '@material-ui/icons/Add'
 import Button from '../../CustomButtons/Button'
 import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles'
-import AutoComplete from '../../AutoComplete/AutoComplete'
 import { connect } from 'react-redux'
 import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
-import Checkbox from '@material-ui/core/Checkbox'
-import { getClouds } from '../../../actions/auth'
-import { getServices } from '../../../actions/serviceRegistry'
+import { getClouds} from '../../../actions/gatekeeper'
+import { getServices, getSystems, getServiceRegistryEntriesView } from '../../../actions/serviceRegistry'
+import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
 
 const styles = theme => ({
   input: {
@@ -50,6 +48,10 @@ const styles = theme => ({
     margin: '10px',
     width: '440px'
   },
+  text: {
+    paddingLeft: '20px',
+    paddingBottom: '20px'
+  },
   title: {
     paddingTop: '10px'
   },
@@ -64,196 +66,127 @@ class InterCloudDialog extends Component {
     super(props)
 
     this.state = {
-      id: null,
-      operator: '',
-      cloudName: '',
-      address: '',
-      port: '',
-      gatekeeperServiceURI: '',
-      authenticationInfo: '',
-      secure: false,
-      serviceList: []
+      cloud: {},
+      interfaceList: [],
+      providerList: [],
+      service: {}
     }
   }
 
   componentDidMount() {
+    this.props.getServiceRegistryEntriesView()
     this.props.getClouds()
     this.props.getServices()
+    this.props.getSystems()
   }
 
   onCloudChange = cloud => {
-    if (cloud !== undefined) {
-      this.setState({
-        id: cloud.id,
-        operator: cloud.operator,
-        cloudName: cloud.cloudName,
-        address: cloud.address,
-        port: cloud.port,
-        gatekeeperServiceURI: cloud.gatekeeperServiceURI,
-        authenticationInfo: cloud.authenticationInfo,
-        secure: cloud.secure
-      })
-    }
+    this.setState({cloud})
   }
 
-  onCloudNameChange = cloudName => {
-    this.setState({ cloudName, id: null })
+  onSourceSystemChange = service => {
+    this.setState({ service })
   }
 
-  onOperatorChange = event => {
-    this.setState({ operator: event.target.value, id: null })
+  handleProviderSystemOnChange = providerList => {
+    this.setState({ providerList })
   }
 
-  onAddressChange = event => {
-    this.setState({ address: event.target.value, id: null })
-  }
-
-  onPortChange = event => {
-    if (
-      event.target.value === '' ||
-      (event.target.value > 0 && event.target.value <= 65536)
-    ) {
-      this.setState({ port: event.target.value, id: null })
-    }
-  }
-
-  onGatekeeperServiceURIChange = event => {
-    this.setState({ gatekeeperServiceURI: event.target.value, id: null })
-  }
-
-  onAuthInfoChange = event => {
-    this.setState({ authenticationInfo: event.target.value, id: null })
-  }
-
-  onSecureChange = event => {
-    this.setState({ secure: event.target.checked })
-  }
-
-  onSourceSystemChange = serviceList => {
-    this.setState({ serviceList })
+  handleInterfacesListOnChange = interfaceList => {
+    this.setState({ interfaceList })
   }
 
   onSubmit = () => {
     const interCloudEntry = {
-      cloud: {
-        id: this.state.id,
-        operator: this.state.operator,
-        cloudName: this.state.cloudName,
-        address: this.state.address,
-        port: this.state.port,
-        gatekeeperServiceURI: this.state.gatekeeperServiceURI,
-        authenticationInfo: this.state.authenticationInfo,
-        secure: this.state.secure
-      },
-      serviceList: this.state.serviceList
+      cloudId: this.state.cloud.id,
+      interfaceIdList: this.state.interfaceList.map(iface => iface.id),
+      providerIdList: this.state.providerList.map(system => system.id),
+      serviceDefinitionIdList: [this.state.service.id]
     }
     this.props.addInterCloudEntry(interCloudEntry)
     this.props.closeModal()
   }
 
   render() {
-    const { clouds, classes, services } = this.props
+    const { clouds, classes, services, systems, interfaces } = this.props
     return (
       <div>
         <Card raised className={classes.card}>
           <Typography variant="h5" align="center" className={classes.title}>
             Cloud
           </Typography>
-          <AutoComplete
-            handleOnChange={this.onCloudChange}
-            handleTextChange={this.onCloudNameChange}
-            suggestions={clouds}
-            defaultValue={this.state.cloudName}
-            keyValue="cloudName"
-            label="Cloud Name"
-            required
-            placeholder="Cloud Name"
+          <AutoCompleteSingle
             classes={{
               inputRoot: { flexWrap: 'wrap' },
               textField: {
                 width: '400px',
                 marginTop: '20px',
-                marginLeft: '20px',
-                marginRight: '20px'
+                marginLeft: '20px'
               }
             }}
-          />
-          <TextField
-            value={this.state.operator}
-            className={classes.input}
-            id="operator"
+            suggestions={clouds}
+            handleOnChange={this.onCloudChange}
+            keyValue="name"
             required
-            label="Operator"
-            onChange={this.onOperatorChange}
+            placeholder="Cloud"
+            label="Cloud"
           />
-          <TextField
-            value={this.state.address}
-            className={classes.input}
-            id="address"
-            required
-            label="Address"
-            onChange={this.onAddressChange}
-          />
-          <TextField
-            value={this.state.port}
-            className={classes.input}
-            id="port"
-            required
-            label="Port"
-            onChange={this.onPortChange}
-            type="number"
-            inputProps={{
-              min: '1',
-              max: '65535'
-            }}
-          />
-          <TextField
-            value={this.state.gatekeeperServiceURI}
-            className={classes.input}
-            id="gatekeeperServiceURI"
-            required
-            label="GateKeeper Service URI"
-            onChange={this.onGatekeeperServiceURIChange}
-          />
-          <TextField
-            value={this.state.authenticationInfo}
-            className={classes.input}
-            id="authenticationInfo"
-            label="Authentication Info"
-            onChange={this.onAuthInfoChange}
-          />
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <Typography variant="subtitle2" style={{ margin: '20px' }}>
-              Match metadata?
-            </Typography>
-            <Checkbox
-              checked={this.state.matchMetadata}
-              id="secure"
-              label="Secure?"
-              onChange={this.onSecureChange}
-            />
-          </div>
+          <Typography className={classes.text}>
+            <b>Operator:</b>{' '}
+            {this.state.cloud && this.state.cloud.operator ? this.state.cloud.operator : ''}
+          </Typography>
         </Card>
         <Card raised className={classes.card}>
           <Typography variant="h5" align="center" className={classes.title}>
-            Services
+            Provider Systems
           </Typography>
           <AutoCompleteMulti
-            handleOnChange={this.onSourceSystemChange}
-            label="Services"
-            placeholder="Services"
-            keyValue="serviceDefinition"
+            handleOnChange={this.handleProviderSystemOnChange}
+            disabled={this.state.interfaces === null}
+            label="Provider Systems"
+            placeholder="Provider Systems"
+            keyValue="systemName"
+            required
+            suggestions={systems}
+          />
+        </Card>
+        <Card raised className={classes.card}>
+          <Typography variant="h5" align="center" className={classes.title}>
+            Service
+          </Typography>
+          <AutoCompleteSingle
+            classes={{
+              inputRoot: { flexWrap: 'wrap' },
+              textField: {
+                width: '400px',
+                marginTop: '20px',
+                marginLeft: '20px'
+              }
+            }}
             suggestions={services}
+            handleOnChange={this.onSourceSystemChange}
+            label="Service"
+            placeholder="Service"
+            keyValue="serviceDefinition"
+            required
+          />
+          <AutoCompleteMulti
+            handleOnChange={this.handleInterfacesListOnChange}
+            disabled={this.state.providedService === null}
+            label="Interfaces"
+            placeholder="Interfaces"
+            keyValue="value"
+            required
+            suggestions={interfaces}
           />
         </Card>
         <Button
           onClick={this.onSubmit}
           disabled={
-            !this.state.operator ||
-            !this.state.cloudName ||
-            !this.state.address ||
-            !this.state.port ||
-            !this.state.gatekeeperServiceURI
+            this.state.cloud === {} ||
+            this.state.interfaceList === [] ||
+            this.state.providerList === [] ||
+            this.state.serviceList === []
           }
           color="primary"
           className={classes.buttonStyle}
@@ -276,11 +209,11 @@ InterCloudDialog.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { auth, services } = state
-  return { clouds: auth.clouds, services: services.services }
+  const { gatekeeper, services } = state
+  return { clouds: gatekeeper.data, services: services.services, systems: services.systems, interfaces: services.autoCompleteData.interfaceList }
 }
 
 export default connect(
   mapStateToProps,
-  { getClouds, getServices }
+  { getClouds, getServices, getSystems, getServiceRegistryEntriesView }
 )(withStyles(styles)(InterCloudDialog))

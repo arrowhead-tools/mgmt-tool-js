@@ -27,12 +27,27 @@ const styles = theme => ({
 
 const columnData = [
   {
+    id: 'service.provider.systemName',
+    disablePadding: false,
+    label: 'System Name'
+  },
+  {
+    id: 'service.provider.port',
+    disablePadding: false,
+    label: 'Port'
+  },
+  {
+    id: 'service.provider.authenticationInfo',
+    disablePadding: false,
+    label: 'Authentication Info'
+  },
+  {
     id: 'serviceDefinition',
     disablePadding: false,
     label: 'Service Definition'
   },
   {
-    id: 'service.interfaces',
+    id: 'service.provider.interfaces',
     disablePadding: false,
     label: 'Interface'
   },
@@ -54,18 +69,15 @@ class CloudTab extends Component {
             <ExpansionPanel key={entry.cloud.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
-                  {entry.cloud.cloudName}
+                  {entry.cloud.name}
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
                 <Typography>
                   <b>Operator:</b> {entry.cloud.operator}
                 </Typography>
-                <Typography>
-                  <b>Address:</b> {entry.cloud.address}
-                </Typography>
-                <Typography>
-                  <b>Port:</b> {entry.cloud.port}
+                <Typography noWrap>
+                  <b>Authentication Info:</b> {entry.cloud.authenticationInfo}
                 </Typography>
                 <CloudTable
                   data={entry.services}

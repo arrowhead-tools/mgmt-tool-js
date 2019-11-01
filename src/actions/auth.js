@@ -12,7 +12,6 @@ import {
 } from '../utils/authUtils'
 export const RECEIVE_AUTH_DATA = 'RECEIVE_AUTH_DATA'
 export const RECEIVE_INTERCLOUD_DATA = 'RECEIVE_INTERCLOUD_DATA'
-export const RECEIVE_CLOUD_DATA = 'RECEIVE_CLOUD_DATA'
 
 function receiveAuthData(authRules, consumer, provider, service) {
   return {
@@ -29,13 +28,6 @@ function receiveInterCloudAuthData(cloud, service) {
     type: RECEIVE_INTERCLOUD_DATA,
     cloud,
     service
-  }
-}
-
-function getCloudData(clouds) {
-  return {
-    type: RECEIVE_CLOUD_DATA,
-    clouds
   }
 }
 
@@ -69,8 +61,8 @@ export function getInterCloudAuthData() {
       .then(response => {
         dispatch(
           receiveInterCloudAuthData(
-            groupInterCloudDataByClouds(response.data),
-            groupInterCloudDataByServices(response.data)
+            groupInterCloudDataByClouds(response.data.data),
+            groupInterCloudDataByServices(response.data.data)
           )
         )
       })
@@ -282,19 +274,6 @@ export function deleteInterCloudEntry(entryId) {
             'error'
           )
         )
-      })
-  }
-}
-
-export function getClouds() {
-  return dispatch => {
-    networkService
-      .get('/mgmt/clouds')
-      .then(response => {
-        dispatch(getCloudData(response.data))
-      })
-      .catch(error => {
-        console.log(error)
       })
   }
 }

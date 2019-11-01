@@ -26,36 +26,31 @@ const styles = theme => ({
 })
 
 const columnData = [
-  { id: 'operator', disablePadding: false, label: 'Operator' },
+  { id: 'cloud.operator', disablePadding: false, label: 'Operator' },
   {
-    id: 'cloudName',
+    id: 'cloud.name',
     disablePadding: false,
     label: 'Cloud Name'
   },
   {
-    id: 'address',
+    id: 'cloud.provider.systemName',
     disablePadding: false,
-    label: 'Address'
+    label: 'System Name'
   },
   {
-    id: 'port',
+    id: 'cloud.provider.port',
     disablePadding: false,
     label: 'Port'
   },
   {
-    id: 'gatekeeperServiceURI',
-    disablePadding: false,
-    label: 'Gatekeeper Service URI'
-  },
-  {
-    id: 'authenticationInfo',
+    id: 'cloud.provider.authenticationInfo',
     disablePadding: false,
     label: 'Authentication Info'
   },
   {
-    id: 'secure',
+    id: 'cloud.provider.interfaces',
     disablePadding: false,
-    label: 'Secure'
+    label: 'Interfaces'
   },
   {
     id: 'actions',
@@ -79,9 +74,6 @@ class ServiceTab extends Component {
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
-                <Typography>
-                  <b>Interfaces:</b> {entry.service.interfaces.join(', ')}
-                </Typography>
                 <ServiceTable
                   data={entry.clouds}
                   columnData={columnData}

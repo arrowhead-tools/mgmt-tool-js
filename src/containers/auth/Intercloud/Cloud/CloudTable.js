@@ -23,6 +23,10 @@ const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto'
   },
+  scroll: {
+    maxWidth: '0px',
+    overflowX: 'scroll'
+  },
   actionCell: {
     display: 'flex',
     flexDirection: 'row'
@@ -80,8 +84,11 @@ class CloudTable extends React.Component {
                 .map(n => {
                   return (
                     <TableRow hover key={n.interCloudEntryId}>
-                      <TableCell>{n.serviceDefinition}</TableCell>
-                      <TableCell>{n.interfaces.join(',')}</TableCell>
+                      <TableCell>{n.service.provider.systemName}</TableCell>
+                      <TableCell>{n.service.provider.port}</TableCell>
+                      <TableCell className={classes.scroll}>{n.service.provider.authenticationInfo}</TableCell>
+                      <TableCell>{n.service.serviceDefinition}</TableCell>
+                      <TableCell>{n.service.provider.interfaces.map(iface => iface.interfaceName).join(',')}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton
                           color="secondary"
