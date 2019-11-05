@@ -12,13 +12,8 @@ import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
 import ClearIcon from '@material-ui/icons/Clear'
 import Fab from '@material-ui/core/Fab'
-import {
-  getOrchestratorSystems,
-  getOrchestratorServices,
-  getOrchestrationClouds
-} from '../../../actions/orchestrator'
-import ChipInput from 'material-ui-chip-input'
-import Checkbox from '@material-ui/core/Checkbox'
+import { getServiceRegistryEntriesView } from '../../../actions/serviceRegistry'
+import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
 
 const styles = theme => ({
   title: {
@@ -74,173 +69,70 @@ class OrchStoreDialog extends Component {
   constructor(props) {
     super(props)
 
-    const serviceMetadata = []
+    const attributeHelper = []
     if (props.data) {
-      for (const key in props.data.service.serviceMetadata) {
-        serviceMetadata.push({
+      for (const key in props.data.attribute) {
+        attributeHelper.push({
           name: key,
-          value: props.data.service.serviceMetadata[key]
+          value: props.data.attribute[key]
         })
       }
     }
-    if (!serviceMetadata.length) {
-      serviceMetadata.push({ name: '', value: '' })
+    if (!attributeHelper.length) {
+      attributeHelper.push({ name: '', value: '' })
     }
 
-    const serviceData = {
-      ...(props.data && props.data.service),
-      serviceMetadata
-    }
 
     this.state = {
-      consumer: {
-        id: null,
-        systemName: '',
-        address: '',
-        port: '',
-        authenticationInfo: '',
-        ...(props.data && props.data.consumer)
-      },
-      providerSystem: {
-        id: null,
-        systemName: '',
-        address: '',
-        port: '',
-        authenticationInfo: '',
-        ...(props.data && props.data.providerSystem)
-      },
-      providerCloud: {
-        id: null,
-        operator: '',
-        cloudName: '',
-        address: '',
-        port: '',
-        gatekeeperServiceURI: '',
-        authenticationInfo: '',
-        secure: false,
-        ...(props.data && props.data.providerCloud)
-      },
-      service: {
-        id: null,
-        serviceDefinition: '',
-        interfaces: [],
-        serviceMetadata: [{ name: '', value: '' }],
-        ...serviceData
-      },
-      priority: (props.data && props.data.priority) || '',
-      serviceURI: (props.data && props.data.serviceURI) || ''
+     consumerSystem: props.data ? props.data.consumerSystem : {},
+     providerSystem: props.data ? props.data.providerSystem : {},
+     serviceDefinition: props.data ? props.data.serviceDefinition : {},
+     serviceInterface: props.data ? props.data.serviceInterface : {},
+     priority: props.data ? props.data.priority : '',
+     attribute: attributeHelper
     }
   }
 
   componentDidMount() {
-    this.props.getOrchestratorSystems()
-    this.props.getOrchestratorServices()
-    this.props.getOrchestrationClouds()
+    this.props.getServiceRegistryEntriesView()
   }
 
-  onConsumerSystemChange = consumer => {
-    if (consumer !== undefined) {
-      this.setState({ consumer })
-    }
+  handleConsumerSystemOnChange = consumerSystem => {
+    this.setState({ consumerSystem })
   }
 
-  onConsumerSystemNameChange = systemName => {
-    this.setState({
-      consumer: { ...this.state.consumer, systemName, id: null }
-    })
+  handleProvidedServiceOnChange = serviceDefinition => {
+    this.setState({ serviceDefinition })
   }
 
-  onAddressChange = event => {
-    this.setState({
-      consumer: {
-        ...this.state.consumer,
-        address: event.target.value,
-        id: null
-      }
-    })
+  handleInterfaceOnChange = serviceInterface => {
+    this.setState({ serviceInterface })
   }
 
-  onPortChange = event => {
-    if (
-      event.target.value === '' ||
-      (event.target.value > 0 && event.target.value <= 65536)
-    ) {
-      this.setState({
-        consumer: { ...this.state.consumer, port: event.target.value, id: null }
-      })
-    }
-  }
-
-  onAuthInfoChange = event => {
-    this.setState({
-      consumer: {
-        ...this.state.consumer,
-        authenticationInfo: event.target.value,
-        id: null
-      }
-    })
-  }
-
-  onChipAdd = chip => {
-    this.setState({
-      service: {
-        ...this.state.service,
-        interfaces: [...this.state.service.interfaces, chip]
-      }
-    })
-  }
-
-  onChipDelete = (deletedChip, index) => {
-    this.setState({
-      service: {
-        ...this.state.service,
-        interfaces: this.state.service.interfaces.filter(c => c !== deletedChip)
-      }
-    })
-  }
-
-  onServiceDefinitionChange = service => {
-    if (service !== undefined) {
-      this.setState({ service: { ...this.state.service, ...service } })
-    }
-  }
-
-  onServiceDefinitionNameChange = serviceDefinition => {
-    this.setState({
-      service: { ...this.state.service, serviceDefinition, id: null }
-    })
-  }
-
-  onServiceMetadataChange = (index, key) => event => {
-    const metadataArray = [...this.state.service.serviceMetadata]
+  onAttributeChange = (index, key) => event => {
+    const metadataArray = [...this.state.attribute]
     metadataArray[index][key] = event.target.value
     this.setState({
-      service: { ...this.state.service, serviceMetadata: metadataArray }
+      attribute: metadataArray
     })
   }
 
-  removeServiceMetadataProperty = removeIndex => () => {
+  removeAttributeProperty = removeIndex => () => {
     this.setState({
-      service: {
-        ...this.state.service,
-        serviceMetadata: [
-          ...this.state.service.serviceMetadata.slice(0, removeIndex),
-          ...this.state.service.serviceMetadata.slice(removeIndex + 1)
+     attribute: [
+          ...this.state.attribute.slice(0, removeIndex),
+          ...this.state.attribute.slice(removeIndex + 1)
         ]
-      }
     })
   }
 
-  addServiceMetadataProperty = () => {
+  addAttribute = () => {
     this.setState({
-      service: {
-        ...this.state.service,
-        serviceMetadata: [
-          ...this.state.service.serviceMetadata,
+        attribute: [
+          ...this.state.attribute,
           { name: '', value: '' }
         ]
-      }
-    })
+      })
   }
 
   onProviderSystemChange = providerSystem => {
@@ -289,73 +181,6 @@ class OrchStoreDialog extends Component {
       }
     })
   }
-  /*
-  onProviderCloudChange = providerCloud => {
-    if (providerCloud !== undefined) {
-      this.setState({ providerCloud })
-    }
-  }
-
-  onProviderCloudNameChange = cloudName => {
-    this.setState({ providerCloud: { ...this.state.providerCloud, cloudName } })
-  }
-
-  onProviderCloudOperatorChange = event => {
-    this.setState({
-      providerCloud: {
-        ...this.state.providerCloud,
-        operator: event.target.value
-      }
-    })
-  }
-
-  onProviderCloudAddressChange = event => {
-    this.setState({
-      providerCloud: {
-        ...this.state.providerCloud,
-        address: event.target.value
-      }
-    })
-  }
-
-  onProviderCloudPortChange = event => {
-    if (
-      event.target.value === '' ||
-      (event.target.value > 0 && event.target.value <= 65536)
-    ) {
-      this.setState({
-        providerCloud: { ...this.state.providerCloud, port: event.target.value }
-      })
-    }
-  }
-
-  onProviderCloudGatekeeperServiceURIChange = event => {
-    this.setState({
-      providerCloud: {
-        ...this.state.providerCloud,
-        gatekeeperServiceURI: event.target.value
-      }
-    })
-  }
-
-  onProviderCloudAuthInfoChange = event => {
-    this.setState({
-      providerCloud: {
-        ...this.state.providerCloud,
-        authenticationInfo: event.target.value
-      }
-    })
-  }
-
-  onProviderCloudSecureChange = event => {
-    this.setState({
-      providerCloud: {
-        ...this.state.providerCloud,
-        secure: event.target.checked
-      }
-    })
-  }
-  */
 
   onPriorityChange = event => {
     if (
@@ -368,24 +193,22 @@ class OrchStoreDialog extends Component {
     }
   }
 
-  onServiceURIChange = event => {
-    this.setState({ serviceURI: event.target.value })
-  }
-
   onSubmit = () => {
-    const serviceMetadataHelper = {}
-    for (const item of this.state.service.serviceMetadata) {
+    const attributeHelper = {}
+    for (const item of this.state.attribute) {
       if (item.name !== '' || item.value !== '') {
-        serviceMetadataHelper[item.name] = item.value
+        attributeHelper[item.name] = item.value
       }
     }
 
-    const data = { ...this.state }
-    if (!data.providerCloud.operator) {
-      //  provider Cloud is optional
-      delete data.providerCloud
-    }
-    data.service.serviceMetadata = serviceMetadataHelper
+    const data = {
+    attribute: attributeHelper,
+    consumerSystemId: this.state.consumerSystem.id,
+    priority: this.state.priority,
+    providerSystem: this.state.providerSystem,
+    serviceDefinitionName: this.state.serviceDefinition.value,
+    serviceInterfaceName: this.state.serviceInterface.value
+  }
 
     if (this.props.isEdit) {
       this.props.editStoreEntry(data, this.props.id)
@@ -396,7 +219,7 @@ class OrchStoreDialog extends Component {
   }
 
   render() {
-    const { classes, systems, services, clouds, isEdit = false } = this.props
+    const { classes, systems, services, interfaces, isEdit = false } = this.props
 
     return (
       <div>
@@ -404,100 +227,73 @@ class OrchStoreDialog extends Component {
           <Typography variant="h5" align="center" className={classes.title}>
             Consumer System
           </Typography>
-          <AutoComplete
-            defaultValue={this.state.consumer.systemName}
-            label="Consumer System Name"
-            handleOnChange={this.onConsumerSystemChange}
-            handleTextChange={this.onConsumerSystemNameChange}
-            suggestions={systems}
-            keyValue="systemName"
-            required
-            isEdit={isEdit}
-            placeholder="Consumer System Name"
+          <AutoCompleteSingle
             classes={{
               inputRoot: { flexWrap: 'wrap' },
               textField: {
                 width: '400px',
                 marginTop: '20px',
-                marginLeft: '20px',
-                marginRight: '20px'
+                marginLeft: '20px'
               }
             }}
-          />
-          <TextField
-            value={this.state.consumer.address}
-            className={classes.input}
-            id="address"
+            suggestions={systems}
+            handleOnChange={this.handleConsumerSystemOnChange}
+            keyValue="systemName"
             required
-            label="Address"
-            onChange={this.onAddressChange}
-          />
-          <TextField
-            value={this.state.consumer.port}
-            className={classes.input}
-            id="port"
-            label="Port"
-            required
-            onChange={this.onPortChange}
-            type="number"
-            inputProps={{ min: '1', max: '65535' }}
-          />
-          <TextField
-            value={this.state.consumer.authenticationInfo}
-            className={classes.input + ' ' + classes.marginBottom20}
-            id="authenticationInfo"
-            label="Authentication Info"
-            onChange={this.onAuthInfoChange}
+            placeholder="Consumer System"
+            label="Consumer System"
           />
         </Card>
         <Card raised className={classes.card}>
           <Typography variant="h5" align="center" className={classes.title}>
             Consumed Service
           </Typography>
-          <AutoComplete
-            defaultValue={this.state.service.serviceDefinition}
-            required
-            isEdit={isEdit}
-            id="serviceDefinition"
-            className={classes.input}
-            value={this.state.service.serviceDefinition}
-            label="Service Definition"
-            suggestions={services}
-            keyValue="serviceDefinition"
-            placeholder="Service Definition"
-            handleOnChange={this.onServiceDefinitionChange}
-            handleTextChange={this.onServiceDefinitionNameChange}
+          <AutoCompleteSingle
             classes={{
               inputRoot: { flexWrap: 'wrap' },
               textField: {
                 width: '400px',
                 marginTop: '20px',
-                marginLeft: '20px',
-                marginRight: '20px'
+                marginLeft: '20px'
               }
             }}
-          />
-          <ChipInput
+            suggestions={services}
+            keyValue="value"
+            label="Consumed Service"
+            placeholder="Consumed Service"
+            handleTextChange={null}
             required
-            value={this.state.service.interfaces}
-            id="interface"
-            className={classes.input}
+            handleOnChange={this.handleProvidedServiceOnChange}
+          />
+          <AutoCompleteSingle
+            classes={{
+              inputRoot: { flexWrap: 'wrap' },
+              textField: {
+                width: '400px',
+                marginTop: '20px',
+                marginLeft: '20px'
+              }
+            }}
+            suggestions={interfaces}
+            keyValue="value"
             label="Interface"
-            onAdd={chip => this.onChipAdd(chip)}
-            onDelete={(chip, index) => this.onChipDelete(chip, index)}
+            placeholder="Interface"
+            handleTextChange={null}
+            required
+            handleOnChange={this.handleInterfaceOnChange}
           />
           <Typography variant="subtitle2" style={{ margin: '20px' }}>
-            Service Metadata
+            Attributes
           </Typography>
           <div>
-            {this.state.service.serviceMetadata.map(
+            {this.state.attribute.map(
               ({ name, value }, index) => (
                 <div key={index} className={classes.prop}>
                   <TextField
                     label="Name"
                     value={name}
                     className={classes.propKey}
-                    onChange={this.onServiceMetadataChange(
+                    onChange={this.onAttributeChange(
                       index,
                       'name',
                       value
@@ -507,7 +303,7 @@ class OrchStoreDialog extends Component {
                     label="Value"
                     value={value}
                     className={classes.propValue}
-                    onChange={this.onServiceMetadataChange(
+                    onChange={this.onAttributeChange(
                       index,
                       'value',
                       value
@@ -516,7 +312,7 @@ class OrchStoreDialog extends Component {
                   <IconButton
                     color="secondary"
                     aria-label="Remove Property"
-                    onClick={this.removeServiceMetadataProperty(index)}
+                    onClick={this.removeAttributeProperty(index)}
                   >
                     <ClearIcon />
                   </IconButton>
@@ -529,7 +325,7 @@ class OrchStoreDialog extends Component {
             size="small"
             color="secondary"
             aria-label="Add"
-            onClick={this.addServiceMetadataProperty}
+            onClick={this.addAttribute}
           >
             <AddIcon />
           </Fab>
@@ -595,27 +391,14 @@ class OrchStoreDialog extends Component {
             type="number"
             inputProps={{ min: '1', max: '999' }}
           />
-          <TextField
-            value={this.state.serviceURI}
-            className={classes.input}
-            id="serviceURI"
-            required
-            label="Service URI"
-            onChange={this.onServiceURIChange}
-          />
         </Card>
         <Button
           disabled={
-            this.state.consumer.systemName === '' ||
-            this.state.consumer.address === '' ||
-            this.state.consumer.port === '' ||
-            this.state.providerSystem.systemName === '' ||
-            this.state.providerSystem.address === '' ||
-            this.state.providerSystem.port === '' ||
-            this.state.service.serviceDefinition === '' ||
-            this.state.service.interfaces === [] ||
-            this.state.priority === '' ||
-            this.state.serviceURI === ''
+            this.state.consumerSystem === {} ||
+            this.state.providerSystem === {} ||
+            this.state.serviceDefinition === {} ||
+            this.state.serviceInterface === {} ||
+            this.state.priority === ''
           }
           color="primary"
           onClick={this.onSubmit}
@@ -734,21 +517,17 @@ OrchStoreDialog.propTypes = {
   editStoreEntry: PropTypes.func,
   data: PropTypes.object,
   id: PropTypes.number,
-  getOrchestratorSystems: PropTypes.func.isRequired,
-  getOrchestratorServices: PropTypes.func.isRequired,
-  getOrchestrationClouds: PropTypes.func.isRequired
+  getServiceRegistryEntriesView: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  const { orchestrator } = state
+  const { services } = state
   return {
-    systems: orchestrator.systems,
-    services: orchestrator.services,
-    clouds: orchestrator.clouds
+    systems: services.autoCompleteData.systemList, services: services.autoCompleteData.serviceList, interfaces: services.autoCompleteData.interfaceList
   }
 }
 
 export default connect(
   mapStateToProps,
-  { getOrchestratorServices, getOrchestratorSystems, getOrchestrationClouds }
+  { getServiceRegistryEntriesView, }
 )(withStyles(styles)(OrchStoreDialog))

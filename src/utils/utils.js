@@ -212,9 +212,9 @@ export function digestOrchestrationBackupListData(orchestrationData) {
       storeEntryId: data.id,
       storeEntry: data
     }
-    if (!helperObject[data.consumer.id]) {
-      helperObject[data.consumer.id] = {
-        consumerData: { ...data.consumer },
+    if (!helperObject[data.consumerSystem.id]) {
+      helperObject[data.consumerSystem.id] = {
+        consumerData: { ...data.consumerSystem },
         consumedServices: {
           [data.service.id]: {
             service: data.service,
@@ -223,13 +223,13 @@ export function digestOrchestrationBackupListData(orchestrationData) {
         }
       }
     } else {
-      if (!helperObject[data.consumer.id].consumedServices[data.service.id]) {
-        helperObject[data.consumer.id].consumedServices[data.service.id] = {
+      if (!helperObject[data.consumerSystem.id].consumedServices[data.service.id]) {
+        helperObject[data.consumerSystem.id].consumedServices[data.service.id] = {
           service: data.service,
           providers: [providerSystem]
         }
       } else {
-        helperObject[data.consumer.id].consumedServices[
+        helperObject[data.consumerSystem.id].consumedServices[
           data.service.id
         ].providers.push(providerSystem)
       }

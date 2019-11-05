@@ -13,36 +13,14 @@ function receiveOrchestratorStoreData(backup) {
     backup
   }
 }
-
-function receiveOrchestratorSystems(systems) {
-  return {
-    type: RECEIVE_ORCHESTRATOR_SYSTEMS,
-    systems
-  }
-}
-
-function receiveOrchestratorServices(services) {
-  return {
-    type: RECEIVE_ORCHESTRATOR_SERVICES,
-    services
-  }
-}
-
-function receiveOrchestratorClouds(clouds) {
-  return {
-    type: RECEIVE_ORCHESTRATOR_CLOUDS,
-    clouds
-  }
-}
-
 export function getOrchestrationStoreData() {
   return (dispatch, getState) => {
     networkService
-      .get('/orchestrator/mgmt/store/all')
+      .get('/orchestrator/mgmt/store')
       .then(response => {
         dispatch(
           receiveOrchestratorStoreData(
-            digestOrchestrationBackupListData(response.data)
+            digestOrchestrationBackupListData(response.data.data)
           )
         )
       })
@@ -122,45 +100,6 @@ export function deleteService(serviceId) {
             'error'
           )
         )
-      })
-  }
-}
-
-export function getOrchestratorSystems() {
-  return dispatch => {
-    networkService
-      .get('/mgmt/systems')
-      .then(response => {
-        dispatch(receiveOrchestratorSystems(response.data))
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-}
-
-export function getOrchestratorServices() {
-  return dispatch => {
-    networkService
-      .get('/mgmt/services')
-      .then(response => {
-        dispatch(receiveOrchestratorServices(response.data))
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-}
-
-export function getOrchestrationClouds() {
-  return dispatch => {
-    networkService
-      .get('/mgmt/clouds')
-      .then(response => {
-        dispatch(receiveOrchestratorClouds(response.data))
-      })
-      .catch(error => {
-        console.log(error)
       })
   }
 }
