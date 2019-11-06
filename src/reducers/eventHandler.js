@@ -1,8 +1,7 @@
-import { RECEIVE_EVENTS, RECEIVE_EH_SYSTEMS } from '../actions/eventHandler'
+import { RECEIVE_EVENTS } from '../actions/eventHandler'
 
 const initialState = {
   data: [],
-  systems: [],
   eventNames: []
 }
 
@@ -13,11 +12,6 @@ export default function eventHandler(state = initialState, action = {}) {
         ...state,
         data: action.payload.data,
         eventNames: action.payload.eventNames
-      }
-    case RECEIVE_EH_SYSTEMS:
-      return {
-        ...state,
-        systems: action.payload
       }
     default:
       return state

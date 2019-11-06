@@ -29,8 +29,8 @@ export function getEventHandlerData() {
       .then(response => {
         dispatch(
           receiveEventHandlerData(
-            groupEventHandlersByEventType(response.data),
-            getEventNames(response.data)
+            groupEventHandlersByEventType(response.data.data),
+            getEventNames(response.data.data)
           )
         )
       })
@@ -43,7 +43,7 @@ export function getEventHandlerData() {
 export function createSubscription(subscriptionData) {
   return (dispatch, getState) => {
     networkService
-      .post('/eventhandler/subscription', subscriptionData)
+      .post('/eventhandler/subscribe', subscriptionData)
       .then(response => {
         dispatch(getEventHandlerData())
         dispatch(
@@ -150,19 +150,6 @@ export function deleteSubscription(eventHandlerId) {
             'error'
           )
         )
-      })
-  }
-}
-
-export function getEventHandlerSystems() {
-  return dispatch => {
-    networkService
-      .get('/mgmt/systems')
-      .then(response => {
-        dispatch(receiveEventHandlerSystems(response.data))
-      })
-      .catch(error => {
-        console.log(error)
       })
   }
 }

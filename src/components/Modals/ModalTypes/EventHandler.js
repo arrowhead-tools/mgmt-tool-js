@@ -11,11 +11,18 @@ import IconButton from '@material-ui/core/IconButton/IconButton'
 import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles'
 import AutoComplete from '../../AutoComplete/AutoComplete'
-import { getEventHandlerSystems } from '../../../actions/eventHandler'
+import { getServiceRegistryEntriesView } from '../../../actions/serviceRegistry'
+import { getEventHandlerData } from '../../../actions/eventHandler'
 import { connect } from 'react-redux'
 import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
 import Checkbox from '@material-ui/core/Checkbox'
 import _ from 'lodash'
+import moment from 'moment'
+import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
+import {DateTimePicker, MuiPickersUtilsProvider} from 'material-ui-pickers'
+import MomentUtils from '@date-io/moment'
+
+moment.locale('hu')
 
 const styles = theme => ({
   input: {
@@ -80,24 +87,19 @@ class EventHandler extends Component {
     this.state = {
       id: event ? event.id : null,
       eventType: event ? event.eventType : '',
-      consumerSystemId: event && event.consumer ? event.consumer.id : null,
-      consumerSystemName:
-        event && event.consumer ? event.consumer.systemName : '',
-      consumerSystemAddress:
-        event && event.consumer ? event.consumer.address : '',
-      consumerSystemPort: event && event.consumer ? event.consumer.port : '',
-      consumerSystemAuthentication: event.consumer
-        ? event.consumer.authenticationInfo
-        : '',
-      sources: event.sources || [],
+      endDate: event? event.endDate : moment().add(2, 'days'),
       filterMetadata: filterMetadataHelper,
+      matchMetadata: event.matchMetadata || false,
+      sources: event.sources || [],
       notifyUri: event.notifyUri || '',
-      matchMetadata: event.matchMetadata
+      startDate: event? event.startDate : moment(),
+      subscriberSystem: event ? event.subscriberSystem : {}
     }
   }
 
   componentDidMount() {
-    this.props.getEventHandlerSystems()
+    this.props.getServiceRegistryEntriesView()
+    this.props.getEventHandlerData()
   }
 
   onEventTypeTextChange = eventType => {
@@ -112,37 +114,8 @@ class EventHandler extends Component {
     }
   }
 
-  onConsumerSystemChange = consumerSystem => {
-    if (consumerSystem !== undefined) {
-      this.setState({
-        consumerSystemId: consumerSystem.id,
-        consumerSystemName: consumerSystem.systemName,
-        consumerSystemAddress: consumerSystem.address,
-        consumerSystemPort: consumerSystem.port,
-        consumerSystemAuthentication: consumerSystem.authenticationInfo
-      })
-    }
-  }
-
-  onConsumerSystemNameChange = systemName => {
-    this.setState({ consumerSystemName: systemName })
-  }
-
-  onConsumerSystemAddressChange = event => {
-    this.setState({ consumerSystemAddress: event.target.value })
-  }
-
-  onConsumerSystemPortChange = event => {
-    if (
-      event.target.value === '' ||
-      (event.target.value > 0 && event.target.value <= 65536)
-    ) {
-      this.setState({ consumerSystemPort: event.target.value })
-    }
-  }
-
-  onConsumerSystemAuthChange = event => {
-    this.setState({ consumerSystemAuthentication: event.target.value })
+  handleSubscriberSystemOnChange = subscriberSystem => {
+    this.setState({ subscriberSystem })
   }
 
   onSourceSystemChange = sourceSystems => {
@@ -178,6 +151,14 @@ class EventHandler extends Component {
     this.setState({ matchMetadata: event.target.checked })
   }
 
+  handleStartDateOnChange = date => {
+    this.setState({ startDate: date })
+  }
+
+  handleEndDateOnChange = date => {
+    this.setState({ endDate: date })
+  }
+
   onSubmit = () => {
     const filterMetadataHelper = {}
     for (const item of this.state.filterMetadata) {
@@ -185,26 +166,26 @@ class EventHandler extends Component {
         filterMetadataHelper[item.name] = item.value
       }
     }
+
     const subscriptionData = {
       eventType: this.state.eventType,
-      consumer: {
-        id: this.state.consumerSystemId,
-        systemName: this.state.consumerSystemName,
-        address: this.state.consumerSystemAddress,
-        port: this.state.consumerSystemPort,
-        authenticationInfo: this.state.consumerSystemAuthentication
-      },
+      endDate: moment(this.state.endDate).format(
+        'YYYY-MM-DD HH:mm:ss'
+      ),
+      startDate: moment(this.state.startDate).format(
+        'YYYY-MM-DD HH:mm:ss'
+      ),
       sources: this.state.sources,
       filterMetadata: filterMetadataHelper,
       notifyUri: this.state.notifyUri,
-      matchMetadata: this.state.matchMetadata
+      matchMetadata: this.state.matchMetadata,
+      subscriberSystem: this.state.subscriberSystem
     }
     if (this.props.isEdit) {
       subscriptionData.id = this.state.id
       console.log('sub', subscriptionData)
       this.props.modifySubscription(subscriptionData, this.props.event.id)
     } else {
-      delete subscriptionData.consumer.id
       this.props.createSubscription(subscriptionData)
     }
     this.props.closeModal()
@@ -236,52 +217,24 @@ class EventHandler extends Component {
           />
         </Card>
         <Card raised className={classes.card}>
-          <AutoComplete
-            handleOnChange={this.onConsumerSystemChange}
-            handleTextChange={this.onConsumerSystemNameChange}
-            suggestions={systems}
-            defaultValue={this.state.consumerSystemName}
-            isEdit={isEdit}
-            keyValue="systemName"
-            label="Consumer System"
-            placeholder="Consumer System"
+          <Typography variant="h5" align="center" className={classes.title}>
+            Subscriber System
+          </Typography>
+          <AutoCompleteSingle
             classes={{
               inputRoot: { flexWrap: 'wrap' },
               textField: {
                 width: '400px',
                 marginTop: '20px',
-                marginLeft: '20px',
-                marginRight: '20px'
+                marginLeft: '20px'
               }
             }}
-          />
-          <TextField
-            value={this.state.consumerSystemAddress}
-            className={classes.input}
-            id="address"
+            suggestions={systems}
+            handleOnChange={this.handleSubscriberSystemOnChange}
+            keyValue="systemName"
             required
-            label="Address"
-            onChange={this.onConsumerSystemAddressChange}
-          />
-          <TextField
-            value={this.state.consumerSystemPort}
-            className={classes.input}
-            id="port"
-            required
-            label="Port"
-            type="number"
-            inputProps={{
-              min: '1',
-              max: '65535'
-            }}
-            onChange={this.onConsumerSystemPortChange}
-          />
-          <TextField
-            value={this.state.consumerSystemAuthentication}
-            className={classes.input}
-            id="authentication_info"
-            label="Authentication Info"
-            onChange={this.onConsumerSystemAuthChange}
+            placeholder="Subscriber System"
+            label="Subscriber System"
           />
         </Card>
         <Card raised className={classes.card}>
@@ -353,14 +306,47 @@ class EventHandler extends Component {
               onChange={this.onMatchMetadataChange}
             />
           </div>
+            <MuiPickersUtilsProvider
+              utils={MomentUtils}
+              moment={moment}
+              locale={{ hu: 'hu' }}
+            >
+              <div>
+                <DateTimePicker
+                  disablePast
+                  showTodayButton
+                  className={classes.input}
+                  ampm={false}
+                  label="Start Date"
+                  value={this.state.startDate}
+                  onChange={this.handleStartDateOnChange}
+                />
+              </div>
+            </MuiPickersUtilsProvider>
+            <MuiPickersUtilsProvider
+              utils={MomentUtils}
+              moment={moment}
+              locale={{ hu: 'hu' }}
+            >
+              <div>
+                <DateTimePicker
+                  disablePast
+                  showTodayButton
+                  className={classes.input}
+                  ampm={false}
+                  label="End Date"
+                  value={this.state.endDate}
+                  onChange={this.handleEndDateOnChange}
+                />
+              </div>
+            </MuiPickersUtilsProvider>
         </Card>
         <Button
           onClick={this.onSubmit}
           disabled={
-            !this.state.eventType ||
-            !this.state.consumerSystemName ||
-            !this.state.consumerSystemAddress ||
-            !this.state.consumerSystemPort ||
+            this.state.eventType === '' ||
+            this.state.subscriberSystem === {} ||
+            this.state.sources === [] ||
             !this.state.notifyUri
           }
           color="primary"
@@ -387,7 +373,6 @@ EventHandler.propTypes = {
   systems: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
   isEdit: PropTypes.bool,
-  getEventHandlerSystems: PropTypes.func.isRequired,
   createSubscription: PropTypes.func,
   modifySubscription: PropTypes.func,
   event: PropTypes.object,
@@ -396,11 +381,14 @@ EventHandler.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { eventHandler } = state
-  return { systems: eventHandler.systems, eventNames: eventHandler.eventNames }
+  const { services, eventHandler } = state
+  return {
+    eventNames: eventHandler.eventNames,
+    systems: services.autoCompleteData.systemList, services: services.autoCompleteData.serviceList, interfaces: services.autoCompleteData.interfaceList
+  }
 }
 
 export default connect(
   mapStateToProps,
-  { getEventHandlerSystems }
+  { getServiceRegistryEntriesView, getEventHandlerData }
 )(withStyles(styles)(EventHandler))
