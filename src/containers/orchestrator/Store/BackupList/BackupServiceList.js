@@ -70,7 +70,7 @@ class BackupServiceList extends React.Component {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.child}>
                 <Typography>
-                  <b>Interfaces:</b> {service.service.interfaces.join(',')}
+                  <b>Interfaces:</b> {service.service.interfaces.interfaceName}
                 </Typography>
                 <Typography>Provider System order:</Typography>
                 <BackupSortableList

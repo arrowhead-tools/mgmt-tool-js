@@ -33,7 +33,7 @@ export function getOrchestrationStoreData() {
 export function savePriorities(priorityData) {
   return dispatch => {
     networkService
-      .put('/orchestrator/mgmt/store/priorities', { priorities: priorityData })
+      .post('/orchestrator/mgmt/store/modify_priorities', { priorityMap: priorityData })
       .then(response => {
         dispatch(
           showNotification(

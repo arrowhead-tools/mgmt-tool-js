@@ -216,21 +216,21 @@ export function digestOrchestrationBackupListData(orchestrationData) {
       helperObject[data.consumerSystem.id] = {
         consumerData: { ...data.consumerSystem },
         consumedServices: {
-          [data.service.id]: {
-            service: data.service,
+          [data.serviceDefinition.id]: {
+            service: {...data.serviceDefinition, interfaces: data.serviceInterface},
             providers: [providerSystem]
           }
         }
       }
     } else {
-      if (!helperObject[data.consumerSystem.id].consumedServices[data.service.id]) {
-        helperObject[data.consumerSystem.id].consumedServices[data.service.id] = {
-          service: data.service,
+      if (!helperObject[data.consumerSystem.id].consumedServices[data.serviceDefinition.id]) {
+        helperObject[data.consumerSystem.id].consumedServices[data.serviceDefinition.id] = {
+          service: {...data.serviceDefinition, interfaces: data.serviceInterface},
           providers: [providerSystem]
         }
       } else {
         helperObject[data.consumerSystem.id].consumedServices[
-          data.service.id
+          data.serviceDefinition.id
         ].providers.push(providerSystem)
       }
     }
@@ -245,6 +245,6 @@ export function digestOrchestrationBackupListData(orchestrationData) {
     v.consumedServices = tmp
     digested.push(v)
   })
-
+  console.log('digested', digested)
   return digested
 }
