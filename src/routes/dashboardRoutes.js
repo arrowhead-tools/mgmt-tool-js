@@ -83,6 +83,15 @@ const dashboardRoutes = [
     component: GatekeeperPage
   },
   {
+    redirect: true,
+    path: '/',
+    to: '/registry',
+    navbarName: 'Redirect'
+  }
+]
+
+/*
+  {
     path: '/eventhandler',
     sidebarName: 'Event Handler',
     navbarName: 'Event Handler',
@@ -96,12 +105,6 @@ const dashboardRoutes = [
     icon: Assignment,
     component: Choreographer
   },
-  {
-    redirect: true,
-    path: '/',
-    to: '/registry',
-    navbarName: 'Redirect'
-  }
-]
+ */
 
 export default dashboardRoutes
