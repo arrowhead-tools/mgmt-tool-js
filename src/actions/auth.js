@@ -203,12 +203,15 @@ export function addInterCloudEntry(interCloudEntry) {
   }
 }
 
-export function deleteAuthEntry(authEntryId) {
+export function deleteAuthEntry(authEntryId, cb) {
   return dispatch => {
     networkService
       .delete(`/authorization/mgmt/intracloud/${authEntryId}`)
       .then(response => {
         dispatch(getIntraCloudAuthData())
+        if(cb){
+          cb()
+        }
         dispatch(hideModal())
         dispatch(
           showNotification(

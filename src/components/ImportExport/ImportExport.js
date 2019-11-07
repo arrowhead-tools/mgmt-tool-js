@@ -12,7 +12,7 @@ import CloudDownload from '@material-ui/icons/CloudDownload'
 import ListItemText from '@material-ui/core/ListItemText'
 import Files from 'react-files'
 import { createSystem, addSREntry, getServices, getSystems, getServiceRegistryEntries, deleteService, deleteSystem, deleteServiceRegistryEntry } from '../../actions/serviceRegistry'
-import { addAuthData, getIntraCloudAuthData } from '../../actions/auth'
+import { addAuthData, getIntraCloudAuthData, deleteAuthEntry } from '../../actions/auth'
 import fileDownload from 'js-file-download'
 
 
@@ -31,59 +31,81 @@ class ImportExport extends Component {
     this.fileReader.onload = event => {
       const upload = JSON.parse(event.target.result)
       this.setState({jsonFile: upload, systems: upload.systems, entries: upload.serviceRegistryEntries, authRules: upload.authRules, consumers: upload.consumption}, () => {
-        // console.log(this.state.jsonFile)
+        console.log(this.state.systems)
 
-        /*new Promise(resolve => {
+        new Promise(resolve => {
           this.props.getServiceRegistryEntries(resolve)
-        }).then(result => {
-          return new Promise(resolve => {
-            this.props.entries.data.reduce((promiseChain, entry) => {
-              return promiseChain.then(() => new Promise((resolve) => {
-                this.props.deleteServiceRegistryEntry(entry.id, resolve)
-              }))
-            }, resolve())
+        })
+          .then(() => {
+            console.log('get auth rules')
+            return new Promise(resolve => {
+              this.props.getIntraCloudAuthData(resolve)
+            })
           })
-        }).then(resolve => {
+          .then(() => this.deleteAuthRules(this.props.authRules))
+          .then(() => this.deleteSREntries(this.props.entries))
+          .then(() => {
+          console.log('get systems')
         return new Promise(resolve => {
           this.props.getSystems(resolve)
           })
-        }).then(result => {
-          return new Promise(resolve => {
-            this.props.systems.reduce((promiseChain, system) => {
-              return promiseChain.then(() => new Promise((resolve) => {
-                this.props.deleteSystem(system.id, resolve)
-              }))
-            }, Promise.resolve())
-          })
-        }).then(result => {
+        }).then(() => this.deleteSystems(this.props.systems))
+          .then(() => {
+          console.log('get services')
           return new Promise(resolve => {
             this.props.getServices(resolve)
           })
-        }).then(result => {
-          return new Promise(resolve => {
-            this.props.services.reduce((promiseChain, service) => {
-              return promiseChain.then(() => new Promise((resolve) => {
-                this.props.deleteService(service.id, resolve)
-              }))
-            }, Promise.resolve())
-          })
-        })*/
-
-         this.importSystems(this.state.systems)
-          .then(result => this.importServiceRegistryEntries(this.state.entries))
-          .then(result => {
+        }).then(() => this.deleteServices(this.props.services))
+          .then(() => this.importSystems(this.state.systems))
+          .then(() => this.importServiceRegistryEntries(this.state.entries))
+          .then(() => {
             return new Promise(resolve => {
               this.props.getSystems(resolve)
             })
           })
-          .then(result => {
+          .then(() => {
             return new Promise(resolve => {
               this.props.getServices(resolve)
             })
           })
-          .then(result => this.importAuthRules(this.state.authRules, this.props.autoCompleteData.interfaceList, this.props.systems, this.props.services))
+          .then(() => this.importAuthRules(this.state.authRules, this.props.autoCompleteData.interfaceList, this.props.systems, this.props.services))
       })
     }
+  }
+
+  deleteAuthRules = authRules => {
+    return authRules.reduce((promiseChain, rule) =>{
+      return promiseChain.then(() => new Promise((resolve) => {
+        this.props.deleteAuthEntry(rule.id, resolve)
+      }))
+    }, Promise.resolve())
+  }
+
+  deleteSREntries = entries => {
+    entries.data.filter(entry => entry.id > 15).reduce((promiseChain, entry) => {
+      return promiseChain.then(() => new Promise((resolve) => {
+        //  todo filter protected services
+        this.props.deleteServiceRegistryEntry(entry.id, resolve)
+      }))
+    }, Promise.resolve())
+  }
+
+  deleteServices = services => {
+    return services.filter(service => service.id > 15).reduce((promiseChain, service) => {
+      return promiseChain.then(() => new Promise((resolve) => {
+        // todo filter protected services
+        this.props.deleteService(service.id, resolve)
+      }))
+    }, Promise.resolve())
+  }
+
+  deleteSystems = systems => {
+    return systems.filter(system => system.id > 5).reduce((promiseChain, system) => {
+      return promiseChain.then(() => new Promise((resolve) => {
+        // todo filter protected systems
+        this.props.deleteSystem(system.id, resolve)
+      }))
+    }, Promise.resolve())
   }
 
   importSystems = (systems) => {
@@ -132,17 +154,17 @@ class ImportExport extends Component {
     const result = new Promise(resolve => {
       this.props.getSystems(resolve)
     })
-      .then(result => {
+      .then(() => {
         return new Promise(resolve => {
           this.props.getServiceRegistryEntries(resolve)
         })
       })
-      .then(result => {
+      .then(() => {
         return new Promise(resolve => {
           this.props.getIntraCloudAuthData(resolve)
         })
       })
-      .then(result => {
+      .then(() => {
         const authRulesHelperArray = this.props.authRules.map(({ consumerSystem, providerSystem, interfaces, serviceDefinition}) => {
           return {
             providers: providerSystem.systemName,
@@ -165,8 +187,8 @@ class ImportExport extends Component {
         })
 
         const exportObject = {
-          systems: this.props.systems.map(({id, createdAt, updatedAt, ...rest }) => rest),
-          serviceRegistryEntries: this.props.entries.data.map(entry => {
+          systems: this.props.systems.filter(system => system.id > 5).map(({id, createdAt, updatedAt, ...rest }) => rest),
+          serviceRegistryEntries: this.props.entries.data.filter(entry => entry.id > 15).map(entry => {
             delete entry.id
             delete entry.createdAt
             delete entry.updatedAt
@@ -258,6 +280,9 @@ function mapDispatchToProps(dispatch) {
     },
     getIntraCloudAuthData: (cb) => {
       dispatch(getIntraCloudAuthData(cb))
+    },
+    deleteAuthEntry: (id, cb) => {
+      dispatch(deleteAuthEntry(id, cb))
     },
     deleteService: (serviceId, cb) => {
       dispatch(deleteService(serviceId, cb))
