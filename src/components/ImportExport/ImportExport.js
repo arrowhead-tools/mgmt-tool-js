@@ -29,9 +29,10 @@ class ImportExport extends Component {
 
     this.fileReader = new FileReader()
     this.fileReader.onload = event => {
-      const upload = JSON.parse(event.target.result)
+      const upload = JSON.parse(event.target.result)[0]
+      console.log('upload', upload)
       this.setState({jsonFile: upload, systems: upload.systems, entries: upload.serviceRegistryEntries, authRules: upload.authRules, consumers: upload.consumption}, () => {
-        console.log(this.state.systems)
+        console.log(this.state.entries)
 
         new Promise(resolve => {
           this.props.getServiceRegistryEntries(resolve)
@@ -82,27 +83,54 @@ class ImportExport extends Component {
   }
 
   deleteSREntries = entries => {
-    entries.data.filter(entry => entry.id > 15).reduce((promiseChain, entry) => {
+    entries.data.filter(entry => {
+      return entry.provider.systemName !== 'orchestrator' &&
+        entry.provider.systemName !== 'authorization' &&
+        entry.provider.systemName !== 'service_registry' &&
+        entry.provider.systemName !== 'event_handler' &&
+        entry.provider.systemName !== 'gatekeeper' &&
+        entry.provider.systemName !== 'gateway'
+    }).reduce((promiseChain, entry) => {
       return promiseChain.then(() => new Promise((resolve) => {
-        //  todo filter protected services
         this.props.deleteServiceRegistryEntry(entry.id, resolve)
       }))
     }, Promise.resolve())
   }
 
   deleteServices = services => {
-    return services.filter(service => service.id > 15).reduce((promiseChain, service) => {
+    return services.filter(service => {
+      return service.serviceDefinition !== 'gw-public-key' &&
+        service.serviceDefinition !== 'event-publish' &&
+        service.serviceDefinition !== 'gw-connect-provider' &&
+        service.serviceDefinition !== 'event-subscribe' &&
+        service.serviceDefinition !== 'orchestration-service' &&
+        service.serviceDefinition !== 'gw-connect-consumer' &&
+        service.serviceDefinition !== 'event-unsubscribe' &&
+        service.serviceDefinition !== 'event-publish-auth-update' &&
+        service.serviceDefinition !== 'global-service-discovery' &&
+        service.serviceDefinition !== 'inter-cloud-negotiations' &&
+        service.serviceDefinition !== 'authorization-control-intra' &&
+        service.serviceDefinition !== 'authorization-control-inter' &&
+        service.serviceDefinition !== 'token-generation' &&
+        service.serviceDefinition !== 'auth-public-key' &&
+        service.serviceDefinition !== 'authorization-control-subscription'
+    }).reduce((promiseChain, service) => {
       return promiseChain.then(() => new Promise((resolve) => {
-        // todo filter protected services
         this.props.deleteService(service.id, resolve)
       }))
     }, Promise.resolve())
   }
 
   deleteSystems = systems => {
-    return systems.filter(system => system.id > 5).reduce((promiseChain, system) => {
+    return systems.filter(system => {
+      return system.systemName !== 'orchestrator' &&
+        system.systemName !== 'authorization' &&
+        system.systemName !== 'service_registry' &&
+        system.systemName !== 'event_handler' &&
+        system.systemName !== 'gatekeeper' &&
+        system.systemName !== 'gateway'
+    }).reduce((promiseChain, system) => {
       return promiseChain.then(() => new Promise((resolve) => {
-        // todo filter protected systems
         this.props.deleteSystem(system.id, resolve)
       }))
     }, Promise.resolve())
@@ -130,16 +158,17 @@ class ImportExport extends Component {
 
     const rulesToSubmit = []
     for(const rule of rules){
+      const lProviders = rule.providers.map(systemName => systemName.toLowerCase())
       const authData = {
         consumerSystem: systemList.filter(system => {
-          return system.systemName === rule.consumer})[0],
+          return system.systemName === rule.consumer.toLowerCase()})[0],
         service: serviceList.filter(service => {
-          return service.serviceDefinition === rule.serviceDefinition
+          return service.serviceDefinition === rule.serviceDefinition.toLowerCase()
         })[0],
         interfaces: interfaceList.filter(iface => rule.interfaces.includes(iface.value)),
-        providerList: systemList.filter(system => rule.providers.includes(system.systemName))
+        providerList: systemList.filter(system => lProviders.includes(system.systemName))
       }
-
+      console.log(authData)
       rulesToSubmit.push(authData)
     }
 
