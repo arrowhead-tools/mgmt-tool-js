@@ -216,8 +216,22 @@ class ImportExport extends Component {
         })
 
         const exportObject = {
-          systems: this.props.systems.filter(system => system.id > 5).map(({id, createdAt, updatedAt, ...rest }) => rest),
-          serviceRegistryEntries: this.props.entries.data.filter(entry => entry.id > 15).map(entry => {
+          systems: this.props.systems.filter(system => {
+            return system.systemName !== 'orchestrator' &&
+              system.systemName !== 'authorization' &&
+              system.systemName !== 'service_registry' &&
+              system.systemName !== 'event_handler' &&
+              system.systemName !== 'gatekeeper' &&
+              system.systemName !== 'gateway'
+          }).map(({id, createdAt, updatedAt, ...rest }) => rest),
+          serviceRegistryEntries: this.props.entries.data.filter(entry => {
+            return entry.provider.systemName !== 'orchestrator' &&
+              entry.provider.systemName !== 'authorization' &&
+              entry.provider.systemName !== 'service_registry' &&
+              entry.provider.systemName !== 'event_handler' &&
+              entry.provider.systemName !== 'gatekeeper' &&
+              entry.provider.systemName !== 'gateway'
+          }).map(entry => {
             delete entry.id
             delete entry.createdAt
             delete entry.updatedAt
@@ -233,7 +247,7 @@ class ImportExport extends Component {
         }
 
 
-        fileDownload(JSON.stringify(exportObject, null, 3), 'export.json')
+        fileDownload(JSON.stringify([exportObject], null, 3), 'export.json')
       })
   }
 
