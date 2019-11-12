@@ -1,9 +1,5 @@
 # Arrowhead Management Tool
 
-### Disclaimer
-
-The Management Tool does not yet support the [Arrowhead Core Java Spring](https://github.com/arrowhead-f/core-java-spring) version of the Core Systems (4.1.3). To use the Management Tool, please use it with the [Arrowhead Core Repository](https://github.com/arrowhead-f/core-java) (4.1.2)
-
 This tool is providing a user interface to manage Arrowhead core systems. Currently the following core systems are supported:
 1. ServiceRegistry (SQL version)
 2. Authorization System (both intra- and inter-cloud authorization schemas)
@@ -11,31 +7,32 @@ This tool is providing a user interface to manage Arrowhead core systems. Curren
 4. Gatekeeper and Gateway settings
 5. Event Handler
 
-If you do not have Arrowhead installed, please run the ```install_arrowehad.sh``` script located in the scripts folder (Linux).
-For other operations systems please follow the guide located in the [Arrowhead Core Repository](https://github.com/arrowhead-f/core-java)
 
 Running this project has 3 options:
 1. Running from prebuilt Docker container
-2. Running the install script for Linux
-3. Running and building the project by source code
+2. Running and building the project by source code
 
 ### Docker image
 1. Install [Docker](https://docs.docker.com/install/)
 2. [Pull](https://docs.docker.com/engine/reference/commandline/pull/) the prebuilt docker image:
     ```
-    docker pull svetlint/arrowhead-react
+    portus.arrowhead-ci.tmit.bme.hu/tools/management-tool
     ```
+    
+    Available tags: 
+    * latest
+    * 4.1.3
+    * 4.1.2
+    
 3. [Run](https://docs.docker.com/engine/reference/commandline/run/) the container with the following example command:
     ```
-    docker run -it --rm -p 3000:5000 
+    docker run -it -p 3000:5000 
     --name arrowhead-react-container 
     -e REACT_APP_ARROWHEAD_SR_URL=http://arrowhead.tmit.bme.hu:8342 
     -e REACT_APP_ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340 
     -e REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348 
-    svetlint/arrowhead-react
+    portus.arrowhead-ci.tmit.bme.hu/tools/management-tool
     ```
-### Running the install script for Linux
-1. Run the ```install_arrowhead_mgmt.sh``` script in the scripts folder.
 
 ### Running the project in development mode
 1. The project requires [NodeJS v7 or newer](https://nodejs.org/en/download/)
@@ -69,12 +66,12 @@ Running this project has 3 options:
 Example environment variables, for the BME public test beds
 
     ```
-    REACT_APP_ARROWHEAD_SR_URL=http://arrowhead.tmit.bme.hu:8342
-    REACT_APP_ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340
-    REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348
-    REACT_APP_ARROWHEAD_AUTH_URL=http://arrowhead.tmit.bme.hu:8344
-    REACT_APP_ARROWHEAD_EH_URL=http://arrowhead.tmit.bme.hu:8354
-    REACT_APP_ARROWHEAD_CHOREOGRAPHER_URL=http://arrowhead.tmit.bme.hu:8356
+    REACT_APP_ARROWHEAD_SR_URL=https://arrowhead.tmit.bme.hu:8443
+    REACT_APP_ARROWHEAD_AUTH_URL=https://arrowhead.tmit.bme.hu:8445
+    REACT_APP_ARROWHEAD_ORCH_URL=https://arrowhead.tmit.bme.hu:8441
+    REACT_APP_ARROWHEAD_GK_URL=https://arrowhead.tmit.bme.hu:8449
+    REACT_APP_ARROWHEAD_GW_URL=https://arrowhead.tmit.bme.hu:8453
+    REACT_APP_ARROWHEAD_EH_URL=https://arrowhead.tmit.bme.hu:8455
     ```    
     
 ## TROUBLESHOOTING
