@@ -18,7 +18,7 @@ import moment from 'moment'
 import { DateTimePicker, MuiPickersUtilsProvider } from 'material-ui-pickers'
 import MomentUtils from '@date-io/moment'
 
-moment.locale('hu')
+moment.locale('en')
 
 const styles = theme => ({
   input: {
@@ -402,7 +402,6 @@ class AddSREntry extends Component {
           <MuiPickersUtilsProvider
             utils={MomentUtils}
             moment={moment}
-            locale={{ hu: 'hu' }}
           >
             <div>
               <DateTimePicker
