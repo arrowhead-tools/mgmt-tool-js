@@ -1,7 +1,7 @@
 import { Route, Redirect } from 'react-router-dom'
 import React from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 class PrivateRoute extends React.Component {
   render() {
@@ -10,7 +10,7 @@ class PrivateRoute extends React.Component {
       <Route
         {...rest}
         render={props =>
-          this.props.user ? (
+          this.props.token ? (
             <Component {...props} />
           ) : (
             <Redirect
@@ -33,7 +33,7 @@ PrivateRoute.propTypes = {
 }
 
 function mapStateToProps(state) {
-  return { user: state.pageAuth.user }
+  return { token: state.keycloak.token }
 }
 
 export default connect(mapStateToProps)(PrivateRoute)

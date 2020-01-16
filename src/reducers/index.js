@@ -11,6 +11,7 @@ import { reducer as notifications } from 'react-notification-system-redux'
 import auth from './auth'
 import eventHandler from './eventHandler'
 import choreographer from './choreographer'
+import keycloak from './keycloak'
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   orchestrator,
   modal,
   eventHandler,
-  choreographer
+  choreographer,
+  keycloak
 })
 
 export default rootReducer

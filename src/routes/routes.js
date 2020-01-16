@@ -1,10 +1,16 @@
 import Dashboard from '../layouts/Dashboard/Dashboard'
+import KeycloakLogin from '../containers/keycloak/KeycloakLogin'
 
-const dashboardRoutes = [
+export const dashboardRoutes = [
   {
     path: '/',
     component: Dashboard
   }
 ]
 
-export default dashboardRoutes
+export const clientPublicRoutes = [
+  {
+    path: '/login',
+    component: KeycloakLogin
+  }
+]
