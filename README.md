@@ -55,24 +55,29 @@ Running this project has 3 options:
 ## Available environment variables
    You can use the following environment variables in the `.env` file, or in the docker run command with the `-e` flag.
    
-    ```
     REACT_APP_ARROWHEAD_SR_URL=URL:port of your Service Registry Core System
     REACT_APP_ARROWHEAD_ORCH_URL=URL:port of your Orchestrator Core System
     REACT_APP_ARROWHEAD_GK_URL=URL:port or your Gatekeeper Core System
     REACT_APP_ARROWHEAD_AUTH_URL=URL:port of your Authorization Core System
     REACT_APP_ARROWHEAD_EH_URL=URL:port of your Event Handler Core System
     REACT_APP_ARROWHEAD_CHOREOGRAPHER_URL=URL:port of your Choreographer Core System
-    ```
+    
+    
 Example environment variables, for the BME public test beds
 
-    ```
+    
     REACT_APP_ARROWHEAD_SR_URL=https://arrowhead.tmit.bme.hu:8443
     REACT_APP_ARROWHEAD_AUTH_URL=https://arrowhead.tmit.bme.hu:8445
     REACT_APP_ARROWHEAD_ORCH_URL=https://arrowhead.tmit.bme.hu:8441
     REACT_APP_ARROWHEAD_GK_URL=https://arrowhead.tmit.bme.hu:8449
     REACT_APP_ARROWHEAD_GW_URL=https://arrowhead.tmit.bme.hu:8453
     REACT_APP_ARROWHEAD_EH_URL=https://arrowhead.tmit.bme.hu:8455
-    ```    
+        
+    
+## Keycloak
+
+   For user management you have the option to use [Keycloak](https://www.keycloak.org/). If you wish to use it, it is expect you to have the basic knowledge how to set it up. 
+   Management Tool with out of the box Keycloak compatibility can be found in the [keycloak branch](https://github.com/arrowhead-tools/mgmt-tool-js/tree/keycloak). 
     
 ## TROUBLESHOOTING
 
