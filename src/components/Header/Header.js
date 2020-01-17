@@ -7,6 +7,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Hidden from '@material-ui/core/Hidden'
+import HeaderLinks from './HeaderLinks'
 // @material-ui/icons
 import Menu from '@material-ui/icons/Menu'
 // core components
@@ -46,6 +47,9 @@ function Header({ ...props }) {
             {makeBrand()}
           </Button>
         </div>
+        <Hidden smDown implementation='css'>
+          <HeaderLinks />
+        </Hidden>
         <Hidden mdUp>
           <IconButton
             className={classes.appResponsive}

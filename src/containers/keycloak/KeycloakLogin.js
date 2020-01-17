@@ -3,7 +3,7 @@
  */
 
 import React, { Component } from "react";
-import Keycloak from "keycloak-js";
+import { keycloak } from '../../services/keycloakInstance'
 import { connect } from 'react-redux'
 import {Redirect} from 'react-router-dom'
 import { loginSuccess } from '../../actions/keycloak'
@@ -16,7 +16,6 @@ class KeycloakLogin extends Component {
   }
 
   componentDidMount() {
-    const keycloak = Keycloak("/keycloak.json");
     console.log(keycloak);
     keycloak
       .init({ onLoad: "login-required", promiseType: "native" })
