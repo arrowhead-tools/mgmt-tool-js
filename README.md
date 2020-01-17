@@ -72,7 +72,12 @@ Example environment variables, for the BME public test beds
     REACT_APP_ARROWHEAD_GK_URL=https://arrowhead.tmit.bme.hu:8449
     REACT_APP_ARROWHEAD_GW_URL=https://arrowhead.tmit.bme.hu:8453
     REACT_APP_ARROWHEAD_EH_URL=https://arrowhead.tmit.bme.hu:8455
-    ```    
+    ```   
+    
+## Keycloak
+
+   For user management you have the option to use [Keycloak](https://www.keycloak.org/). If you wish to use it, it is expect you to have the basic knowledge how to set it up. 
+   Management Tool with out of the box Keycloak compatibility can be found in the [keycloak branch](https://github.com/arrowhead-tools/mgmt-tool-js/tree/keycloak).     
     
 ## TROUBLESHOOTING
 
