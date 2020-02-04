@@ -10,6 +10,5 @@ COPY package.json package.json
 RUN npm install
 
 COPY . .
-COPY certificate/server.pem node_modules/webpack-dev-server/ssl
 
 CMD ["/usr/src/app/run"]
