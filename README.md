@@ -16,22 +16,21 @@ Running this project has 3 options:
 1. Install [Docker](https://docs.docker.com/install/)
 2. [Pull](https://docs.docker.com/engine/reference/commandline/pull/) the prebuilt docker image:
     ```
-    portus.arrowhead-ci.tmit.bme.hu/tools/management-tool
+    svetlint/management-tool
     ```
     
     Available tags: 
     * latest
-    * 4.1.3
-    * 4.1.2
+      
     
 3. [Run](https://docs.docker.com/engine/reference/commandline/run/) the container with the following example command:
     ```
     docker run -it -p 3000:5000 
-    --name arrowhead-react-container 
+    --name management-tool 
     -e REACT_APP_ARROWHEAD_SR_URL=http://arrowhead.tmit.bme.hu:8342 
     -e REACT_APP_ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340 
     -e REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348 
-    portus.arrowhead-ci.tmit.bme.hu/tools/management-tool
+    svetlint/management-tool
     ```
 
 ### Running the project in development mode
