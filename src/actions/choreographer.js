@@ -1,4 +1,4 @@
-import networkService from '../services/networkServiceCH'
+import getNetworkService from '../services/getNetworkServiceCH'
 import { showNotification } from './global'
 import { hideModal } from './modal'
 
@@ -23,33 +23,33 @@ function receiveSingleData(id, data) {
 
 export function getAllChoreographerData() {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .get('/choreographer/plan')
       .then(response => {
         dispatch(receiveAllData(response.data))
       })
       .catch(error => {
         console.log(error)
-      })
+      }))
   }
 }
 
 export function getSingleChoreographerData(id) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .get(`/choreographer/plan/${id}`)
       .then(response => {
         dispatch(receiveSingleData(id, response.data))
       })
       .catch(error => {
         console.log(error)
-      })
+      }))
   }
 }
 
 export function deletePlan(id) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .delete(`/choreographer/plan/${id}`)
       .then(response => {
         dispatch(
@@ -80,13 +80,13 @@ export function deletePlan(id) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function createPlan(plan) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .post(`/choreographer/plan`, plan)
       .then(response => {
         dispatch(
@@ -118,6 +118,6 @@ export function createPlan(plan) {
             'error'
           )
         )
-      })
+      }))
   }
 }

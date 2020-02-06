@@ -1,4 +1,4 @@
-import networkService from '../services/networkServiceOrch'
+import getNetworkService from '../services/getNetworkServiceOrch'
 import { digestOrchestrationBackupListData } from '../utils/utils'
 import { showNotification } from './global'
 
@@ -15,7 +15,7 @@ function receiveOrchestratorStoreData(backup) {
 }
 export function getOrchestrationStoreData() {
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .get('/orchestrator/mgmt/store')
       .then(response => {
         dispatch(
@@ -26,13 +26,13 @@ export function getOrchestrationStoreData() {
       })
       .catch(error => {
         console.log(error)
-      })
+      }))
   }
 }
 
 export function savePriorities(priorityData) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .post('/orchestrator/mgmt/store/modify_priorities', { priorityMap: priorityData })
       .then(response => {
         dispatch(
@@ -63,13 +63,13 @@ export function savePriorities(priorityData) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function deleteService(serviceId) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .delete(`/mgmt/services/${serviceId}`)
       .then(() => {
         dispatch(
@@ -100,13 +100,13 @@ export function deleteService(serviceId) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function addStoreEntry(storeData) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .post('/orchestrator/mgmt/store', [storeData])
       .then(response => {
         dispatch(
@@ -137,13 +137,13 @@ export function addStoreEntry(storeData) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function deleteStoreEntry(id) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .delete(`/orchestrator/mgmt/store/${id}`)
       .then(response => {
         dispatch(
@@ -174,13 +174,13 @@ export function deleteStoreEntry(id) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function editStoreEntry(storeEntry, id) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .put(`/orchestrator/mgmt/store/update/${id}`, storeEntry)
       .then(response => {
         dispatch(
@@ -211,6 +211,6 @@ export function editStoreEntry(storeEntry, id) {
             'error'
           )
         )
-      })
+      }))
   }
 }

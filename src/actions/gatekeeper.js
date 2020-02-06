@@ -1,4 +1,4 @@
-import networkService from '../services/networkServiceGK'
+import getNetworkService from '../services/getNetworkServiceGK'
 import { showNotification } from './global'
 
 export const RECEIVE_CLOUDS = 'RECEIVE_CLOUDS'
@@ -12,14 +12,14 @@ function receiveClouds(data) {
 
 export function getClouds() {
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .get('/gatekeeper/mgmt/clouds')
       .then(response => {
         dispatch(receiveClouds(response.data.data))
       })
       .catch(error => {
         console.log(error)
-      })
+      }))
   }
 }
 
@@ -30,7 +30,7 @@ export function addCloud(cloudData) {
   delete newCloud.gatekeeperRelays
   delete newCloud.gatewayRelays
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .post('/gatekeeper/mgmt/clouds', [newCloud])
       .then(response => {
         dispatch(getClouds())
@@ -61,13 +61,13 @@ export function addCloud(cloudData) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function deleteCloud(id) {
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .delete(
         `/gatekeeper/mgmt/clouds/${id}`
       )
@@ -100,7 +100,7 @@ export function deleteCloud(id) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
@@ -111,7 +111,7 @@ export function updateCloud(updatedCloud) {
   delete newCloud.gatekeeperRelays
   delete newCloud.gatewayRelays
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .put(`gatekeeper/mgmt/clouds/${updatedCloud.id}`, newCloud)
       .then(response => {
         dispatch(getClouds())
@@ -142,6 +142,6 @@ export function updateCloud(updatedCloud) {
             'error'
           )
         )
-      })
+      }))
   }
 }

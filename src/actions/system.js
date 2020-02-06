@@ -1,4 +1,4 @@
-import networkService from '../services/networkServiceSR'
+import getNetworkService from '../services/getNetworkServiceSR'
 
 export const RECEIVE_SYSTEMS = 'RECEIVE_SYSTEMS'
 
@@ -11,13 +11,13 @@ function receiveSystems(systems) {
 
 export function getSystems() {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .get('/mgmt/systems')
       .then(response => {
         dispatch(receiveSystems(response.data))
       })
       .catch(error => {
         console.log(error)
-      })
+      }))
   }
 }

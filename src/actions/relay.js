@@ -1,4 +1,4 @@
-import networkService from '../services/networkServiceGK'
+import getNetworkService from '../services/getNetworkServiceGK'
 import { showNotification } from './global'
 
 export const RECEIVE_RELAYS = 'RECEIVE_RELAYS'
@@ -12,21 +12,21 @@ function receiveRelays(data) {
 
 export function getRelays() {
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .get('/gatekeeper/mgmt/relays')
       .then(response => {
         dispatch(receiveRelays(response.data.data))
       })
       .catch(error => {
         console.log(error)
-      })
+      }))
   }
 }
 
 export function addRelay(relayData) {
   const newRelay = [relayData]
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .post('/gatekeeper/mgmt/relays', newRelay)
       .then(response => {
         dispatch(getRelays())
@@ -57,13 +57,13 @@ export function addRelay(relayData) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function deleteRelay(id) {
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .delete(`/gatekeeper/mgmt/relays/${id}`)
       .then(response => {
         dispatch(getRelays())
@@ -94,13 +94,13 @@ export function deleteRelay(id) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function updateRelay(updatedRelay) {
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .put(`/gatekeeper/mgmt/relays/${updatedRelay.id}`, updatedRelay)
       .then(response => {
         dispatch(getRelays())
@@ -131,6 +131,6 @@ export function updateRelay(updatedRelay) {
             'error'
           )
         )
-      })
+      }))
   }
 }

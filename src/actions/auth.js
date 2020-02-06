@@ -1,4 +1,4 @@
-import networkService from '../services/networkServiceAuth'
+import getNetworkService from '../services/getNetworkServiceAuth'
 import { showNotification } from './global'
 import { hideModal } from './modal'
 import {
@@ -33,7 +33,7 @@ function receiveInterCloudAuthData(cloud, service) {
 
 export function getIntraCloudAuthData(cb) {
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .get('/authorization/mgmt/intracloud')
       .then(response => {
         dispatch(
@@ -50,13 +50,13 @@ export function getIntraCloudAuthData(cb) {
       })
       .catch(error => {
         console.log(error)
-      })
+      }))
   }
 }
 
 export function getInterCloudAuthData() {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .get('/authorization/mgmt/intercloud')
       .then(response => {
         dispatch(
@@ -68,7 +68,7 @@ export function getInterCloudAuthData() {
       })
       .catch(error => {
         console.log(error)
-      })
+      }))
   }
 }
 
@@ -85,7 +85,7 @@ export function addSystem(systemName, address, port, authenticationInfo) {
   }
 
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .post('/mgmt/systems', [systemData])
       .then(response => {
         dispatch(
@@ -115,7 +115,7 @@ export function addSystem(systemName, address, port, authenticationInfo) {
           )
         )
         console.log(error)
-      })
+      }))
   }
 }
 
@@ -127,7 +127,7 @@ export function addAuthData(consumer, providerList, service, interfaces, cb) {
     interfaceIds: interfaces.map(i => i.id)
   }
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .post('/authorization/mgmt/intracloud', authData)
       .then(response => {
         dispatch(getIntraCloudAuthData())
@@ -162,13 +162,13 @@ export function addAuthData(consumer, providerList, service, interfaces, cb) {
           )
         )
         console.log(error)
-      })
+      }))
   }
 }
 
 export function addInterCloudEntry(interCloudEntry) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .post('/authorization/mgmt/intercloud', interCloudEntry)
       .then(response => {
         dispatch(getInterCloudAuthData())
@@ -199,13 +199,13 @@ export function addInterCloudEntry(interCloudEntry) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function deleteAuthEntry(authEntryId, cb) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .delete(`/authorization/mgmt/intracloud/${authEntryId}`)
       .then(response => {
         dispatch(getIntraCloudAuthData())
@@ -240,13 +240,13 @@ export function deleteAuthEntry(authEntryId, cb) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function deleteInterCloudEntry(entryId) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .delete(`/authorization/mgmt/intercloud/${entryId}`)
       .then(response => {
         dispatch(getInterCloudAuthData())
@@ -277,6 +277,6 @@ export function deleteInterCloudEntry(entryId) {
             'error'
           )
         )
-      })
+      }))
   }
 }

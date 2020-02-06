@@ -1,14 +1,9 @@
-FROM node:9.9.0
+FROM nginx:stable-alpine-perl
 
-WORKDIR /usr/src/app
-ENV NPM_CONFIG_LOGLEVEL warn
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/config.pm  /usr/share/nginx/perl/config.pm
 
-RUN npm install -g serve
-EXPOSE 5000
-
-COPY package.json package.json
-RUN npm install
-
-COPY . .
-
-CMD ["/usr/src/app/run"]
+# You must build the management tool before creating the docker image, or the
+# image will not end up containing the management tool. Use the
+# `npm run dockerize` command to both build the tool and the docker image.
+COPY build            /usr/share/nginx/html

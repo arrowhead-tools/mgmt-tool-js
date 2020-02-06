@@ -1,4 +1,4 @@
-import networkService from '../services/networkServiceEH'
+import getNetworkService from '../services/getNetworkServiceEH'
 import { showNotification } from './global'
 import {
   groupEventHandlersByEventType,
@@ -24,7 +24,7 @@ function receiveEventHandlerSystems(data) {
 
 export function getEventHandlerData() {
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .get('/eventhandler/mgmt/subscriptions')
       .then(response => {
         dispatch(
@@ -36,13 +36,13 @@ export function getEventHandlerData() {
       })
       .catch(error => {
         console.log(error)
-      })
+      }))
   }
 }
 
 export function createSubscription(subscriptionData) {
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .post('/eventhandler/subscribe', subscriptionData)
       .then(response => {
         dispatch(getEventHandlerData())
@@ -73,13 +73,13 @@ export function createSubscription(subscriptionData) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function modifySubscription(subscriptionData, subscriptionId) {
   return (dispatch, getState) => {
-    networkService
+    getNetworkService.then(ns => ns
       .put(
         `/eventhandler/mgmt/subscriptions/${subscriptionId}`,
         subscriptionData
@@ -113,13 +113,13 @@ export function modifySubscription(subscriptionData, subscriptionId) {
             'error'
           )
         )
-      })
+      }))
   }
 }
 
 export function deleteSubscription(eventHandlerId) {
   return dispatch => {
-    networkService
+    getNetworkService.then(ns => ns
       .delete(`/eventhandler/mgmt/subscriptions/${eventHandlerId}`)
       .then(response => {
         dispatch(getEventHandlerData())
@@ -150,6 +150,6 @@ export function deleteSubscription(eventHandlerId) {
             'error'
           )
         )
-      })
+      }))
   }
 }

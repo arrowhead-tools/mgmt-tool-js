@@ -46,7 +46,8 @@
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
     "start": "npm-run-all -p watch-css start-js",
     "start_prod": "node server.js",
-    "serve": "npm run build && npm run start_prod"
+    "serve": "npm run build && npm run start_prod",
+    "dockerize": "react-scripts build && docker build . -t management-tool"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
