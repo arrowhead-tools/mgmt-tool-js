@@ -27,9 +27,9 @@ Running this project has 3 options:
     ```
     docker run -it -p 3000:5000 
     --name management-tool 
-    -e REACT_APP_ARROWHEAD_SR_URL=http://arrowhead.tmit.bme.hu:8342 
-    -e REACT_APP_ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340 
-    -e REACT_APP_ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348 
+    -e ARROWHEAD_SR_URL=http://arrowhead.tmit.bme.hu:8342 
+    -e ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340 
+    -e ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348 
     svetlint/management-tool
     ```
 
@@ -53,6 +53,7 @@ Running this project has 3 options:
 
 ## Available environment variables
    You can use the following environment variables in the `.env` file, or in the docker run command with the `-e` flag.
+   However, skip the `REACT_APP_` prefix of each variable if using docker.
    
     ```
     REACT_APP_ARROWHEAD_SR_URL=URL:port of your Service Registry Core System
