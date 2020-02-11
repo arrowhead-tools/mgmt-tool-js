@@ -1,7 +1,8 @@
 import axios from 'axios'
+import env from '../utils/env'
 
 const instance = axios.create({
-  baseURL: `${process.env.REACT_APP_ARROWHEAD_AUTH_URL}`,
+  baseURL: env.get("ARROWHEAD_AUTH_URL") || process.env.REACT_APP_ARROWHEAD_AUTH_URL,
   timeout: 10000
 })
 
