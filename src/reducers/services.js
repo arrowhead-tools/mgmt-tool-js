@@ -15,7 +15,7 @@ export default function services(state = initialState, action = {}) {
       return {
         ...state,
         groupBySystems: action.data.servicesGroupedBySystems,
-        groupByServices: action.data.servicesGroupedByServiceDefinition,
+        groupByServices: action.data.servicesGroupedByServiceDefinitionAndInterface,
         autoCompleteData: action.data.autoCompleteData
       }
     case RECEIVE_SR_ENTRIES:
