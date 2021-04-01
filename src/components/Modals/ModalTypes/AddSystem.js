@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types'
 import Button from '../../../components/CustomButtons/Button'
 import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles/'
-import { addSystem } from '../../../actions/auth'
+import { createSystem } from '../../../actions/serviceRegistry'
 
 const styles = theme => ({
   container: {
@@ -55,11 +55,12 @@ class AddSystem extends Component {
   }
 
   handleAddSystemButtonClick = () => {
-    this.props.addSystem(
-      this.state.systemName,
-      this.state.address,
-      this.state.port,
-      this.state.authenticationInfo
+    this.props.createSystem({
+      systemName: this.state.systemName,
+      address: this.state.address,
+      port: this.state.port,
+      authenticationInfo: this.state.authenticationInfo
+    }
     )
     this.props.closeModal()
   }
@@ -144,8 +145,8 @@ function mapStateToProps(dispatch) {}
 
 function mapDispatchToProps(dispatch) {
   return {
-    addSystem: (systemName, address, port, authenticationInfo) => {
-      dispatch(addSystem(systemName, address, port, authenticationInfo))
+    createSystem: (system) => {
+      dispatch(createSystem(system, null, true))
     }
   }
 }

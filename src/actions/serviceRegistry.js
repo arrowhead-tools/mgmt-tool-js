@@ -87,17 +87,45 @@ export function getSystems(cb) {
     }
 }
 
-export function createSystem(system, cb){
+export function createSystem(system, cb, notification = false){
   return dispatch => {
     networkService
       .post('/serviceregistry/mgmt/systems', system)
       .then(response => {
         console.log(response.data)
+        if(notification){
+          dispatch(
+            showNotification(
+              {
+                title: 'Saving was successful',
+                message: '',
+                position: 'tc',
+                dismissible: true,
+                autoDismiss: 5
+              },
+              'success'
+            )
+          )
+        }
         if(cb){
           cb()
         }
       })
       .catch(error => {
+        if(notification){
+        dispatch(
+          showNotification(
+            {
+              title: 'Saving was unsuccessful',
+              message: '',
+              position: 'tc',
+              dismissible: true,
+              autoDismiss: 10
+            },
+            'error'
+          )
+        )
+          }
         console.log(error)
       })
   }

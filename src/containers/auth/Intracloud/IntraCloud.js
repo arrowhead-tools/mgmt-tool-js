@@ -57,12 +57,12 @@ class IntraCloud extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.buttonContainer}>
-          {/*
+          {
           <Button color="primary" onClick={this.handleAddSystemClick}>
             <AddIcon />
             Add System
           </Button>
-          */}
+          }
           <Button color="primary" onClick={this.handleAddClick}>
             <AddIcon />
             Add
