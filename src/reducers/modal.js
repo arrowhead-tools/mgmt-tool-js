@@ -2,7 +2,7 @@ import { SHOW_MODAL, HIDE_MODAL } from '../actions/modal'
 
 const initialState = {
   modalType: null,
-  modalProps: {}
+  modalProps: {},
 }
 
 export default function modal(state = initialState, action = {}) {
@@ -11,7 +11,7 @@ export default function modal(state = initialState, action = {}) {
       return {
         modalProps: action.modalProps,
         modalType: action.modalType,
-        type: action.type
+        type: action.type,
       }
     case HIDE_MODAL:
       return initialState

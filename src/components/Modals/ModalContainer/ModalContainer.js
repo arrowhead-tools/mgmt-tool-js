@@ -25,26 +25,26 @@ const MODAL_TYPES = {
   addNeighborhood: AddCloud,
   addRelay: AddRelay,
   eventHandlerDialog: EventHandlerDialog,
-  InterCloudDialog: InterCloudDialog,
-  OrchStoreDialog: OrchStoreDialog,
-  ChoreographerDialog: ChoreographerDialog
+  InterCloudDialog,
+  OrchStoreDialog,
+  ChoreographerDialog,
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   paper: {
     position: 'absolute',
     width: '460px',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: '10px'
-  }
+    padding: '10px',
+  },
 })
 
 class ModalContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
     }
 
     this.closeModal = this.closeModal.bind(this)
@@ -53,7 +53,7 @@ class ModalContainer extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps !== this.props) {
       this.setState({
-        modalIsOpen: nextProps.modalProps.open
+        modalIsOpen: nextProps.modalProps.open,
       })
     }
   }
@@ -68,19 +68,19 @@ class ModalContainer extends Component {
     }
     const SpecifiedModal = MODAL_TYPES[this.props.modalType]
     return (
-      <Dialog
-        open={this.state.modalIsOpen}
-        fullScreen={this.props.fullScreen}
-        scroll="paper"
-        onClose={this.closeModal}
-      >
-        <DialogContent>
-          <SpecifiedModal
-            closeModal={this.closeModal}
-            {...this.props.modalProps}
-          />
-        </DialogContent>
-      </Dialog>
+        <Dialog
+            open={this.state.modalIsOpen}
+            fullScreen={this.props.fullScreen}
+            scroll="paper"
+            onClose={this.closeModal}
+        >
+            <DialogContent>
+                <SpecifiedModal
+                    closeModal={this.closeModal}
+                    {...this.props.modalProps}
+                />
+            </DialogContent>
+        </Dialog>
     )
   }
 }
@@ -89,14 +89,14 @@ ModalContainer.propTypes = {
   modalType: PropTypes.string,
   modalProps: PropTypes.object,
   classes: PropTypes.object,
-  fullScreen: PropTypes.bool.isRequired
+  fullScreen: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({
-  ...state.modal
+const mapStateToProps = (state) => ({
+  ...state.modal,
 })
 
 export default connect(
   mapStateToProps,
-  null
+  null,
 )(withMobileDialog(styles)(ModalContainer))

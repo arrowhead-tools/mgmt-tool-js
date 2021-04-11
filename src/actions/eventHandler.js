@@ -2,7 +2,7 @@ import networkService from '../services/networkServiceEH'
 import { showNotification } from './global'
 import {
   groupEventHandlersByEventType,
-  getEventNames
+  getEventNames,
 } from '../utils/eventHandlerUtils'
 
 export const RECEIVE_EVENTS = 'RECEIVE_EVENTS'
@@ -11,14 +11,14 @@ export const RECEIVE_EH_SYSTEMS = 'RECEIVE_EH_SYSTEMS'
 function receiveEventHandlerData(data, eventNames) {
   return {
     type: RECEIVE_EVENTS,
-    payload: { data, eventNames }
+    payload: { data, eventNames },
   }
 }
 
 function receiveEventHandlerSystems(data) {
   return {
     type: RECEIVE_EH_SYSTEMS,
-    payload: data
+    payload: data,
   }
 }
 
@@ -26,15 +26,15 @@ export function getEventHandlerData() {
   return (dispatch, getState) => {
     networkService
       .get('/eventhandler/mgmt/subscriptions')
-      .then(response => {
+      .then((response) => {
         dispatch(
           receiveEventHandlerData(
             groupEventHandlersByEventType(response.data.data),
-            getEventNames(response.data.data)
-          )
+            getEventNames(response.data.data),
+          ),
         )
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
       })
   }
@@ -44,7 +44,7 @@ export function createSubscription(subscriptionData) {
   return (dispatch, getState) => {
     networkService
       .post('/eventhandler/subscribe', subscriptionData)
-      .then(response => {
+      .then((response) => {
         dispatch(getEventHandlerData())
         dispatch(
           showNotification(
@@ -53,13 +53,13 @@ export function createSubscription(subscriptionData) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'success'
-          )
+            'success',
+          ),
         )
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         dispatch(
           showNotification(
@@ -68,10 +68,10 @@ export function createSubscription(subscriptionData) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 10
+              autoDismiss: 10,
             },
-            'error'
-          )
+            'error',
+          ),
         )
       })
   }
@@ -82,9 +82,9 @@ export function modifySubscription(subscriptionData, subscriptionId) {
     networkService
       .put(
         `/eventhandler/mgmt/subscriptions/${subscriptionId}`,
-        subscriptionData
+        subscriptionData,
       )
-      .then(response => {
+      .then((response) => {
         dispatch(getEventHandlerData())
         dispatch(
           showNotification(
@@ -93,13 +93,13 @@ export function modifySubscription(subscriptionData, subscriptionId) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'success'
-          )
+            'success',
+          ),
         )
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         dispatch(
           showNotification(
@@ -108,20 +108,20 @@ export function modifySubscription(subscriptionData, subscriptionId) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 10
+              autoDismiss: 10,
             },
-            'error'
-          )
+            'error',
+          ),
         )
       })
   }
 }
 
 export function deleteSubscription(eventHandlerId) {
-  return dispatch => {
+  return (dispatch) => {
     networkService
       .delete(`/eventhandler/mgmt/subscriptions/${eventHandlerId}`)
-      .then(response => {
+      .then((response) => {
         dispatch(getEventHandlerData())
         dispatch(
           showNotification(
@@ -130,13 +130,13 @@ export function deleteSubscription(eventHandlerId) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'success'
-          )
+            'success',
+          ),
         )
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         dispatch(
           showNotification(
@@ -145,10 +145,10 @@ export function deleteSubscription(eventHandlerId) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'error'
-          )
+            'error',
+          ),
         )
       })
   }

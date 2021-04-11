@@ -1,4 +1,10 @@
-import { RECEIVE_SERVICES, RECEIVE_SERVICE, RECEIVE_SR_ENTRIES_VIEW, RECEIVE_SYSTEMS, RECEIVE_SR_ENTRIES } from '../actions/serviceRegistry'
+import {
+  RECEIVE_SERVICES,
+  RECEIVE_SERVICE,
+  RECEIVE_SR_ENTRIES_VIEW,
+  RECEIVE_SYSTEMS,
+  RECEIVE_SR_ENTRIES,
+} from '../actions/serviceRegistry'
 
 export const initialState = {
   groupBySystems: [],
@@ -6,7 +12,7 @@ export const initialState = {
   autoCompleteData: [],
   systems: [],
   services: [],
-  entries: []
+  entries: [],
 }
 
 export default function services(state = initialState, action = {}) {
@@ -15,30 +21,31 @@ export default function services(state = initialState, action = {}) {
       return {
         ...state,
         groupBySystems: action.data.servicesGroupedBySystems,
-        groupByServices: action.data.servicesGroupedByServiceDefinitionAndInterface,
-        autoCompleteData: action.data.autoCompleteData
+        groupByServices:
+          action.data.servicesGroupedByServiceDefinitionAndInterface,
+        autoCompleteData: action.data.autoCompleteData,
       }
     case RECEIVE_SR_ENTRIES:
       return {
         ...state,
-        entries: action.data
+        entries: action.data,
       }
     case RECEIVE_SYSTEMS:
       return {
         ...state,
-        systems: action.data
+        systems: action.data,
       }
     case RECEIVE_SERVICES:
       return {
         ...state,
-        services: action.data
+        services: action.data,
       }
     case RECEIVE_SERVICE:
       const sData = { ...state.serviceData }
       sData[action.serviceId] = action.serviceData
       return {
         ...state,
-        serviceData: sData
+        serviceData: sData,
       }
     default:
       return state

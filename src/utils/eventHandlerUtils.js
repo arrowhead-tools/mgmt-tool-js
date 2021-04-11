@@ -3,7 +3,7 @@ import _ from 'lodash'
 export function groupEventHandlersByEventType(eventHandlerData) {
   const helperObject = {}
   for (const data of eventHandlerData) {
-    const sourceSystemNames = data.sources.filter(system => system.systemName)
+    const sourceSystemNames = data.sources.filter((system) => system.systemName)
 
     const consumerData = {
       ...data.subscriberSystem,
@@ -12,13 +12,13 @@ export function groupEventHandlersByEventType(eventHandlerData) {
       filterMetadata: data.filterMetadata,
       notifyUri: data.notifyUri,
       matchMetadata: data.matchMetadata,
-      event: data
+      event: data,
     }
 
     if (!helperObject[data.eventType]) {
       helperObject[data.eventType] = {
         eventType: data.eventType,
-        consumers: [consumerData]
+        consumers: [consumerData],
       }
     } else {
       helperObject[data.eventType].consumers.push(consumerData)

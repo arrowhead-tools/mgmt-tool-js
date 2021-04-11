@@ -13,7 +13,7 @@ import InterCloudTabContainer from './InterCloudTabContainer'
 import Button from '../../../components/CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {},
   grid: {},
   buttonMargin: {
@@ -43,7 +43,7 @@ class InterCloud extends Component {
     )
   }
 
-  onDeleteClick = entryId => () => {
+  onDeleteClick = (entryId) => () => {
     this.props.deleteInterCloudEntry(entryId)
   }
 
@@ -92,10 +92,10 @@ function mapDispatchToProps(dispatch) {
     showModal: (modalProps, modalType) => {
       dispatch(showModal({ modalProps, modalType }))
     },
-    deleteInterCloudEntry: entryId => {
+    deleteInterCloudEntry: (entryId) => {
       dispatch(deleteInterCloudEntry(entryId))
     },
-    addInterCloudEntry: interCloudEntry => {
+    addInterCloudEntry: (interCloudEntry) => {
       dispatch(addInterCloudEntry(interCloudEntry))
     }
   }

@@ -12,7 +12,7 @@ export function hideLoadingLayer() {
 }
 
 export function showNotification(notification, level) {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch(removeAll())
     dispatch(show(notification, level))
   }

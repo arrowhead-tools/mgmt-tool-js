@@ -11,7 +11,7 @@ import Button from '../../CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
 import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
 
-const styles = theme => ({
+const styles = (theme) => ({
   card: {
     display: 'flex',
     flexDirection: 'column',
@@ -58,7 +58,7 @@ class AddAuthEntry extends Component {
     this.props.getServiceRegistryEntries()
   }
 
-  handleChange = system => {
+  handleChange = (system) => {
     if (this.state.providerSystems.includes(system)) {
       this.removeSelectedItem(system)
     } else {
@@ -73,26 +73,26 @@ class AddAuthEntry extends Component {
     }))
   }
 
-  removeSelectedItem = system => {
+  removeSelectedItem = (system) => {
     this.setState(({ providerSystems }) => ({
       inputValue: '',
-      providerSystems: providerSystems.filter(i => i !== system)
+      providerSystems: providerSystems.filter((i) => i !== system)
     }))
   }
 
-  handleConsumerSystemOnChange = consumerSystem => {
+  handleConsumerSystemOnChange = (consumerSystem) => {
     this.setState({ consumerSystem })
   }
 
-  handleProvidedServiceOnChange = providedService => {
+  handleProvidedServiceOnChange = (providedService) => {
     this.setState({ providedService })
   }
 
-  handleInterfacesListOnChange = interfaces => {
-      this.setState({ interfaces })
+  handleInterfacesListOnChange = (interfaces) => {
+    this.setState({ interfaces })
   }
 
-  handleProviderSystemOnChange = providerSystems => {
+  handleProviderSystemOnChange = (providerSystems) => {
     this.setState({ providerSystems })
   }
 
@@ -105,13 +105,13 @@ class AddAuthEntry extends Component {
     )
   }
 
-  handleChipAdd = chip => {
+  handleChipAdd = (chip) => {
     this.setState({ interface: [...this.state.interface, chip] })
   }
 
   handleDeleteChip = (deletedChip, index) => {
     this.setState({
-      interface: this.state.interface.filter(c => c !== deletedChip)
+      interface: this.state.interface.filter((c) => c !== deletedChip)
     })
   }
 
@@ -223,12 +223,18 @@ AddAuthEntry.propTypes = {
 
 function mapStateToProps(state) {
   const { services } = state
-  return { systems: services.autoCompleteData.systemList, services: services.autoCompleteData.serviceList, interfaces: services.autoCompleteData.interfaceList }
+  return {
+    systems: services.autoCompleteData.systemList,
+    services: services.autoCompleteData.serviceList,
+    interfaces: services.autoCompleteData.interfaceList
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getServiceRegistryEntries: () => {dispatch(getServiceRegistryEntriesView())},
+    getServiceRegistryEntries: () => {
+      dispatch(getServiceRegistryEntriesView())
+    },
     addAuthData: (
       consumerSystem,
       providerSystems,

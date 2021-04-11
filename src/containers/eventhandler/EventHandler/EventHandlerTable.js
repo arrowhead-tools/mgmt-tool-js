@@ -13,7 +13,7 @@ import EnhancedTableHead from '../../../components/Table/EnhancedTableHead'
 import { getSorting } from '../../../utils/utils'
 import EditIcon from '@material-ui/icons/Edit'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3
@@ -56,7 +56,7 @@ class EventHandlerTable extends React.Component {
     this.setState({ page })
   }
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value })
   }
 

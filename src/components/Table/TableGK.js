@@ -18,7 +18,7 @@ function getSorting(order, orderBy) {
 }
 
 class EnhancedTableHead extends React.Component {
-  createSortHandler = property => event => {
+  createSortHandler = (property) => (event) => {
     this.props.onRequestSort(event, property)
   }
 
@@ -28,7 +28,7 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          {columnData.map(column => {
+          {columnData.map((column) => {
             return (
               <TableCell
                 key={column.id}
@@ -66,7 +66,7 @@ EnhancedTableHead.propTypes = {
   columnData: PropTypes.array.isRequired
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3
@@ -120,7 +120,7 @@ class EnhancedTable extends React.Component {
     this.setState({ page })
   }
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value })
   }
 
@@ -143,7 +143,7 @@ class EnhancedTable extends React.Component {
               {data
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
+                .map((n) => {
                   return (
                     <TableRow hover key={n.gatekeeperServiceURI}>
                       <TableCell className={classes.tableCell}>

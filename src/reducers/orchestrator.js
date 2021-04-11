@@ -2,14 +2,14 @@ import {
   RECEIVE_ORCHESTRATOR_STORE_DATA,
   RECEIVE_ORCHESTRATOR_CLOUDS,
   RECEIVE_ORCHESTRATOR_SERVICES,
-  RECEIVE_ORCHESTRATOR_SYSTEMS
+  RECEIVE_ORCHESTRATOR_SYSTEMS,
 } from '../actions/orchestrator'
 
 export const initialState = {
   backup: [],
   clouds: [],
   services: [],
-  systems: []
+  systems: [],
 }
 
 export default function orchestrator(state = initialState, action = {}) {
@@ -17,22 +17,22 @@ export default function orchestrator(state = initialState, action = {}) {
     case RECEIVE_ORCHESTRATOR_STORE_DATA:
       return {
         ...state,
-        backup: action.backup
+        backup: action.backup,
       }
     case RECEIVE_ORCHESTRATOR_SYSTEMS:
       return {
         ...state,
-        systems: action.systems
+        systems: action.systems,
       }
     case RECEIVE_ORCHESTRATOR_SERVICES:
       return {
         ...state,
-        services: action.services
+        services: action.services,
       }
     case RECEIVE_ORCHESTRATOR_CLOUDS:
       return {
         ...state,
-        clouds: action.clouds
+        clouds: action.clouds,
       }
     default:
       return state

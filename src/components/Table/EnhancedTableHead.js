@@ -7,7 +7,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 
 class EnhancedTableHead extends React.Component {
-  createSortHandler = property => event => {
+  createSortHandler = (property) => (event) => {
     this.props.onRequestSort(event, property)
   }
 
@@ -17,7 +17,7 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          {columnData.map(column => {
+          {columnData.map((column) => {
             return (
               <TableCell
                 key={column.id}

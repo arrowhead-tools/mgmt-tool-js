@@ -1,60 +1,65 @@
 # Arrowhead Management Tool
 
 This tool is providing a user interface to manage Arrowhead core systems. Currently the following core systems are supported:
+
 1. ServiceRegistry (SQL version)
 2. Authorization System (both intra- and inter-cloud authorization schemas)
 3. Orchestration Store
 4. Gatekeeper and Gateway settings
 5. Event Handler
 
-
 Running this project has 3 options:
+
 1. Running from prebuilt Docker container
 2. Running and building the project by source code
 
 ### Docker image
+
 1. Install [Docker](https://docs.docker.com/install/)
 2. [Pull](https://docs.docker.com/engine/reference/commandline/pull/) the prebuilt docker image:
-    ```
-    svetlint/management-tool
-    ```
-    
-    Available tags: 
-    * latest
-      
-    
+
+   ```
+   svetlint/management-tool
+   ```
+
+   Available tags:
+
+   - latest
+
 3. [Run](https://docs.docker.com/engine/reference/commandline/run/) the container with the following example command:
-    ```
-    docker run -it -p 3000:5000 
-    --name management-tool 
-    -e ARROWHEAD_SR_URL=http://arrowhead.tmit.bme.hu:8342 
-    -e ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340 
-    -e ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348 
-    svetlint/management-tool
-    ```
+   ```
+   docker run -it -p 3000:5000
+   --name management-tool
+   -e ARROWHEAD_SR_URL=http://arrowhead.tmit.bme.hu:8342
+   -e ARROWHEAD_ORCH_URL=http://arrowhead.tmit.bme.hu:8340
+   -e ARROWHEAD_GK_URL=http://arrowhead.tmit.bme.hu:8348
+   svetlint/management-tool
+   ```
 
 ### Running the project in development mode
+
 1. The project requires [NodeJS v7 or newer](https://nodejs.org/en/download/)
 2. Check your node version with the following command:
-    ```
-    node -v
-    ```
+
+   ```
+   node -v
+   ```
 
 3. Download or check out this project, go to the root folder and execute the following command, to install all dependencies
-    ```
-    npm install
-    ```
+   ```
+   npm install
+   ```
 4. Create a `.env` file in the root folder based on `.env.example` (all environment values are listed in the example)
 5. Start the development server with the following command
-    ```
-    npm start
-    ```
-
+   ```
+   npm start
+   ```
 
 ## Available environment variables
-   You can use the following environment variables in the `.env` file, or in the docker run command with the `-e` flag.
-   However, skip the `REACT_APP_` prefix of each variable if using docker.
-   
+
+You can use the following environment variables in the `.env` file, or in the docker run command with the `-e` flag.
+However, skip the `REACT_APP_` prefix of each variable if using docker.
+
     ```
     REACT_APP_ARROWHEAD_SR_URL=URL:port of your Service Registry Core System
     REACT_APP_ARROWHEAD_ORCH_URL=URL:port of your Orchestrator Core System
@@ -63,6 +68,7 @@ Running this project has 3 options:
     REACT_APP_ARROWHEAD_EH_URL=URL:port of your Event Handler Core System
     REACT_APP_ARROWHEAD_CHOREOGRAPHER_URL=URL:port of your Choreographer Core System
     ```
+
 Example environment variables, for the BME public test beds
 
     ```
@@ -72,17 +78,17 @@ Example environment variables, for the BME public test beds
     REACT_APP_ARROWHEAD_GK_URL=https://arrowhead.tmit.bme.hu:8449
     REACT_APP_ARROWHEAD_GW_URL=https://arrowhead.tmit.bme.hu:8453
     REACT_APP_ARROWHEAD_EH_URL=https://arrowhead.tmit.bme.hu:8455
-    ```   
-    
+    ```
+
 ## Keycloak
 
-   For user management you have the option to use [Keycloak](https://www.keycloak.org/). If you wish to use it, it is expect you to have the basic knowledge how to set it up. 
-   Management Tool with out of the box Keycloak compatibility can be found in the [keycloak branch](https://github.com/arrowhead-tools/mgmt-tool-js/tree/keycloak).     
-    
+For user management you have the option to use [Keycloak](https://www.keycloak.org/). If you wish to use it, it is expect you to have the basic knowledge how to set it up.
+Management Tool with out of the box Keycloak compatibility can be found in the [keycloak branch](https://github.com/arrowhead-tools/mgmt-tool-js/tree/keycloak).
+
 ## TROUBLESHOOTING
 
 Q: When I start the Management Tool all pages are blank. :( What should I do?
 A: Either you missed to provide the correct environment variables (.env using Node or -e flag using Docker), or you've made a typo.
 
 Q: I am facing an issue, which is not listed here :( What should I do?
-A: Open an issue with a detailed description. 
+A: Open an issue with a detailed description.

@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
 
-const styles = theme => ({
+const styles = (theme) => ({
   input: {
     marginLeft: '20px',
     marginRight: '20px',
@@ -69,11 +69,11 @@ class ChoreographerDialog extends Component {
     this.props.getServices()
   }
 
-  handlePlanNameChange = event => {
+  handlePlanNameChange = (event) => {
     this.setState({ name: event.target.value })
   }
 
-  handleStepsNameChange = index => event => {
+  handleStepsNameChange = (index) => (event) => {
     const tmpArr = [...this.state.steps]
     tmpArr[index].name = event.target.value
     this.setState({
@@ -93,15 +93,15 @@ class ChoreographerDialog extends Component {
     this.props.createPlan(this.state)
   }
 
-  handleNextStepsChange = index => value => {
-    const stringArray = value.map(item => item.name)
+  handleNextStepsChange = (index) => (value) => {
+    const stringArray = value.map((item) => item.name)
     const tmpArray = [...this.state.steps]
     tmpArray[index].nextSteps = [...stringArray]
     this.setState({ steps: tmpArray })
   }
 
-  handleServicesChange = index => value => {
-    const stringArray = value.map(service => service.serviceDefinition)
+  handleServicesChange = (index) => (value) => {
+    const stringArray = value.map((service) => service.serviceDefinition)
     const tmpArray = [...this.state.steps]
     tmpArray[index].services = [...stringArray]
     this.setState({ steps: tmpArray })
@@ -211,7 +211,6 @@ function mapStateToProps(state) {
   return { services: services.services }
 }
 
-export default connect(
-  mapStateToProps,
-  { getServices }
-)(withStyles(styles)(ChoreographerDialog))
+export default connect(mapStateToProps, { getServices })(
+  withStyles(styles)(ChoreographerDialog)
+)

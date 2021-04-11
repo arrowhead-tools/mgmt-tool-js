@@ -8,21 +8,21 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
 import ServiceTable from './ServiceTable'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     paddingTop: '10px',
     paddingBottom: '10px',
     paddingLeft: '5px',
-    paddingRight: '5px'
+    paddingRight: '5px',
   },
   heading: {
     fontSize: theme.typography.pxToRem(18),
-    fontWeight: theme.typography.fontWeightMedium
+    fontWeight: theme.typography.fontWeightMedium,
   },
   child: {
     display: 'flex',
-    flexDirection: 'column'
-  }
+    flexDirection: 'column',
+  },
 })
 
 const columnData = [
@@ -30,60 +30,58 @@ const columnData = [
   {
     id: 'cloud.name',
     disablePadding: false,
-    label: 'Cloud Name'
+    label: 'Cloud Name',
   },
   {
     id: 'cloud.provider.systemName',
     disablePadding: false,
-    label: 'System Name'
+    label: 'System Name',
   },
   {
     id: 'cloud.provider.port',
     disablePadding: false,
-    label: 'Port'
+    label: 'Port',
   },
   {
     id: 'cloud.provider.authenticationInfo',
     disablePadding: false,
-    label: 'Authentication Info'
+    label: 'Authentication Info',
   },
   {
     id: 'cloud.provider.interfaces',
     disablePadding: false,
-    label: 'Interfaces'
+    label: 'Interfaces',
   },
   {
     id: 'actions',
     disablePadding: false,
     label: 'Actions',
-    disableSort: true
-  }
+    disableSort: true,
+  },
 ]
 
 class ServiceTab extends Component {
   render() {
     const { services, classes, deleteInterCloudEntry } = this.props
     return (
-      <div className={classes.root}>
-        {services.map(entry => {
-          return (
-            <ExpansionPanel key={entry.service.id}>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>
-                  {entry.service.serviceDefinition}
-                </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails className={classes.child}>
-                <ServiceTable
-                  data={entry.clouds}
-                  columnData={columnData}
-                  deleteInterCloudEntry={deleteInterCloudEntry}
-                />
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          )
-        })}
-      </div>
+        <div className={classes.root}>
+            {services.map((entry) => (
+                <ExpansionPanel key={entry.service.id}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography className={classes.heading}>
+                            {entry.service.serviceDefinition}
+                        </Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails className={classes.child}>
+                        <ServiceTable
+                            data={entry.clouds}
+                            columnData={columnData}
+                            deleteInterCloudEntry={deleteInterCloudEntry}
+                        />
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            ))}
+        </div>
     )
   }
 }
@@ -91,7 +89,7 @@ class ServiceTab extends Component {
 ServiceTab.propTypes = {
   classes: PropTypes.object.isRequired,
   services: PropTypes.array.isRequired,
-  deleteInterCloudEntry: PropTypes.func.isRequired
+  deleteInterCloudEntry: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(ServiceTab)

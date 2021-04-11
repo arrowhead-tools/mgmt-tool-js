@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import BackupSortableList from './BackupSortableList'
 import Button from '@material-ui/core/Button'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     paddingTop: '10px',
     paddingBottom: '10px',
@@ -47,7 +47,7 @@ class BackupServiceList extends React.Component {
     this.setState({ [serviceId]: { disabled: newValue, array } })
   }
 
-  onButtonClick = serviceId => () => {
+  onButtonClick = (serviceId) => () => {
     const helperObject = {}
     this.state[serviceId].array.forEach((item, index) => {
       helperObject[item.storeEntryId] = index + 1
@@ -60,7 +60,7 @@ class BackupServiceList extends React.Component {
     const { classes, services, deleteStoreEntry, onEditClick } = this.props
     return (
       <div className={classes.root}>
-        {services.map(service => {
+        {services.map((service) => {
           return (
             <ExpansionPanel key={service.service.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>

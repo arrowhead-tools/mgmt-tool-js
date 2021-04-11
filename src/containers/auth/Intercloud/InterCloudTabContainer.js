@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles'
 import CloudTab from './Cloud/CloudTab'
 import ServiceTab from './Service/ServiceTab'
 
-const styles = theme => ({})
+const styles = (theme) => ({})
 
 class InterCloudTabContainer extends Component {
   state = {
@@ -19,7 +19,7 @@ class InterCloudTabContainer extends Component {
     this.setState({ value })
   }
 
-  handleChangeIndex = index => {
+  handleChangeIndex = (index) => {
     this.setState({ value: index })
   }
 

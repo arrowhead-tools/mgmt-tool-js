@@ -7,11 +7,15 @@ import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
-import { getClouds} from '../../../actions/gatekeeper'
-import { getServices, getSystems, getServiceRegistryEntriesView } from '../../../actions/serviceRegistry'
+import { getClouds } from '../../../actions/gatekeeper'
+import {
+  getServices,
+  getSystems,
+  getServiceRegistryEntriesView
+} from '../../../actions/serviceRegistry'
 import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
 
-const styles = theme => ({
+const styles = (theme) => ({
   input: {
     marginLeft: '20px',
     marginRight: '20px',
@@ -80,27 +84,27 @@ class InterCloudDialog extends Component {
     this.props.getSystems()
   }
 
-  onCloudChange = cloud => {
-    this.setState({cloud})
+  onCloudChange = (cloud) => {
+    this.setState({ cloud })
   }
 
-  onSourceSystemChange = service => {
+  onSourceSystemChange = (service) => {
     this.setState({ service })
   }
 
-  handleProviderSystemOnChange = providerList => {
+  handleProviderSystemOnChange = (providerList) => {
     this.setState({ providerList })
   }
 
-  handleInterfacesListOnChange = interfaceList => {
+  handleInterfacesListOnChange = (interfaceList) => {
     this.setState({ interfaceList })
   }
 
   onSubmit = () => {
     const interCloudEntry = {
       cloudId: this.state.cloud.id,
-      interfaceIdList: this.state.interfaceList.map(iface => iface.id),
-      providerIdList: this.state.providerList.map(system => system.id),
+      interfaceIdList: this.state.interfaceList.map((iface) => iface.id),
+      providerIdList: this.state.providerList.map((system) => system.id),
       serviceDefinitionIdList: [this.state.service.id]
     }
     this.props.addInterCloudEntry(interCloudEntry)
@@ -133,7 +137,9 @@ class InterCloudDialog extends Component {
           />
           <Typography className={classes.text}>
             <b>Operator:</b>{' '}
-            {this.state.cloud && this.state.cloud.operator ? this.state.cloud.operator : ''}
+            {this.state.cloud && this.state.cloud.operator
+              ? this.state.cloud.operator
+              : ''}
           </Typography>
         </Card>
         <Card raised className={classes.card}>
@@ -210,10 +216,17 @@ InterCloudDialog.propTypes = {
 
 function mapStateToProps(state) {
   const { gatekeeper, services } = state
-  return { clouds: gatekeeper.data, services: services.services, systems: services.systems, interfaces: services.autoCompleteData.interfaceList }
+  return {
+    clouds: gatekeeper.data,
+    services: services.services,
+    systems: services.systems,
+    interfaces: services.autoCompleteData.interfaceList
+  }
 }
 
-export default connect(
-  mapStateToProps,
-  { getClouds, getServices, getSystems, getServiceRegistryEntriesView }
-)(withStyles(styles)(InterCloudDialog))
+export default connect(mapStateToProps, {
+  getClouds,
+  getServices,
+  getSystems,
+  getServiceRegistryEntriesView
+})(withStyles(styles)(InterCloudDialog))

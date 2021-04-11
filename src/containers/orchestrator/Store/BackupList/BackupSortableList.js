@@ -9,7 +9,7 @@ import ClearIcon from '@material-ui/icons/Clear'
 import EditIcon from '@material-ui/icons/Edit'
 import { IconButton } from '@material-ui/core'
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'row',
@@ -43,7 +43,7 @@ const SortableItem = sortableElement(
         <div className={classes.actions}>
           <IconButton
             aria-label="Edit Entry"
-            onClick={event => {
+            onClick={(event) => {
               onEditClick(value.storeEntry, value.storeEntryId)
               event.stopPropagation()
             }}
@@ -52,7 +52,7 @@ const SortableItem = sortableElement(
           </IconButton>
           <IconButton
             color="secondary"
-            onClick={event => {
+            onClick={(event) => {
               deleteStoreEntry(value.storeEntryId)
               event.stopPropagation()
             }}
@@ -91,7 +91,7 @@ class BackupSortableList extends React.Component {
     )
   }
 
-  onItemsOrderChanged = newArray => {
+  onItemsOrderChanged = (newArray) => {
     return _.isEqual(newArray, this.props.list)
   }
 

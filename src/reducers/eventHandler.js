@@ -2,7 +2,7 @@ import { RECEIVE_EVENTS } from '../actions/eventHandler'
 
 const initialState = {
   data: [],
-  eventNames: []
+  eventNames: [],
 }
 
 export default function eventHandler(state = initialState, action = {}) {
@@ -11,7 +11,7 @@ export default function eventHandler(state = initialState, action = {}) {
       return {
         ...state,
         data: action.payload.data,
-        eventNames: action.payload.eventNames
+        eventNames: action.payload.eventNames,
       }
     default:
       return state

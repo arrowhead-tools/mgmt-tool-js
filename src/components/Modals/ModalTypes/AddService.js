@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles/'
 import { addService } from '../../../actions/serviceRegistry'
 import ChipInput from 'material-ui-chip-input'
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
     display: 'flex',
     width: '400px'
@@ -33,11 +33,11 @@ class AddService extends Component {
     }
   }
 
-  handleServiceDefinitionOnChange = event => {
+  handleServiceDefinitionOnChange = (event) => {
     this.setState({ serviceDefinition: event.target.value })
   }
 
-  handleInterfaceChipsOnChange = chips => {
+  handleInterfaceChipsOnChange = (chips) => {
     this.setState({ interfaces: chips })
   }
 

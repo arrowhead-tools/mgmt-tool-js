@@ -11,7 +11,7 @@ import StepsList from './StepsList'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     paddingTop: '10px',
     paddingBottom: '10px',
@@ -33,7 +33,7 @@ class ChoreographerTab extends Component {
     const { data, classes, deletePlan } = this.props
     return (
       <div className={classes.root}>
-        {data.map(entry => {
+        {data.map((entry) => {
           return (
             <ExpansionPanel key={entry.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>

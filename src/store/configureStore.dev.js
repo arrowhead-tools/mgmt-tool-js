@@ -10,7 +10,7 @@ export function configureStore(initialState) {
   store = createStore(
     rootReducer,
     initialState || {},
-    composeEnhancers(applyMiddleware(thunkMiddleware))
+    composeEnhancers(applyMiddleware(thunkMiddleware)),
   )
 
   return store

@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles'
 import DefaultConfigTab from './DefaultConfig/DefaultConfigTab'
 import BackupListTab from './BackupList/BackupListTab'
 
-const styles = theme => ({})
+const styles = (theme) => ({})
 
 class OrchestrationStoreTabContainer extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class OrchestrationStoreTabContainer extends Component {
     this.setState({ value })
   }
 
-  handleChangeIndex = index => {
+  handleChangeIndex = (index) => {
     this.setState({ value: index })
   }
 

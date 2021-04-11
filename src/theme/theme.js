@@ -7,26 +7,26 @@ const errorColor = '#d50000'
 const muiTheme = createMuiTheme({
   palette: {
     primary1Color: primaryColor,
-    accent1Color: primaryColor
+    accent1Color: primaryColor,
   },
 
   textField: {
-    errorColor
+    errorColor,
   },
   raisedButton: {
     primaryColor,
-    textColor: 'rgba(255, 255, 255, 0.87)'
+    textColor: 'rgba(255, 255, 255, 0.87)',
   },
   typography: {
     align: 'center',
-    useNextVariants: true
+    useNextVariants: true,
   },
   button: {
-    primaryColor
+    primaryColor,
   },
   card: {
-    primaryColor
-  }
+    primaryColor,
+  },
 })
 
 export default muiTheme

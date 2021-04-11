@@ -25,7 +25,7 @@ const dashboardRoutes = [
     sidebarName: 'Service Registry',
     navbarName: 'Service Registry',
     icon: Description,
-    component: ServiceRegistryPage
+    component: ServiceRegistryPage,
   },
   {
     collapse: true,
@@ -47,9 +47,9 @@ const dashboardRoutes = [
         sidebarName: 'Store',
         navbarName: 'Store',
         icon: Store,
-        component: OrchestratorStore
-      }
-    ]
+        component: OrchestratorStore,
+      },
+    ],
   },
   {
     collapse: true,
@@ -64,30 +64,30 @@ const dashboardRoutes = [
         sidebarName: 'Intracloud',
         navbarName: 'Intracloud',
         icon: CloudOff,
-        component: IntraCloudPage
+        component: IntraCloudPage,
       },
       {
         path: '/authorization/intercloud',
         sidebarName: 'Intercloud',
         navbarName: 'Intercloud',
         icon: CloudQueue,
-        component: InterCloudPage
-      }
-    ]
+        component: InterCloudPage,
+      },
+    ],
   },
   {
     path: '/gatekeeper',
     sidebarName: 'Gatekeeper',
     navbarName: 'Gatekeeper',
     icon: Security,
-    component: GatekeeperPage
+    component: GatekeeperPage,
   },
   {
     redirect: true,
     path: '/',
     to: '/registry',
-    navbarName: 'Redirect'
-  }
+    navbarName: 'Redirect',
+  },
 ]
 
 /*

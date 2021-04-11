@@ -13,7 +13,7 @@ import ClearIcon from '@material-ui/icons/Clear'
 import EnhancedTableHead from '../../../components/Table/EnhancedTableHead'
 import { getSorting } from '../../../utils/utils'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3
@@ -57,7 +57,7 @@ class SystemTable extends React.Component {
     this.setState({ page })
   }
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value })
   }
 
@@ -89,8 +89,12 @@ class SystemTable extends React.Component {
                 .map((n, index) => {
                   return (
                     <TableRow hover key={n.id}>
-                      <TableCell>{n.serviceDefinition.serviceDefinition}</TableCell>
-                      <TableCell>{n.interfaces.map(e => e.interfaceName).join(' ')}</TableCell>
+                      <TableCell>
+                        {n.serviceDefinition.serviceDefinition}
+                      </TableCell>
+                      <TableCell>
+                        {n.interfaces.map((e) => e.interfaceName).join(' ')}
+                      </TableCell>
                       <TableCell>{n.serviceUri}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton

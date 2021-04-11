@@ -18,7 +18,7 @@ import {
   updateRelay
 } from '../../actions/relay'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {},
   grid: {},
   buttonMargin: {
@@ -45,11 +45,11 @@ class Gatekeeper extends Component {
     )
   }
 
-  onDeleteRelayClick = id => () => {
+  onDeleteRelayClick = (id) => () => {
     this.props.deleteRelay(id)
   }
 
-  onModifyRelayClick = data => () => {
+  onModifyRelayClick = (data) => () => {
     this.props.showModal(
       {
         open: true,
@@ -78,7 +78,7 @@ class Gatekeeper extends Component {
     this.props.deleteCloud(operator, cloudName)
   }
 
-  onModifyNeighborhoodClick = data => () => {
+  onModifyNeighborhoodClick = (data) => () => {
     this.props.showModal(
       {
         open: true,
@@ -144,25 +144,25 @@ function mapDispatchToProps(dispatch) {
     getClouds: () => {
       dispatch(getClouds())
     },
-    addCloud: newCloud => {
+    addCloud: (newCloud) => {
       dispatch(addCloud(newCloud))
     },
     deleteCloud: (operator, cloudName) => {
       dispatch(deleteCloud(operator, cloudName))
     },
-    updateCloud: updatedCloud => {
+    updateCloud: (updatedCloud) => {
       dispatch(updateCloud(updatedCloud))
     },
     getRelays: () => {
       dispatch(getRelays())
     },
-    addRelay: newRelay => {
+    addRelay: (newRelay) => {
       dispatch(addRelay(newRelay))
     },
-    deleteRelay: id => {
+    deleteRelay: (id) => {
       dispatch(deleteRelay(id))
     },
-    updateRelay: updatedRelay => {
+    updateRelay: (updatedRelay) => {
       dispatch(updateRelay(updatedRelay))
     },
     hideModal: () => {

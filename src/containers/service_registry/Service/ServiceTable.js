@@ -13,7 +13,7 @@ import ClearIcon from '@material-ui/icons/Clear'
 import EnhancedTableHead from '../../../components/Table/EnhancedTableHead'
 import { getSorting } from '../../../utils/utils'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3
@@ -57,7 +57,7 @@ class ServiceTable extends React.Component {
     this.setState({ page })
   }
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value })
   }
 
@@ -92,7 +92,9 @@ class ServiceTable extends React.Component {
                       <TableCell>{n.provider.systemName}</TableCell>
                       <TableCell>{n.provider.address}</TableCell>
                       <TableCell>{n.provider.port}</TableCell>
-                      <TableCell>{n.interfaces.map(e => e.interfaceName).join(' ')}</TableCell>
+                      <TableCell>
+                        {n.interfaces.map((e) => e.interfaceName).join(' ')}
+                      </TableCell>
                       <TableCell>{n.secure}</TableCell>
                       <TableCell>{n.serviceUri}</TableCell>
                       <TableCell>{n.version}</TableCell>

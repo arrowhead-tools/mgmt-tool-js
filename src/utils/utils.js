@@ -9,7 +9,7 @@ export function groupServicesBySystems(serviceData) {
       ...data.providedService,
       entry: data,
       udp: data.udp ? '✓' : '✗',
-      serviceURI: data.serviceURI
+      serviceURI: data.serviceURI,
     }
     if (!helperObject[data.provider.id]) {
       helperObject[data.provider.id] = { ...data.provider }
@@ -37,7 +37,7 @@ export function groupServicesByServices(serviceData) {
         udp: data.udp ? '✓' : '✗',
         serviceId: data.id,
         version: data.version,
-        entry: data
+        entry: data,
       }
       if (!helperObject[data.providedService.serviceDefinition]) {
         helperObject[data.providedService.serviceDefinition] = {
@@ -47,11 +47,11 @@ export function groupServicesByServices(serviceData) {
           serviceURI: data.serviceURI,
           serviceId: data.id,
           udp: data.udp ? '✓' : '✗',
-          version: data.version
+          version: data.version,
         }
       } else {
         helperObject[data.providedService.serviceDefinition].provider.push(
-          providerData
+          providerData,
         )
       }
     }
@@ -74,7 +74,7 @@ export function getAutoCompleteData(serviceData) {
   for (const data of serviceData.serviceQueryData) {
     if (!serviceListHelper[data.providedService.serviceDefinition]) {
       serviceListHelper[data.providedService.serviceDefinition] = {
-        value: data.providedService.serviceDefinition
+        value: data.providedService.serviceDefinition,
       }
     }
 
@@ -88,16 +88,16 @@ export function getAutoCompleteData(serviceData) {
       systemListHelper[data.provider.systemName] = data.provider
     }
   }
-  _.forEach(interfaceListHelper, v => {
+  _.forEach(interfaceListHelper, (v) => {
     v.id = interfaceList.length
     interfaceList.push(v)
   })
 
-  _.forEach(systemListHelper, v => {
+  _.forEach(systemListHelper, (v) => {
     systemList.push(v)
   })
 
-  _.forEach(serviceListHelper, v => {
+  _.forEach(serviceListHelper, (v) => {
     v.id = serviceList.length
     serviceList.push(v)
   })
@@ -107,8 +107,8 @@ export function getAutoCompleteData(serviceData) {
 export function filterItems(data, filter, key) {
   return filter
     ? matchSorter(data, filter, {
-        keys: [key]
-      })
+      keys: [key],
+    })
     : data
 }
 
@@ -125,13 +125,13 @@ export function groupAuthDataByConsumer(authData) {
       authEntryId: data.id,
       provider: data.providerSystem,
       service: data.serviceDefinition,
-      interfaces: data.interfaces
+      interfaces: data.interfaces,
     }
 
     if (!helperObject[data.consumerSystem.id]) {
       helperObject[data.consumerSystem.id] = {
         consumer: data.consumerSystem,
-        relation: [relationData]
+        relation: [relationData],
       }
     } else {
       helperObject[data.consumerSystem.id].relation.push(relationData)
@@ -153,13 +153,13 @@ export function groupAuthDataByProvider(authData) {
       authEntryId: data.id,
       consumer: data.consumerSystem,
       service: data.serviceDefinition,
-      interfaces: data.interfaces
+      interfaces: data.interfaces,
     }
 
     if (!helperObject[data.providerSystem.id]) {
       helperObject[data.providerSystem.id] = {
         provider: data.providerSystem,
-        relation: [relationData]
+        relation: [relationData],
       }
     } else {
       helperObject[data.providerSystem.id].relation.push(relationData)
@@ -182,13 +182,13 @@ export function groupAuthDataByService(authData) {
       service: data.serviceDefinition,
       consumer: data.consumerSystem,
       provider: data.providerSystem,
-      interfaces: data.interfaces
+      interfaces: data.interfaces,
     }
 
     if (!helperObject[data.serviceDefinition.id]) {
       helperObject[data.serviceDefinition.id] = {
         service: data.serviceDefinition,
-        relation: [relationData]
+        relation: [relationData],
       }
     } else {
       helperObject[data.serviceDefinition.id].relation.push(relationData)
@@ -210,29 +210,39 @@ export function digestOrchestrationBackupListData(orchestrationData) {
       ...data.providerSystem,
       priority: data.priority,
       storeEntryId: data.id,
-      storeEntry: data
+      storeEntry: data,
     }
     if (!helperObject[data.consumerSystem.id]) {
       helperObject[data.consumerSystem.id] = {
         consumerData: { ...data.consumerSystem },
         consumedServices: {
           [data.serviceDefinition.id]: {
-            service: {...data.serviceDefinition, interfaces: data.serviceInterface},
-            providers: [providerSystem]
-          }
-        }
+            service: {
+              ...data.serviceDefinition,
+              interfaces: data.serviceInterface,
+            },
+            providers: [providerSystem],
+          },
+        },
+      }
+    } else if (
+      !helperObject[data.consumerSystem.id].consumedServices[
+        data.serviceDefinition.id
+      ]
+    ) {
+      helperObject[data.consumerSystem.id].consumedServices[
+        data.serviceDefinition.id
+      ] = {
+        service: {
+          ...data.serviceDefinition,
+          interfaces: data.serviceInterface,
+        },
+        providers: [providerSystem],
       }
     } else {
-      if (!helperObject[data.consumerSystem.id].consumedServices[data.serviceDefinition.id]) {
-        helperObject[data.consumerSystem.id].consumedServices[data.serviceDefinition.id] = {
-          service: {...data.serviceDefinition, interfaces: data.serviceInterface},
-          providers: [providerSystem]
-        }
-      } else {
-        helperObject[data.consumerSystem.id].consumedServices[
-          data.serviceDefinition.id
-        ].providers.push(providerSystem)
-      }
+      helperObject[data.consumerSystem.id].consumedServices[
+        data.serviceDefinition.id
+      ].providers.push(providerSystem)
     }
   }
 

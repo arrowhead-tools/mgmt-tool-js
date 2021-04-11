@@ -18,7 +18,7 @@ function getSorting(order, orderBy) {
 }
 
 class OrchTableHead extends React.Component {
-  createSortHandler = property => event => {
+  createSortHandler = (property) => (event) => {
     this.props.onRequestSort(event, property)
   }
 
@@ -28,7 +28,7 @@ class OrchTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          {columnData.map(column => {
+          {columnData.map((column) => {
             return (
               <TableCell
                 key={column.id}
@@ -65,7 +65,7 @@ OrchTableHead.propTypes = {
   columnData: PropTypes.array.isRequired
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3
@@ -111,7 +111,7 @@ class OrchTable extends React.Component {
     this.setState({ page })
   }
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value })
   }
 
@@ -129,20 +129,20 @@ class OrchTable extends React.Component {
 
     let filteredTableData = this.props.data
     if (checkedSystemName && filterService.length > 0) {
-      filteredTableData = data.filter(s =>
+      filteredTableData = data.filter((s) =>
         s.systemName.toUpperCase().startsWith(filterService.toUpperCase())
       )
     }
 
     if (checkedServiceDef && filterService.length > 0) {
-      filteredTableData = data.filter(s =>
+      filteredTableData = data.filter((s) =>
         s.serviceDef.toUpperCase().startsWith(filterService.toUpperCase())
       )
     }
 
     if (checkedFiltered) {
       let toRemove = []
-      filteredTableData.forEach(function(element) {
+      filteredTableData.forEach(function (element) {
         if (
           element.systemName.toUpperCase() === `Orchestrator`.toUpperCase() ||
           element.systemName.toUpperCase() === `Authorizator`.toUpperCase() ||
@@ -151,7 +151,9 @@ class OrchTable extends React.Component {
           toRemove.push(element)
         }
       })
-      filteredTableData = filteredTableData.filter(el => !toRemove.includes(el))
+      filteredTableData = filteredTableData.filter(
+        (el) => !toRemove.includes(el)
+      )
     }
     const emptyRows =
       rowsPerPage -
@@ -171,7 +173,7 @@ class OrchTable extends React.Component {
               {filteredTableData
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
+                .map((n) => {
                   return (
                     <TableRow hover key={n.serviceId + n.systemId}>
                       <TableCell className={classes.tableCell}>

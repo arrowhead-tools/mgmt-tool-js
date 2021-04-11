@@ -7,7 +7,7 @@ import * as PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import EventHandlerTab from './EventHandler/EventHandlerTab'
 
-const styles = theme => ({})
+const styles = (theme) => ({})
 
 class EventHandlerTabContainer extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class EventHandlerTabContainer extends Component {
     this.setState({ value })
   }
 
-  handleChangeIndex = index => {
+  handleChangeIndex = (index) => {
     this.setState({ value: index })
   }
 

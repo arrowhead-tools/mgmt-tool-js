@@ -10,31 +10,33 @@ export const RECEIVE_ORCHESTRATOR_CLOUDS = 'RECEIVE_ORCHESTRATOR_CLOUDS'
 function receiveOrchestratorStoreData(backup) {
   return {
     type: RECEIVE_ORCHESTRATOR_STORE_DATA,
-    backup
+    backup,
   }
 }
 export function getOrchestrationStoreData() {
   return (dispatch, getState) => {
     networkService
       .get('/orchestrator/mgmt/store')
-      .then(response => {
+      .then((response) => {
         dispatch(
           receiveOrchestratorStoreData(
-            digestOrchestrationBackupListData(response.data.data)
-          )
+            digestOrchestrationBackupListData(response.data.data),
+          ),
         )
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
       })
   }
 }
 
 export function savePriorities(priorityData) {
-  return dispatch => {
+  return (dispatch) => {
     networkService
-      .post('/orchestrator/mgmt/store/modify_priorities', { priorityMap: priorityData })
-      .then(response => {
+      .post('/orchestrator/mgmt/store/modify_priorities', {
+        priorityMap: priorityData,
+      })
+      .then((response) => {
         dispatch(
           showNotification(
             {
@@ -42,14 +44,14 @@ export function savePriorities(priorityData) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'success'
-          )
+            'success',
+          ),
         )
         dispatch(getOrchestrationStoreData())
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         dispatch(
           showNotification(
@@ -58,17 +60,17 @@ export function savePriorities(priorityData) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 10
+              autoDismiss: 10,
             },
-            'error'
-          )
+            'error',
+          ),
         )
       })
   }
 }
 
 export function deleteService(serviceId) {
-  return dispatch => {
+  return (dispatch) => {
     networkService
       .delete(`/mgmt/services/${serviceId}`)
       .then(() => {
@@ -79,14 +81,14 @@ export function deleteService(serviceId) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'success'
-          )
+            'success',
+          ),
         )
         dispatch(getOrchestrationStoreData())
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         dispatch(
           showNotification(
@@ -95,20 +97,20 @@ export function deleteService(serviceId) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'error'
-          )
+            'error',
+          ),
         )
       })
   }
 }
 
 export function addStoreEntry(storeData) {
-  return dispatch => {
+  return (dispatch) => {
     networkService
       .post('/orchestrator/mgmt/store', [storeData])
-      .then(response => {
+      .then((response) => {
         dispatch(
           showNotification(
             {
@@ -116,14 +118,14 @@ export function addStoreEntry(storeData) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'success'
-          )
+            'success',
+          ),
         )
         dispatch(getOrchestrationStoreData())
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         dispatch(
           showNotification(
@@ -132,20 +134,20 @@ export function addStoreEntry(storeData) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 10
+              autoDismiss: 10,
             },
-            'error'
-          )
+            'error',
+          ),
         )
       })
   }
 }
 
 export function deleteStoreEntry(id) {
-  return dispatch => {
+  return (dispatch) => {
     networkService
       .delete(`/orchestrator/mgmt/store/${id}`)
-      .then(response => {
+      .then((response) => {
         dispatch(
           showNotification(
             {
@@ -153,14 +155,14 @@ export function deleteStoreEntry(id) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'success'
-          )
+            'success',
+          ),
         )
         dispatch(getOrchestrationStoreData())
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         dispatch(
           showNotification(
@@ -169,20 +171,20 @@ export function deleteStoreEntry(id) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 10
+              autoDismiss: 10,
             },
-            'error'
-          )
+            'error',
+          ),
         )
       })
   }
 }
 
 export function editStoreEntry(storeEntry, id) {
-  return dispatch => {
+  return (dispatch) => {
     networkService
       .put(`/orchestrator/mgmt/store/update/${id}`, storeEntry)
-      .then(response => {
+      .then((response) => {
         dispatch(
           showNotification(
             {
@@ -190,14 +192,14 @@ export function editStoreEntry(storeEntry, id) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'success'
-          )
+            'success',
+          ),
         )
         dispatch(getOrchestrationStoreData())
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         dispatch(
           showNotification(
@@ -206,10 +208,10 @@ export function editStoreEntry(storeEntry, id) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 10
+              autoDismiss: 10,
             },
-            'error'
-          )
+            'error',
+          ),
         )
       })
   }

@@ -19,12 +19,12 @@ import Checkbox from '@material-ui/core/Checkbox'
 import _ from 'lodash'
 import moment from 'moment'
 import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
-import {DateTimePicker, MuiPickersUtilsProvider} from 'material-ui-pickers'
+import { DateTimePicker, MuiPickersUtilsProvider } from 'material-ui-pickers'
 import MomentUtils from '@date-io/moment'
 
 moment.locale('hu')
 
-const styles = theme => ({
+const styles = (theme) => ({
   input: {
     marginLeft: '20px',
     marginRight: '20px',
@@ -87,12 +87,12 @@ class EventHandler extends Component {
     this.state = {
       id: event ? event.id : null,
       eventType: event ? event.eventType : '',
-      endDate: event? event.endDate : moment().add(2, 'days'),
+      endDate: event ? event.endDate : moment().add(2, 'days'),
       filterMetadata: filterMetadataHelper,
       matchMetadata: event.matchMetadata || false,
       sources: event.sources || [],
       notifyUri: event.notifyUri || '',
-      startDate: event? event.startDate : moment(),
+      startDate: event ? event.startDate : moment(),
       subscriberSystem: event ? event.subscriberSystem : {}
     }
   }
@@ -102,11 +102,11 @@ class EventHandler extends Component {
     this.props.getEventHandlerData()
   }
 
-  onEventTypeTextChange = eventType => {
+  onEventTypeTextChange = (eventType) => {
     this.setState({ eventType })
   }
 
-  onEventTypeChange = eventType => {
+  onEventTypeChange = (eventType) => {
     if (eventType !== undefined) {
       this.setState({
         eventType: eventType.eventType
@@ -114,21 +114,21 @@ class EventHandler extends Component {
     }
   }
 
-  handleSubscriberSystemOnChange = subscriberSystem => {
+  handleSubscriberSystemOnChange = (subscriberSystem) => {
     this.setState({ subscriberSystem })
   }
 
-  onSourceSystemChange = sourceSystems => {
+  onSourceSystemChange = (sourceSystems) => {
     this.setState({ sources: sourceSystems })
   }
 
-  onFilterMetadataChange = (index, key) => event => {
+  onFilterMetadataChange = (index, key) => (event) => {
     const metadataArray = this.state.filterMetadata
     metadataArray[index][key] = event.target.value
     this.setState({ filterMetadata: metadataArray })
   }
 
-  removeFilterMetadataProperty = removeIndex => () => {
+  removeFilterMetadataProperty = (removeIndex) => () => {
     this.setState({
       filterMetadata: [
         ...this.state.filterMetadata.slice(0, removeIndex),
@@ -143,19 +143,19 @@ class EventHandler extends Component {
     })
   }
 
-  onNotifyUriChange = event => {
+  onNotifyUriChange = (event) => {
     this.setState({ notifyUri: event.target.value })
   }
 
-  onMatchMetadataChange = event => {
+  onMatchMetadataChange = (event) => {
     this.setState({ matchMetadata: event.target.checked })
   }
 
-  handleStartDateOnChange = date => {
+  handleStartDateOnChange = (date) => {
     this.setState({ startDate: date })
   }
 
-  handleEndDateOnChange = date => {
+  handleEndDateOnChange = (date) => {
     this.setState({ endDate: date })
   }
 
@@ -169,12 +169,8 @@ class EventHandler extends Component {
 
     const subscriptionData = {
       eventType: this.state.eventType,
-      endDate: moment(this.state.endDate).format(
-        'YYYY-MM-DD HH:mm:ss'
-      ),
-      startDate: moment(this.state.startDate).format(
-        'YYYY-MM-DD HH:mm:ss'
-      ),
+      endDate: moment(this.state.endDate).format('YYYY-MM-DD HH:mm:ss'),
+      startDate: moment(this.state.startDate).format('YYYY-MM-DD HH:mm:ss'),
       sources: this.state.sources,
       filterMetadata: filterMetadataHelper,
       notifyUri: this.state.notifyUri,
@@ -306,40 +302,40 @@ class EventHandler extends Component {
               onChange={this.onMatchMetadataChange}
             />
           </div>
-            <MuiPickersUtilsProvider
-              utils={MomentUtils}
-              moment={moment}
-              locale={{ hu: 'hu' }}
-            >
-              <div>
-                <DateTimePicker
-                  disablePast
-                  showTodayButton
-                  className={classes.input}
-                  ampm={false}
-                  label="Start Date"
-                  value={this.state.startDate}
-                  onChange={this.handleStartDateOnChange}
-                />
-              </div>
-            </MuiPickersUtilsProvider>
-            <MuiPickersUtilsProvider
-              utils={MomentUtils}
-              moment={moment}
-              locale={{ hu: 'hu' }}
-            >
-              <div>
-                <DateTimePicker
-                  disablePast
-                  showTodayButton
-                  className={classes.input}
-                  ampm={false}
-                  label="End Date"
-                  value={this.state.endDate}
-                  onChange={this.handleEndDateOnChange}
-                />
-              </div>
-            </MuiPickersUtilsProvider>
+          <MuiPickersUtilsProvider
+            utils={MomentUtils}
+            moment={moment}
+            locale={{ hu: 'hu' }}
+          >
+            <div>
+              <DateTimePicker
+                disablePast
+                showTodayButton
+                className={classes.input}
+                ampm={false}
+                label="Start Date"
+                value={this.state.startDate}
+                onChange={this.handleStartDateOnChange}
+              />
+            </div>
+          </MuiPickersUtilsProvider>
+          <MuiPickersUtilsProvider
+            utils={MomentUtils}
+            moment={moment}
+            locale={{ hu: 'hu' }}
+          >
+            <div>
+              <DateTimePicker
+                disablePast
+                showTodayButton
+                className={classes.input}
+                ampm={false}
+                label="End Date"
+                value={this.state.endDate}
+                onChange={this.handleEndDateOnChange}
+              />
+            </div>
+          </MuiPickersUtilsProvider>
         </Card>
         <Button
           onClick={this.onSubmit}
@@ -384,11 +380,13 @@ function mapStateToProps(state) {
   const { services, eventHandler } = state
   return {
     eventNames: eventHandler.eventNames,
-    systems: services.autoCompleteData.systemList, services: services.autoCompleteData.serviceList, interfaces: services.autoCompleteData.interfaceList
+    systems: services.autoCompleteData.systemList,
+    services: services.autoCompleteData.serviceList,
+    interfaces: services.autoCompleteData.interfaceList
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { getServiceRegistryEntriesView, getEventHandlerData }
-)(withStyles(styles)(EventHandler))
+export default connect(mapStateToProps, {
+  getServiceRegistryEntriesView,
+  getEventHandlerData
+})(withStyles(styles)(EventHandler))

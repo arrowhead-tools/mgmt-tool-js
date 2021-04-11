@@ -7,7 +7,7 @@ import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles/'
 import { createSystem } from '../../../actions/serviceRegistry'
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
     display: 'flex',
     width: '400px'
@@ -33,15 +33,15 @@ class AddSystem extends Component {
     }
   }
 
-  handleSystemNameOnChange = event => {
+  handleSystemNameOnChange = (event) => {
     this.setState({ systemName: event.target.value })
   }
 
-  handleAddressOnChange = event => {
+  handleAddressOnChange = (event) => {
     this.setState({ address: event.target.value })
   }
 
-  handlePortOnChange = event => {
+  handlePortOnChange = (event) => {
     if (
       event.target.value === '' ||
       (event.target.value > 0 && event.target.value <= 65536)
@@ -50,7 +50,7 @@ class AddSystem extends Component {
     }
   }
 
-  handleAuthenticationInfoOnChange = event => {
+  handleAuthenticationInfoOnChange = (event) => {
     this.setState({ authenticationInfo: event.target.value })
   }
 
@@ -60,8 +60,7 @@ class AddSystem extends Component {
       address: this.state.address,
       port: this.state.port,
       authenticationInfo: this.state.authenticationInfo
-    }
-    )
+    })
     this.props.closeModal()
   }
 

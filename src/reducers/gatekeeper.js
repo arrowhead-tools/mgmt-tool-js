@@ -1,7 +1,7 @@
 import { RECEIVE_CLOUDS } from '../actions/gatekeeper'
 
 const initialState = {
-  data: []
+  data: [],
 }
 
 export default function services(state = initialState, action = {}) {
@@ -9,7 +9,7 @@ export default function services(state = initialState, action = {}) {
     case RECEIVE_CLOUDS:
       return {
         ...state,
-        data: action.data
+        data: action.data,
       }
     default:
       return state
