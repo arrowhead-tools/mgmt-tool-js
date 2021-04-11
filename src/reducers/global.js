@@ -2,7 +2,7 @@ import { SHOW_LOADING_LAYER, HIDE_LOADING_LAYER } from '../actions/global'
 
 const initialState = {
   isLoadingLayerVisible: false,
-  messages: []
+  messages: [],
 }
 
 export default function auth(state = initialState, action = {}) {
@@ -10,12 +10,12 @@ export default function auth(state = initialState, action = {}) {
     case SHOW_LOADING_LAYER:
       return {
         ...state,
-        isLoadingLayerVisible: true
+        isLoadingLayerVisible: true,
       }
     case HIDE_LOADING_LAYER:
       return {
         ...state,
-        isLoadingLayerVisible: false
+        isLoadingLayerVisible: false,
       }
     default:
       return state

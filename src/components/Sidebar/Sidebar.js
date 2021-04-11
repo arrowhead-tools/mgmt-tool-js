@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import * as PropTypes from 'prop-types'
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 // @material-ui/core components
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp'
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown'
@@ -21,24 +21,22 @@ class Sidebar extends React.Component {
   state = {}
 
   // verifies if routeName is the one active (in browser input)
-  activeRoute = routeName => {
+  activeRoute = (routeName) => {
     return this.props.location.pathname.indexOf(routeName) > -1
   }
 
-  handleClick = item => () => {
+  handleClick = (item) => () => {
     if (this.state[item] === undefined) {
-      this.setState({[item]: true})
+      this.setState({ [item]: true })
     } else {
-      this.setState(state => ({[item]: !state[item]}))
+      this.setState((state) => ({ [item]: !state[item] }))
     }
   }
 
   render() {
-    const {classes, color, logo, image, logoText, routes} = this.props
+    const { classes, color, logo, image, logoText, routes } = this.props
 
-    const importExportFeature = (
-     <ImportExport classes={classes} />
-    )
+    const importExportFeature = <ImportExport classes={classes} />
 
     const links = (
       <div>
@@ -56,8 +54,10 @@ class Sidebar extends React.Component {
                     onClick={this.handleClick(prop.state)}
                     className={classes.itemLink}
                   >
-                    <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
-                      <prop.icon/>
+                    <ListItemIcon
+                      className={classes.itemIcon + whiteFontClasses}
+                    >
+                      <prop.icon />
                     </ListItemIcon>
                     <ListItemText
                       primary={prop.sidebarName}
@@ -65,9 +65,9 @@ class Sidebar extends React.Component {
                       disableTypography
                     />
                     {this.state[prop.state] ? (
-                      <ArrowDropUp className={classes.white}/>
+                      <ArrowDropUp className={classes.white} />
                     ) : (
-                      <ArrowDropDown className={classes.white}/>
+                      <ArrowDropDown className={classes.white} />
                     )}
                   </ListItem>
                   <Collapse
@@ -103,7 +103,7 @@ class Sidebar extends React.Component {
                               <ListItemIcon
                                 className={classes.itemIcon + whiteFontClasses}
                               >
-                                <view.icon/>
+                                <view.icon />
                               </ListItemIcon>
                               <ListItemText
                                 primary={view.sidebarName}
@@ -133,9 +133,14 @@ class Sidebar extends React.Component {
                   activeClassName="active"
                   key={key}
                 >
-                  <ListItem button className={classes.itemLink + listItemClasses}>
-                    <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
-                      <prop.icon/>
+                  <ListItem
+                    button
+                    className={classes.itemLink + listItemClasses}
+                  >
+                    <ListItemIcon
+                      className={classes.itemIcon + whiteFontClasses}
+                    >
+                      <prop.icon />
                     </ListItemIcon>
                     <ListItemText
                       primary={prop.sidebarName}
@@ -148,17 +153,14 @@ class Sidebar extends React.Component {
             }
           })}
         </List>
-        <div>
-          {importExportFeature}
-        </div>
+        <div>{importExportFeature}</div>
       </div>
-
     )
     const brand = (
       <div className={classes.logo}>
         <a href="http://www.arrowhead.eu" className={classes.logoLink}>
           <div className={classes.logoImage}>
-            <img src={logo} alt="logo" className={classes.img}/>
+            <img src={logo} alt="logo" className={classes.img} />
           </div>
           {logoText}
         </a>
@@ -184,7 +186,7 @@ class Sidebar extends React.Component {
             {image !== undefined ? (
               <div
                 className={classes.background}
-                style={{backgroundImage: 'url(' + image + ')'}}
+                style={{ backgroundImage: 'url(' + image + ')' }}
               />
             ) : null}
           </Drawer>
@@ -203,7 +205,7 @@ class Sidebar extends React.Component {
             {image !== undefined ? (
               <div
                 className={classes.background}
-                style={{backgroundImage: 'url(' + image + ')'}}
+                style={{ backgroundImage: 'url(' + image + ')' }}
               />
             ) : null}
           </Drawer>

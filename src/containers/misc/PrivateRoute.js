@@ -7,21 +7,19 @@ class PrivateRoute extends React.Component {
   render() {
     const { component: Component, ...rest } = this.props
     return (
-      <Route
-        {...rest}
-        render={props =>
-          this.props.user ? (
-            <Component {...props} />
-          ) : (
-            <Redirect
-              to={{
-                pathname: '/login',
-                state: { from: props.location }
-              }}
-            />
-          )
-        }
-      />
+        <Route
+            {...rest}
+            render={(props) => (this.props.user ? (
+                <Component {...props} />
+            ) : (
+                <Redirect
+                    to={{
+                      pathname: '/login',
+                      state: { from: props.location },
+                    }}
+                />
+            ))}
+        />
     )
   }
 }
@@ -29,7 +27,7 @@ class PrivateRoute extends React.Component {
 PrivateRoute.propTypes = {
   dispatch: PropTypes.func,
   user: PropTypes.object,
-  component: PropTypes.func
+  component: PropTypes.func,
 }
 
 function mapStateToProps(state) {

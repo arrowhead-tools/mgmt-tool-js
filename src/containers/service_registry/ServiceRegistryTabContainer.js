@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles'
 import ServiceTab from './Service/ServiceTab'
 import SystemTab from './System/SystemTab'
 
-const styles = theme => ({})
+const styles = (theme) => ({})
 
 class ServiceRegistryTabContainer extends Component {
   state = {
@@ -19,7 +19,7 @@ class ServiceRegistryTabContainer extends Component {
     this.setState({ value })
   }
 
-  handleChangeIndex = index => {
+  handleChangeIndex = (index) => {
     this.setState({ value: index })
   }
 

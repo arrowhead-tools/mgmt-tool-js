@@ -14,7 +14,7 @@ import CustomButton from '../../components/CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
 import EventHandlerTabContainer from './EventHandlerTabContainer'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     paddingTop: '10px',
     paddingBottom: '10px',
@@ -45,11 +45,11 @@ class EventHandler extends Component {
     )
   }
 
-  onEventHandlerDeleteClick = eventHandlerId => () => {
+  onEventHandlerDeleteClick = (eventHandlerId) => () => {
     this.props.deleteSubscription(eventHandlerId)
   }
 
-  onEventHandlerModifyClick = event => () => {
+  onEventHandlerModifyClick = (event) => () => {
     this.props.showModal(
       {
         open: true,
@@ -104,10 +104,10 @@ function mapDispatchToProps(dispatch) {
     getEventHandlerData: () => {
       dispatch(getEventHandlerData())
     },
-    createSubscription: subscriptionData => {
+    createSubscription: (subscriptionData) => {
       dispatch(createSubscription(subscriptionData))
     },
-    deleteSubscription: eventHandlerId => {
+    deleteSubscription: (eventHandlerId) => {
       dispatch(deleteSubscription(eventHandlerId))
     },
     modifySubscription: (subscriptionData, id) => {

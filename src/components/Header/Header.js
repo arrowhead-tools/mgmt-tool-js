@@ -24,10 +24,8 @@ function Header({ ...props }) {
             name = view.navbarName
           }
         }
-      } else {
-        if (prop.path === props.location.pathname) {
-          name = prop.navbarName
-        }
+      } else if (prop.path === props.location.pathname) {
+        name = prop.navbarName
       }
     }
     return name
@@ -35,29 +33,29 @@ function Header({ ...props }) {
 
   const { classes, color } = props
   const appBarClasses = classNames({
-    [' ' + classes[color]]: color
+    [` ${classes[color]}`]: color,
   })
   return (
-    <AppBar className={classes.appBar + appBarClasses}>
-      <Toolbar className={classes.container}>
-        <div className={classes.flex}>
-          {/* Here we create navbar brand, based on route name */}
-          <Button color="transparent" href="#" className={classes.title}>
-            {makeBrand()}
-          </Button>
-        </div>
-        <Hidden mdUp>
-          <IconButton
-            className={classes.appResponsive}
-            color="inherit"
-            aria-label="open drawer"
-            onClick={props.handleDrawerToggle}
-          >
-            <Menu />
-          </IconButton>
-        </Hidden>
-      </Toolbar>
-    </AppBar>
+      <AppBar className={classes.appBar + appBarClasses}>
+          <Toolbar className={classes.container}>
+              <div className={classes.flex}>
+                  {/* Here we create navbar brand, based on route name */}
+                  <Button color="transparent" href="#" className={classes.title}>
+                      {makeBrand()}
+                  </Button>
+              </div>
+              <Hidden mdUp>
+                  <IconButton
+                      className={classes.appResponsive}
+                      color="inherit"
+                      aria-label="open drawer"
+                      onClick={props.handleDrawerToggle}
+                  >
+                      <Menu />
+                  </IconButton>
+              </Hidden>
+          </Toolbar>
+      </AppBar>
   )
 }
 
@@ -66,7 +64,7 @@ Header.propTypes = {
   color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'danger']),
   routes: PropTypes.array.isRequired,
   location: PropTypes.object.isRequired,
-  handleDrawerToggle: PropTypes.func.isRequired
+  handleDrawerToggle: PropTypes.func.isRequired,
 }
 
 export default withStyles(headerStyle)(Header)

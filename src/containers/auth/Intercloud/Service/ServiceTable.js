@@ -12,7 +12,7 @@ import { getSorting } from '../../../../utils/utils'
 import IconButton from '@material-ui/core/IconButton'
 import ClearIcon from '@material-ui/icons/Clear'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3
@@ -59,7 +59,7 @@ class ServiceTable extends React.Component {
     this.setState({ page })
   }
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value })
   }
 
@@ -81,15 +81,21 @@ class ServiceTable extends React.Component {
               {data
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
+                .map((n) => {
                   return (
                     <TableRow hover key={n.interCloudEntryId}>
                       <TableCell>{n.cloud.operator}</TableCell>
                       <TableCell>{n.cloud.name}</TableCell>
                       <TableCell>{n.cloud.provider.systemName}</TableCell>
                       <TableCell>{n.cloud.provider.port}</TableCell>
-                      <TableCell className={classes.scroll}>{n.cloud.provider.authenticationInfo}</TableCell>
-                      <TableCell>{n.cloud.provider.interfaces.map(iface => iface.interfaceName).join(' ')}</TableCell>
+                      <TableCell className={classes.scroll}>
+                        {n.cloud.provider.authenticationInfo}
+                      </TableCell>
+                      <TableCell>
+                        {n.cloud.provider.interfaces
+                          .map((iface) => iface.interfaceName)
+                          .join(' ')}
+                      </TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton
                           color="secondary"

@@ -4,17 +4,15 @@ import { connect } from 'react-redux'
 import AddSystem from './AddSystem'
 import AddService from './AddService'
 
-const AddModal = ({ closeModal }) => {
-  return (
+const AddModal = ({ closeModal }) => (
     <div>
-      <AddSystem />
-      <AddService />
+        <AddSystem />
+        <AddService />
     </div>
-  )
-}
+)
 
 AddModal.propTypes = {
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -25,7 +23,4 @@ function mapDispatchToProps(dispatch) {
   return {}
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddModal)
+export default connect(mapStateToProps, mapDispatchToProps)(AddModal)

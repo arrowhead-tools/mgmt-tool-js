@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles'
 import CloudTab from './Cloud/CloudTab'
 import RelayTab from './Relay/RelayTab'
 
-const styles = theme => ({})
+const styles = (theme) => ({})
 
 class GatekeeperTabContainer extends Component {
   state = {
@@ -19,7 +19,7 @@ class GatekeeperTabContainer extends Component {
     this.setState({ value })
   }
 
-  handleChangeIndex = index => {
+  handleChangeIndex = (index) => {
     this.setState({ value: index })
   }
 

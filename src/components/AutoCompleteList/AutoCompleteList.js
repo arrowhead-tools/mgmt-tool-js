@@ -11,7 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { emphasize } from '@material-ui/core/styles/colorManipulator'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     height: '400px',
@@ -193,7 +193,7 @@ class AutoCompleteList extends Component {
     multi: null
   }
 
-  handleChange = name => value => {
+  handleChange = (name) => (value) => {
     this.setState({
       [name]: value
     })
@@ -212,7 +212,7 @@ class AutoCompleteList extends Component {
     } = this.props
 
     const selectStyles = {
-      input: base => ({
+      input: (base) => ({
         ...base,
         color: theme.palette.text.primary,
         '& input': {
@@ -234,10 +234,10 @@ class AutoCompleteList extends Component {
           }}
           isDisabled={disabled}
           options={suggestions}
-          getOptionLabel={data => {
+          getOptionLabel={(data) => {
             return data[keyValue]
           }}
-          getOptionValue={data => {
+          getOptionValue={(data) => {
             return data[keyValue]
           }}
           components={components}

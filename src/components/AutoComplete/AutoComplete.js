@@ -26,7 +26,7 @@ class AutoComplete extends Component {
     } = this.props
     return (
       <Downshift
-        onChange={selection => {
+        onChange={(selection) => {
           handleOnChange(selection)
         }}
         onStateChange={({ inputValue }) => {
@@ -36,7 +36,7 @@ class AutoComplete extends Component {
           }
         }}
         selectedItem={defaultValue || this.state.inputValue}
-        itemToString={item => {
+        itemToString={(item) => {
           if (isEdit) {
             return defaultValue
           }
@@ -68,7 +68,8 @@ class AutoComplete extends Component {
                 <Paper className={classes.paper} square>
                   {suggestions
                     .filter(
-                      item => !inputValue || item[keyValue].includes(inputValue)
+                      (item) =>
+                        !inputValue || item[keyValue].includes(inputValue)
                     )
                     .map((item, index) => (
                       <MenuItem

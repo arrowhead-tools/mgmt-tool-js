@@ -12,7 +12,7 @@ import ClearIcon from '@material-ui/icons/Clear'
 import EnhancedTableHead from '../../../../components/Table/EnhancedTableHead'
 import { getSorting } from '../../../../utils/utils'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3
@@ -55,7 +55,7 @@ class ConsumerTable extends React.Component {
     this.setState({ page })
   }
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value })
   }
 
@@ -81,7 +81,9 @@ class ConsumerTable extends React.Component {
                   return (
                     <TableRow hover key={n.authEntryId}>
                       <TableCell>{n.service.serviceDefinition}</TableCell>
-                      <TableCell>{n.interfaces.map(i => i.interfaceName).join(',')}</TableCell>
+                      <TableCell>
+                        {n.interfaces.map((i) => i.interfaceName).join(',')}
+                      </TableCell>
                       <TableCell>{n.consumer.systemName}</TableCell>
                       <TableCell className={classes.actionCell}>
                         <IconButton

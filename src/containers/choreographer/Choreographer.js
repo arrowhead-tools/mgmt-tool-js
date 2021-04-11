@@ -13,7 +13,7 @@ import CustomButton from '../../components/CustomButtons/Button'
 import AddIcon from '@material-ui/icons/Add'
 import ChoreographerTabContainer from './ChoreographerTabContainer'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     paddingTop: '10px',
     paddingBottom: '10px',
@@ -44,7 +44,7 @@ class Choreographer extends Component {
     )
   }
 
-  handlePlanDeleteClick = planId => {
+  handlePlanDeleteClick = (planId) => {
     this.props.deletePlan(planId)
   }
 
@@ -88,10 +88,10 @@ function mapDispatchToProps(dispatch) {
     getAllChoreographerData: () => {
       dispatch(getAllChoreographerData())
     },
-    createPlan: data => {
+    createPlan: (data) => {
       dispatch(createPlan(data))
     },
-    deletePlan: planId => {
+    deletePlan: (planId) => {
       dispatch(deletePlan(planId))
     },
     hideModal: () => {

@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
 import RelayTypeDropdown from '../../Dropdown/RelayTypeDropdown'
 
-const styles = theme => ({
+const styles = (theme) => ({
   input: {
     marginLeft: '20px',
     marginRight: '20px',
@@ -33,24 +33,24 @@ class AddRelay extends Component {
     }
   }
 
-  onAddressChange = e => {
+  onAddressChange = (e) => {
     this.setState({ address: e.target.value })
   }
 
-  onPortChange = e => {
+  onPortChange = (e) => {
     this.setState({ port: e.target.value })
   }
 
-  onSecureChange = e => {
+  onSecureChange = (e) => {
     this.setState({ secure: e.target.checked })
   }
 
-  onExclusiveChange = e => {
+  onExclusiveChange = (e) => {
     this.setState({ exclusive: e.target.checked })
   }
 
-  onTypeChange = e => {
-    this.setState( { type: e.target.value })
+  onTypeChange = (e) => {
+    this.setState({ type: e.target.value })
   }
 
   onSubmit = () => {
@@ -98,7 +98,11 @@ class AddRelay extends Component {
               max: '65535'
             }}
           />
-          <RelayTypeDropdown  value={this.state.type} handleTypeChange={this.onTypeChange} classes={classes}/>
+          <RelayTypeDropdown
+            value={this.state.type}
+            handleTypeChange={this.onTypeChange}
+            classes={classes}
+          />
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <Typography variant="subtitle2" style={{ margin: '20px' }}>
               Is secure?

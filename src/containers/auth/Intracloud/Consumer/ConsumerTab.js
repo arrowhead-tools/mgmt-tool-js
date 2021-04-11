@@ -8,68 +8,72 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
 import ConsumerTable from './ConsumerTable'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     paddingTop: '10px',
     paddingBottom: '10px',
     paddingLeft: '5px',
-    paddingRight: '5px'
+    paddingRight: '5px',
   },
   heading: {
     fontSize: theme.typography.pxToRem(18),
-    fontWeight: theme.typography.fontWeightMedium
+    fontWeight: theme.typography.fontWeightMedium,
   },
   child: {
     display: 'flex',
-    flexDirection: 'column'
-  }
+    flexDirection: 'column',
+  },
 })
 
 const columnData = [
   {
     id: 'service.serviceDefinition',
     disablePadding: false,
-    label: 'Service Definition'
+    label: 'Service Definition',
   },
   { id: 'service.interfaces', disablePadding: false, label: 'Interface' },
   {
     id: 'provider.systemName',
     disablePadding: false,
-    label: 'Providing System Name'
+    label: 'Providing System Name',
   },
-  { id: 'actions', disablePadding: false, label: 'Actions', disableSort: true }
+  {
+    id: 'actions', disablePadding: false, label: 'Actions', disableSort: true,
+  },
 ]
 
 class ConsumerTab extends Component {
   render() {
     const { consumerData, classes, deleteAuthEntry } = this.props
     return (
-      <div className={classes.root}>
-        {consumerData.map(consumerEntry => {
-          return (
-            <ExpansionPanel key={consumerEntry.consumer.id}>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>
-                  {consumerEntry.consumer.systemName}
-                </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails className={classes.child}>
-                <Typography>
-                  <b>Address:</b> {consumerEntry.consumer.address}
-                </Typography>
-                <Typography>
-                  <b>Port:</b> {consumerEntry.consumer.port}
-                </Typography>
-                <ConsumerTable
-                  data={consumerEntry.relation}
-                  deleteAuthEntryById={deleteAuthEntry}
-                  columnData={columnData}
-                />
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          )
-        })}
-      </div>
+        <div className={classes.root}>
+            {consumerData.map((consumerEntry) => (
+                <ExpansionPanel key={consumerEntry.consumer.id}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography className={classes.heading}>
+                            {consumerEntry.consumer.systemName}
+                        </Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails className={classes.child}>
+                        <Typography>
+                            <b>Address:</b>
+                            {' '}
+                            {consumerEntry.consumer.address}
+                        </Typography>
+                        <Typography>
+                            <b>Port:</b>
+                            {' '}
+                            {consumerEntry.consumer.port}
+                        </Typography>
+                        <ConsumerTable
+                            data={consumerEntry.relation}
+                            deleteAuthEntryById={deleteAuthEntry}
+                            columnData={columnData}
+                        />
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            ))}
+        </div>
     )
   }
 }
@@ -77,7 +81,7 @@ class ConsumerTab extends Component {
 ConsumerTab.propTypes = {
   consumerData: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
-  deleteAuthEntry: PropTypes.func.isRequired
+  deleteAuthEntry: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(ConsumerTab)

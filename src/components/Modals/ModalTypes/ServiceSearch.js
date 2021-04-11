@@ -19,7 +19,7 @@ class ServiceSearch extends Component {
     }
   }
 
-  handleSystemSearchOnChange = value => {
+  handleSystemSearchOnChange = (value) => {
     if (value !== undefined) {
       this.setState({
         systemSearch: value.systemName
@@ -27,7 +27,7 @@ class ServiceSearch extends Component {
     }
   }
 
-  handleSystemSearchTextOnChange = value => {
+  handleSystemSearchTextOnChange = (value) => {
     if (value !== undefined) {
       this.setState({
         systemSearch: value
@@ -35,7 +35,7 @@ class ServiceSearch extends Component {
     }
   }
 
-  handleServiceSearchOnChange = value => {
+  handleServiceSearchOnChange = (value) => {
     if (value !== undefined) {
       this.setState({
         serviceSearch: value.value
@@ -43,7 +43,7 @@ class ServiceSearch extends Component {
     }
   }
 
-  handleServiceSearchTextOnChange = value => {
+  handleServiceSearchTextOnChange = (value) => {
     if (value !== undefined) {
       this.setState({
         serviceSearch: value
@@ -51,7 +51,7 @@ class ServiceSearch extends Component {
     }
   }
 
-  handleInterfaceSearchOnChange = value => {
+  handleInterfaceSearchOnChange = (value) => {
     if (value !== undefined) {
       this.setState({
         interfaceSearch: value.value
@@ -59,7 +59,7 @@ class ServiceSearch extends Component {
     }
   }
 
-  handleInterfaceSearchTextOnChange = value => {
+  handleInterfaceSearchTextOnChange = (value) => {
     if (value !== undefined) {
       this.setState({
         interfaceSearch: value
@@ -201,7 +201,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ServiceSearch)
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceSearch)

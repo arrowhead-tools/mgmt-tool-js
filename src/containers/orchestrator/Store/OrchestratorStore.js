@@ -16,7 +16,7 @@ import { withStyles } from '@material-ui/core/styles'
 import AddIcon from '@material-ui/icons/Add'
 import { hideModal, showModal } from '../../../actions/modal'
 
-const styles = theme => ({
+const styles = (theme) => ({
   buttonContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -108,10 +108,10 @@ function mapDispatchToProps(dispatch) {
     getOrchestrationStoreData: () => {
       dispatch(getOrchestrationStoreData())
     },
-    savePriorities: priorityData => {
+    savePriorities: (priorityData) => {
       dispatch(savePriorities(priorityData))
     },
-    deleteService: serviceId => {
+    deleteService: (serviceId) => {
       dispatch(deleteService(serviceId))
     },
     hideModal: () => {
@@ -120,10 +120,10 @@ function mapDispatchToProps(dispatch) {
     showModal: (modalProps, modalType) => {
       dispatch(showModal({ modalProps, modalType }))
     },
-    addStoreEntry: entry => {
+    addStoreEntry: (entry) => {
       dispatch(addStoreEntry(entry))
     },
-    deleteStoreEntry: id => {
+    deleteStoreEntry: (id) => {
       dispatch(deleteStoreEntry(id))
     },
     editStoreEntry: (storeEntry, id) => {

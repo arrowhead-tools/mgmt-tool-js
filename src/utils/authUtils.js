@@ -2,21 +2,27 @@ import _ from 'lodash'
 
 export function groupInterCloudDataByClouds(interCloudData) {
   const helperObject = {}
-  for (const {id, cloud, serviceDefinition, provider, interfaces} of interCloudData) {
+  for (const {
+    id,
+    cloud,
+    serviceDefinition,
+    provider,
+    interfaces,
+  } of interCloudData) {
     const service = {
       interCloudEntryId: id,
       service: {
         ...serviceDefinition,
-        provider : {
+        provider: {
           ...provider,
-          interfaces
-        }
-      }
+          interfaces,
+        },
+      },
     }
     if (!helperObject[cloud.id]) {
       helperObject[cloud.id] = {
         cloud,
-        services: [service]
+        services: [service],
       }
     } else {
       helperObject[cloud.id].services.push(service)
@@ -33,21 +39,27 @@ export function groupInterCloudDataByClouds(interCloudData) {
 
 export function groupInterCloudDataByServices(interCloudData) {
   const helperObject = {}
-  for (const {id, cloud, serviceDefinition, provider, interfaces} of interCloudData) {
+  for (const {
+    id,
+    cloud,
+    serviceDefinition,
+    provider,
+    interfaces,
+  } of interCloudData) {
     const cloudData = {
       interCloudEntryId: id,
       cloud: {
         ...cloud,
         provider: {
           ...provider,
-          interfaces
-        }
-      }
+          interfaces,
+        },
+      },
     }
     if (!helperObject[serviceDefinition.id]) {
       helperObject[serviceDefinition.id] = {
         service: serviceDefinition,
-        clouds: [cloudData]
+        clouds: [cloudData],
       }
     } else {
       helperObject[serviceDefinition.id].clouds.push(cloudData)

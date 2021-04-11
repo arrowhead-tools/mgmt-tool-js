@@ -9,7 +9,7 @@ import ConsumerTab from './Consumer/ConsumerTab'
 import ProviderTab from './Provider/ProviderTab'
 import ServiceTab from './Service/ServiceTab'
 
-const styles = theme => ({})
+const styles = (theme) => ({})
 
 class IntraCloudTabContainer extends Component {
   state = {
@@ -20,7 +20,7 @@ class IntraCloudTabContainer extends Component {
     this.setState({ value })
   }
 
-  handleChangeIndex = index => {
+  handleChangeIndex = (index) => {
     this.setState({ value: index })
   }
 

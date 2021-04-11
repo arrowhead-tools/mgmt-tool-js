@@ -15,7 +15,7 @@ import Fab from '@material-ui/core/Fab'
 import { getServiceRegistryEntriesView } from '../../../actions/serviceRegistry'
 import AutoCompleteSingle from '../../AutoCompleteSingle/AutoCompleteSingle'
 
-const styles = theme => ({
+const styles = (theme) => ({
   title: {
     marginTop: '10px'
   },
@@ -82,14 +82,13 @@ class OrchStoreDialog extends Component {
       attributeHelper.push({ name: '', value: '' })
     }
 
-
     this.state = {
-     consumerSystem: props.data ? props.data.consumerSystem : {},
-     providerSystem: props.data ? props.data.providerSystem : {},
-     serviceDefinition: props.data ? props.data.serviceDefinition : {},
-     serviceInterface: props.data ? props.data.serviceInterface : {},
-     priority: props.data ? props.data.priority : '',
-     attribute: attributeHelper
+      consumerSystem: props.data ? props.data.consumerSystem : {},
+      providerSystem: props.data ? props.data.providerSystem : {},
+      serviceDefinition: props.data ? props.data.serviceDefinition : {},
+      serviceInterface: props.data ? props.data.serviceInterface : {},
+      priority: props.data ? props.data.priority : '',
+      attribute: attributeHelper
     }
   }
 
@@ -97,19 +96,19 @@ class OrchStoreDialog extends Component {
     this.props.getServiceRegistryEntriesView()
   }
 
-  handleConsumerSystemOnChange = consumerSystem => {
+  handleConsumerSystemOnChange = (consumerSystem) => {
     this.setState({ consumerSystem })
   }
 
-  handleProvidedServiceOnChange = serviceDefinition => {
+  handleProvidedServiceOnChange = (serviceDefinition) => {
     this.setState({ serviceDefinition })
   }
 
-  handleInterfaceOnChange = serviceInterface => {
+  handleInterfaceOnChange = (serviceInterface) => {
     this.setState({ serviceInterface })
   }
 
-  onAttributeChange = (index, key) => event => {
+  onAttributeChange = (index, key) => (event) => {
     const metadataArray = [...this.state.attribute]
     metadataArray[index][key] = event.target.value
     this.setState({
@@ -117,37 +116,34 @@ class OrchStoreDialog extends Component {
     })
   }
 
-  removeAttributeProperty = removeIndex => () => {
+  removeAttributeProperty = (removeIndex) => () => {
     this.setState({
-     attribute: [
-          ...this.state.attribute.slice(0, removeIndex),
-          ...this.state.attribute.slice(removeIndex + 1)
-        ]
+      attribute: [
+        ...this.state.attribute.slice(0, removeIndex),
+        ...this.state.attribute.slice(removeIndex + 1)
+      ]
     })
   }
 
   addAttribute = () => {
     this.setState({
-        attribute: [
-          ...this.state.attribute,
-          { name: '', value: '' }
-        ]
-      })
+      attribute: [...this.state.attribute, { name: '', value: '' }]
+    })
   }
 
-  onProviderSystemChange = providerSystem => {
+  onProviderSystemChange = (providerSystem) => {
     if (providerSystem !== undefined) {
       this.setState({ providerSystem })
     }
   }
 
-  onProviderSystemNameChange = systemName => {
+  onProviderSystemNameChange = (systemName) => {
     this.setState({
       providerSystem: { ...this.state.providerSystem, systemName, id: null }
     })
   }
 
-  onProviderAddressChange = event => {
+  onProviderAddressChange = (event) => {
     this.setState({
       providerSystem: {
         ...this.state.providerSystem,
@@ -157,7 +153,7 @@ class OrchStoreDialog extends Component {
     })
   }
 
-  onProviderPortChange = event => {
+  onProviderPortChange = (event) => {
     if (
       event.target.value === '' ||
       (event.target.value > 0 && event.target.value <= 65536)
@@ -172,7 +168,7 @@ class OrchStoreDialog extends Component {
     }
   }
 
-  onProviderAuthInfoChange = event => {
+  onProviderAuthInfoChange = (event) => {
     this.setState({
       providerSystem: {
         ...this.state.providerSystem,
@@ -182,7 +178,7 @@ class OrchStoreDialog extends Component {
     })
   }
 
-  onPriorityChange = event => {
+  onPriorityChange = (event) => {
     if (
       event.target.value === '' ||
       (event.target.value > 0 && event.target.value <= 999)
@@ -202,13 +198,13 @@ class OrchStoreDialog extends Component {
     }
 
     const data = {
-    attribute: attributeHelper,
-    consumerSystemId: this.state.consumerSystem.id,
-    priority: this.state.priority,
-    providerSystem: this.state.providerSystem,
-    serviceDefinitionName: this.state.serviceDefinition.value,
-    serviceInterfaceName: this.state.serviceInterface.value
-  }
+      attribute: attributeHelper,
+      consumerSystemId: this.state.consumerSystem.id,
+      priority: this.state.priority,
+      providerSystem: this.state.providerSystem,
+      serviceDefinitionName: this.state.serviceDefinition.value,
+      serviceInterfaceName: this.state.serviceInterface.value
+    }
 
     if (this.props.isEdit) {
       this.props.editStoreEntry(data, this.props.id)
@@ -219,7 +215,13 @@ class OrchStoreDialog extends Component {
   }
 
   render() {
-    const { classes, systems, services, interfaces, isEdit = false } = this.props
+    const {
+      classes,
+      systems,
+      services,
+      interfaces,
+      isEdit = false
+    } = this.props
 
     return (
       <div>
@@ -286,39 +288,29 @@ class OrchStoreDialog extends Component {
             Attributes
           </Typography>
           <div>
-            {this.state.attribute.map(
-              ({ name, value }, index) => (
-                <div key={index} className={classes.prop}>
-                  <TextField
-                    label="Name"
-                    value={name}
-                    className={classes.propKey}
-                    onChange={this.onAttributeChange(
-                      index,
-                      'name',
-                      value
-                    )}
-                  />
-                  <TextField
-                    label="Value"
-                    value={value}
-                    className={classes.propValue}
-                    onChange={this.onAttributeChange(
-                      index,
-                      'value',
-                      value
-                    )}
-                  />
-                  <IconButton
-                    color="secondary"
-                    aria-label="Remove Property"
-                    onClick={this.removeAttributeProperty(index)}
-                  >
-                    <ClearIcon />
-                  </IconButton>
-                </div>
-              )
-            )}
+            {this.state.attribute.map(({ name, value }, index) => (
+              <div key={index} className={classes.prop}>
+                <TextField
+                  label="Name"
+                  value={name}
+                  className={classes.propKey}
+                  onChange={this.onAttributeChange(index, 'name', value)}
+                />
+                <TextField
+                  label="Value"
+                  value={value}
+                  className={classes.propValue}
+                  onChange={this.onAttributeChange(index, 'value', value)}
+                />
+                <IconButton
+                  color="secondary"
+                  aria-label="Remove Property"
+                  onClick={this.removeAttributeProperty(index)}
+                >
+                  <ClearIcon />
+                </IconButton>
+              </div>
+            ))}
           </div>
           <Fab
             className={classes.fabStyle}
@@ -523,11 +515,12 @@ OrchStoreDialog.propTypes = {
 function mapStateToProps(state) {
   const { services } = state
   return {
-    systems: services.autoCompleteData.systemList, services: services.autoCompleteData.serviceList, interfaces: services.autoCompleteData.interfaceList
+    systems: services.autoCompleteData.systemList,
+    services: services.autoCompleteData.serviceList,
+    interfaces: services.autoCompleteData.interfaceList
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { getServiceRegistryEntriesView, }
-)(withStyles(styles)(OrchStoreDialog))
+export default connect(mapStateToProps, { getServiceRegistryEntriesView })(
+  withStyles(styles)(OrchStoreDialog)
+)

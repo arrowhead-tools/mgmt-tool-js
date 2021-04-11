@@ -13,7 +13,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import { getRelays } from '../../../actions/relay'
 import AutoCompleteMulti from '../../AutoCompleteMulti/AutoCompleteMulti'
 
-const styles = theme => ({
+const styles = (theme) => ({
   input: {
     marginLeft: '20px',
     marginRight: '20px',
@@ -42,27 +42,27 @@ class AddCloud extends Component {
     this.props.getRelays()
   }
 
-  onOperatorChange = e => {
+  onOperatorChange = (e) => {
     this.setState({ operator: e.target.value })
   }
 
-  onCloudNameChange = e => {
+  onCloudNameChange = (e) => {
     this.setState({ name: e.target.value })
   }
 
-  onAuthenticationInfoChange = e => {
+  onAuthenticationInfoChange = (e) => {
     this.setState({ authenticationInfo: e.target.value })
   }
 
-  onSecureChange = e => {
+  onSecureChange = (e) => {
     this.setState({ secure: e.target.checked })
   }
 
-  handleGatekeeperRelaysChange = gatekeeperRelays => {
+  handleGatekeeperRelaysChange = (gatekeeperRelays) => {
     this.setState({ gatekeeperRelays })
   }
 
-  handleGatewayRelaysChange = gatewayRelays => {
+  handleGatewayRelaysChange = (gatewayRelays) => {
     this.setState({ gatewayRelays })
   }
 
@@ -186,7 +186,7 @@ AddCloud.propTypes = {
 
 function mapStateToProps(state) {
   const { data } = state.relay
-  return { relays: data}
+  return { relays: data }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -197,4 +197,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddCloud))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(AddCloud))

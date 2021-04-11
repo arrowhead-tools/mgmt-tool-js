@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add'
 import { deleteAuthEntry, getIntraCloudAuthData } from '../../../actions/auth'
 import IntraCloudTabContainer from './IntraCloudTabContainer'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {},
   grid: {},
   buttonMargin: {
@@ -48,7 +48,7 @@ class IntraCloud extends Component {
     )
   }
 
-  deleteAuthEntry = authEntryId => () => {
+  deleteAuthEntry = (authEntryId) => () => {
     this.props.deleteAuthEntry(authEntryId)
   }
 
@@ -58,10 +58,10 @@ class IntraCloud extends Component {
       <div className={classes.root}>
         <div className={classes.buttonContainer}>
           {
-          <Button color="primary" onClick={this.handleAddSystemClick}>
-            <AddIcon />
-            Add System
-          </Button>
+            <Button color="primary" onClick={this.handleAddSystemClick}>
+              <AddIcon />
+              Add System
+            </Button>
           }
           <Button color="primary" onClick={this.handleAddClick}>
             <AddIcon />
@@ -105,7 +105,7 @@ function mapDispatchToProps(dispatch) {
     showModal: (modalProps, modalType) => {
       dispatch(showModal({ modalProps, modalType }))
     },
-    deleteAuthEntry: authEntryId => {
+    deleteAuthEntry: (authEntryId) => {
       dispatch(deleteAuthEntry(authEntryId))
     }
   }

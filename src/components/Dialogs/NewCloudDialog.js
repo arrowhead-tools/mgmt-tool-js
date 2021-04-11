@@ -16,7 +16,7 @@ import { addCloud } from '../../actions/gatekeeper'
 
 import Button from '../../components/CustomButtons/Button.js'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%'
   },
@@ -51,7 +51,7 @@ class NewCloudDialog extends React.Component {
     this.setState({ open: true })
   }
 
-  handleChange = name => event => {
+  handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.checked })
   }
 
@@ -64,7 +64,7 @@ class NewCloudDialog extends React.Component {
     this.setState({ open: false })
   }
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault()
     var newCloud = [
       {
@@ -193,7 +193,7 @@ function mapDispatchToProps(dispatch) {
     getClouds: () => {
       dispatch(getClouds())
     },
-    addCloud: newCloud => {
+    addCloud: (newCloud) => {
       dispatch(addCloud(newCloud))
     }
   }

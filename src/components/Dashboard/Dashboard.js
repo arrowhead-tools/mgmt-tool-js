@@ -10,7 +10,7 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   user: PropTypes.object,
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func,
 }
 
 function mapStateToProps(state) {

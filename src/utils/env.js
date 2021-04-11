@@ -1,8 +1,6 @@
 if (!window.$ENV) {
-  window.$ENV = {};
+  window.$ENV = {}
 }
 export default {
-  get: (name) => {
-    return window.$ENV[name];
-  }
-};
+  get: (name) => window.$ENV[name],
+}

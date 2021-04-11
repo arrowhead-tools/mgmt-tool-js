@@ -20,7 +20,7 @@ import MomentUtils from '@date-io/moment'
 
 moment.locale('en')
 
-const styles = theme => ({
+const styles = (theme) => ({
   input: {
     marginLeft: '20px',
     marginRight: '20px',
@@ -71,13 +71,17 @@ class AddSREntry extends Component {
     }
 
     let interfaceHelper = []
-    if(props.data) {
-      interfaceHelper = props.data.interfaces.map(iface => iface.interfaceName)
+    if (props.data) {
+      interfaceHelper = props.data.interfaces.map(
+        (iface) => iface.interfaceName
+      )
     }
 
     this.state = {
       id: props.data ? props.data.id : undefined,
-      endOfValidity: props.data ? moment(props.data.endOfValidity) : moment().add(2, 'days'),
+      endOfValidity: props.data
+        ? moment(props.data.endOfValidity)
+        : moment().add(2, 'days'),
       interfaces: interfaceHelper,
       metadata: serviceMetadata,
       providerSystem: {
@@ -88,15 +92,20 @@ class AddSREntry extends Component {
         systemName: '',
         ...(props.data && props.data.provider)
       },
-      secure: props.data && props.data.secure ? props.data.secure : 'NOT_SECURE',
-      serviceDefinition: props.data && props.data.serviceDefinition && props.data.serviceDefinition.serviceDefinition ? props.data.serviceDefinition.serviceDefinition : '',
+      secure:
+        props.data && props.data.secure ? props.data.secure : 'NOT_SECURE',
+      serviceDefinition:
+        props.data &&
+        props.data.serviceDefinition &&
+        props.data.serviceDefinition.serviceDefinition
+          ? props.data.serviceDefinition.serviceDefinition
+          : '',
       serviceUri: props.data ? props.data.serviceUri : '',
-      version: props.data ? props.data.version : '',
-
+      version: props.data ? props.data.version : ''
     }
   }
 
-  handleSystemSearchOnChange = value => {
+  handleSystemSearchOnChange = (value) => {
     if (value !== undefined) {
       this.setState({
         providerSystem: value
@@ -104,7 +113,7 @@ class AddSREntry extends Component {
     }
   }
 
-  handleSystemNameOnChange = value => {
+  handleSystemNameOnChange = (value) => {
     this.setState({
       providerSystem: {
         ...this.state.providerSystem,
@@ -114,7 +123,7 @@ class AddSREntry extends Component {
     })
   }
 
-  handleAddressOnChange = event => {
+  handleAddressOnChange = (event) => {
     this.setState({
       providerSystem: {
         ...this.state.providerSystem,
@@ -123,7 +132,7 @@ class AddSREntry extends Component {
     })
   }
 
-  handlePortOnChange = event => {
+  handlePortOnChange = (event) => {
     if (
       event.target.value === '' ||
       (event.target.value > 0 && event.target.value <= 65536)
@@ -137,7 +146,7 @@ class AddSREntry extends Component {
     }
   }
 
-  handleAuthenticationInfoOnChange = event => {
+  handleAuthenticationInfoOnChange = (event) => {
     this.setState({
       providerSystem: {
         ...this.state.providerSystem,
@@ -146,30 +155,30 @@ class AddSREntry extends Component {
     })
   }
 
-  handleServiceDefinitionOnChange = event => {
+  handleServiceDefinitionOnChange = (event) => {
     this.setState({
       serviceDefinition: event.target.value
     })
   }
 
-  handleServiceURIOnChange = event => {
+  handleServiceURIOnChange = (event) => {
     this.setState({
       serviceUri: event.target.value
     })
   }
 
-  handleSecureChange = event =>{
+  handleSecureChange = (event) => {
     console.log('secure', event.target.value)
-    this.setState( {
+    this.setState({
       secure: event.target.value
     })
   }
 
-  handleEndOfValidityOnChange = date => {
+  handleEndOfValidityOnChange = (date) => {
     this.setState({ endOfValidity: date })
   }
 
-  handleVersionChange = event => {
+  handleVersionChange = (event) => {
     this.setState({ version: event.target.value })
   }
 
@@ -201,14 +210,11 @@ class AddSREntry extends Component {
 
   addServiceMetadataPropertyAdd = () => {
     this.setState({
-        metadata: [
-          ...this.state.metadata,
-          { name: '', value: '' }
-        ]
+      metadata: [...this.state.metadata, { name: '', value: '' }]
     })
   }
 
-  handleChipAdd = chip => {
+  handleChipAdd = (chip) => {
     this.setState({
       interfaces: [...this.state.interfaces, chip]
     })
@@ -216,14 +222,11 @@ class AddSREntry extends Component {
 
   handleDeleteChip = (deletedChip, index) => {
     this.setState({
-        interfaces: this.state.interfaces.filter(
-          c => c !== deletedChip
-        )
-      }
-    )
+      interfaces: this.state.interfaces.filter((c) => c !== deletedChip)
+    })
   }
 
-  handleServiceMetadataChange = (index, key) => event => {
+  handleServiceMetadataChange = (index, key) => (event) => {
     const metadataArray = [...this.state.metadata]
     metadataArray[index][key] = event.target.value
     this.setState({
@@ -231,7 +234,7 @@ class AddSREntry extends Component {
     })
   }
 
-  removeServiceMetadataProperty = removeIndex => () => {
+  removeServiceMetadataProperty = (removeIndex) => () => {
     this.setState({
       metadata: [
         ...this.state.metadata.slice(0, removeIndex),
@@ -334,53 +337,55 @@ class AddSREntry extends Component {
             label="Service Definition"
             onChange={this.handleServiceDefinitionOnChange}
           />
-          <SecureDropdown value={this.state.secure} handleSecureChange={this.handleSecureChange} classes={classes}/>
+          <SecureDropdown
+            value={this.state.secure}
+            handleSecureChange={this.handleSecureChange}
+            classes={classes}
+          />
           <ChipInput
             required
             value={this.state.interfaces}
             id="interfaces"
             className={classes.input}
             label="Interfaces"
-            onAdd={chip => this.handleChipAdd(chip)}
+            onAdd={(chip) => this.handleChipAdd(chip)}
             onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
           />
           <Typography variant="subtitle2" style={{ margin: '20px' }}>
             Service Metadata
           </Typography>
           <div>
-            {this.state.metadata.map(
-              ({ name, value }, index) => (
-                <div key={index} className={classes.prop}>
-                  <TextField
-                    label="Name"
-                    value={name}
-                    className={classes.propKey}
-                    onChange={this.handleServiceMetadataChange(
-                      index,
-                      'name',
-                      value
-                    )}
-                  />
-                  <TextField
-                    label="Value"
-                    value={value}
-                    className={classes.propValue}
-                    onChange={this.handleServiceMetadataChange(
-                      index,
-                      'value',
-                      value
-                    )}
-                  />
-                  <IconButton
-                    color="secondary"
-                    aria-label="Remove Property"
-                    onClick={this.removeServiceMetadataProperty(index)}
-                  >
-                    <ClearIcon />
-                  </IconButton>
-                </div>
-              )
-            )}
+            {this.state.metadata.map(({ name, value }, index) => (
+              <div key={index} className={classes.prop}>
+                <TextField
+                  label="Name"
+                  value={name}
+                  className={classes.propKey}
+                  onChange={this.handleServiceMetadataChange(
+                    index,
+                    'name',
+                    value
+                  )}
+                />
+                <TextField
+                  label="Value"
+                  value={value}
+                  className={classes.propValue}
+                  onChange={this.handleServiceMetadataChange(
+                    index,
+                    'value',
+                    value
+                  )}
+                />
+                <IconButton
+                  color="secondary"
+                  aria-label="Remove Property"
+                  onClick={this.removeServiceMetadataProperty(index)}
+                >
+                  <ClearIcon />
+                </IconButton>
+              </div>
+            ))}
           </div>
           <Fab
             className={classes.fabStyle}
@@ -399,10 +404,7 @@ class AddSREntry extends Component {
             label="Service URI"
             onChange={this.handleServiceURIOnChange}
           />
-          <MuiPickersUtilsProvider
-            utils={MomentUtils}
-            moment={moment}
-          >
+          <MuiPickersUtilsProvider utils={MomentUtils} moment={moment}>
             <div>
               <DateTimePicker
                 disablePast
@@ -469,6 +471,4 @@ function mapStateToProps(state) {
   return { autoCompleteData: services.autoCompleteData }
 }
 
-export default connect(
-  mapStateToProps
-)(withStyles(styles)(AddSREntry))
+export default connect(mapStateToProps)(withStyles(styles)(AddSREntry))

@@ -3,8 +3,8 @@ import Dashboard from '../layouts/Dashboard/Dashboard'
 const dashboardRoutes = [
   {
     path: '/',
-    component: Dashboard
-  }
+    component: Dashboard,
+  },
 ]
 
 export default dashboardRoutes

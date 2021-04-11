@@ -16,7 +16,7 @@ import { showModal } from '../../actions/modal'
 import EnhancedTableHead from './EnhancedTableHead'
 import { getSorting } from '../../utils/utils'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3
@@ -63,15 +63,15 @@ class EnhancedTable extends React.Component {
     this.setState({ page })
   }
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value })
   }
 
-  handleServiceDelete = serviceId => () => {
+  handleServiceDelete = (serviceId) => () => {
     this.props.deleteServiceById(serviceId)
   }
 
-  handleServiceEdit = serviceId => () => {
+  handleServiceEdit = (serviceId) => () => {
     this.props.showModal(
       {
         open: true,
@@ -187,7 +187,7 @@ EnhancedTable.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    deleteServiceById: serviceId => {
+    deleteServiceById: (serviceId) => {
       dispatch(deleteServiceById(serviceId))
     },
     showModal: (modalProps, modalType) => {

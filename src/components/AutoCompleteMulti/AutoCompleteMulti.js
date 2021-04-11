@@ -65,7 +65,7 @@ class AutoCompleteMulti extends React.Component {
     selectedItem: this.props.defaultItems || []
   }
 
-  handleKeyDown = event => {
+  handleKeyDown = (event) => {
     const { inputValue, selectedItem } = this.state
     if (
       selectedItem.length &&
@@ -78,11 +78,11 @@ class AutoCompleteMulti extends React.Component {
     }
   }
 
-  handleInputChange = event => {
+  handleInputChange = (event) => {
     this.setState({ inputValue: event.target.value })
   }
 
-  handleChange = item => {
+  handleChange = (item) => {
     if (item) {
       let { selectedItem } = this.state
       const { handleOnChange } = this.props
@@ -100,7 +100,7 @@ class AutoCompleteMulti extends React.Component {
     }
   }
 
-  handleDelete = item => () => {
+  handleDelete = (item) => () => {
     const { handleOnChange } = this.props
     const selectedItem = [...this.state.selectedItem]
     selectedItem.splice(selectedItem.indexOf(item), 1)
@@ -151,7 +151,7 @@ class AutoCompleteMulti extends React.Component {
               deleteAll: this.deleteAll,
               getToggleButtonProps,
               InputProps: getInputProps({
-                startAdornment: selectedItem.map(item => (
+                startAdornment: selectedItem.map((item) => (
                   <Chip
                     key={item.id}
                     tabIndex={-1}
@@ -202,7 +202,7 @@ AutoCompleteMulti.propTypes = {
   required: PropTypes.bool
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     height: 250

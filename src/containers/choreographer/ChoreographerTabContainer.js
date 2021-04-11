@@ -7,7 +7,7 @@ import * as PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ChoreographerTab from './Choreographer/ChoreographerTab'
 
-const styles = theme => ({})
+const styles = (theme) => ({})
 
 class ChoreographerTabContainer extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class ChoreographerTabContainer extends Component {
     this.setState({ value })
   }
 
-  handleChangeIndex = index => {
+  handleChangeIndex = (index) => {
     this.setState({ value: index })
   }
 

@@ -6,7 +6,7 @@ export const RECEIVE_RELAYS = 'RECEIVE_RELAYS'
 function receiveRelays(data) {
   return {
     type: RECEIVE_RELAYS,
-    data
+    data,
   }
 }
 
@@ -14,10 +14,10 @@ export function getRelays() {
   return (dispatch, getState) => {
     networkService
       .get('/gatekeeper/mgmt/relays')
-      .then(response => {
+      .then((response) => {
         dispatch(receiveRelays(response.data.data))
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
       })
   }
@@ -28,7 +28,7 @@ export function addRelay(relayData) {
   return (dispatch, getState) => {
     networkService
       .post('/gatekeeper/mgmt/relays', newRelay)
-      .then(response => {
+      .then((response) => {
         dispatch(getRelays())
         dispatch(
           showNotification(
@@ -37,13 +37,13 @@ export function addRelay(relayData) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'success'
-          )
+            'success',
+          ),
         )
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         dispatch(
           showNotification(
@@ -52,10 +52,10 @@ export function addRelay(relayData) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 10
+              autoDismiss: 10,
             },
-            'error'
-          )
+            'error',
+          ),
         )
       })
   }
@@ -65,7 +65,7 @@ export function deleteRelay(id) {
   return (dispatch, getState) => {
     networkService
       .delete(`/gatekeeper/mgmt/relays/${id}`)
-      .then(response => {
+      .then((response) => {
         dispatch(getRelays())
         dispatch(
           showNotification(
@@ -74,13 +74,13 @@ export function deleteRelay(id) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'success'
-          )
+            'success',
+          ),
         )
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         dispatch(
           showNotification(
@@ -89,10 +89,10 @@ export function deleteRelay(id) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'error'
-          )
+            'error',
+          ),
         )
       })
   }
@@ -102,7 +102,7 @@ export function updateRelay(updatedRelay) {
   return (dispatch, getState) => {
     networkService
       .put(`/gatekeeper/mgmt/relays/${updatedRelay.id}`, updatedRelay)
-      .then(response => {
+      .then((response) => {
         dispatch(getRelays())
         dispatch(
           showNotification(
@@ -111,13 +111,13 @@ export function updateRelay(updatedRelay) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 5
+              autoDismiss: 5,
             },
-            'success'
-          )
+            'success',
+          ),
         )
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         dispatch(
           showNotification(
@@ -126,10 +126,10 @@ export function updateRelay(updatedRelay) {
               message: '',
               position: 'tc',
               dismissible: true,
-              autoDismiss: 10
+              autoDismiss: 10,
             },
-            'error'
-          )
+            'error',
+          ),
         )
       })
   }

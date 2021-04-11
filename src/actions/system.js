@@ -5,18 +5,18 @@ export const RECEIVE_SYSTEMS = 'RECEIVE_SYSTEMS'
 function receiveSystems(systems) {
   return {
     type: RECEIVE_SYSTEMS,
-    systems
+    systems,
   }
 }
 
 export function getSystems() {
-  return dispatch => {
+  return (dispatch) => {
     networkService
       .get('/mgmt/systems')
-      .then(response => {
+      .then((response) => {
         dispatch(receiveSystems(response.data))
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
       })
   }
