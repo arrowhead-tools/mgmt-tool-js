@@ -183,9 +183,7 @@ class AddSREntry extends Component {
   }
 
   handleAddSREntryButtonClick = () => {
-    const endOfValidity = moment(this.state.endOfValidity).format(
-      'YYYY-MM-DD HH:mm:ss'
-    )
+    const endOfValidity = moment(this.state.endOfValidity).toISOString()
 
     const metadataHelper = {}
     for (const item of this.state.metadata) {
