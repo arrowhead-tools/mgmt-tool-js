@@ -100,6 +100,10 @@ class OrchStoreDialog extends Component {
     this.setState({ consumerSystem })
   }
 
+  handleProviderSystemOnChange = (providerSystem) => {
+    this.setState({ providerSystem })
+  }
+
   handleProvidedServiceOnChange = (serviceDefinition) => {
     this.setState({ serviceDefinition })
   }
@@ -190,6 +194,7 @@ class OrchStoreDialog extends Component {
   }
 
   onSubmit = () => {
+    console.log(this.state)
     const attributeHelper = {}
     for (const item of this.state.attribute) {
       if (item.name !== '' || item.value !== '') {
@@ -326,50 +331,21 @@ class OrchStoreDialog extends Component {
           <Typography variant="h5" align="center" className={classes.title}>
             Provider System
           </Typography>
-          <AutoComplete
-            defaultValue={this.state.providerSystem.systemName}
-            label="Provider System Name"
-            handleOnChange={this.onProviderSystemChange}
-            handleTextChange={this.onProviderSystemNameChange}
-            suggestions={systems}
-            keyValue="systemName"
-            required
-            isEdit={isEdit}
-            placeholder="Provider System Name"
+          <AutoCompleteSingle
             classes={{
               inputRoot: { flexWrap: 'wrap' },
               textField: {
                 width: '400px',
                 marginTop: '20px',
-                marginLeft: '20px',
-                marginRight: '20px'
+                marginLeft: '20px'
               }
             }}
-          />
-          <TextField
-            value={this.state.providerSystem.address}
-            className={classes.input}
-            id="address"
+            suggestions={systems}
+            handleOnChange={this.handleProviderSystemOnChange}
+            keyValue="systemName"
             required
-            label="Address"
-            onChange={this.onProviderAddressChange}
-          />
-          <TextField
-            value={this.state.providerSystem.port}
-            className={classes.input}
-            id="port"
-            label="Port"
-            required
-            onChange={this.onProviderPortChange}
-            type="number"
-            inputProps={{ min: '1', max: '65535' }}
-          />
-          <TextField
-            value={this.state.providerSystem.authenticationInfo}
-            className={classes.input + ' ' + classes.marginBottom20}
-            id="authenticationInfo"
-            label="Authentication Info"
-            onChange={this.onProviderAuthInfoChange}
+            placeholder="Provider System"
+            label="Provider System"
           />
         </Card>
         <Card raised className={classes.card}>
