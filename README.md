@@ -1,12 +1,11 @@
-# Arrowhead Management Tool
+# Eclipse Arrowhead Management Tool 4.4.0
 
-This tool is providing a user interface to manage Arrowhead core systems. Currently the following core systems are supported:
+This tool is providing a user interface to manage Eclipse Arrowhead 4.4.0 Core systems. Currently the following core systems are supported:
 
 1. ServiceRegistry (SQL version)
 2. Authorization System (both intra- and inter-cloud authorization schemas)
 3. Orchestration Store
 4. Gatekeeper and Gateway settings
-5. Event Handler
 
 Running this project has 3 options:
 
