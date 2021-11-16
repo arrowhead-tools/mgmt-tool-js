@@ -22,7 +22,7 @@ export default function services(state = initialState, action = {}) {
         ...state,
         groupBySystems: action.data.servicesGroupedBySystems,
         groupByServices:
-          action.data.servicesGroupedByServiceDefinitionAndInterface,
+          action.data.servicesGroupedByServiceDefinition,
         autoCompleteData: action.data.autoCompleteData,
       }
     case RECEIVE_SR_ENTRIES:

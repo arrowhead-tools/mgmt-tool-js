@@ -183,9 +183,7 @@ class AddSREntry extends Component {
   }
 
   handleAddSREntryButtonClick = () => {
-    const endOfValidity = moment(this.state.endOfValidity).format(
-      'YYYY-MM-DD HH:mm:ss'
-    )
+    const endOfValidity = moment(this.state.endOfValidity).toISOString()
 
     const metadataHelper = {}
     for (const item of this.state.metadata) {
@@ -264,7 +262,7 @@ class AddSREntry extends Component {
             System Details
           </Typography>
           <AutoComplete
-            defaultValue={this.state.providerSystem.systemName}
+            defaultValue={this.state.providerSystem ? this.state.providerSystem.systemName : ''}
             suggestions={autoCompleteData.systemList}
             required
             isEdit
@@ -285,7 +283,7 @@ class AddSREntry extends Component {
             }}
           />
           <TextField
-            value={this.state.providerSystem.address}
+            value={this.state.providerSystem ? this.state.providerSystem.address : ''}
             className={classes.input}
             id="address"
             required
@@ -298,7 +296,7 @@ class AddSREntry extends Component {
             label="Port"
             required
             onChange={this.handlePortOnChange}
-            value={this.state.providerSystem.port}
+            value={this.state.providerSystem ? this.state.providerSystem.port : ''}
             type="number"
             inputProps={{
               min: '1',
@@ -306,7 +304,7 @@ class AddSREntry extends Component {
             }}
           />
           <TextField
-            value={this.state.providerSystem.authenticationInfo}
+            value={this.state.providerSystem ? this.state.providerSystem.authenticationInfo : ''}
             className={classes.input}
             id="authenticationInfo"
             label="Authentication Info"
