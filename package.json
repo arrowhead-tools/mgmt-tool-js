@@ -9,6 +9,7 @@
     "array-move": "^1.0.0",
     "axios": "^0.18.1",
     "classnames": "^2.2.6",
+    "cross-env": "^7.0.3",
     "downshift": "^3.1.7",
     "express": "^4.16.3",
     "js-file-download": "^0.4.8",
@@ -37,16 +38,16 @@
     "typeface-roboto": "0.0.54"
   },
   "scripts": {
-    "start-js": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
-    "start": "npm-run-all -p watch-css start-js",
-    "start_prod": "node server.js",
-    "serve": "npm run build && npm run start_prod",
-    "dockerize": "react-scripts build && docker build . -t management-tool"
+    "start-js": "cross-env react-scripts --openssl-legacy-provider start",
+    "build": "cross-env react-scripts --openssl-legacy-provider build",
+    "test": "cross-env react-scripts --openssl-legacy-provider test --env=jsdom",
+    "eject": "cross-env react-scripts --openssl-legacy-provider eject",
+    "build-css": "cross-env node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
+    "watch-css": "cross-env npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
+    "start": "cross-env npm-run-all -p watch-css start-js",
+    "start_prod": "cross-env node server.js",
+    "serve": "cross-env npm run build && npm run start_prod",
+    "dockerize": "cross-env react-scripts build && docker build . -t management-tool"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
